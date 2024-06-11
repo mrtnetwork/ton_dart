@@ -2,17 +2,16 @@
 
 Ton Dart is a versatile package tailored for seamless integration with TonApi and TonCenter RPC APIs. It empowers developers to effortlessly create, sign, and dispatch transactions while offering robust support for Boc Serialization.
 
-Designed to streamline interactions with Ton wallets such as WalletContract 1 to 4, HighloadWallet 3, and Jetton wallets, Ton Dart ensures smooth communication and transaction management within the Ton network.
+Designed to streamline interactions with Ton wallets such as Basic wallets 1 to 4, Highload Wallet V3, and Jetton Wallet, Ton Dart ensures smooth communication and transaction management within the Ton network.
 
 With Ton Dart, you can harness advanced cryptographic capabilities for secure transaction signing and verification, enhancing the integrity of your operations. Whether you're executing runtime calls or querying accounts, TonDart provides a comprehensive toolkit to handle various data formats and cryptographic operations effectively.
 
-To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCenter RPC APIs is recommended. TonDart simplifies complex tasks, making it an indispensable tool for developers navigating the Ton ecosystem.
+To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCenter RPC APIs is recommended. Ton Dart simplifies complex tasks, making it an indispensable tool for developers navigating the Ton ecosystem.
 
 ## Futures
 
 - **Transaction Management**
   - Create, sign, and verify transactions using ED25519.
-  - Support for generating and managing addresses.
 
 - **JSON-RPC**
   - Communication with TonApi and TonCenter.
@@ -21,11 +20,13 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
   - TON BOC serialization is a method for encoding and decoding data structures into a binary format within the Telegram Open Network.
 
 - **Contract**
-  - Provides support for Wallet Contracts 1 through 4.
+  - Provides support for Basic wallets 1 through 4.
   - Offers support for deploying tokens and transferring jettos with Minter and Jetton wallets.
   - Highload Wallet v3
 
 ### Examples
+
+- Check [examples](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples) folder
 
 #### Transfer TON
 
