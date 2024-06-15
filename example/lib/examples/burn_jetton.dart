@@ -3,7 +3,7 @@ import 'http.dart';
 import 'transfer.dart';
 
 void main() async {
-  final rpc = TonApiProvider(HTTPProvider(
+  final rpc = TonProvider(HTTPProvider(
       tonApiUrl: "https://testnet.tonapi.io",
       tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC"));
   final walletDetails = getTestWallet(index: 12);

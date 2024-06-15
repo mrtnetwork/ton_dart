@@ -3,7 +3,7 @@
 //     lastPaid: number;
 //     duePayment?: Maybe<bigint>;
 // }
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 

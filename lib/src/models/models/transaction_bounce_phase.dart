@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'storage_used_short.dart';
 
@@ -22,7 +22,7 @@ class TransactionBouncePhaseType {
   factory TransactionBouncePhaseType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find TransactionBouncePhaseType from provided name",
           details: {"name": name}),
     );

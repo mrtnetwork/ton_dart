@@ -13,7 +13,7 @@ Tuple<WalletV4, TonPrivateKey> getTestWallet({int index = 0}) {
 }
 
 void main() async {
-  final rpc = TonApiProvider(HTTPProvider(
+  final rpc = TonProvider(HTTPProvider(
       tonApiUrl: "https://testnet.tonapi.io",
       tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC"));
 

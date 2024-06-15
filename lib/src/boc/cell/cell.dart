@@ -158,7 +158,9 @@ class Cell {
     if (other is! Cell) return false;
     if (other._hashes.length != _hashes.length) return false;
     for (int i = 0; i < _hashes.length; i++) {
-      if (!bytesEqual(other._hashes[i], _hashes[i])) return false;
+      if (!BytesUtils.bytesEqual(other._hashes[i], _hashes[i])) {
+        return false;
+      }
     }
     return true;
   }

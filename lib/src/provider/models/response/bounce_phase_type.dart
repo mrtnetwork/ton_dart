@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 
 class BouncePhaseTypeResponse {
   final String _value;
@@ -22,7 +22,7 @@ class BouncePhaseTypeResponse {
   static BouncePhaseTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "No BouncePhaseTypeResponse find with provided name.",
           details: {"name": name}),
     );

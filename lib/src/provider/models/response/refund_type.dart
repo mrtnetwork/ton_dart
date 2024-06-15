@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class RefundTypeResponse {
   final String _value;
 
@@ -18,7 +20,7 @@ class RefundTypeResponse {
   static RefundTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No RefundTypeResponse found with the provided name: $name"),
     );
   }

@@ -6,3 +6,5 @@ export 'contracts/v2r2.dart';
 export 'contracts/v3r1.dart';
 export 'contracts/v3r2.dart';
 export 'contracts/v4.dart';
+export 'core/version.dart';
+export 'core/versioned_wallet.dart';

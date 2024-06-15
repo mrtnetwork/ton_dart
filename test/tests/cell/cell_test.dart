@@ -14,7 +14,7 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 
 extension QuickBytesDecode on List<int> {
   String toB64({bool urlSafe = false}) {
-    final encode = StringUtils.decode(this, StringEncoding.base64);
+    final encode = StringUtils.decode(this, type: StringEncoding.base64);
 
     if (urlSafe) {
       return encode.replaceAll('+', '-').replaceAll('/', '_');
@@ -26,7 +26,7 @@ extension QuickBytesDecode on List<int> {
 }
 
 extension QuickStringDecode on String {
-  List<int> fromB64() => StringUtils.encode(this, StringEncoding.base64);
+  List<int> fromB64() => StringUtils.encode(this, type: StringEncoding.base64);
   List<int> fromHex() => BytesUtils.fromHexString(this);
 }
 

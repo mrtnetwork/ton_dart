@@ -1,8 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 
 class Base64Utils {
   static String encodeBase64(List<int> bytes, {bool urlSafe = false}) {
-    final encode = StringUtils.decode(bytes, StringEncoding.base64);
+    final encode = StringUtils.decode(bytes, type: StringEncoding.base64);
     if (urlSafe) {
       return encode.replaceAll('+', '-').replaceAll('/', '_');
     }
@@ -16,9 +17,9 @@ class Base64Utils {
       if (reminder != 0 && !b64.endsWith("=")) {
         b64 += "=" * (4 - reminder);
       }
-      return StringUtils.encode(b64, StringEncoding.base64);
+      return StringUtils.encode(b64, type: StringEncoding.base64);
     } catch (e) {
-      throw MessageException("Invalid base64 string.",
+      throw TonDartPluginException("Invalid base64 string.",
           details: {"value": base64});
     }
   }

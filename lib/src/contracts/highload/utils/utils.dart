@@ -18,15 +18,15 @@ class HighloadWalletUtils {
     return StateInit(code: code, data: data);
   }
 
-  static HighloadWalletV3AccountParams readV3State(String? state) {
+  static HighloadWalletV3AccountParams readV3State(Cell? state) {
     try {
-      final Slice slice = Cell.fromBase64(state!).beginParse();
+      final Slice slice = state!.beginParse();
       return HighloadWalletV3AccountParams(
           publicKey: slice.loadBuffer(32),
           subWalletId: slice.loadUint(32),
           timeout: slice
-              .skip(1 + 1 + HightloadWalletConst.highLoadTimeStampSize)
-              .loadUint(HightloadWalletConst.highLoadTimeOutSize));
+              .skip(1 + 1 + HighloadWalletConst.highLoadTimeStampSize)
+              .loadUint(HighloadWalletConst.highLoadTimeOutSize));
     } catch (e) {
       throw TonContractException("Invalid HighloadWalletV3 account data.",
           details: {"state": state});
@@ -34,7 +34,7 @@ class HighloadWalletUtils {
   }
 
   static Cell buildV3Code() {
-    return Cell.fromBase64(HightloadWalletConst.hightloadWallet3State);
+    return Cell.fromBase64(HighloadWalletConst.hightloadWallet3State);
   }
 
   static Cell buildV3Data({
@@ -46,8 +46,8 @@ class HighloadWalletUtils {
     return beginCell()
         .storeBuffer(pubkey.compressed.sublist(1))
         .storeUint(subWalletId, 32)
-        .storeUint(0, 1 + 1 + HightloadWalletConst.highLoadTimeStampSize)
-        .storeUint(timeout, HightloadWalletConst.highLoadTimeOutSize)
+        .storeUint(0, 1 + 1 + HighloadWalletConst.highLoadTimeStampSize)
+        .storeUint(timeout, HighloadWalletConst.highLoadTimeOutSize)
         .endCell();
   }
 
@@ -63,7 +63,7 @@ class HighloadWalletUtils {
     actionsBuilder.storeSlice(out);
     actionsCell = actionsBuilder.endCell();
     return beginCell()
-        .storeUint(HightloadWalletConst.transferOp, 32)
+        .storeUint(HighloadWalletConst.transferOp, 32)
         .storeUint(queryId, 64)
         .storeRef(actionsCell)
         .endCell();
@@ -74,12 +74,13 @@ class HighloadWalletUtils {
       required BigInt value,
       required BigInt queryId,
       required TonAddress account,
-      bool bounce = false}) {
+      bool? bounce,
+      bool bounced = false}) {
     return MessageRelaxed(
         info: CommonMessageInfoRelaxedInternal(
           ihrDisabled: true,
-          bounce: bounce,
-          bounced: false,
+          bounce: bounce ?? account.isBounceable,
+          bounced: bounced,
           dest: account,
           value: CurrencyCollection(coins: value),
           ihrFee: BigInt.zero,
@@ -108,9 +109,10 @@ class HighloadWalletUtils {
         .storeRef(messageCell)
         .storeUint(mode.mode, 8)
         .storeUint(queryId, 23)
-        .storeUint(createAt, HightloadWalletConst.highLoadTimeStampSize)
-        .storeUint(timeout, HightloadWalletConst.highLoadTimeOutSize)
+        .storeUint(createAt, HighloadWalletConst.highLoadTimeStampSize)
+        .storeUint(timeout, HighloadWalletConst.highLoadTimeOutSize)
         .endCell();
+
     final body = beginCell()
         .storeBuffer(signer.sign(messageInner.hash()))
         .storeRef(messageInner)
@@ -128,7 +130,8 @@ class HighloadWalletUtils {
       required BigInt value,
       required BigInt queryId,
       required TonAddress account,
-      bool bounce = false}) {
+      bool? bounce,
+      bool bounced = false}) {
     List<OutAction> batch = [];
     if (messages.length > 254) {
       batch = messages.sublist(0, 253);
@@ -149,6 +152,7 @@ class HighloadWalletUtils {
         value: value,
         queryId: queryId,
         account: account,
-        bounce: bounce);
+        bounce: bounce,
+        bounced: bounced);
   }
 }

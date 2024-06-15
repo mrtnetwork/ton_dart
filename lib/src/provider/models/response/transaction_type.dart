@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 
 class TransactionTypeResponse {
   final String _value;
@@ -35,7 +35,7 @@ class TransactionTypeResponse {
   static TransactionTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "No TransactionTypeResponse find with provided name.",
           details: {"name": name}),
     );

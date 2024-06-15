@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/exception/exception.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'compute_skip_reason.dart';
 
@@ -16,7 +16,7 @@ class TransactionComputePhaseType {
   factory TransactionComputePhaseType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find TransactionComputePhaseType from provided name",
           details: {"name": name}),
     );

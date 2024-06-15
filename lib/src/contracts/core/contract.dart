@@ -9,6 +9,11 @@ abstract class TonWallets {
   int get workChain => address.workChain;
   abstract final int? subWalletId;
   const TonWallets();
+
+  @override
+  String toString() {
+    return address.toString();
+  }
 }
 
 abstract class TonContract<T> extends TonWallets with ContractProvider {

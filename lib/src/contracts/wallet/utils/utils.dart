@@ -1,18 +1,19 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet/core/version.dart';
-import 'package:ton_dart/src/crypto/keypair/private_key.dart';
+import 'package:ton_dart/src/crypto/crypto.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/contracts/wallet/models/versioned_wallet_account_params.dart';
 
 class VersionedWalletUtils {
   static VersionedWalletAccountPrams readState({
-    required String stateData,
+    required Cell? stateData,
     required WalletVersion type,
   }) {
     try {
-      final cell = Cell.fromBase64(stateData).beginParse();
+      final cell = stateData!.beginParse();
       int seqno = cell.loadUint(32);
       List<int> pubkeyBytes;
       int? subWallet;
@@ -44,7 +45,7 @@ class VersionedWalletUtils {
   }
 
   static Tuple<StateInit, int?> buildFromAddress(
-      {required String stateData,
+      {required Cell? stateData,
       required WalletVersion type,
       required TonAddress address}) {
     final state = readState(stateData: stateData, type: type);
@@ -80,10 +81,11 @@ class VersionedWalletUtils {
     required int? subWalletId,
   }) {
     if (type.version > 2 && subWalletId == null) {
-      throw MessageException("Subwallet id is required for wallet version 3, 4",
+      throw TonContractException(
+          "Subwallet id is required for wallet version 3, 4",
           details: {"version": type.name});
     }
-    final pubkey = TonPrivateKey.fromBytes(publicKey);
+    final pubkey = TonPublicKey.fromBytes(publicKey);
     switch (type) {
       case WalletVersion.v3R1:
       case WalletVersion.v3R2:

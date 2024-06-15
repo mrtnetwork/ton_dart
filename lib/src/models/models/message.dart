@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
@@ -90,6 +91,9 @@ class Message extends TonSerialization {
       builder.storeBuilder(body.asBuilder());
     }
   }
+
+  String get hash =>
+      StringUtils.decode(body.hash(), type: StringEncoding.base64);
 
   @override
   Map<String, dynamic> toJson() {

@@ -1,5 +1,5 @@
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'account_status.dart';
 import 'account_storage_info.dart';
 import 'blockchain_raw_account_libraries_item.dart';
@@ -46,8 +46,9 @@ class BlockchainRawAccountResponse with JsonSerialization {
       status: AccountStatusResponse.fromName(json['status']),
       storage: AccountStorageInfoResponse.fromJson(json['storage']),
       libraries: List<BlockchainRawAccountLibrariesItemResponse>.from(
-          json['libraries'].map(
-              (x) => BlockchainRawAccountLibrariesItemResponse.fromJson(x))),
+          (json['libraries'] as List?)?.map((x) =>
+                  BlockchainRawAccountLibrariesItemResponse.fromJson(x)) ??
+              []),
     );
   }
 

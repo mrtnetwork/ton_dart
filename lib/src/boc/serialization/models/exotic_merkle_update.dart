@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 class ExoticMerkleUpdate {
   final int depth1;

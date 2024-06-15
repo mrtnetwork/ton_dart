@@ -1,5 +1,5 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'message_relaxed.dart';
 import 'send_mode.dart';
@@ -18,7 +18,7 @@ class OutActionType {
   factory OutActionType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find OutActionType from provided name",
           details: {"name": name}),
     );
@@ -53,7 +53,7 @@ abstract class OutAction extends TonSerialization {
       case _OutActionTypeConst.outActionSetCodeTag:
         return OutActionSetCode.deserialize(slice);
       default:
-        throw MessageException("Invalid OutAction tag.", details: {
+        throw TonDartPluginException("Invalid OutAction tag.", details: {
           "excepted": [
             _OutActionTypeConst.outActionSendMsgTag,
             _OutActionTypeConst.outActionSetCodeTag

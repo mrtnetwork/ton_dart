@@ -2,7 +2,7 @@ import 'package:ton_dart/ton_dart.dart';
 import 'http.dart';
 
 void main() async {
-  final rpc = TonApiProvider(HTTPProvider(
+  final rpc = TonProvider(HTTPProvider(
       tonApiUrl: "https://testnet.tonapi.io",
       tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC"));
   final privateKey = TonPrivateKey.fromBytes(List<int>.filled(32, 56));

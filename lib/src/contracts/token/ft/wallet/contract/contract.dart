@@ -43,12 +43,12 @@ class JettonWallet extends TonContract {
 
   Future<String> _sendTransaction(
       {required TonPrivateKey privateKey,
-      required TonApiProvider rpc,
+      required TonProvider rpc,
       required BigInt amount,
       List<MessageRelaxed> messages = const [],
       SendMode sendMode = SendMode.payGasSeparately,
       int? timeout,
-      bool bounce = false,
+      bool? bounce,
       bool bounced = false,
       Cell? body,
       StateInit? state}) async {
@@ -58,7 +58,7 @@ class JettonWallet extends TonContract {
         initState: state,
         bounced: bounced,
         body: body,
-        bounce: bounce);
+        bounce: bounce ?? address.isBounceable);
     return await owner.sendTransfer(
         messages: [message, ...messages],
         privateKey: privateKey,
@@ -69,12 +69,12 @@ class JettonWallet extends TonContract {
 
   Future<String> deploy(
       {required TonPrivateKey ownerPrivateKey,
-      required TonApiProvider rpc,
+      required TonProvider rpc,
       required BigInt amount,
       List<MessageRelaxed> messages = const [],
       SendMode sendMode = SendMode.payGasSeparately,
       int? timeout,
-      bool bounce = false,
+      bool? bounce,
       bool bounced = false,
       Cell? body}) async {
     final active = await isActive(rpc);
@@ -132,7 +132,7 @@ class JettonWallet extends TonContract {
 
   Future<String> transfer({
     required TonPrivateKey privateKey,
-    required TonApiProvider rpc,
+    required TonProvider rpc,
     required TonAddress destination,
     required BigInt forwardTonAmount,
     required BigInt jettonAmount,
@@ -140,7 +140,7 @@ class JettonWallet extends TonContract {
     List<MessageRelaxed> messages = const [],
     SendMode sendMode = SendMode.payGasSeparately,
     int? timeout,
-    bool bounce = false,
+    bool? bounce,
     bool bounced = false,
     Cell? customPayload,
     Cell? forwardPayload,
@@ -165,13 +165,13 @@ class JettonWallet extends TonContract {
 
   Future<String> burn({
     required TonPrivateKey privateKey,
-    required TonApiProvider rpc,
+    required TonProvider rpc,
     required BigInt burnJettonAmount,
     required BigInt amount,
     List<MessageRelaxed> messages = const [],
     SendMode sendMode = SendMode.payGasSeparately,
     int? timeout,
-    bool bounce = false,
+    bool? bounce,
     bool bounced = false,
     Cell? customPayload,
   }) async {
@@ -192,12 +192,12 @@ class JettonWallet extends TonContract {
 
   Future<String> withdrawTons({
     required TonPrivateKey privateKey,
-    required TonApiProvider rpc,
+    required TonProvider rpc,
     required BigInt amount,
     List<MessageRelaxed> messages = const [],
     SendMode sendMode = SendMode.payGasSeparately,
     int? timeout,
-    bool bounce = false,
+    bool? bounce,
     bool bounced = false,
   }) async {
     return _sendTransaction(
@@ -214,14 +214,14 @@ class JettonWallet extends TonContract {
 
   Future<String> withdrawJettons({
     required TonPrivateKey privateKey,
-    required TonApiProvider rpc,
+    required TonProvider rpc,
     required BigInt withdrawAmount,
     required BigInt amount,
     required TonAddress from,
     List<MessageRelaxed> messages = const [],
     SendMode sendMode = SendMode.payGasSeparately,
     int? timeout,
-    bool bounce = false,
+    bool? bounce,
     bool bounced = false,
   }) async {
     return _sendTransaction(
@@ -247,20 +247,23 @@ class JettonWallet extends TonContract {
         .endCell();
   }
 
-  Future<BigInt> getBalance(TonApiProvider rpc) async {
-    final data = await getMethod(rpc: rpc, method: "get_wallet_data");
-    final reader = data.reader;
+  Future<BigInt> getBalance(TonProvider rpc) async {
+    final data = await getStateStack(rpc: rpc, method: "get_wallet_data");
+    final reader = data.reader();
     final balance = reader.readBigNumber();
     return balance;
   }
 
   Future<TonAddress> getWalletAddress(
-      {required TonApiProvider rpc, required TonAddress owner}) async {
+      {required TonProvider rpc, required TonAddress owner}) async {
     final data =
-        await getMethod(rpc: rpc, method: "get_wallet_address", stack: [
-      ["tvm.Slice", beginCell().storeAddress(owner).endCell().toBase64()]
+        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+      if (rpc.isTonCenter)
+        ["tvm.Slice", beginCell().storeAddress(owner).endCell().toBase64()]
+      else
+        owner.toString()
     ]);
-    return data.reader.readAddress();
+    return data.reader().readAddress();
   }
 
   @override

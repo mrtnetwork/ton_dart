@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/binary/utils.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/tuple/exception/exception.dart';
@@ -9,7 +8,7 @@ class TupleReader {
   final List<TupleItem> _items;
 
   TupleReader(List<TupleItem> items) : _items = List<TupleItem>.from(items);
-
+  TupleReader clone() => TupleReader(_items);
   int get remaining {
     return _items.length;
   }
@@ -100,8 +99,6 @@ class TupleReader {
   Cell readCell() {
     TupleItem popped = pop();
     if (popped is TupleItemCell) return popped.cell;
-    if (popped is TupleItemSlice) return popped.slice;
-    if (popped is TupleItemBuilder) return popped.builder;
     throw TupleException("Invalid tuple cell.", details: {"value": popped});
   }
 
@@ -111,8 +108,6 @@ class TupleReader {
       return null;
     }
     if (popped is TupleItemCell) return popped.cell;
-    if (popped is TupleItemSlice) return popped.slice;
-    if (popped is TupleItemBuilder) return popped.builder;
     throw TupleException("Invalid tuple cell.", details: {"value": popped});
   }
 

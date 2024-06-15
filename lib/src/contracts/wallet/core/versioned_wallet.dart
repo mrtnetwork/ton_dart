@@ -17,7 +17,7 @@ abstract class VersonedWalletContract
   Future<String> sendTransfer(
       {required List<MessageRelaxed> messages,
       required TonPrivateKey privateKey,
-      required TonApiProvider rpc,
+      required TonProvider rpc,
       SendMode sendMode = SendMode.payGasSeparately,
       int? timeout});
 

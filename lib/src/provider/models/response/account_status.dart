@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class AccountStatusResponse {
   final String _value;
 
@@ -24,7 +26,7 @@ class AccountStatusResponse {
     if (name == "uninitialized") return AccountStatusResponse.uninit;
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No AccountStatusResponse found with the provided name: $name"),
     );
   }

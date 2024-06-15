@@ -1,11 +1,12 @@
 import 'package:ton_dart/src/serialization/serialization.dart';
+import 'package:ton_dart/src/tuple/tuple.dart';
 import 'tvm_stack_record.dart';
 
 class MethodExecutionResultResponse with JsonSerialization {
   final bool success;
   final int exitCode;
   final List<TvmStackRecordResponse> stack;
-  final String decoded;
+  final Map<String, dynamic>? decoded;
 
   const MethodExecutionResultResponse({
     required this.success,
@@ -31,5 +32,9 @@ class MethodExecutionResultResponse with JsonSerialization {
       'stack': stack.map((x) => x.toJson()).toList(),
       'decoded': decoded,
     };
+  }
+
+  List<TupleItem> toTuples() {
+    return stack.map((e) => e.toTuple()).toList();
   }
 }

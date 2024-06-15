@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/tuple/tuple.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/exception/exception.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';

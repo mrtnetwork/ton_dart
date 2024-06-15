@@ -22,11 +22,6 @@ class TonCenterRunGetMethod
 
   @override
   RunMethodResponse onResonse(Map<String, dynamic> json) {
-    if (json["exit_code"] != 0) {
-      throw TonApiError(
-          "Unable to execute get method. exit_code: ${json["exit_code"]}",
-          request: params());
-    }
     return RunMethodResponse.fromJson(json);
   }
 }

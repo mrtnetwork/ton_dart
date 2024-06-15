@@ -1,4 +1,5 @@
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet/constant/constant.dart';
 
 class WalletVersion {
@@ -13,6 +14,17 @@ class WalletVersion {
   static const WalletVersion v3R1 = WalletVersion._("v3R1", 3);
   static const WalletVersion v3R2 = WalletVersion._("v3R2", 3);
   static const WalletVersion v4 = WalletVersion._("v4", 4);
+
+  static const List<WalletVersion> values = [
+    v1R1,
+    v1R2,
+    v1R3,
+    v2R1,
+    v2R2,
+    v3R1,
+    v3R2,
+    v4
+  ];
 
   bool get isVersionedWallet {
     return true;
@@ -42,6 +54,15 @@ class WalletVersion {
   }
 
   Cell getCode() => Cell.fromBase64(state);
+
+  factory WalletVersion.fromValue(String? name) {
+    return values.firstWhere(
+      (element) => element.name == name,
+      orElse: () => throw TonContractException(
+          "Cannot find WalletVersion from provided status",
+          details: {"name": name}),
+    );
+  }
 
   @override
   String toString() {

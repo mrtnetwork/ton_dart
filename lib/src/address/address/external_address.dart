@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/core/ton_address.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 

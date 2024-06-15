@@ -8,7 +8,7 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 class TonApiEmulateMessageToTrace
     extends TonApiPostRequestParam<dynamic, Map<String, dynamic>> {
   @override
-  Object get body => throw UnimplementedError();
+  Object? body;
 
   @override
   String get method => TonApiMethods.emulatemessagetotrace.url;

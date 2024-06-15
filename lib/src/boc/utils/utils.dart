@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/string/string.dart';
+import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/boc/bit/bit_builder.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';

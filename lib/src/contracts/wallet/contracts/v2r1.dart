@@ -1,10 +1,10 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:ton_dart/src/contracts/core/provider.dart';
 import 'package:ton_dart/src/contracts/wallet/core/version.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/contracts/wallet/core/versioned_wallet.dart';
 import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
-import 'package:ton_dart/src/contracts/wallet/provider/provider_impl.dart';
 
 /// This version introduces the valid_until parameter which is used to set a time limit for a
 /// transaction in case you don't want it to be confirmed too late. This version also doesn't
@@ -28,9 +28,9 @@ class WalletV2R1 extends WalletContract {
         address: TonAddress.fromState(state: state, workChain: workChain));
   }
   static Future<WalletV2R1> fromAddress(
-      {required TonAddress address, required TonApiProvider rpc}) async {
+      {required TonAddress address, required TonProvider rpc}) async {
     final data =
-        await VerionedProviderImpl.getStateStatic(rpc: rpc, address: address);
+        await ContractProvider.getStaticState(rpc: rpc, address: address);
     final state = VersionedWalletUtils.buildFromAddress(
         address: address, stateData: data.data, type: WalletVersion.v2R1);
     return WalletV2R1._(state: state.item1, address: address);

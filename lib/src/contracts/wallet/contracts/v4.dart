@@ -1,11 +1,11 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:ton_dart/src/contracts/core/provider.dart';
 import 'package:ton_dart/src/contracts/wallet/core/version.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/contracts/wallet/constant/constant.dart';
 import 'package:ton_dart/src/contracts/wallet/core/versioned_wallet.dart';
 import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
-import 'package:ton_dart/src/contracts/wallet/provider/provider_impl.dart';
 
 /// It is the most modern wallet version at the moment. It still has all the functionality of the previous versions,
 /// but also introduces something very powerful — plugins.
@@ -42,9 +42,9 @@ class WalletV4 extends WalletContract {
   }
 
   static Future<WalletV4> fromAddress(
-      {required TonAddress address, required TonApiProvider rpc}) async {
+      {required TonAddress address, required TonProvider rpc}) async {
     final data =
-        await VerionedProviderImpl.getStateStatic(rpc: rpc, address: address);
+        await ContractProvider.getStaticState(rpc: rpc, address: address);
     final state = VersionedWalletUtils.buildFromAddress(
         address: address, stateData: data.data, type: WalletVersion.v4);
     return WalletV4._(

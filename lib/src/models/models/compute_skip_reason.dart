@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 // Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L306
@@ -27,7 +27,7 @@ class ComputeSkipReason extends TonSerialization {
   factory ComputeSkipReason.fromValue(String? status) {
     return values.firstWhere(
       (element) => element.reason == status,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find ComputeSkipReason from provided status",
           details: {"status": status}),
     );
@@ -35,7 +35,7 @@ class ComputeSkipReason extends TonSerialization {
   factory ComputeSkipReason.fromTag(int? tag) {
     return values.firstWhere(
       (element) => element.tag == tag,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find ComputeSkipReason from provided tag",
           details: {"tag": tag}),
     );

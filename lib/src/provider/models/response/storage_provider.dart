@@ -1,5 +1,5 @@
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 class StorageProviderResponse with JsonSerialization {
   final String address;

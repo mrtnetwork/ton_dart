@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:ton_dart/ton_dart.dart';
 
@@ -16,7 +15,7 @@ class HTTPProvider implements TonServiceProvider {
   final Duration defaultRequestTimeout;
 
   @override
-  Future<dynamic> get(TonRequestInfo params, [Duration? timeout]) async {
+  Future<String> get(TonRequestInfo params, {Duration? timeout}) async {
     final response = await client.get(
         Uri.parse(params.url(tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl)),
         headers: {
@@ -24,12 +23,12 @@ class HTTPProvider implements TonServiceProvider {
           // make sure to append the header to the request. some method has specific header parameters
           ...params.header
         }).timeout(timeout ?? defaultRequestTimeout);
-    final data = json.decode(response.body);
-    return data;
+
+    return response.body;
   }
 
   @override
-  Future<dynamic> post(TonRequestInfo params, [Duration? timeout]) async {
+  Future<String> post(TonRequestInfo params, {Duration? timeout}) async {
     final url =
         Uri.parse(params.url(tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl));
     http.Response response;
@@ -48,7 +47,7 @@ class HTTPProvider implements TonServiceProvider {
 
             /// make sure to append the header to the request. some method has specific header parameters
             headers: {
-              if (params.apiType == ApiType.tonCenter)
+              if (params.apiType == TonApiType.tonCenter)
                 "X-API-Key":
                     "d3800f756738ac7b39599914b8a84465960ff869f555c2317664c9a62529baf3",
               "Accept": "application/json",
@@ -59,7 +58,9 @@ class HTTPProvider implements TonServiceProvider {
           )
           .timeout(timeout ?? defaultRequestTimeout);
     }
-    final data = json.decode(response.body);
-    return data;
+    return response.body;
   }
+
+  @override
+  TonApiType get api => TonApiType.tonApi;
 }

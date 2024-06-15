@@ -112,7 +112,7 @@ class _BocSerializationUtils {
         final index = reader.loadBuffer(cells * offBytes);
         final cellData = reader.loadBuffer(totalCellSize);
         final crc32 = reader.loadBuffer(4);
-        if (!bytesEqual(
+        if (!BytesUtils.bytesEqual(
             CryptoUtils.crc32c(src.sublist(0, src.length - 4)), crc32)) {
           throw BocException("Invalid CRC32C", details: {
             "crc32": crc32,
@@ -153,7 +153,7 @@ class _BocSerializationUtils {
         final List<int> cellData = reader.loadBuffer(totalCellSize);
         if (hasCrc32c) {
           final List<int> crc32 = reader.loadBuffer(4);
-          if (!bytesEqual(
+          if (!BytesUtils.bytesEqual(
               CryptoUtils.crc32c(src.sublist(0, src.length - 4)), crc32)) {
             throw BocException("Invalid CRC32C", details: {
               "crc32": crc32,

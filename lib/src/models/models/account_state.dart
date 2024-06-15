@@ -1,7 +1,7 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
@@ -15,7 +15,7 @@ class AccountStateType {
   factory AccountStateType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find AccountStateType from provided name",
           details: {"name": name}),
     );

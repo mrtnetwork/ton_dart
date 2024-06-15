@@ -13,13 +13,13 @@ void main() {
 void _test() {
   test('should serialize tuple with numbers', () {
     final serialized = TupleSerialization.serialize([
-      {"type": "int", "value": BigInt.parse("-1")},
-      {"type": "int", "value": BigInt.parse("-1")},
-      {"type": "int", "value": BigInt.parse("49800000000")},
-      {"type": "int", "value": BigInt.parse("100000000")},
-      {"type": "int", "value": BigInt.parse("100000000")},
-      {"type": "int", "value": BigInt.parse("2500")},
-      {"type": "int", "value": BigInt.parse("100000000")}
+      {"type": "num", "num": BigInt.parse("-1")},
+      {"type": "num", "num": BigInt.parse("-1")},
+      {"type": "num", "num": BigInt.parse("49800000000")},
+      {"type": "num", "num": BigInt.parse("100000000")},
+      {"type": "num", "num": BigInt.parse("100000000")},
+      {"type": "num", "num": BigInt.parse("2500")},
+      {"type": "num", "num": BigInt.parse("100000000")}
     ].map((e) => TupleItem.fromJson(e)).toList());
     expect(serialized.toBase64(idx: false, crc32: false),
         "te6ccgEBCAEAWQABGAAABwEAAAAABfXhAAEBEgEAAAAAAAAJxAIBEgEAAAAABfXhAAMBEgEAAAAABfXhAAQBEgEAAAALmE+yAAUBEgH//////////wYBEgH//////////wcAAA==");
@@ -28,9 +28,8 @@ void _test() {
   test('should serialize tuple long numbers', () {
     const golden =
         "te6ccgEBAgEAKgABSgAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqt4e0IsLXV0BAAA=";
-    final serialized = TupleSerialization.serialize([
-      {"type": "int", "value": BigInt.parse("12312312312312323421")}
-    ].map((e) => TupleItem.fromJson(e)).toList());
+    final serialized = TupleSerialization.serialize(
+        [TupleItemInt(BigInt.parse("12312312312312323421"))]);
     expect(serialized.toBase64(idx: false, crc32: false), golden);
   });
   test('should serialize slices', () {

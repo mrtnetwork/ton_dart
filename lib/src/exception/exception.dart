@@ -3,8 +3,9 @@ import 'package:blockchain_utils/exception/exceptions.dart';
 class TonDartPluginException extends BlockchainUtilsException {
   @override
   final String message;
+  @override
   final Map<String, dynamic>? details;
-  TonDartPluginException(this.message, {this.details});
+  const TonDartPluginException(this.message, {this.details});
 
   @override
   String toString() {

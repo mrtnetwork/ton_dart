@@ -1,6 +1,5 @@
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
-
+import 'package:blockchain_utils/utils/utils.dart';
 import 'acc_status_change.dart';
 
 class StoragePhaseResponse with JsonSerialization {

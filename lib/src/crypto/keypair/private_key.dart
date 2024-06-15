@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/bip_ecc.dart';
 import 'package:ton_dart/src/crypto/exception/exception.dart';
 

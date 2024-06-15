@@ -1,6 +1,6 @@
 // BlockRawResponse
 
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 

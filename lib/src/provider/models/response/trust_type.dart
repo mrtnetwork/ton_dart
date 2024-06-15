@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class TrustTypeResponse {
   final String _value;
 
@@ -20,7 +22,7 @@ class TrustTypeResponse {
   static TrustTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No TrustTypeResponse found with the provided name: $name"),
     );
   }

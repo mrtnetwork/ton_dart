@@ -22,8 +22,7 @@ class TonApiExecGetMethodForBlockchainAccount extends TonApiRequestParam<
   List<String> get pathParameters => [accountId, methodName];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {"args": args.isEmpty ? null : args.toString()};
+  Map<String, dynamic> get queryParameters => {"args": args};
 
   @override
   MethodExecutionResultResponse onResonse(Map<String, dynamic> json) {

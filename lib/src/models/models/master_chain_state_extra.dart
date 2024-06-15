@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/utils/extentions.dart';
@@ -47,7 +48,8 @@ class MasterchainStateExtra extends TonSerialization {
   factory MasterchainStateExtra.deserialize(Slice slice) {
     // Check magic
     if (slice.loadUint(16) != _MasterChainStateExtraConst.magic) {
-      throw const MessageException("Invalid MasterchainStateExtra slice data");
+      throw const TonDartPluginException(
+          "Invalid MasterchainStateExtra slice data");
     }
 
     // Skip shard_hashes

@@ -1,7 +1,7 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/account_status.dart';
 import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/models/models/message.dart';
@@ -63,7 +63,7 @@ class TonTransaction extends TonSerialization {
     final raw = slice.asCell();
 
     if (slice.loadUint(4) != 0x07) {
-      throw const MessageException("Invalid transaction slice data.");
+      throw const TonDartPluginException("Invalid transaction slice data.");
     }
 
     final BigInt address = slice.loadUintBig(256);

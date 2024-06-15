@@ -1,5 +1,6 @@
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/tuple/exception/exception.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 
@@ -104,7 +105,8 @@ class TupleUtils {
       case "builder":
         return TupleItemBuilder(Cell.fromBase64((stacks[1] as Map)["bytes"]));
       default:
-        throw UnimplementedError();
+        throw TonDartPluginException("Unsuported tuple type.",
+            details: {"type": type});
     }
   }
 

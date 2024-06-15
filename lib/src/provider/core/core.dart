@@ -1,15 +1,32 @@
-import 'package:blockchain_utils/exception/exception.dart';
-import 'package:blockchain_utils/string/string.dart';
+import 'package:blockchain_utils/utils/string/string.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/provider/utils/utils.dart';
 
 enum RequestMethod { post, put, get }
 
-enum ApiType { tonApi, tonCenter }
+class TonApiType {
+  final String name;
+  const TonApiType._(this.name);
+  static const TonApiType tonApi = TonApiType._("tonApi");
+  static const TonApiType tonCenter = TonApiType._("tonCenter");
+  static const List<TonApiType> values = [tonApi, tonCenter];
+  bool get isTonCenter => this == tonCenter;
+
+  factory TonApiType.fromValue(String? name) {
+    return values.firstWhere(
+      (element) => element.name == name,
+      orElse: () => throw TonDartPluginException(
+          "Cannot find TonApiType from provided name",
+          details: {"name": name}),
+    );
+  }
+}
 
 /// An abstract class representing request parameters for TonApi API calls.
 abstract class TonApiRequestParams {
   /// method for the request.
   abstract final String method;
+  TonRequestInfo toRequest(int v);
   const TonApiRequestParams();
 }
 
@@ -31,10 +48,11 @@ abstract class TonApiRequestParam<RESULT, RESPONSE>
   final Map<String, String?> header = {};
 
   /// Converts the request parameters to [TonRequestInfo] with a unique identifier.
+  @override
   TonRequestInfo toRequest(int v) {
     final pathParams = TonApiUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw MessageException("Invalid Path Parameters.", details: {
+      throw TonDartPluginException("Invalid Path Parameters.", details: {
         "pathParams": pathParameters,
         "excepted": pathParams.length,
         "method": method
@@ -56,7 +74,7 @@ abstract class TonApiRequestParam<RESULT, RESPONSE>
     return TonRequestInfo(
       id: v,
       pathParams: params,
-      apiType: ApiType.tonApi,
+      apiType: TonApiType.tonApi,
       header: Map<String, String>.fromEntries(header.entries
           .where((element) => element.value != null)
           .toList()
@@ -101,7 +119,7 @@ abstract class TonCenterPostRequestParam<RESULT, RESPONSE>
     return TonRequestInfo(
         id: v,
         pathParams: method,
-        apiType: ApiType.tonCenter,
+        apiType: TonApiType.tonCenter,
         body: StringUtils.fromJson(jsonRpc),
         requestType: RequestMethod.post);
   }
@@ -124,7 +142,7 @@ class TonRequestInfo {
       RequestMethod? requestType,
       Map<String, String>? header,
       Object? body,
-      ApiType? apiType}) {
+      TonApiType? apiType}) {
     return TonRequestInfo(
         id: id ?? this.id,
         pathParams: pathParams ?? this.pathParams,
@@ -146,24 +164,24 @@ class TonRequestInfo {
 
   final Object? body;
 
-  final ApiType apiType;
+  final TonApiType apiType;
 
   /// Generates the complete request URL by combining the base URI and method-specific URI.
   String url({String? tonApiUrl, String? tonCenterUrl}) {
     String? url;
-    if (apiType == ApiType.tonApi) {
+    if (apiType == TonApiType.tonApi) {
       url = tonApiUrl;
     } else {
       url = tonCenterUrl;
     }
     if (url == null) {
-      throw MessageException("API URL does not set for ${apiType.name}");
+      throw TonDartPluginException("API URL does not set for ${apiType.name}");
     }
 
     if (url.endsWith("/")) {
       url = url.substring(0, url.length - 1);
     }
-    if (apiType == ApiType.tonCenter) return url;
+    if (apiType == TonApiType.tonCenter) return url;
     return "$url$pathParams";
   }
 }

@@ -1,25 +1,30 @@
 import 'dart:async';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/exception/exception.dart';
 import 'package:ton_dart/src/provider/service/service.dart';
 
-/// Facilitates communication with the tonApi by making requests using a provided [TonApiProvider].
-class TonApiProvider {
+/// Facilitates communication with the tonApi by making requests using a provided [TonProvider].
+class TonProvider {
   /// The underlying TonApi service provider used for network communication.
   final TonServiceProvider rpc;
 
-  /// Constructs a new [TonApiProvider] instance with the specified [rpc] service provider.
-  TonApiProvider(this.rpc);
+  /// Constructs a new [TonProvider] instance with the specified [rpc] service provider.
+  TonProvider(this.rpc);
 
   int _id = 0;
 
-  static Object _findError(dynamic val, TonRequestInfo request) {
+  bool get isTonCenter => rpc.api == TonApiType.tonCenter;
+
+  static Object? _findError(String response, TonRequestInfo request) {
+    final val = StringUtils.tryToJson(response);
+    if (val == null) return null;
     if (val is Map) {
       if (val.containsKey("error") || val.containsKey("Error")) {
         final String error = val["error"] ?? val["Error"];
         _throw(request, error, val["code"]?.toString());
       }
-      if (request.apiType == ApiType.tonCenter) {
+      if (request.apiType == TonApiType.tonCenter) {
         final ok = val["ok"];
         if (ok is bool && !ok) {
           _throw(request, val["result"]?.toString() ?? "",
@@ -52,13 +57,13 @@ class TonApiProvider {
       [Duration? timeout]) async {
     final id = ++_id;
     final params = request.toRequest(id);
-    dynamic response;
+    String response;
     switch (params.requestType) {
       case RequestMethod.get:
-        response = await rpc.get(params, timeout);
+        response = await rpc.get(params, timeout: timeout);
         break;
       default:
-        response = await rpc.post(params, timeout);
+        response = await rpc.post(params, timeout: timeout);
         break;
     }
     return _findError(response, params);
@@ -70,7 +75,7 @@ class TonApiProvider {
   Future<T> request<T, E>(TonApiRequestParam<T, E> request,
       [Duration? timeout]) async {
     final data = await requestDynamic(request, timeout);
-    final Object result;
+    final Object? result;
 
     if (E == List<Map<String, dynamic>>) {
       result = (data as List).map((e) => Map<String, dynamic>.from(e)).toList();

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 

@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable
 
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/ton_dart.dart';
 
 void main() async {

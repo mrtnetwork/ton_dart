@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class NftPurchaseActionAuctionTypeResponse {
   final String _value;
 
@@ -24,7 +26,7 @@ class NftPurchaseActionAuctionTypeResponse {
   static NftPurchaseActionAuctionTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No NftPurchaseActionAuctionTypeResponse found with the provided name: $name"),
     );
   }

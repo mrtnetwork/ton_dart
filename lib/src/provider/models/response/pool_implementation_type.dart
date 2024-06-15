@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class PoolImplementationTypeResponse {
   final String _value;
 
@@ -21,7 +23,7 @@ class PoolImplementationTypeResponse {
   static PoolImplementationTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No PoolImplementationTypeResponse found with the provided name: $name"),
     );
   }

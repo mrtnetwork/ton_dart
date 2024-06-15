@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/numbers/numbers.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/provider/models/response/workchain_descr.dart';
 import 'package:ton_dart/src/provider/models/response/block_limits.dart';
 import 'package:ton_dart/src/provider/models/response/config_proposal_setup.dart';

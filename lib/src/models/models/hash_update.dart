@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/binary/utils.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 class _HashUpdateConst {
@@ -19,7 +19,7 @@ class HashUpdate extends TonSerialization {
   factory HashUpdate.deserialize(Slice slice) {
     final prefix = slice.loadUint(8);
     if (prefix != _HashUpdateConst.prefix) {
-      throw MessageException("Invalid HashUpdate prefix.",
+      throw TonDartPluginException("Invalid HashUpdate prefix.",
           details: {"excepted": _HashUpdateConst.prefix, "prefix": prefix});
     }
     return HashUpdate(

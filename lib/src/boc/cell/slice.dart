@@ -1,12 +1,12 @@
 import 'package:ton_dart/src/address/address.dart';
+import 'package:ton_dart/src/boc/bit/bit_reader.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
+import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
 import 'package:ton_dart/src/dict/dictionary/dictionary.dart';
 import 'package:ton_dart/src/dict/dictionary/key.dart';
 import 'package:ton_dart/src/dict/dictionary/value.dart';
-import '../bit/bit_reader.dart';
-import '../bit/builder.dart';
 import 'cell.dart';
 
 class Slice {

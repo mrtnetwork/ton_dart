@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/binary/utils.dart';
-import 'package:blockchain_utils/compare/compare.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/crypto/quick_crypto.dart';
 import 'package:ton_dart/src/boc/bit/bit_reader.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
@@ -181,7 +180,7 @@ class CellUtils {
     final int proofDepth = reader.loadUint(16);
     final List<int> refHash = refs[0].hash(level: 0);
     final int refDepth = refs[0].depth(level: 0);
-    if (proofDepth != refDepth || !bytesEqual(proofHash, refHash)) {
+    if (proofDepth != refDepth || !BytesUtils.bytesEqual(proofHash, refHash)) {
       throw BocException('Mismatch in reference');
     }
     return ExoticMerkleProof(proofDepth: proofDepth, proofHash: proofHash);
@@ -220,14 +219,14 @@ class CellUtils {
     if (proofDepth1 != refs[0].depth(level: 0)) {
       throw BocException('Mismatch in reference 1');
     }
-    if (!bytesEqual(proofHash1, refs[0].hash(level: 0))) {
+    if (!BytesUtils.bytesEqual(proofHash1, refs[0].hash(level: 0))) {
       throw BocException("Invalid Merkle Update cell reference hash.");
     }
 
     if (proofDepth2 != refs[1].depth(level: 0)) {
       throw BocException('Mismatch in reference 2');
     }
-    if (!bytesEqual(proofHash2, refs[1].hash(level: 0))) {
+    if (!BytesUtils.bytesEqual(proofHash2, refs[1].hash(level: 0))) {
       throw BocException("Invalid Merkle Update cell reference 2 hash.");
     }
     return ExoticMerkleUpdate(

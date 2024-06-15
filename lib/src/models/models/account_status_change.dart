@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 class AccountStatusChange extends TonSerialization {
@@ -24,7 +24,7 @@ class AccountStatusChange extends TonSerialization {
   factory AccountStatusChange.fromValue(String? status) {
     return values.firstWhere(
       (element) => element.status == status,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find AccountStatusChange from provided status",
           details: {"status": status}),
     );

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exception.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 
 class SendMode {
   final String name;
@@ -25,7 +25,7 @@ class SendMode {
   factory SendMode.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find SendMode from provided name",
           details: {"name": name}),
     );
@@ -33,7 +33,7 @@ class SendMode {
   factory SendMode.fromMode(int? mode) {
     return values.firstWhere(
       (element) => element.mode == mode,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "Cannot find SendMode from provided mode",
           details: {"mode": mode}),
     );

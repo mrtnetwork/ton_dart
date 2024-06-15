@@ -1,5 +1,6 @@
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/provider.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/highload/core/core.dart';
 import 'package:ton_dart/src/contracts/highload/models/v3_account_params.dart';
@@ -37,8 +38,8 @@ class HighloadWalletV3 extends HighloadWallets
       {required int workChain,
       required List<int> publicKey,
       int? subWalletId,
-      int timeout = HightloadWalletConst.defaultTimeout}) {
-    subWalletId ??= HightloadWalletConst.defaultHighLoadSubWallet + workChain;
+      int timeout = HighloadWalletConst.defaultTimeout}) {
+    subWalletId ??= HighloadWalletConst.defaultHighLoadSubWallet + workChain;
     final state = HighloadWalletUtils.buildV3(
         publicKey: publicKey, subWalletId: subWalletId, timeout: timeout);
     return HighloadWalletV3._(
@@ -49,9 +50,9 @@ class HighloadWalletV3 extends HighloadWallets
         timeout: timeout);
   }
   static Future<HighloadWalletV3> fromAddress(
-      {required TonAddress address, required TonApiProvider rpc}) async {
+      {required TonAddress address, required TonProvider rpc}) async {
     final st2 =
-        await rpc.request(TonCenterGetAddressInformation(address.toString()));
+        await ContractProvider.getStaticState(rpc: rpc, address: address);
     final state = HighloadWalletUtils.readV3State(st2.data);
     final wallet = HighloadWalletV3(
         workChain: address.workChain,
@@ -115,7 +116,7 @@ class HighloadWalletV3 extends HighloadWallets
       required BigInt queryId,
       SendMode mode = SendMode.carryAllRemainingBalance,
       int? createAt,
-      AccountStatus status = AccountStatus.active}) {
+      StateInit? initState}) {
     return HighloadWalletUtils.createExternalMessage(
         signer: signer,
         message: message,
@@ -125,18 +126,18 @@ class HighloadWalletV3 extends HighloadWallets
         account: address,
         createAt: createAt,
         mode: mode,
-        state: status.isActive ? null : state);
+        state: initState);
   }
 
   Future<String> sendBatchTransaction(
       {required TonPrivateKey signer,
       required List<OutActionSendMsg> messages,
       required BigInt queryId,
-      required TonApiProvider rpc,
+      required TonProvider rpc,
       required BigInt value,
       SendMode mode = SendMode.carryAllRemainingBalance,
-      int? createAt,
-      AccountStatus status = AccountStatus.active}) async {
+      int? createAt}) async {
+    final active = await isActive(rpc);
     final extMessage = createAndSignExternalMessage(
         signer: signer,
         message:
@@ -144,7 +145,7 @@ class HighloadWalletV3 extends HighloadWallets
         queryId: queryId,
         createAt: createAt,
         mode: mode,
-        status: status);
+        initState: active ? null : state);
     return sendMessage(rpc: rpc, exMessage: extMessage);
   }
 }

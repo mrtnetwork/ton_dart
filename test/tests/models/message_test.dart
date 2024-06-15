@@ -1,7 +1,5 @@
 import 'package:test/test.dart';
-import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/models/models/common_message_info.dart';
-import 'package:ton_dart/src/models/models/message.dart';
+import 'package:ton_dart/ton_dart.dart';
 
 void main() {
   group("Message", () => _test());
@@ -24,9 +22,9 @@ void _test() {
     final msg = decodeJson.info as CommonMessageInfoInternal;
     expect(msg.bounce, true);
     expect(msg.bounced, false);
-    expect(msg.src.toStringAddress(),
+    expect(msg.src.toFriendlyAddress(),
         "EQD3Fj4sHCg7nmKcE_1DMzsHnhteKba21eoBXe3CvVVVMOGu");
-    expect(msg.dest.toStringAddress(),
+    expect(msg.dest.toFriendlyAddress(),
         "EQDKbjIcfM6ezt8KjKJJLshZJJSqX7XOA4ff-W72r5gqPrHF");
     expect(msg.value.coins, BigInt.from(99986675000));
     expect(msg.ihrFee, BigInt.zero);

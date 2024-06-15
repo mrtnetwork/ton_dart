@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class TvmStackRecordTypeResponse {
   final String _value;
 
@@ -27,7 +29,7 @@ class TvmStackRecordTypeResponse {
   static TvmStackRecordTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element._value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No TvmStackRecordTypeResponse found with the provided name: $name"),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/helper/ton_helper.dart';
+import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/tuple/exception/exception.dart';
 
 class TupleItemTypes {
@@ -7,7 +9,7 @@ class TupleItemTypes {
   const TupleItemTypes._(this.name);
   static const TupleItemTypes tupleItem = TupleItemTypes._("tuple");
   static const TupleItemTypes nullItem = TupleItemTypes._("null");
-  static const TupleItemTypes intItem = TupleItemTypes._("int");
+  static const TupleItemTypes intItem = TupleItemTypes._("num");
   static const TupleItemTypes nanItem = TupleItemTypes._("nan");
   static const TupleItemTypes cellItem = TupleItemTypes._("cell");
   static const TupleItemTypes sliceItem = TupleItemTypes._("slice");
@@ -19,12 +21,13 @@ class TupleItemTypes {
     nanItem,
     cellItem,
     sliceItem,
-    builderItem,
+    builderItem
   ];
 
   static TupleItemTypes fromName(String? name, {TupleItemTypes? excepted}) {
+    final n = name?.replaceAll("tvm.", '').toLowerCase();
     final type = values.firstWhere(
-      (element) => element.name == name,
+      (element) => element.name == n,
       orElse: () => throw TupleException(
           "Cannot find tuple type from provided type.",
           details: {"value": name}),
@@ -41,7 +44,7 @@ class TupleItemTypes {
   }
 }
 
-abstract class TupleItem {
+abstract class TupleItem with JsonSerialization {
   abstract final TupleItemTypes type;
   const TupleItem();
   factory TupleItem.fromJson(Map<String, dynamic> json) {
@@ -90,13 +93,18 @@ class TupleItemTuple extends TupleItem {
   operator ==(other) {
     if (super == other) {
       other as TupleItemTuple;
-      return iterableIsEqual(items, other.items);
+      return CompareUtils.iterableIsEqual(items, other.items);
     }
     return false;
   }
 
   @override
   int get hashCode => super.hashCode ^ Object.hashAll(items);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"type": type.name, "items": items.map((e) => e.toJson()).toList()};
+  }
 }
 
 class TupleItemNull extends TupleItem {
@@ -107,6 +115,11 @@ class TupleItemNull extends TupleItem {
   }
   @override
   TupleItemTypes get type => TupleItemTypes.nullItem;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"type": type.name};
+  }
 }
 
 class TupleItemInt extends TupleItem {
@@ -114,7 +127,7 @@ class TupleItemInt extends TupleItem {
   const TupleItemInt(this.value);
   factory TupleItemInt.fromJson(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json["type"], excepted: TupleItemTypes.intItem);
-    return TupleItemInt(BigintUtils.parse(json["value"]));
+    return TupleItemInt(BigintUtils.parse(json["num"]));
   }
   @override
   TupleItemTypes get type => TupleItemTypes.intItem;
@@ -131,6 +144,11 @@ class TupleItemInt extends TupleItem {
   int get hashCode => super.hashCode ^ value.hashCode;
 
   @override
+  Map<String, dynamic> toJson() {
+    return {"type": type.name, "num": value.toString()};
+  }
+
+  @override
   String toString() {
     return "TupleItemInt($value)";
   }
@@ -144,6 +162,11 @@ class TupleItemNaN extends TupleItem {
   }
   @override
   TupleItemTypes get type => TupleItemTypes.nanItem;
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {"type": type.name};
+  }
 }
 
 class TupleItemCell extends TupleItem {
@@ -151,17 +174,11 @@ class TupleItemCell extends TupleItem {
   const TupleItemCell(this.cell);
   factory TupleItemCell.fromJson(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json["type"], excepted: TupleItemTypes.cellItem);
-    final decodeBytes =
-        StringUtils.tryEncode(json["cell"], StringEncoding.base64) ??
-            BytesUtils.tryFromHexString(json["cell"]);
-    if (decodeBytes == null) {
-      throw TupleException("Invalid cell string hex or base64");
+    final cell = TonHelper.tryToCell(json["cell"]);
+    if (cell == null) {
+      throw TupleException("Invalid Slice string hex or base64");
     }
-    final cell = Cell.fromBoc(decodeBytes);
-    if (cell.length != 1) {
-      throw TupleException("More than one cell.", details: {"cell": cell});
-    }
-    return TupleItemCell(cell[0]);
+    return TupleItemCell(cell);
   }
   @override
   TupleItemTypes get type => TupleItemTypes.cellItem;
@@ -177,24 +194,21 @@ class TupleItemCell extends TupleItem {
 
   @override
   int get hashCode => super.hashCode ^ cell.hashCode;
+  @override
+  Map<String, dynamic> toJson() {
+    return {"type": type.name, "cell": cell.toBase64()};
+  }
 }
 
-class TupleItemSlice extends TupleItem {
-  final Cell slice;
-  const TupleItemSlice(this.slice);
+class TupleItemSlice extends TupleItemCell {
+  const TupleItemSlice(Cell cell) : super(cell);
   factory TupleItemSlice.fromJson(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json["type"], excepted: TupleItemTypes.sliceItem);
-    final decodeBytes =
-        StringUtils.tryEncode(json["slice"], StringEncoding.base64) ??
-            BytesUtils.tryFromHexString(json["slice"]);
-    if (decodeBytes == null) {
-      throw TupleException("Invalid cell string hex or base64");
+    final cell = TonHelper.tryToCell(json["cell"]);
+    if (cell == null) {
+      throw TupleException("Invalid Slice string hex or base64");
     }
-    final cell = Cell.fromBoc(decodeBytes);
-    if (cell.length != 1) {
-      throw TupleException("More than one cell.", details: {"cell": cell});
-    }
-    return TupleItemSlice(cell[0]);
+    return TupleItemSlice(cell);
   }
   @override
   TupleItemTypes get type => TupleItemTypes.sliceItem;
@@ -202,31 +216,24 @@ class TupleItemSlice extends TupleItem {
   operator ==(other) {
     if (super == other) {
       other as TupleItemSlice;
-      return other.slice == slice;
+      return other.cell == cell;
     }
     return false;
   }
 
   @override
-  int get hashCode => super.hashCode ^ slice.hashCode;
+  int get hashCode => super.hashCode ^ cell.hashCode;
 }
 
-class TupleItemBuilder extends TupleItem {
-  final Cell builder;
-  const TupleItemBuilder(this.builder);
+class TupleItemBuilder extends TupleItemCell {
+  const TupleItemBuilder(Cell cell) : super(cell);
   factory TupleItemBuilder.fromJson(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json["type"], excepted: TupleItemTypes.builderItem);
-    final decodeBytes =
-        StringUtils.tryEncode(json["builder"], StringEncoding.base64) ??
-            BytesUtils.tryFromHexString(json["builder"]);
-    if (decodeBytes == null) {
+    final cell = TonHelper.tryToCell(json["cell"]);
+    if (cell == null) {
       throw TupleException("Invalid builder string hex or base64");
     }
-    final cell = Cell.fromBoc(decodeBytes);
-    if (cell.length != 1) {
-      throw TupleException("More than on cell.", details: {"cell": cell});
-    }
-    return TupleItemBuilder(cell[0]);
+    return TupleItemBuilder(cell);
   }
   @override
   TupleItemTypes get type => TupleItemTypes.builderItem;
@@ -234,11 +241,11 @@ class TupleItemBuilder extends TupleItem {
   operator ==(other) {
     if (super == other) {
       other as TupleItemBuilder;
-      return other.builder == builder;
+      return other.cell == cell;
     }
     return false;
   }
 
   @override
-  int get hashCode => super.hashCode ^ builder.hashCode;
+  int get hashCode => super.hashCode ^ cell.hashCode;
 }

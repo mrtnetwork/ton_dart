@@ -79,7 +79,7 @@ mixin VersionedWalletTransactionImpl on VersonedWalletContract {
     required BigInt amount,
     String? memo,
     Cell? body,
-    bool bounce = false,
+    bool? bounce,
     bool bounced = false,
   }) {
     assert(memo == null || body == null,
@@ -87,7 +87,7 @@ mixin VersionedWalletTransactionImpl on VersonedWalletContract {
     return MessageRelaxed(
       info: CommonMessageInfoRelaxedInternal(
           ihrDisabled: true,
-          bounce: bounce,
+          bounce: bounce ?? destination.isBounceable,
           bounced: bounced,
           dest: destination,
           value: CurrencyCollection(coins: amount),

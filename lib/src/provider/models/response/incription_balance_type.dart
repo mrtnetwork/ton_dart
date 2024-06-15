@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class InscriptionTypeResponse {
   final String _value;
 
@@ -18,7 +20,7 @@ class InscriptionTypeResponse {
   static InscriptionTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No InscriptionTypeResponse found with the provided name: $name"),
     );
   }

@@ -1,8 +1,7 @@
-import 'package:blockchain_utils/binary/binary.dart';
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:test/test.dart';
-import 'package:ton_dart/src/address/utils/utils.dart';
+import 'package:ton_dart/ton_dart.dart';
 
 void main() {
   group("address", () {
@@ -26,24 +25,26 @@ void _testAddress() {
     expect(address2.isBounceable, true);
     expect(address1.isTestOnly, true);
     expect(address2.isTestOnly, true);
-    expect(address1.address.workChain, 0);
-    expect(address2.address.workChain, 0);
+    expect(address1.workchain, 0);
+    expect(address2.workchain, 0);
     expect(address3.workChain, 0);
     expect(
-        address1.address.hash,
+        address1.hash,
         BytesUtils.fromHexString(
             '2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3'));
     expect(
-        address2.address.hash,
+        address2.hash,
         BytesUtils.fromHexString(
             '2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3'));
     expect(
         address3.hash,
         BytesUtils.fromHexString(
             '2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3'));
-    expect(address1.address.toRawAddress(),
+    expect(
+        TonAddress.fromBytes(address1.workchain, address1.hash).toRawAddress(),
         "0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3");
-    expect(address2.address.toRawAddress(),
+    expect(
+        TonAddress.fromBytes(address2.workchain, address2.hash).toRawAddress(),
         "0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3");
     expect(address3.toRawAddress(),
         "0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3");
@@ -61,24 +62,24 @@ void _frindlyForm() {
         '0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3');
 
     // Bounceable
-    expect(
-        address.toString(), "EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB");
-    expect(address.toString(testOnly: true),
+    expect(address.toFriendlyAddress(bounceable: true),
+        "EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB");
+    expect(address.toFriendlyAddress(bounceable: true, testOnly: true),
         "kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL");
-    expect(address.toString(urlSafe: false),
-        "EQAs9VlT6S776tq3unJcP5Ogsj+ELLunLXuOb1EKcOQi4wJB");
-    expect(address.toString(urlSafe: false, testOnly: true),
-        "kQAs9VlT6S776tq3unJcP5Ogsj+ELLunLXuOb1EKcOQi47nL");
+    expect(address.toFriendlyAddress(bounceable: true),
+        "EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB");
+    expect(address.toFriendlyAddress(testOnly: true, bounceable: true),
+        "kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL");
 
     // Non-Bounceable
-    expect(address.toString(bounceable: false),
+    expect(address.toFriendlyAddress(bounceable: false),
         "UQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi41-E");
-    expect(address.toString(bounceable: false, testOnly: true),
+    expect(address.toFriendlyAddress(bounceable: false, testOnly: true),
         "0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO");
-    expect(address.toString(bounceable: false, urlSafe: false),
-        "UQAs9VlT6S776tq3unJcP5Ogsj+ELLunLXuOb1EKcOQi41+E");
-    expect(address.toString(bounceable: false, urlSafe: false, testOnly: true),
-        "0QAs9VlT6S776tq3unJcP5Ogsj+ELLunLXuOb1EKcOQi4+QO");
+    expect(address.toFriendlyAddress(bounceable: false),
+        "UQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi41-E");
+    expect(address.toFriendlyAddress(bounceable: false, testOnly: true),
+        "0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO");
   });
 }
 

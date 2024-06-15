@@ -34,8 +34,8 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
 
 ```dart
 
-    /// Initialize TonApiProvider with HTTPProvider for Testnet
-  final rpc = TonApiProvider(HTTPProvider(
+    /// Initialize TonProvider with HTTPProvider for Testnet
+  final rpc = TonProvider(HTTPProvider(
     tonApiUrl: "https://testnet.tonapi.io",
     tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC",
   ));
@@ -196,8 +196,8 @@ class HTTPProvider implements TonServiceProvider {
 }
 
 
-  /// Initialize TonApiProvider with HTTPProvider for Testnet
-  final rpc = TonApiProvider(HTTPProvider(
+  /// Initialize TonProvider with HTTPProvider for Testnet
+  final rpc = TonProvider(HTTPProvider(
     tonApiUrl: "https://testnet.tonapi.io",
     tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC",
   ));

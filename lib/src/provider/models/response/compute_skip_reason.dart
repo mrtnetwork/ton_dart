@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 
 class ComputeSkipReasonResponse {
   final String _value;
@@ -23,7 +23,7 @@ class ComputeSkipReasonResponse {
   static ComputeSkipReasonResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw MessageException(
+      orElse: () => throw TonDartPluginException(
           "No ComputeSkipReasonResponse find with provided name.",
           details: {"name": name}),
     );

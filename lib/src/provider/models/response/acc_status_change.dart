@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class AccStatusChangeResponse {
   final String _value;
 
@@ -21,7 +23,7 @@ class AccStatusChangeResponse {
   static AccStatusChangeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element._value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No AccStatusChangeResponse found with the provided name: $name"),
     );
   }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:blockchain_utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:test/test.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/boc/serialization/utils/utils.dart';

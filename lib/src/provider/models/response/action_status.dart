@@ -1,3 +1,5 @@
+import 'package:ton_dart/src/exception/exception.dart';
+
 class ActionStatusResponse {
   final String _value;
 
@@ -16,7 +18,7 @@ class ActionStatusResponse {
   static ActionStatusResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw Exception(
+      orElse: () => throw TonDartPluginException(
           "No ActionStatusResponse found with the provided name: $name"),
     );
   }

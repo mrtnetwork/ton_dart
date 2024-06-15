@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/binary/binary.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 class ExoticMerkleProof {
   final int proofDepth;

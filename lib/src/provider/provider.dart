@@ -16,3 +16,5 @@ export 'provider/provider.dart';
 
 /// service
 export 'service/service.dart';
+
+export 'cosntant/constant.dart';

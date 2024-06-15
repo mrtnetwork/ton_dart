@@ -1,4 +1,4 @@
-class HightloadWalletConst {
+class HighloadWalletConst {
   static const int transferOp = 0xae42e5a4;
   static const int defaultHighLoadSubWallet = 0x10ad;
   static const int highLoadTimeStampSize = 64;
