@@ -75,7 +75,7 @@ class MessageResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'msg_type': msgType.toString().split('.').last,
+      'msg_type': msgType.value,
       'created_lt': createdLt.toString(),
       'ihr_disabled': ihrDisabled,
       'bounce': bounce,

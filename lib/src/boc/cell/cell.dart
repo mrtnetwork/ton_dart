@@ -26,9 +26,8 @@ class Cell {
     return BocSerialization.deserialize(src);
   }
 
-  static Cell fromBase64(String src) {
-    final decode = Base64Utils.decodeBase64(src);
-    final parsed = Cell.fromBoc(decode);
+  factory Cell.fromBytes(List<int> src) {
+    final parsed = Cell.fromBoc(src);
     if (parsed.length != 1) {
       throw BocException("Deserialized more than one cell.",
           details: {"cells": parsed});
@@ -36,13 +35,12 @@ class Cell {
     return parsed[0];
   }
 
-  static Cell fromBytes(List<int> src) {
-    final parsed = Cell.fromBoc(src);
-    if (parsed.length != 1) {
-      throw BocException("Deserialized more than one cell.",
-          details: {"cells": parsed});
-    }
-    return parsed[0];
+  factory Cell.fromBase64(String src) {
+    return Cell.fromBytes(Base64Utils.decodeBase64(src));
+  }
+
+  factory Cell.fromHex(String src) {
+    return Cell.fromBytes(BytesUtils.fromHexString(src));
   }
 
   Cell._(
@@ -123,6 +121,12 @@ class Cell {
     final encode =
         BocSerialization.serialize(root: this, idx: idx, crc32: crc32);
     return Base64Utils.encodeBase64(encode, urlSafe: urlsafe);
+  }
+
+  String toHex({bool idx = false, bool crc32 = true}) {
+    final encode =
+        BocSerialization.serialize(root: this, idx: idx, crc32: crc32);
+    return BytesUtils.toHexString(encode);
   }
 
   @override

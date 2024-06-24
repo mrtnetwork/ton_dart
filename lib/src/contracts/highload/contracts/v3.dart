@@ -75,7 +75,7 @@ class HighloadWalletV3 extends HighloadWallets
   }
 
   @override
-  Cell data(HighloadWalletV3AccountParams params) {
+  Cell data(HighloadWalletV3AccountParams params, int workchain) {
     return HighloadWalletUtils.buildV3Data(
         publicKey: params.publicKey,
         subWalletId: params.subWalletId,

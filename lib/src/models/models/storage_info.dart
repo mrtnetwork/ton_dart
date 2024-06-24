@@ -6,10 +6,9 @@
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-
 import 'storage_used.dart';
 
-class StorageInfo implements TonSerialization {
+class StorageInfo extends TonSerialization {
   final StorageUsed used;
   final int lastPaid;
   final BigInt? duePayment;

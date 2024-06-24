@@ -7,7 +7,7 @@ Tuple<WalletV4, TonPrivateKey> getTestWallet({int index = 0}) {
       .childKey(Bip32KeyIndex.hardenIndex(index));
   final pr = TonPrivateKey.fromBytes(privateKey.privateKey.raw);
   final WalletV4 w =
-      WalletV4(workChain: -1, publicKey: pr.toPublicKey().toBytes());
+      WalletV4.create(workChain: -1, publicKey: pr.toPublicKey().toBytes());
   return Tuple(w, pr);
 }
 

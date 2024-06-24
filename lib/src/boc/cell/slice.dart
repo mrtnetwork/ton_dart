@@ -74,8 +74,24 @@ class Slice {
     return _reader.loadUint(bits);
   }
 
+  int loadUint8() {
+    return _reader.loadUint(8);
+  }
+
   BigInt loadUintBig(int bits) {
     return _reader.loadUintBig(bits);
+  }
+
+  BigInt loadUint64() {
+    return _reader.loadUintBig(64);
+  }
+
+  int loadUint32() {
+    return _reader.loadUint(32);
+  }
+
+  int loadUint16() {
+    return _reader.loadUint(16);
   }
 
   int preloadUint(int bits) {

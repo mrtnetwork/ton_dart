@@ -28,8 +28,10 @@ class EventResponse with JsonSerialization {
       timestamp: BigintUtils.parse(json['timestamp']),
       actions: List<ActionResponse>.from(
           (json['actions'] as List).map((x) => ActionResponse.fromJson(x))),
-      valueFlow: List<ValueFlowResponse>.from((json['value_flow'] as List)
-          .map((x) => ValueFlowResponse.fromJson(x))),
+      valueFlow: (json['value_flow'] as List?)
+              ?.map((e) => ValueFlowResponse.fromJson(e))
+              .toList() ??
+          [],
       isScam: json['is_scam'],
       lt: BigintUtils.parse(json['lt']),
       inProgress: json['in_progress'],

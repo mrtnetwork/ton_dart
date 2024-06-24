@@ -168,3 +168,7 @@ export "response/config_proposal_setup.dart";
 export "response/nft_items.dart";
 export "response/address_parse_ok_bounceable.dart";
 export 'response/workchain_descr.dart';
+export 'response/block_configs/block_configs.dart';
+export 'response/estimate_fee_response.dart';
+export 'response/msg_forward_prices.dart';
+export 'response/run_method_response.dart';

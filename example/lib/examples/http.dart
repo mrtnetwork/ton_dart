@@ -5,6 +5,7 @@ class HTTPProvider implements TonServiceProvider {
   HTTPProvider(
       {required this.tonApiUrl,
       required this.tonCenterUrl,
+      this.api = TonApiType.tonApi,
       http.Client? client,
       this.defaultRequestTimeout = const Duration(seconds: 30)})
       : client = client ?? http.Client();
@@ -16,21 +17,22 @@ class HTTPProvider implements TonServiceProvider {
 
   @override
   Future<String> get(TonRequestInfo params, {Duration? timeout}) async {
-    final response = await client.get(
-        Uri.parse(params.url(tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl)),
-        headers: {
-          "Accept": "application/json",
-          // make sure to append the header to the request. some method has specific header parameters
-          ...params.header
-        }).timeout(timeout ?? defaultRequestTimeout);
-
+    final String stringUrl =
+        params.url(tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl);
+    final url = Uri.parse(stringUrl);
+    final response = await client.get(url, headers: {
+      "Accept": "application/json",
+      // make sure to append the header to the request. some method has specific header parameters
+      ...params.header
+    }).timeout(timeout ?? defaultRequestTimeout);
     return response.body;
   }
 
   @override
   Future<String> post(TonRequestInfo params, {Duration? timeout}) async {
-    final url =
-        Uri.parse(params.url(tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl));
+    final String stringUrl =
+        params.url(tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl);
+    final url = Uri.parse(stringUrl);
     http.Response response;
     if (params.requestType == RequestMethod.put) {
       response = await client
@@ -47,7 +49,7 @@ class HTTPProvider implements TonServiceProvider {
 
             /// make sure to append the header to the request. some method has specific header parameters
             headers: {
-              if (params.apiType == TonApiType.tonCenter)
+              if (params.apiType.isTonCenter && stringUrl.contains("testnet"))
                 "X-API-Key":
                     "d3800f756738ac7b39599914b8a84465960ff869f555c2317664c9a62529baf3",
               "Accept": "application/json",
@@ -62,5 +64,5 @@ class HTTPProvider implements TonServiceProvider {
   }
 
   @override
-  TonApiType get api => TonApiType.tonApi;
+  final TonApiType api;
 }

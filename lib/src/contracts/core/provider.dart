@@ -1,6 +1,6 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
+import 'package:blockchain_utils/exception/rpc_error.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address.dart';
-import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/contract.dart';
 import 'package:ton_dart/src/contracts/models/account_state.dart';
 import 'package:ton_dart/src/contracts/models/run_method_response.dart';
@@ -83,7 +83,7 @@ mixin ContractProvider on TonWallets {
 
   Future<String> sendMessage(
       {required TonProvider rpc, required Message exMessage}) async {
-    final boc = beginCell().store(exMessage).endCell();
+    final boc = exMessage.serialize();
     if (rpc.isTonCenter) {
       await rpc.request(TonCenterSendBocReturnHash(boc.toBase64()));
     } else {

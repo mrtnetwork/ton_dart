@@ -2,7 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
-class StorageUsed implements TonSerialization {
+class StorageUsed extends TonSerialization {
   final BigInt cells;
   final BigInt bits;
   final BigInt publicCells;

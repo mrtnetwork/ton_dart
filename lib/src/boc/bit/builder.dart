@@ -60,6 +60,26 @@ class Builder {
     return this;
   }
 
+  Builder storeUint8(dynamic value) {
+    _bits.writeUint(value, 8);
+    return this;
+  }
+
+  Builder storeUint32(dynamic value) {
+    _bits.writeUint(value, 32);
+    return this;
+  }
+
+  Builder storeUint64(dynamic value) {
+    _bits.writeUint(value, 64);
+    return this;
+  }
+
+  Builder storeUint16(dynamic value) {
+    _bits.writeUint(value, 16);
+    return this;
+  }
+
   Builder storeMaybeUint(dynamic value, int bits) {
     if (value != null) {
       storeBit(1);
@@ -213,6 +233,11 @@ class Builder {
     return this;
   }
 
+  Builder storeBytesTail(List<int> src) {
+    BocUtils.writeBuffer(src, this);
+    return this;
+  }
+
   Builder storeMaybeStringTail({String? src}) {
     if (src != null) {
       storeBit(1);
@@ -225,6 +250,11 @@ class Builder {
 
   Builder storeStringRefTail(String src) {
     storeRef(beginCell().storeStringTail(src).asCell());
+    return this;
+  }
+
+  Builder storeBytesRefTail(List<int> src) {
+    storeRef(beginCell().storeBytesTail(src).asCell());
     return this;
   }
 

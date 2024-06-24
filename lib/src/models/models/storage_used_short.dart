@@ -5,7 +5,7 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L225
 /// storage_used_short$_ cells:(VarUInteger 7)
 /// bits:(VarUInteger 7) = StorageUsedShort;
-class StorageUsedShort implements TonSerialization {
+class StorageUsedShort extends TonSerialization {
   final BigInt cells;
   final BigInt bits;
   const StorageUsedShort({required this.cells, required this.bits});

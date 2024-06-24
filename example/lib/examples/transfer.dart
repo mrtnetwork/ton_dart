@@ -3,12 +3,13 @@ import 'package:ton_dart/ton_dart.dart';
 
 import 'http.dart';
 
-Tuple<WalletV4, TonPrivateKey> getTestWallet({int index = 0}) {
+Tuple<WalletV4, TonPrivateKey> getTestWallet(
+    {int index = 0, int wokchain = -1}) {
   final privateKey = Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 56))
       .childKey(Bip32KeyIndex.hardenIndex(index));
   final pr = TonPrivateKey.fromBytes(privateKey.privateKey.raw);
-  final WalletV4 w =
-      WalletV4(workChain: -1, publicKey: pr.toPublicKey().toBytes());
+  final WalletV4 w = WalletV4.create(
+      workChain: wokchain, publicKey: pr.toPublicKey().toBytes());
   return Tuple(w, pr);
 }
 
@@ -18,8 +19,8 @@ void main() async {
       tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC"));
 
   final privateKey = TonPrivateKey.fromBytes(List<int>.filled(32, 39));
-  final wallet =
-      WalletV4(workChain: -1, publicKey: privateKey.toPublicKey().toBytes());
+  final wallet = WalletV4.create(
+      workChain: -1, publicKey: privateKey.toPublicKey().toBytes());
 
   final destination =
       TonAddress("Ef_GHcGwnw-bASoxTGQRMNwMQ6w9iCQnTqrv1REDfJ5fCYD2");

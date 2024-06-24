@@ -263,7 +263,8 @@ class DictionaryUtils {
         }
       }
     }
-
+    //     pp:  00000000000000000000000000000000 32 Map(0) {} [Function: parse] 32
+    // console.log("pp: ",pp,n,res,extractor,prefixLength)
     if (n - prefixLength == 0) {
       res[BigInt.parse(pp, radix: 2)] = extractor(slice);
     } else {

@@ -22,7 +22,7 @@ void main() async {
   final publicKey = privateKey.toPublicKey();
 
   /// Create WalletV4 instance with derived public key
-  final wallet = WalletV4(workChain: -1, publicKey: publicKey.toBytes());
+  final wallet = WalletV4.create(workChain: -1, publicKey: publicKey.toBytes());
 
   /// Get address from wallet
   final address = wallet.address;

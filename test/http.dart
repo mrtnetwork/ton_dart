@@ -47,7 +47,7 @@ class HTTPProvider implements TonServiceProvider {
 
             /// make sure to append the header to the request. some method has specific header parameters
             headers: {
-              if (params.apiType == TonApiType.tonCenter)
+              if (params.apiType.isTonCenter)
                 "X-API-Key":
                     "d3800f756738ac7b39599914b8a84465960ff869f555c2317664c9a62529baf3",
               "Accept": "application/json",

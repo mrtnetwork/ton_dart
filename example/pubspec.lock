@@ -12,10 +12,9 @@ packages:
   blockchain_utils:
     dependency: "direct main"
     description:
-      name: blockchain_utils
-      sha256: "3e0590f46485b209e88fea63a19425aad52c264d059c4e1379abdce80c448605"
-      url: "https://pub.dev"
-    source: hosted
+      path: "../../../bitcoin/blockchain_utils"
+      relative: true
+    source: path
     version: "3.1.0"
   boolean_selector:
     dependency: transitive
@@ -222,7 +221,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.0.2"
   typed_data:
     dependency: transitive
     description:

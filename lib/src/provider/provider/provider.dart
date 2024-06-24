@@ -14,7 +14,7 @@ class TonProvider {
 
   int _id = 0;
 
-  bool get isTonCenter => rpc.api == TonApiType.tonCenter;
+  bool get isTonCenter => rpc.api.isTonCenter;
 
   static Object? _findError(String response, TonRequestInfo request) {
     final val = StringUtils.tryToJson(response);
@@ -24,13 +24,15 @@ class TonProvider {
         final String error = val["error"] ?? val["Error"];
         _throw(request, error, val["code"]?.toString());
       }
-      if (request.apiType == TonApiType.tonCenter) {
+      if (request.apiType.isTonCenter) {
         final ok = val["ok"];
         if (ok is bool && !ok) {
           _throw(request, val["result"]?.toString() ?? "",
               val["code"]?.toString());
         }
-        return val["result"];
+        if (request.isJsonRpc) {
+          return val["result"];
+        }
       }
     }
     return val;
@@ -57,6 +59,7 @@ class TonProvider {
       [Duration? timeout]) async {
     final id = ++_id;
     final params = request.toRequest(id);
+
     String response;
     switch (params.requestType) {
       case RequestMethod.get:

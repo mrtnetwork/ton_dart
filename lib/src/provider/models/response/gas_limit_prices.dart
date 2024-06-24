@@ -1,21 +1,29 @@
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:blockchain_utils/utils/utils.dart';
+import 'package:ton_dart/ton_dart.dart';
+
+class _GasLimitPricesResponseConst {
+  static const List<int> internalTags = [0xde, 0xdd];
+  static const int specialTag = 0xde;
+  static const int tag = 0xd1;
+}
 
 class GasLimitPricesResponse with JsonSerialization {
-  final BigInt? specialGasLimit;
-  final BigInt? flatGasLimit;
-  final BigInt? flatGasPrice;
+  final BigInt flatGasLimit;
+  final BigInt flatGasPrice;
   final BigInt gasPrice;
   final BigInt gasLimit;
   final BigInt gasCredit;
+  final BigInt? specialGasLimit;
   final BigInt blockGasLimit;
   final BigInt freezeDueLimit;
   final BigInt deleteDueLimit;
 
   const GasLimitPricesResponse({
-    this.specialGasLimit,
-    this.flatGasLimit,
-    this.flatGasPrice,
+    required this.specialGasLimit,
+    required this.flatGasLimit,
+    required this.flatGasPrice,
     required this.gasPrice,
     required this.gasLimit,
     required this.gasCredit,
@@ -27,8 +35,8 @@ class GasLimitPricesResponse with JsonSerialization {
   factory GasLimitPricesResponse.fromJson(Map<String, dynamic> json) {
     return GasLimitPricesResponse(
       specialGasLimit: BigintUtils.tryParse(json['special_gas_limit']),
-      flatGasLimit: BigintUtils.tryParse(json['flat_gas_limit']),
-      flatGasPrice: BigintUtils.tryParse(json['flat_gas_price']),
+      flatGasLimit: BigintUtils.parse(json['flat_gas_limit']),
+      flatGasPrice: BigintUtils.parse(json['flat_gas_price']),
       gasPrice: BigintUtils.parse(json['gas_price']),
       gasLimit: BigintUtils.parse(json['gas_limit']),
       gasCredit: BigintUtils.parse(json['gas_credit']),
@@ -38,13 +46,44 @@ class GasLimitPricesResponse with JsonSerialization {
     );
   }
 
+  factory GasLimitPricesResponse.deserialize(Slice slice) {
+    final tag = slice.loadUint8();
+    if (tag != _GasLimitPricesResponseConst.tag) {
+      throw TonDartPluginException("Invalid gas limit price tag.",
+          details: {"excepted": _GasLimitPricesResponseConst.tag, "tag": tag});
+    }
+    final BigInt flatGasLimit = slice.loadUint64();
+    final BigInt flatGasPrice = slice.loadUint64();
+    final internalTag = slice.loadUint8();
+    if (!_GasLimitPricesResponseConst.internalTags.contains(internalTag)) {
+      throw TonDartPluginException("Invalid gas limit price interal tag.",
+          details: {
+            "excepted": _GasLimitPricesResponseConst.internalTags,
+            "tag": tag
+          });
+    }
+    final bool hasSpecialGasPrice =
+        internalTag == _GasLimitPricesResponseConst.specialTag;
+    return GasLimitPricesResponse(
+      flatGasLimit: flatGasLimit,
+      flatGasPrice: flatGasPrice,
+      gasPrice: slice.loadUint64(),
+      gasLimit: slice.loadUint64(),
+      specialGasLimit: hasSpecialGasPrice ? slice.loadUint64() : null,
+      gasCredit: slice.loadUint64(),
+      blockGasLimit: slice.loadUint64(),
+      freezeDueLimit: slice.loadUint64(),
+      deleteDueLimit: slice.loadUint64(),
+    );
+  }
+
   @override
   @override
   Map<String, dynamic> toJson() {
     return {
       'special_gas_limit': specialGasLimit?.toString(),
-      'flat_gas_limit': flatGasLimit?.toString(),
-      'flat_gas_price': flatGasPrice?.toString(),
+      'flat_gas_limit': flatGasLimit.toString(),
+      'flat_gas_price': flatGasPrice.toString(),
       'gas_price': gasPrice.toString(),
       'gas_limit': gasLimit.toString(),
       'gas_credit': gasCredit.toString(),

@@ -49,7 +49,6 @@ class Dictionary<K extends Object, V> {
       return empty<K, V>(key: key, value: value);
     }
     final values = DictionaryUtils.parseDict(slice, key.bits, value.parse);
-
     final Map<String, V> prepared = {};
     for (final i in values.entries) {
       prepared[DictionaryUtils.serializeInternalKey(key.parse(i.key))] =

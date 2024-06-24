@@ -4,7 +4,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/utils/extentions.dart';
 
-class CurrencyCollection implements TonSerialization {
+class CurrencyCollection extends TonSerialization {
   final Map<int, BigInt>? other;
   final BigInt coins;
   CurrencyCollection({Map<int, BigInt>? other, required this.coins})

@@ -72,7 +72,8 @@ class BocUtils {
   }
 
   static String readString(Slice slice) {
-    return StringUtils.decode(readBuffer(slice));
+    final buffer = readBuffer(slice);
+    return StringUtils.decode(buffer);
   }
 
   static void writeBuffer(List<int> src, Builder builder) {

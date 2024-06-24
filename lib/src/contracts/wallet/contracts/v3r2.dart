@@ -16,21 +16,24 @@ import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
 /// https://docs.ton.org/participate/wallets/contracts
 class WalletV3R2 extends WalletContract {
   @override
-  final StateInit state;
+  final StateInit? state;
 
   @override
   final TonAddress address;
 
   @override
-  final int subWalletId;
+  final int? subWalletId;
 
   const WalletV3R2._(
-      {required this.state, required this.address, required this.subWalletId});
+      {this.state, required this.address, required this.subWalletId});
+  const WalletV3R2(
+      {this.state, required this.address, required int this.subWalletId});
 
-  factory WalletV3R2(
+  factory WalletV3R2.create(
       {required int workChain,
       required List<int> publicKey,
-      int? subWalletId}) {
+      int? subWalletId,
+      bool bounceableAddress = false}) {
     subWalletId ??= VersionedWalletConst.defaultSubWalletId + workChain;
     final state = VersionedWalletUtils.buildState(
         publicKey: publicKey,
@@ -38,7 +41,8 @@ class WalletV3R2 extends WalletContract {
         type: WalletVersion.v3R2);
     return WalletV3R2._(
         state: state,
-        address: TonAddress.fromState(state: state, workChain: workChain),
+        address: TonAddress.fromState(
+            state: state, workChain: workChain, bounceable: bounceableAddress),
         subWalletId: subWalletId);
   }
   static Future<WalletV3R2> fromAddress(
@@ -49,6 +53,10 @@ class WalletV3R2 extends WalletContract {
         address: address, stateData: data.data, type: WalletVersion.v3R2);
     return WalletV3R2._(
         state: state.item1, address: address, subWalletId: state.item2!);
+  }
+
+  factory WalletV3R2.watch(TonAddress address) {
+    return WalletV3R2._(address: address, subWalletId: null);
   }
 
   @override

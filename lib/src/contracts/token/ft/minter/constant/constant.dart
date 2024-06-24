@@ -10,4 +10,5 @@ class JettonMinterConst {
   static const int internalTransferOperation = 0x178d4519;
   static const int discoverMessageOperation = 0x2c76b973;
   static const int changeAddminOperation = 3;
+  static const int changeContentOperation = 4;
 }

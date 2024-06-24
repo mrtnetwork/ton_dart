@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'account_address.dart';
 import 'jetton_balance_lock.dart';
@@ -5,7 +6,7 @@ import 'jetton_preview.dart';
 import 'token_rates.dart';
 
 class JettonBalanceResponse with JsonSerialization {
-  final String balance;
+  final BigInt balance;
   final TokenRatesResponse? price;
   final AccountAddressResponse walletAddress;
   final JettonPreviewResponse jetton;
@@ -20,7 +21,7 @@ class JettonBalanceResponse with JsonSerialization {
 
   factory JettonBalanceResponse.fromJson(Map<String, dynamic> json) {
     return JettonBalanceResponse(
-      balance: json['balance'],
+      balance: BigintUtils.parse(json['balance']),
       price: json['price'] != null
           ? TokenRatesResponse.fromJson(json['price'])
           : null,
@@ -35,7 +36,7 @@ class JettonBalanceResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'balance': balance,
+      'balance': balance.toString(),
       'price': price?.toJson(),
       'wallet_address': walletAddress.toJson(),
       'jetton': jetton.toJson(),

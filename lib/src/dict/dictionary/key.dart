@@ -19,8 +19,8 @@ class DictionaryKey<K extends Object> {
       DictionaryCodecs.createBigUintKey(bits);
   static DictionaryKey<int> uintCodec(int bits) =>
       DictionaryCodecs.createUintKey(bits);
-  static DictionaryKey<List<int>> bufferCodec(int bits) =>
-      DictionaryCodecs.createBufferKey(bits);
+  static DictionaryKey<List<int>> bufferCodec(int bytes) =>
+      DictionaryCodecs.createBufferKey(bytes);
   static DictionaryKey<BitString> bitStringCodec(int bits) =>
       DictionaryCodecs.createBitStringKey(bits);
 }

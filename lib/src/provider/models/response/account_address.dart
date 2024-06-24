@@ -1,7 +1,8 @@
 import 'package:ton_dart/src/serialization/serialization.dart';
+import 'package:ton_dart/ton_dart.dart';
 
 class AccountAddressResponse with JsonSerialization {
-  final String address;
+  final TonAddress address;
   final String? name;
   final bool isScam;
   final String? icon;
@@ -17,18 +18,17 @@ class AccountAddressResponse with JsonSerialization {
 
   factory AccountAddressResponse.fromJson(Map<String, dynamic> json) {
     return AccountAddressResponse(
-      address: json['address'],
-      name: json['name'],
-      isScam: json['is_scam'],
-      icon: json['icon'],
-      isWallet: json['is_wallet'],
-    );
+        address: TonAddress(json['address'], bounceable: true),
+        name: json['name'],
+        isScam: json['is_scam'],
+        icon: json['icon'],
+        isWallet: json['is_wallet']);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'address': address,
+      'address': address.toFriendlyAddress(),
       'name': name,
       'is_scam': isScam,
       'icon': icon,

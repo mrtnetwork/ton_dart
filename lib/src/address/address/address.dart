@@ -29,6 +29,7 @@ class TonAddressType {
 }
 
 class TonAddress implements TonBaseAddress {
+  static final _decoder = TonAddrDecoder();
   final int workChain;
   final List<int> hash;
   final List<FriendlyAddressFlags> defaultFlags;
@@ -61,9 +62,21 @@ class TonAddress implements TonBaseAddress {
         bounceable: bounceable, testNet: testNet);
   }
 
-  factory TonAddress(String address) {
-    final decode = TonAddressUtils.decodeAddress(address);
-    return TonAddress._(decode.workchain, decode.hash, decode.flags);
+  factory TonAddress(String address, {int? forceWorkchain, bool? bounceable}) {
+    final decode =
+        _decoder.decodeWithResult(address, {"workchain": forceWorkchain});
+    List<FriendlyAddressFlags> flags = List.from(decode.flags);
+    if (bounceable != null) {
+      flags = [
+        if (flags.contains(FriendlyAddressFlags.test))
+          FriendlyAddressFlags.test,
+        if (bounceable)
+          FriendlyAddressFlags.bounceable
+        else
+          FriendlyAddressFlags.nonBounceable
+      ];
+    }
+    return TonAddress._(decode.workchain, decode.hash, flags);
   }
 
   String toRawAddress() {

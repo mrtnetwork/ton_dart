@@ -6,9 +6,12 @@ import 'package:ton_dart/src/contracts/wallet/provider/provider_impl.dart';
 import 'package:ton_dart/src/contracts/wallet/transaction/transaction_impl.dart';
 import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
 import 'package:ton_dart/src/crypto/keypair/private_key.dart';
+import 'package:ton_dart/src/models/models/message.dart';
 import 'package:ton_dart/src/models/models/message_relaxed.dart';
 import 'package:ton_dart/src/models/models/send_mode.dart';
 import 'package:ton_dart/src/provider/provider.dart';
+
+typedef OnEstimateFee = Future<void> Function(Message message);
 
 abstract class VersonedWalletContract
     extends TonContract<VersionedWalletAccountPrams> {
@@ -19,7 +22,8 @@ abstract class VersonedWalletContract
       required TonPrivateKey privateKey,
       required TonProvider rpc,
       SendMode sendMode = SendMode.payGasSeparately,
-      int? timeout});
+      int? timeout,
+      OnEstimateFee? onEstimateFee});
 
   @override
   Cell code(int workchain) {
@@ -27,7 +31,7 @@ abstract class VersonedWalletContract
   }
 
   @override
-  Cell data(VersionedWalletAccountPrams params) {
+  Cell data(VersionedWalletAccountPrams params, int workchain) {
     return VersionedWalletUtils.buldData(
         type: type, publicKey: params.publicKey, subWalletId: params.subwallet);
   }

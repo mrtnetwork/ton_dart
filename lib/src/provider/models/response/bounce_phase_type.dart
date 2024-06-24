@@ -27,4 +27,9 @@ class BouncePhaseTypeResponse {
           details: {"name": name}),
     );
   }
+
+  @override
+  String toString() {
+    return "BouncePhaseTypeResponse.$value";
+  }
 }

@@ -1,8 +1,9 @@
+import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'jetton_verification_type.dart';
 
 class JettonPreviewResponse with JsonSerialization {
-  final String address;
+  final TonAddress address;
   final String name;
   final String symbol;
   final int decimals;
@@ -20,7 +21,7 @@ class JettonPreviewResponse with JsonSerialization {
 
   factory JettonPreviewResponse.fromJson(Map<String, dynamic> json) {
     return JettonPreviewResponse(
-      address: json['address'],
+      address: TonAddress(json['address'], bounceable: true),
       name: json['name'],
       symbol: json['symbol'],
       decimals: json['decimals'],

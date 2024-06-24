@@ -18,7 +18,7 @@ abstract class TonWallets {
 
 abstract class TonContract<T> extends TonWallets with ContractProvider {
   Cell code(int workchain);
-  Cell data(T params);
+  Cell data(T params, int workchain);
   abstract final StateInit? state;
   const TonContract();
 }

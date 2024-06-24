@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/exception/exception.dart';
+import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 import 'package:ton_dart/src/provider/utils/utils.dart';
 
 enum RequestMethod { post, put, get }
@@ -66,6 +67,10 @@ abstract class TonApiRequestParam<RESULT, RESPONSE>
       final Map<String, dynamic> queries =
           Map<String, dynamic>.from(queryParameters)
             ..removeWhere((key, value) => value == null);
+      for (final i in queries.entries) {
+        if (i.value is List) continue;
+        queries[i.key] = i.value.toString();
+      }
       if (queries.isNotEmpty) {
         params = Uri(path: params, queryParameters: queries).toString();
       }
@@ -118,10 +123,29 @@ abstract class TonCenterPostRequestParam<RESULT, RESPONSE>
     };
     return TonRequestInfo(
         id: v,
-        pathParams: method,
+        pathParams: TonCenterMethods.tonCenterV2BaseUrl,
         apiType: TonApiType.tonCenter,
         body: StringUtils.fromJson(jsonRpc),
-        requestType: RequestMethod.post);
+        requestType: RequestMethod.post,
+        isJsonRpc: true);
+  }
+}
+
+/// An abstract class representing request parameters for TonApi API calls.
+abstract class TonCenterV3RequestParam<RESULT, RESPONSE>
+    extends TonApiRequestParam<RESULT, RESPONSE> {
+  @override
+  TonRequestInfo toRequest(int v) {
+    return super.toRequest(v).copyWith(apiType: TonApiType.tonCenter);
+  }
+}
+
+abstract class TonCenterV3PostRequestParam<RESULT, RESPONSE>
+    extends TonApiPostRequestParam<RESULT, RESPONSE> {
+  @override
+  TonRequestInfo toRequest(int v) {
+    final request = super.toRequest(v);
+    return request.copyWith(apiType: TonApiType.tonCenter);
   }
 }
 
@@ -134,7 +158,8 @@ class TonRequestInfo {
       required this.apiType,
       this.header = const {},
       this.requestType = RequestMethod.get,
-      this.body});
+      this.body,
+      this.isJsonRpc = false});
 
   TonRequestInfo copyWith(
       {int? id,
@@ -142,14 +167,16 @@ class TonRequestInfo {
       RequestMethod? requestType,
       Map<String, String>? header,
       Object? body,
-      TonApiType? apiType}) {
+      TonApiType? apiType,
+      bool? isJsonRpc}) {
     return TonRequestInfo(
         id: id ?? this.id,
         pathParams: pathParams ?? this.pathParams,
         requestType: requestType ?? this.requestType,
         header: header ?? this.header,
         body: body ?? this.body,
-        apiType: apiType ?? this.apiType);
+        apiType: apiType ?? this.apiType,
+        isJsonRpc: isJsonRpc ?? this.isJsonRpc);
   }
 
   /// Unique identifier for the request.
@@ -166,6 +193,8 @@ class TonRequestInfo {
 
   final TonApiType apiType;
 
+  final bool isJsonRpc;
+
   /// Generates the complete request URL by combining the base URI and method-specific URI.
   String url({String? tonApiUrl, String? tonCenterUrl}) {
     String? url;
@@ -181,7 +210,6 @@ class TonRequestInfo {
     if (url.endsWith("/")) {
       url = url.substring(0, url.length - 1);
     }
-    if (apiType == TonApiType.tonCenter) return url;
     return "$url$pathParams";
   }
 }

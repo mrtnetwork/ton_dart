@@ -30,6 +30,8 @@ class WalletVersion {
     return true;
   }
 
+  bool get hasSubwalletId => version > 2;
+
   String get state {
     switch (this) {
       case WalletVersion.v1R1:

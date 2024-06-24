@@ -1,11 +1,11 @@
-import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
+import 'package:ton_dart/ton_dart.dart';
 
 /// Send query - unpacked external message. This method takes address, body and init-params (if any),
 /// packs it to external message and sends to network. All params should be boc-serialized.
 /// https://toncenter.com/api/v2/#/send/send_query_sendQuery_post
-class TonCenterSendQuery extends TonCenterPostRequestParam<Map<String, dynamic>,
-    Map<String, dynamic>> {
+class TonCenterSendQuery
+    extends TonCenterPostRequestParam<TraceResponse, Map<String, dynamic>> {
   final String address;
   final String body;
   final String initCode;
@@ -27,5 +27,10 @@ class TonCenterSendQuery extends TonCenterPostRequestParam<Map<String, dynamic>,
       "init_code": initCode,
       "init_data": initData
     };
+  }
+
+  @override
+  TraceResponse onResonse(Map<String, dynamic> json) {
+    return TraceResponse.fromJson(json);
   }
 }

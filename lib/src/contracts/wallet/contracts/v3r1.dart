@@ -15,7 +15,7 @@ import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
 /// This version is the most used right now. It covers most use-cases and remains clean and simple.
 class WalletV3R1 extends WalletContract {
   @override
-  final StateInit state;
+  final StateInit? state;
 
   @override
   final TonAddress address;
@@ -23,12 +23,16 @@ class WalletV3R1 extends WalletContract {
   final int? subWalletId;
 
   const WalletV3R1._(
-      {required this.state, required this.address, required this.subWalletId});
+      {this.state, required this.address, required this.subWalletId});
 
-  factory WalletV3R1(
+  const WalletV3R1(
+      {this.state, required this.address, required int this.subWalletId});
+
+  factory WalletV3R1.create(
       {required int workChain,
       required List<int> publicKey,
-      int? subWalletId}) {
+      int? subWalletId,
+      bool bounceableAddress = false}) {
     subWalletId ??= VersionedWalletConst.defaultSubWalletId + workChain;
     final state = VersionedWalletUtils.buildState(
         publicKey: publicKey,
@@ -36,7 +40,8 @@ class WalletV3R1 extends WalletContract {
         type: WalletVersion.v3R1);
     return WalletV3R1._(
         state: state,
-        address: TonAddress.fromState(state: state, workChain: workChain),
+        address: TonAddress.fromState(
+            state: state, workChain: workChain, bounceable: bounceableAddress),
         subWalletId: subWalletId);
   }
   static Future<WalletV3R1> fromAddress(
@@ -47,6 +52,10 @@ class WalletV3R1 extends WalletContract {
         address: address, stateData: data.data, type: WalletVersion.v3R1);
     return WalletV3R1._(
         state: state.item1, address: address, subWalletId: state.item2!);
+  }
+
+  factory WalletV3R1.watch(TonAddress address) {
+    return WalletV3R1._(address: address, subWalletId: null);
   }
 
   @override

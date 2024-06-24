@@ -2,7 +2,7 @@ import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
-class TickTock implements TonSerialization {
+class TickTock extends TonSerialization {
   final bool tick;
   final bool tock;
   const TickTock({required this.tick, required this.tock});

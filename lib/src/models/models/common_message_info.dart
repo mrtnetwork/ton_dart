@@ -35,6 +35,7 @@ class CommonMessageInfoType {
 }
 
 abstract class CommonMessageInfo extends TonSerialization {
+  const CommonMessageInfo._();
   abstract final CommonMessageInfoType type;
   factory CommonMessageInfo.deserialize(Slice slice) {
     if (!slice.loadBit()) {
@@ -58,7 +59,7 @@ abstract class CommonMessageInfo extends TonSerialization {
   }
 }
 
-class CommonMessageInfoInternal implements CommonMessageInfo {
+class CommonMessageInfoInternal extends CommonMessageInfo {
   final bool ihrDisabled;
   final bool bounce;
   final bool bounced;
@@ -80,7 +81,8 @@ class CommonMessageInfoInternal implements CommonMessageInfo {
       required this.ihrFee,
       required this.forwardFee,
       required this.createdLt,
-      required this.createdAt});
+      required this.createdAt})
+      : super._();
   factory CommonMessageInfoInternal.deserialize(Slice slice) {
     final ihrDisabled = slice.loadBit();
     final bounce = slice.loadBit();
@@ -153,12 +155,13 @@ class CommonMessageInfoInternal implements CommonMessageInfo {
   }
 }
 
-class CommonMessageInfoExternalIn implements CommonMessageInfo {
+class CommonMessageInfoExternalIn extends CommonMessageInfo {
   final ExternalAddress? src;
   final TonAddress dest;
   final BigInt importFee;
   const CommonMessageInfoExternalIn(
-      {this.src, required this.dest, required this.importFee});
+      {this.src, required this.dest, required this.importFee})
+      : super._();
 
   factory CommonMessageInfoExternalIn.deserialize(Slice slice) {
     final src = slice.loadMaybeExternalAddress();
@@ -199,7 +202,7 @@ class CommonMessageInfoExternalIn implements CommonMessageInfo {
   }
 }
 
-class CommonMessageInfoExternalOut implements CommonMessageInfo {
+class CommonMessageInfoExternalOut extends CommonMessageInfo {
   final TonAddress src;
   final ExternalAddress? dest;
   final BigInt createdLt;
@@ -208,7 +211,8 @@ class CommonMessageInfoExternalOut implements CommonMessageInfo {
       {required this.src,
       this.dest,
       required this.createdLt,
-      required this.createdAt});
+      required this.createdAt})
+      : super._();
   factory CommonMessageInfoExternalOut.deserialize(Slice slice) {
     final src = slice.loadAddress();
     final dest = slice.loadMaybeExternalAddress();

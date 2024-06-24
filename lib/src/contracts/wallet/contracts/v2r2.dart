@@ -13,19 +13,23 @@ import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
 /// https://docs.ton.org/participate/wallets/contracts
 class WalletV2R2 extends WalletContract {
   @override
-  final StateInit state;
+  final StateInit? state;
 
   @override
   final TonAddress address;
 
-  const WalletV2R2._({required this.state, required this.address});
+  const WalletV2R2({this.state, required this.address});
 
-  factory WalletV2R2({required int workChain, required List<int> publicKey}) {
+  factory WalletV2R2.create(
+      {required int workChain,
+      required List<int> publicKey,
+      bool bounceableAddress = false}) {
     final state = VersionedWalletUtils.buildState(
         publicKey: publicKey, type: WalletVersion.v2R2);
-    return WalletV2R2._(
+    return WalletV2R2(
         state: state,
-        address: TonAddress.fromState(state: state, workChain: workChain));
+        address: TonAddress.fromState(
+            state: state, workChain: workChain, bounceable: bounceableAddress));
   }
   static Future<WalletV2R2> fromAddress(
       {required TonAddress address, required TonProvider rpc}) async {
@@ -33,7 +37,7 @@ class WalletV2R2 extends WalletContract {
         await ContractProvider.getStaticState(rpc: rpc, address: address);
     final state = VersionedWalletUtils.buildFromAddress(
         address: address, stateData: data.data, type: WalletVersion.v2R2);
-    return WalletV2R2._(state: state.item1, address: address);
+    return WalletV2R2(state: state.item1, address: address);
   }
 
   @override

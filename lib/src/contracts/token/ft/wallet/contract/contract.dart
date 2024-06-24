@@ -3,6 +3,7 @@ import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/contract.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:ton_dart/src/contracts/token/ft/wallet/models/jetton_transfer_params.dart';
 import 'package:ton_dart/src/crypto/keypair/private_key.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
@@ -37,7 +38,7 @@ class JettonWallet extends TonContract {
   }
 
   @override
-  Cell data(params) {
+  Cell data(params, int workchain) {
     return beginCell().endCell();
   }
 
@@ -51,7 +52,8 @@ class JettonWallet extends TonContract {
       bool? bounce,
       bool bounced = false,
       Cell? body,
-      StateInit? state}) async {
+      StateInit? state,
+      OnEstimateFee? onEstimateFees}) async {
     final message = TransactioUtils.internal(
         destination: address,
         amount: amount,
@@ -64,7 +66,8 @@ class JettonWallet extends TonContract {
         privateKey: privateKey,
         rpc: rpc,
         timeout: timeout,
-        sendMode: sendMode);
+        sendMode: sendMode,
+        onEstimateFee: onEstimateFees);
   }
 
   Future<String> deploy(
@@ -76,7 +79,8 @@ class JettonWallet extends TonContract {
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      Cell? body}) async {
+      Cell? body,
+      OnEstimateFee? onEstimateFees}) async {
     final active = await isActive(rpc);
     if (active) {
       throw TonContractException("Account is already active.");
@@ -96,8 +100,8 @@ class JettonWallet extends TonContract {
 
   Cell transferMessageBody(
       {required BigInt jettonAmount,
-      required TonAddress to,
-      required TonAddress from,
+      required TonAddress destination,
+      required TonAddress responseDestination,
       required BigInt forwardTonAmount,
       Cell? customPayload,
       Cell? forwardPayload}) {
@@ -105,8 +109,8 @@ class JettonWallet extends TonContract {
         .storeUint(JettonWalletConst.transfer, 32)
         .storeUint(0, 64) // op, queryId
         .storeCoins(jettonAmount)
-        .storeAddress(to)
-        .storeAddress(from)
+        .storeAddress(destination)
+        .storeAddress(responseDestination)
         .storeMaybeRef(cell: customPayload)
         .storeCoins(forwardTonAmount)
         .storeMaybeRef(cell: forwardPayload)
@@ -130,29 +134,29 @@ class JettonWallet extends TonContract {
     return beginCell().storeUint(0x6d8e5e3c, 32).storeUint(0, 64).endCell();
   }
 
-  Future<String> transfer({
-    required TonPrivateKey privateKey,
-    required TonProvider rpc,
-    required TonAddress destination,
-    required BigInt forwardTonAmount,
-    required BigInt jettonAmount,
-    required BigInt amount,
-    List<MessageRelaxed> messages = const [],
-    SendMode sendMode = SendMode.payGasSeparately,
-    int? timeout,
-    bool? bounce,
-    bool bounced = false,
-    Cell? customPayload,
-    Cell? forwardPayload,
-  }) async {
+  Future<String> transfer(
+      {required TonPrivateKey privateKey,
+      required TonProvider rpc,
+      required TonAddress destination,
+      required BigInt forwardTonAmount,
+      required BigInt jettonAmount,
+      required BigInt amount,
+      Cell? customPayload,
+      Cell? forwardPayload,
+      List<MessageRelaxed> messages = const [],
+      SendMode sendMode = SendMode.payGasSeparately,
+      int? timeout,
+      bool? bounce,
+      bool bounced = false,
+      OnEstimateFee? onEstimateFees}) async {
     return _sendTransaction(
         privateKey: privateKey,
         rpc: rpc,
         amount: amount,
         sendMode: sendMode,
         body: transferMessageBody(
-            from: address,
-            to: destination,
+            responseDestination: owner.address,
+            destination: destination,
             forwardTonAmount: forwardTonAmount,
             jettonAmount: jettonAmount,
             customPayload: customPayload,
@@ -160,21 +164,51 @@ class JettonWallet extends TonContract {
         bounce: bounce,
         bounced: bounced,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFees: onEstimateFees);
   }
 
-  Future<String> burn({
-    required TonPrivateKey privateKey,
-    required TonProvider rpc,
-    required BigInt burnJettonAmount,
-    required BigInt amount,
-    List<MessageRelaxed> messages = const [],
-    SendMode sendMode = SendMode.payGasSeparately,
-    int? timeout,
-    bool? bounce,
-    bool bounced = false,
-    Cell? customPayload,
-  }) async {
+  Future<String> multipleTransfer(
+      {required List<JettonTransferParams> transfers,
+      required TonPrivateKey signerKey,
+      required TonProvider rpc,
+      List<MessageRelaxed> messages = const [],
+      SendMode sendMode = SendMode.payGasSeparately,
+      int? timeout,
+      OnEstimateFee? onEstimateFees}) async {
+    final jettonMessages = transfers.map((e) => TransactioUtils.internal(
+        destination: address,
+        amount: e.amount,
+        initState: state,
+        body: transferMessageBody(
+            responseDestination: owner.address,
+            destination: e.destination,
+            forwardTonAmount: e.forwardTonAmount,
+            jettonAmount: e.jettonAmount,
+            customPayload: e.customPayload,
+            forwardPayload: e.forwardPayload),
+        bounce: e.destination.isBounceable));
+    return await owner.sendTransfer(
+        messages: [...jettonMessages, ...messages],
+        privateKey: signerKey,
+        rpc: rpc,
+        timeout: timeout,
+        sendMode: sendMode,
+        onEstimateFee: onEstimateFees);
+  }
+
+  Future<String> burn(
+      {required TonPrivateKey privateKey,
+      required TonProvider rpc,
+      required BigInt burnJettonAmount,
+      required BigInt amount,
+      Cell? customPayload,
+      List<MessageRelaxed> messages = const [],
+      SendMode sendMode = SendMode.payGasSeparately,
+      int? timeout,
+      bool? bounce,
+      bool bounced = false,
+      OnEstimateFee? onEstimateFees}) async {
     return _sendTransaction(
         privateKey: privateKey,
         rpc: rpc,
@@ -187,13 +221,15 @@ class JettonWallet extends TonContract {
         bounce: bounce,
         bounced: bounced,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFees: onEstimateFees);
   }
 
   Future<String> withdrawTons({
     required TonPrivateKey privateKey,
     required TonProvider rpc,
     required BigInt amount,
+    OnEstimateFee? onEstimateFees,
     List<MessageRelaxed> messages = const [],
     SendMode sendMode = SendMode.payGasSeparately,
     int? timeout,
@@ -209,7 +245,8 @@ class JettonWallet extends TonContract {
         bounce: bounce,
         bounced: bounced,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFees: onEstimateFees);
   }
 
   Future<String> withdrawJettons({
@@ -219,6 +256,7 @@ class JettonWallet extends TonContract {
     required BigInt amount,
     required TonAddress from,
     List<MessageRelaxed> messages = const [],
+    OnEstimateFee? onEstimateFees,
     SendMode sendMode = SendMode.payGasSeparately,
     int? timeout,
     bool? bounce,
@@ -233,7 +271,8 @@ class JettonWallet extends TonContract {
         bounce: bounce,
         bounced: bounced,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFees: onEstimateFees);
   }
 
   Cell withdrawJettonsMessageBody(

@@ -34,6 +34,7 @@ class TransactionBouncePhaseType {
 }
 
 abstract class TransactionBouncePhase extends TonSerialization {
+  const TransactionBouncePhase();
   abstract final TransactionBouncePhaseType type;
   factory TransactionBouncePhase.deserialize(Slice slice) {
     if (slice.loadBit()) {
@@ -61,7 +62,7 @@ abstract class TransactionBouncePhase extends TonSerialization {
 /// tr_phase_bounce_negfunds$00 = TrBouncePhase;
 /// tr_phase_bounce_nofunds$01 msg_size:StorageUsedShort req_fwd_fees:Grams = TrBouncePhase;
 /// tr_phase_bounce_ok$1 msg_size:StorageUsedShort msg_fees:Grams fwd_fees:Grams = TrBouncePhase;
-class TransactionBounceNegativeFunds implements TransactionBouncePhase {
+class TransactionBounceNegativeFunds extends TransactionBouncePhase {
   @override
   void store(Builder builder) {
     builder.storeBitBolean(false);
@@ -78,7 +79,7 @@ class TransactionBounceNegativeFunds implements TransactionBouncePhase {
   }
 }
 
-class TransactionBounceOk implements TransactionBouncePhase {
+class TransactionBounceOk extends TransactionBouncePhase {
   final StorageUsedShort messageSize;
   final BigInt messageFees;
   final BigInt forwardFees;
@@ -121,7 +122,7 @@ class TransactionBounceOk implements TransactionBouncePhase {
   }
 }
 
-class TransactionBounceNoFunds implements TransactionBouncePhase {
+class TransactionBounceNoFunds extends TransactionBouncePhase {
   final StorageUsedShort messageSize;
   final BigInt requiredForwardFees;
 

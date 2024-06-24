@@ -4,6 +4,7 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/contract.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/ft/minter/models/minter_wallet_params.dart';
+import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/crypto/keypair/private_key.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
@@ -27,10 +28,10 @@ class JettonMinter extends TonContract<MinterWalletParams>
   const JettonMinter({required this.owner, required this.address, this.state});
   factory JettonMinter.create(
       {required VersonedWalletContract owner,
-      String? content,
+      TokenMetadata? metadata,
       StateInit? state}) {
     state ??=
-        JettonMinterUtils.buildState(owner: owner.address, contentUri: content);
+        JettonMinterUtils.buildState(owner: owner.address, metadata: metadata);
     return JettonMinter(
         owner: owner,
         address: TonAddress.fromState(state: state, workChain: owner.workChain),
@@ -42,11 +43,11 @@ class JettonMinter extends TonContract<MinterWalletParams>
   }
 
   @override
-  Cell data(MinterWalletParams params) {
+  Cell data(MinterWalletParams params, int workchain) {
     return JettonMinterUtils.minterData(
         owner: params.owner,
         walletCode: params.walletCode ?? code(workChain),
-        contentUri: params.contentUri);
+        metadata: params.metadata);
   }
 
   Future<String> _sendTransaction(
@@ -59,21 +60,25 @@ class JettonMinter extends TonContract<MinterWalletParams>
       bool? bounce,
       bool bounced = false,
       Cell? body,
-      StateInit? state}) async {
-    final message = TransactioUtils.internal(
-      destination: address,
-      amount: amount,
-      initState: state,
-      bounced: bounced,
-      body: body,
-      bounce: bounce ?? address.isBounceable,
-    );
+      StateInit? state,
+      OnEstimateFee? onEstimateFee}) async {
     return await owner.sendTransfer(
-        messages: [message, ...messages],
+        messages: [
+          TransactioUtils.internal(
+            destination: address,
+            amount: amount,
+            initState: state,
+            bounced: bounced,
+            body: body,
+            bounce: bounce ?? address.isBounceable,
+          ),
+          ...messages
+        ],
         privateKey: privateKey,
         rpc: rpc,
         timeout: timeout,
-        sendMode: sendMode);
+        sendMode: sendMode,
+        onEstimateFee: onEstimateFee);
   }
 
   Future<String> deploy(
@@ -85,7 +90,8 @@ class JettonMinter extends TonContract<MinterWalletParams>
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      Cell? body}) async {
+      Cell? body,
+      OnEstimateFee? onEstimateFee}) async {
     final active = await isActive(rpc);
     if (active) {
       throw TonContractException("Account is already active.");
@@ -104,7 +110,8 @@ class JettonMinter extends TonContract<MinterWalletParams>
         bounced: bounced,
         state: state,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFee: onEstimateFee);
   }
 
   Future<String> mint(
@@ -121,7 +128,7 @@ class JettonMinter extends TonContract<MinterWalletParams>
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      Cell? body}) async {
+      OnEstimateFee? onEstimateFee}) async {
     if (totalTonAmount < forwardTonAmount) {
       throw TonContractException(
           "Forward ton amount must be lower than total ton amout");
@@ -136,7 +143,7 @@ class JettonMinter extends TonContract<MinterWalletParams>
         amount: amount,
         sendMode: sendMode,
         body: mintBodyMessage(
-            from: address,
+            responseAddress: owner.address,
             to: to,
             jettonAmount: jettonAmout,
             forwardTonAmount: forwardTonAmount,
@@ -145,7 +152,8 @@ class JettonMinter extends TonContract<MinterWalletParams>
         bounce: bounce,
         bounced: bounced,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFee: onEstimateFee);
   }
 
   Future<String> discover(
@@ -183,7 +191,7 @@ class JettonMinter extends TonContract<MinterWalletParams>
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      Cell? body}) async {
+      OnEstimateFee? onEstimateFee}) async {
     return _sendTransaction(
         privateKey: privateKey,
         rpc: rpc,
@@ -193,7 +201,32 @@ class JettonMinter extends TonContract<MinterWalletParams>
         bounce: bounce,
         bounced: bounced,
         messages: messages,
-        timeout: timeout);
+        timeout: timeout,
+        onEstimateFee: onEstimateFee);
+  }
+
+  Future<String> changeContent(
+      {required TonPrivateKey privateKey,
+      required TonProvider rpc,
+      required BigInt amount,
+      required TokenMetadata? newContent,
+      List<MessageRelaxed> messages = const [],
+      SendMode sendMode = SendMode.payGasSeparately,
+      int? timeout,
+      bool? bounce,
+      bool bounced = false,
+      OnEstimateFee? onEstimateFee}) async {
+    return _sendTransaction(
+        privateKey: privateKey,
+        rpc: rpc,
+        amount: amount,
+        sendMode: sendMode,
+        body: changeContentMessageBody(newContent),
+        bounce: bounce,
+        bounced: bounced,
+        messages: messages,
+        timeout: timeout,
+        onEstimateFee: onEstimateFee);
   }
 
   Cell internalTransfer(
@@ -214,7 +247,7 @@ class JettonMinter extends TonContract<MinterWalletParams>
   }
 
   Cell mintBodyMessage(
-      {required TonAddress from,
+      {required TonAddress responseAddress,
       required TonAddress to,
       required BigInt jettonAmount,
       required BigInt forwardTonAmount,
@@ -225,7 +258,7 @@ class JettonMinter extends TonContract<MinterWalletParams>
         .storeUint(0, 64)
         .storeCoins(jettonAmount)
         .storeAddress(null)
-        .storeAddress(from)
+        .storeAddress(responseAddress)
         .storeCoins(forwardTonAmount)
         .storeMaybeRef(cell: null)
         .endCell();
@@ -240,20 +273,30 @@ class JettonMinter extends TonContract<MinterWalletParams>
   }
 
   Cell discoveryMessageBody(
-      {required TonAddress owner, required bool includeAddress}) {
+      {required TonAddress owner,
+      required bool includeAddress,
+      int queryId = 0}) {
     return beginCell()
         .storeUint(JettonMinterConst.discoverMessageOperation, 32)
-        .storeUint(0, 64)
+        .storeUint(queryId, 64)
         .storeAddress(owner)
         .storeBitBolean(includeAddress)
         .endCell();
   }
 
-  Cell changeAdminMessageBody(TonAddress newOwner) {
+  Cell changeAdminMessageBody(TonAddress newOwner, {int queryId = 0}) {
     return beginCell()
         .storeUint(JettonMinterConst.changeAddminOperation, 32)
-        .storeUint(0, 64)
+        .storeUint(queryId, 64)
         .storeAddress(newOwner)
+        .endCell();
+  }
+
+  Cell changeContentMessageBody(TokenMetadata? metadata, {int queryId = 0}) {
+    return beginCell()
+        .storeUint(JettonMinterConst.changeContentOperation, 32)
+        .storeUint(queryId, 64)
+        .storeRef(TokneMetadataUtils.encodeMetadata(metadata))
         .endCell();
   }
 
@@ -268,7 +311,9 @@ class JettonMinter extends TonContract<MinterWalletParams>
       totalSupply = reader.readBigNumber();
     }
     final bool mintable = reader.readBoolean();
-    final TonAddress admin = reader.readAddress();
+
+    /// mayble is bridge.
+    final TonAddress? admin = reader.readAddressOpt();
     final Cell content = reader.readCell();
     final Cell walletCode = reader.readCell();
     return JettonDataResponse(
@@ -296,7 +341,7 @@ class JettonMinter extends TonContract<MinterWalletParams>
     return data.totalSupply;
   }
 
-  Future<TonAddress> adminAddress(TonProvider rpc) async {
+  Future<TonAddress?> adminAddress(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.admin;
   }
@@ -304,6 +349,11 @@ class JettonMinter extends TonContract<MinterWalletParams>
   Future<Cell> getContent(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.content;
+  }
+
+  Future<TokenMetadata?> getMetadata(TonProvider rpc) async {
+    final data = await getJettonData(rpc);
+    return TokneMetadataUtils.loadContent(data.content);
   }
 
   @override

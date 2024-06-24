@@ -41,6 +41,7 @@ class CommonMessageInfoRelaxedType {
 }
 
 abstract class CommonMessageInfoRelaxed extends TonSerialization {
+  const CommonMessageInfoRelaxed._();
   abstract final CommonMessageInfoRelaxedType type;
   factory CommonMessageInfoRelaxed.deserialize(Slice slice) {
     if (!slice.loadBit()) {
@@ -62,7 +63,7 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
   }
 }
 
-class CommonMessageInfoRelaxedInternal implements CommonMessageInfoRelaxed {
+class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
   final bool ihrDisabled;
   final bool bounce;
   final bool bounced;
@@ -84,7 +85,8 @@ class CommonMessageInfoRelaxedInternal implements CommonMessageInfoRelaxed {
       required this.ihrFee,
       required this.forwardFee,
       required this.createdLt,
-      required this.createdAt});
+      required this.createdAt})
+      : super._();
   factory CommonMessageInfoRelaxedInternal.deserialize(Slice slice) {
     final ihrDisabled = slice.loadBit();
     final bounce = slice.loadBit();
@@ -159,14 +161,15 @@ class CommonMessageInfoRelaxedInternal implements CommonMessageInfoRelaxed {
   }
 }
 
-class CommonMessageInfoRelaxedExternalOut implements CommonMessageInfoRelaxed {
+class CommonMessageInfoRelaxedExternalOut extends CommonMessageInfoRelaxed {
   final TonAddress? src;
   final ExternalAddress? dest;
   final BigInt createdLt;
   final int createdAt;
 
   const CommonMessageInfoRelaxedExternalOut(
-      {this.src, this.dest, required this.createdLt, required this.createdAt});
+      {this.src, this.dest, required this.createdLt, required this.createdAt})
+      : super._();
   factory CommonMessageInfoRelaxedExternalOut.deserialize(Slice slice) {
     final src = slice.loadMaybeAddress();
     final dest = slice.loadMaybeExternalAddress();

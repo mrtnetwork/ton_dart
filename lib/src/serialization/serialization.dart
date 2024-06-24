@@ -14,4 +14,8 @@ abstract class TonSerialization
     with JsonSerialization
     implements BocSerializableObject {
   const TonSerialization();
+
+  Cell serialize() {
+    return beginCell().store(this).endCell();
+  }
 }

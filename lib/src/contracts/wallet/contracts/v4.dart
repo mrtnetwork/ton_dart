@@ -17,27 +17,34 @@ import 'package:ton_dart/src/contracts/wallet/utils/utils.dart';
 /// https://docs.ton.org/participate/wallets/contracts#wallet-v4
 class WalletV4 extends WalletContract {
   @override
-  final StateInit state;
+  final StateInit? state;
 
   @override
   final TonAddress address;
 
   @override
-  final int subWalletId;
+  final int? subWalletId;
 
   const WalletV4._(
       {required this.state, required this.address, required this.subWalletId});
 
-  factory WalletV4(
+  const WalletV4(
+      {required this.state,
+      required this.address,
+      required int this.subWalletId});
+
+  factory WalletV4.create(
       {required int workChain,
       required List<int> publicKey,
-      int? subWalletId}) {
+      int? subWalletId,
+      bool bounceableAddress = false}) {
     subWalletId ??= VersionedWalletConst.defaultSubWalletId + workChain;
     final state = VersionedWalletUtils.buildState(
         publicKey: publicKey, subWalletId: subWalletId, type: WalletVersion.v4);
     return WalletV4._(
         state: state,
-        address: TonAddress.fromState(state: state, workChain: workChain),
+        address: TonAddress.fromState(
+            state: state, workChain: workChain, bounceable: bounceableAddress),
         subWalletId: subWalletId);
   }
 
@@ -51,6 +58,9 @@ class WalletV4 extends WalletContract {
         state: state.item1, address: address, subWalletId: state.item2!);
   }
 
+  factory WalletV4.watch(TonAddress address) {
+    return WalletV4._(state: null, address: address, subWalletId: null);
+  }
   @override
   WalletVersion get type => WalletVersion.v4;
 }

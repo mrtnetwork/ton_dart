@@ -5,7 +5,7 @@ class AccountStorageInfoResponse with JsonSerialization {
   final BigInt usedCells;
   final BigInt usedBits;
   final BigInt usedPublicCells;
-  final BigInt lastPaid;
+  final int lastPaid;
   final BigInt duePayment;
 
   const AccountStorageInfoResponse({
@@ -21,7 +21,7 @@ class AccountStorageInfoResponse with JsonSerialization {
       usedCells: BigintUtils.parse(json['used_cells']),
       usedBits: BigintUtils.parse(json['used_bits']),
       usedPublicCells: BigintUtils.parse(json['used_public_cells']),
-      lastPaid: BigintUtils.parse(json['last_paid']),
+      lastPaid: IntUtils.parse(json['last_paid']),
       duePayment: BigintUtils.parse(json['due_payment']),
     );
   }
@@ -32,7 +32,7 @@ class AccountStorageInfoResponse with JsonSerialization {
       'used_cells': usedCells.toString(),
       'used_bits': usedBits.toString(),
       'used_public_cells': usedPublicCells.toString(),
-      'last_paid': lastPaid.toString(),
+      'last_paid': lastPaid,
       'due_payment': duePayment.toString(),
     };
   }

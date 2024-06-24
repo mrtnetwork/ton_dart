@@ -7,13 +7,14 @@ void main() async {
       tonApiUrl: "https://testnet.tonapi.io",
       tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC"));
   final privateKey = TonPrivateKey.fromBytes(List<int>.filled(32, 56));
-  final ownerWallet =
-      WalletV4(workChain: -1, publicKey: privateKey.toPublicKey().toBytes());
+  final ownerWallet = WalletV4.create(
+      workChain: -1, publicKey: privateKey.toPublicKey().toBytes());
 
   final TonAddress destination = getTestWallet(index: 12).item1.address;
 
   final minter = JettonMinter.create(
-      owner: ownerWallet, content: "https://github.com/mrtnetwork");
+      owner: ownerWallet,
+      metadata: const JettonOffChainMetadata("https://github.com/mrtnetwork"));
 
   final amount = TonHelper.toNano("0.5");
   final forwardAmount = TonHelper.toNano("0.3");

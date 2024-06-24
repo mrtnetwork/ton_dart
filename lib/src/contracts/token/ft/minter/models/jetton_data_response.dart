@@ -4,7 +4,7 @@ import 'package:ton_dart/src/boc/boc.dart';
 class JettonDataResponse {
   final BigInt totalSupply;
   final bool mintable;
-  final TonAddress admin;
+  final TonAddress? admin;
   final Cell content;
   final Cell walletCode;
   const JettonDataResponse(
