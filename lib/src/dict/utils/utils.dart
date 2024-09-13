@@ -4,7 +4,7 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary/dictionary.dart';
 import 'package:ton_dart/src/dict/dictionary/key.dart';
 import 'package:ton_dart/src/dict/exception/exception.dart';
-import 'package:ton_dart/src/utils/math.dart';
+import 'package:ton_dart/src/utils/utils/math.dart';
 
 class DictionaryUtils {
   static String findCommonPrefix(List<String> src, [int startPos = 0]) {
@@ -263,14 +263,11 @@ class DictionaryUtils {
         }
       }
     }
-    //     pp:  00000000000000000000000000000000 32 Map(0) {} [Function: parse] 32
-    // console.log("pp: ",pp,n,res,extractor,prefixLength)
     if (n - prefixLength == 0) {
       res[BigInt.parse(pp, radix: 2)] = extractor(slice);
     } else {
       Cell left = slice.loadRef();
       Cell right = slice.loadRef();
-      // NOTE: Left and right branches are implicitly contain prefixes '0' and '1'
       if (!left.isExotic) {
         doParse(
             '${pp}0', left.beginParse(), n - prefixLength - 1, res, extractor);

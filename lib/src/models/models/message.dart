@@ -6,7 +6,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/models/models/common_message_info.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 
 class MessageCodec {
   static final DictionaryValue<Message> codec = DictionaryValue(
@@ -42,7 +42,7 @@ class Message extends TonSerialization {
     return Message(
         info: CommonMessageInfo.fromJson(json["info"]),
         body: json["body"],
-        init: (json["init"] as Object?)?.to<StateInit, Map>(
+        init: (json["init"] as Object?)?.convertTo<StateInit, Map>(
             (result) => StateInit.fromJson(result.cast())));
   }
 

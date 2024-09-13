@@ -15,7 +15,7 @@ void _test() {
     expect(decode, isA<JettonOffChainMetadata>());
     expect((decode as JettonOffChainMetadata).uri,
         "https://ton.cx/address/EQD0vdSA_NedR9uvbgN9EikRX-suesDxGeFg69XQMavfLqIw");
-    expect(decode.encode().toBase64(), cotent);
+    expect(decode.toContent().toBase64(), cotent);
   });
   test("onChain", () {
     const cotent =
@@ -27,7 +27,7 @@ void _test() {
     expect(jetton.name, "DERE");
     expect(jetton.decimals, 4);
     expect(jetton.image, "https://postav.su/logo2.png");
-    expect(decode.encode().toBase64(), cotent);
+    expect(decode.toContent().toBase64(), cotent);
   });
 
   test("offchain", () {

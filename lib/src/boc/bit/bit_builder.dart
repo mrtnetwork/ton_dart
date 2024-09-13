@@ -34,16 +34,20 @@ class _BitBuilderUtils {
   }
 }
 
+/// A class for building and manipulating bits in a buffer.
 class BitBuilder {
   final List<int> _bytes;
   int _length;
 
+  /// Initializes a bit builder with a byte buffer of specified size.
   BitBuilder({int size = 1023})
       : _bytes = List<int>.filled((size / 8).ceil(), 0),
         _length = 0;
 
+  /// Returns the current length of the bit stream.
   int get length => _length;
 
+  /// Writes a single bit to the buffer.
   void writeBit(bool value) {
     if (_length > _bytes.length * 8) {
       throw BocException("Overflow bytes",
@@ -56,12 +60,14 @@ class BitBuilder {
     _length++;
   }
 
+  /// Writes a sequence of bits from a [BitString].
   void writeBits(BitString src) {
     for (int i = 0; i < src.length; i++) {
       writeBit(src.at(i));
     }
   }
 
+  /// Writes a buffer of bytes to the bit stream.
   void writeBuffer(List<int> src) {
     BytesUtils.validateBytes(src);
     if (_length % 8 == 0) {
@@ -80,6 +86,7 @@ class BitBuilder {
     }
   }
 
+  /// Writes an unsigned integer value using a specified number of bits.
   void writeUint(dynamic value, int bits) {
     _BitBuilderUtils.validateBits(bits);
     final BigInt v = _BitBuilderUtils.parseBigint(value);
@@ -116,7 +123,6 @@ class BitBuilder {
       }
     }
     bits -= tillByte;
-    // final mask8Big = BigInt.from(0xff);
     while (bits > 0) {
       if (bits >= 8) {
         _bytes[_length ~/ 8] =
@@ -132,6 +138,7 @@ class BitBuilder {
     }
   }
 
+  /// Writes a signed integer value using a specified number of bits.
   void writeInt(dynamic value, int bits) {
     _BitBuilderUtils.validateBits(bits);
     BigInt v = _BitBuilderUtils.parseBigint(value, sign: true);
@@ -171,6 +178,7 @@ class BitBuilder {
     writeUint(v, bits - 1);
   }
 
+  /// Writes a variable-length unsigned integer value.
   void writeVarUint(dynamic value, int bits) {
     _BitBuilderUtils.validateBits(bits);
     final BigInt v = _BitBuilderUtils.parseBigint(value);
@@ -188,6 +196,7 @@ class BitBuilder {
     writeUint(v, sizeBits);
   }
 
+  /// Writes a variable-length signed integer value.
   void writeVarInt(dynamic value, int bits) {
     _BitBuilderUtils.validateBits(bits);
     final BigInt v = _BitBuilderUtils.parseBigint(value, sign: true);
@@ -202,10 +211,12 @@ class BitBuilder {
     writeInt(v, sizeBits);
   }
 
+  /// Writes the specified amount as coins.
   void writeCoins(dynamic amount) {
     writeVarUint(amount, 4);
   }
 
+  /// Writes a TON base address or an external address.
   void writeAddress(TonBaseAddress? address) {
     if (address == null) {
       writeUint(0, 2);
@@ -222,10 +233,12 @@ class BitBuilder {
     }
   }
 
+  /// Builds a [BitString] from the current buffer.
   BitString build() {
     return BitString(_bytes, 0, _length);
   }
 
+  /// Returns the current buffer if it's byte-aligned.
   List<int> buffer() {
     if (_length % 8 != 0) {
       throw BocException("Buffer is not byte aligned");
@@ -233,5 +246,6 @@ class BitBuilder {
     return List<int>.unmodifiable(_bytes.sublist(0, _length ~/ 8));
   }
 
+  /// Returns the byte buffer.
   List<int> toBytes() => List<int>.from(_bytes);
 }

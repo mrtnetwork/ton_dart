@@ -4,15 +4,23 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/tuple/exception/exception.dart';
 import 'tuple.dart';
 
+/// A class for reading and manipulating tuple items from a list.
 class TupleReader {
   final List<TupleItem> _items;
 
+  /// Constructor that initializes the reader with a list of tuple items.
   TupleReader(List<TupleItem> items) : _items = List<TupleItem>.from(items);
+
+  /// Creates a clone of the current TupleReader.
   TupleReader clone() => TupleReader(_items);
+
+  /// Returns the number of remaining tuple items.
   int get remaining {
     return _items.length;
   }
 
+  /// Peeks at the next tuple item without removing it from the list.
+  /// Throws a TupleException if there are no more items.
   TupleItem peek() {
     if (_items.isEmpty) {
       throw TupleException('EOF');
@@ -20,6 +28,8 @@ class TupleReader {
     return _items[0];
   }
 
+  /// Removes and returns the next tuple item from the list.
+  /// Throws a TupleException if there are no more items.
   TupleItem pop() {
     if (_items.isEmpty) {
       throw TupleException('EOF');
@@ -29,6 +39,8 @@ class TupleReader {
     return res;
   }
 
+  /// Skips the specified number of tuple items.
+  /// Returns the updated TupleReader.
   TupleReader skip({int num = 1}) {
     for (int i = 0; i < num; i++) {
       pop();
@@ -36,6 +48,8 @@ class TupleReader {
     return this;
   }
 
+  /// Reads a BigInt from the next tuple item.
+  /// Throws a TupleException if the item is not an integer.
   BigInt readBigNumber() {
     TupleItem popped = pop();
     if (popped is! TupleItemInt) {
@@ -45,6 +59,7 @@ class TupleReader {
     return popped.value;
   }
 
+  /// Reads a BigInt from the next tuple item and returns it as a hexadecimal string.
   String readBigNumberAsHex() {
     final BigInt value = readBigNumber();
     final List<int> toBytes =
@@ -52,6 +67,8 @@ class TupleReader {
     return BytesUtils.toHexString(toBytes);
   }
 
+  /// Reads an optional BigInt from the next tuple item.
+  /// Returns null if the item is null, otherwise throws an exception if the item is not an integer.
   BigInt? readBigNumberOpt() {
     TupleItem popped = pop();
     if (popped is TupleItemNull) {
@@ -64,29 +81,40 @@ class TupleReader {
     return popped.value;
   }
 
+  /// Reads an integer from the next tuple item.
+  /// Converts the BigInt to an integer.
   int readNumber() {
     return readBigNumber().toInt();
   }
 
+  /// Reads an optional integer from the next tuple item.
+  /// Converts the BigInt to an integer if present.
   int? readNumberOpt() {
     BigInt? r = readBigNumberOpt();
     return r?.toInt();
   }
 
+  /// Reads a boolean value from the next tuple item.
+  /// Interprets zero as false and non-zero as true.
   bool readBoolean() {
     int res = readNumber();
     return res == 0 ? false : true;
   }
 
+  /// Reads an optional boolean value from the next tuple item.
+  /// Interprets zero as false, non-zero as true, and returns null if the item is null.
   bool? readBooleanOpt() {
     int? res = readNumberOpt();
     return res != null ? (res == 0 ? false : true) : null;
   }
 
+  /// Reads an address from the next tuple item, which is expected to be a cell.
   TonAddress readAddress() {
     return readCell().beginParse().loadAddress();
   }
 
+  /// Reads an optional address from the next tuple item.
+  /// Returns null if the item is null, otherwise parses the cell to load an address.
   TonAddress? readAddressOpt() {
     Cell? r = readCellOpt();
     if (r != null) {
@@ -96,12 +124,16 @@ class TupleReader {
     }
   }
 
+  /// Reads a cell from the next tuple item.
+  /// Throws a TupleException if the item is not a cell.
   Cell readCell() {
     TupleItem popped = pop();
     if (popped is TupleItemCell) return popped.cell;
     throw TupleException("Invalid tuple cell.", details: {"value": popped});
   }
 
+  /// Reads an optional cell from the next tuple item.
+  /// Returns null if the item is null, otherwise throws an exception if the item is not a cell.
   Cell? readCellOpt() {
     TupleItem popped = pop();
     if (popped is TupleItemNull) {
@@ -111,6 +143,8 @@ class TupleReader {
     throw TupleException("Invalid tuple cell.", details: {"value": popped});
   }
 
+  /// Reads a tuple from the next tuple item and returns a new TupleReader for the tuple.
+  /// Throws a TupleException if the item is not a tuple.
   TupleReader readTuple() {
     TupleItem popped = pop();
     if (popped is! TupleItemTuple) {
@@ -119,6 +153,8 @@ class TupleReader {
     return TupleReader(popped.items);
   }
 
+  /// Reads an optional tuple from the next tuple item.
+  /// Returns null if the item is null, otherwise returns a new TupleReader for the tuple.
   TupleReader? readTupleOpt() {
     TupleItem popped = pop();
     if (popped is TupleItemNull) {
@@ -130,6 +166,8 @@ class TupleReader {
     return TupleReader(popped.items);
   }
 
+  /// Reads a Lisp-style list from the given TupleReader.
+  /// Each item in the list must be a tuple or null, and the list ends with null.
   static List<TupleItem> readLispListStatics(TupleReader? reader) {
     List<TupleItem> result = [];
     TupleReader? tail = reader;
@@ -147,6 +185,8 @@ class TupleReader {
     return result;
   }
 
+  /// Reads a Lisp-style list directly from the current TupleReader.
+  /// Returns an empty list if there is only a null item.
   List<TupleItem> readLispListDirect() {
     if (_items.length == 1 && _items[0] is TupleItemNull) {
       return [];
@@ -154,10 +194,14 @@ class TupleReader {
     return TupleReader.readLispListStatics(this);
   }
 
+  /// Reads a Lisp-style list from the next tuple item.
+  /// Uses the static method to handle the list reading.
   List<TupleItem> readLispList() {
     return TupleReader.readLispListStatics(readTupleOpt());
   }
 
+  /// Reads a buffer of bytes from the next cell item.
+  /// Throws a TupleException if the buffer length or bit alignment is invalid.
   List<int> readBuffer() {
     Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
@@ -169,6 +213,8 @@ class TupleReader {
     return s.loadBuffer(s.remainingBits ~/ 8);
   }
 
+  /// Reads an optional buffer of bytes from the next cell item.
+  /// Returns null if the item is null, otherwise reads the buffer.
   List<int>? readBufferOpt() {
     TupleItem popped = peek();
     if (popped is TupleItemNull) {
@@ -184,11 +230,14 @@ class TupleReader {
     return s.loadBuffer(s.remainingBits ~/ 8);
   }
 
+  /// Reads a string from the next cell item.
   String readString() {
     Slice s = readCell().beginParse();
     return s.loadStringTail();
   }
 
+  /// Reads an optional string from the next cell item.
+  /// Returns null if the item is null, otherwise reads the string.
   String? readStringOpt() {
     TupleItem popped = peek();
     if (popped is TupleItemNull) {

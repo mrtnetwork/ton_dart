@@ -1,19 +1,31 @@
 import 'package:ton_dart/src/exception/exception.dart';
 
+class SendModeConst {
+  static const int carryAllRemainingBalance = 128;
+  static const int carryAllRemainingIncomingValue = 64;
+  static const int destroyAccountIfZero = 32;
+  static const int payGasSeparately = 1;
+  static const int ignoreErrors = 2;
+  static const int none = 0;
+}
+
 class SendMode {
   final String name;
   final int mode;
   const SendMode._(this.mode, this.name);
 
-  static const SendMode carryAllRemainingBalance =
-      SendMode._(128, "carryAllRemainingBalance");
-  static const SendMode carryAllRemainingIncomingValue =
-      SendMode._(64, "carryAllRemainingIncomingValue");
+  static const SendMode carryAllRemainingBalance = SendMode._(
+      SendModeConst.carryAllRemainingBalance, "carryAllRemainingBalance");
+  static const SendMode carryAllRemainingIncomingValue = SendMode._(
+      SendModeConst.carryAllRemainingIncomingValue,
+      "carryAllRemainingIncomingValue");
   static const SendMode destroyAccountIfZero =
-      SendMode._(32, "destroyAccountIfZero");
-  static const SendMode payGasSeparately = SendMode._(1, "payGasSeparately");
-  static const SendMode ignoreErrors = SendMode._(2, "ignoreErrors");
-  static const SendMode none = SendMode._(0, "none");
+      SendMode._(SendModeConst.destroyAccountIfZero, "destroyAccountIfZero");
+  static const SendMode payGasSeparately =
+      SendMode._(SendModeConst.payGasSeparately, "payGasSeparately");
+  static const SendMode ignoreErrors =
+      SendMode._(SendModeConst.ignoreErrors, "ignoreErrors");
+  static const SendMode none = SendMode._(SendModeConst.none, "none");
   static const List<SendMode> values = [
     carryAllRemainingBalance,
     carryAllRemainingIncomingValue,

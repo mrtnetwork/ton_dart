@@ -1,4 +1,4 @@
-import 'package:ton_dart/src/utils/math.dart';
+import 'package:ton_dart/src/utils/utils/math.dart';
 
 class _LevelMaskUtils {
   static int countSetBits(int n) {

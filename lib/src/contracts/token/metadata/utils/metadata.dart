@@ -4,8 +4,8 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
 import 'package:ton_dart/src/contracts/token/metadata/core/metadata.dart';
 import 'package:ton_dart/src/contracts/token/metadata/exception/exception.dart';
-import 'package:ton_dart/src/contracts/token/metadata/models/ft_token_metadata.dart';
-import 'package:ton_dart/src/contracts/token/metadata/models/token_metadata.dart';
+import 'package:ton_dart/src/contracts/token/metadata/models/on_chain.dart';
+import 'package:ton_dart/src/contracts/token/metadata/models/off_chain.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 
 class TokneMetadataUtils {
@@ -29,26 +29,27 @@ class TokneMetadataUtils {
   }
 
   /// load metadata
-  static TokenMetadata? loadContent(Cell content) {
-    final slice = content.beginParse();
-    final type = slice.loadUint8();
-    if (type == TonMetadataConstant.ftMetadataOffChainTag) {
-      if (slice.remainingBits ~/ 8 != 0) {
-        return JettonOffChainMetadata(slice.loadStringTail());
+  static TokenMetadata loadContent(Cell content) {
+    try {
+      final slice = content.beginParse();
+      final type = slice.loadUint8();
+      if (type == TonMetadataConstant.ftMetadataOffChainTag) {
+        if (slice.remainingBits ~/ 8 != 0) {
+          return JettonOffChainMetadata(slice.loadStringTail());
+        }
+      } else if (type == TonMetadataConstant.ftMetadataOnChainTag) {
+        final dict = _onChainMetadataDict({});
+        dict.loadFromClice(slice);
+        final result = dict.asMap
+            .map((key, value) => MapEntry(BytesUtils.toHexString(key), value));
+        return JettonOnChainMetadata.fromJson(result);
       }
-      return null;
-    } else if (type == TonMetadataConstant.ftMetadataOnChainTag) {
-      final dict = _onChainMetadataDict({});
-      dict.loadFromClice(slice);
-      final result = dict.asMap
-          .map((key, value) => MapEntry(BytesUtils.toHexString(key), value));
-      return JettonOnChainMetadata.fromJson(result);
-    }
+    } catch (_) {}
     return JettonRawMetadata(content);
   }
 
   static Cell encodeMetadata(TokenMetadata? metadata) {
-    if (metadata != null) return metadata.encode();
+    if (metadata != null) return metadata.toContent();
     final cell = beginCell();
     cell.storeUint(TonMetadataConstant.ftMetadataOffChainTag, 8);
     return cell.endCell();

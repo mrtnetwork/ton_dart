@@ -5,7 +5,7 @@ import 'package:ton_dart/src/models/models/split_merge_info.dart';
 import 'package:ton_dart/src/models/models/transaction.dart';
 import 'package:ton_dart/src/models/models/transaction_bounce_phase.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 import 'transaction_action_phase.dart';
 import 'transaction_compute_phase.dart';
 import 'transaction_credit_phase.dart';
@@ -164,17 +164,17 @@ class TransactionDescriptionGeneric extends TransactionDescription {
     return TransactionDescriptionGeneric(
         creditFirst: json["credit_first"],
         storagePhase: (json["storage_phase"] as Object?)
-            ?.to<TransactionStoragePhase, Map>(
+            ?.convertTo<TransactionStoragePhase, Map>(
                 (result) => TransactionStoragePhase.fromJson(result.cast())),
         creditPhase: (json["credit_phase"] as Object?)
-            ?.to<TransactionCreditPhase, Map>(
+            ?.convertTo<TransactionCreditPhase, Map>(
                 (result) => TransactionCreditPhase.fromJson(result.cast())),
         computePhase: TransactionComputePhase.fromJson(json["compute_phase"]),
         actionPhase: (json["action_phase"] as Object?)
-            ?.to<TransactionActionPhase, Map>(
+            ?.convertTo<TransactionActionPhase, Map>(
                 (result) => TransactionActionPhase.fromJson(result.cast())),
         bouncePhase: (json["bounce_phase"] as Object?)
-            ?.to<TransactionBouncePhase, Map>(
+            ?.convertTo<TransactionBouncePhase, Map>(
                 (result) => TransactionBouncePhase.fromJson(result.cast())),
         aborted: json["aborted"],
         destroyed: json["destroyed"]);
@@ -285,7 +285,7 @@ class TransactionDescriptionTickTock extends TransactionDescription {
         storagePhase: TransactionStoragePhase.fromJson(json["storage_phase"]),
         computePhase: TransactionComputePhase.fromJson(json["compute_phase"]),
         actionPhase: (json["action_phase"] as Object?)
-            ?.to<TransactionActionPhase, Map>(
+            ?.convertTo<TransactionActionPhase, Map>(
                 (result) => TransactionActionPhase.fromJson(result.cast())),
         aborted: json["aborted"],
         destroyed: json["destroyed"],
@@ -366,11 +366,11 @@ class TransactionDescriptionSplitPrepare extends TransactionDescription {
     return TransactionDescriptionSplitPrepare(
         splitInfo: SplitMergeInfo.fromJson(json["split_info"]),
         storagePhase: (json["storage_phase"] as Object?)
-            ?.to<TransactionStoragePhase, Map>(
+            ?.convertTo<TransactionStoragePhase, Map>(
                 (result) => TransactionStoragePhase.fromJson(result.cast())),
         computePhase: TransactionComputePhase.fromJson(json["compute_phase"]),
         actionPhase: (json["action_phase"] as Object?)
-            ?.to<TransactionActionPhase, Map>(
+            ?.convertTo<TransactionActionPhase, Map>(
                 (result) => TransactionActionPhase.fromJson(result.cast())),
         aborted: json["aborted"],
         destroyed: json["destroyed"]);

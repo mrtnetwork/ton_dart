@@ -39,7 +39,9 @@ void _test() {
 
     // Unpack
     final dict = Dictionary.loadDirect(
-        DictionaryKey.uintCodec(16), DictionaryValue.uintCodec(16), parse);
+        key: DictionaryKey.uintCodec(16),
+        value: DictionaryValue.uintCodec(16),
+        slice: parse);
     // return;
     expect(dict[13], 169);
     expect(dict[17], 289);
@@ -135,7 +137,8 @@ void _test() {
     expect(testDict[testKey], testVal);
 
     final serialized = beginCell().storeDictDirect(testDict).endCell();
-    final dictDs = Dictionary.loadDirect(keys, values, serialized.beginParse());
+    final dictDs = Dictionary.loadDirect(
+        key: keys, value: values, slice: serialized.beginParse());
     expect(dictDs[testKey], testVal);
   });
 
@@ -180,8 +183,10 @@ void _test() {
   test('should parse dictionary with empty values', () {
     final cell = Cell.fromBoc(BytesUtils.fromHexString(
         "b5ee9c72010101010024000043a0000000000000000000000000000000000000000000000000000000000000000f70"))[0];
-    final testDict = Dictionary.loadDirect(DictionaryKey.bigUintCodec(256),
-        DictionaryValue.bitStringCodec(0), cell.beginParse());
+    final testDict = Dictionary.loadDirect(
+        key: DictionaryKey.bigUintCodec(256),
+        value: DictionaryValue.bitStringCodec(0),
+        slice: cell.beginParse());
     expect(testDict.keys.first, BigInt.from(123));
     expect(testDict[BigInt.from(123)]?.length, 0);
   });

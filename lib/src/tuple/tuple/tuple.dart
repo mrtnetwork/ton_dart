@@ -4,6 +4,7 @@ import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/tuple/exception/exception.dart';
 
+/// Represents the types of tuple items with associated string names.
 class TupleItemTypes {
   final String name;
   const TupleItemTypes._(this.name);
@@ -44,6 +45,7 @@ class TupleItemTypes {
   }
 }
 
+/// Abstract base class for all tuple items.
 abstract class TupleItem with JsonSerialization {
   abstract final TupleItemTypes type;
   const TupleItem();
@@ -98,6 +100,7 @@ abstract class TupleItem with JsonSerialization {
   int get hashCode => type.hashCode;
 }
 
+/// Represents a tuple item containing a list of other tuple items.
 class TupleItemTuple extends TupleItem {
   final List<TupleItem> items;
   const TupleItemTuple(this.items);
@@ -131,6 +134,7 @@ class TupleItemTuple extends TupleItem {
   }
 }
 
+/// Represents a tuple item with a null value.
 class TupleItemNull extends TupleItem {
   const TupleItemNull();
   factory TupleItemNull.fromJson(Map<String, dynamic> json) {
@@ -150,6 +154,7 @@ class TupleItemNull extends TupleItem {
   }
 }
 
+/// Represents a tuple item containing an integer value.
 class TupleItemInt extends TupleItem {
   final BigInt value;
   const TupleItemInt(this.value);
@@ -186,6 +191,7 @@ class TupleItemInt extends TupleItem {
   }
 }
 
+/// // Represents a tuple item with a NaN value.
 class TupleItemNaN extends TupleItem {
   const TupleItemNaN();
   factory TupleItemNaN.fromJson(Map<String, dynamic> json) {
@@ -205,6 +211,7 @@ class TupleItemNaN extends TupleItem {
   }
 }
 
+/// Represents a tuple item containing a cell.
 class TupleItemCell extends TupleItem {
   final Cell cell;
   const TupleItemCell(this.cell);
@@ -245,6 +252,7 @@ class TupleItemCell extends TupleItem {
   }
 }
 
+/// Represents a tuple item containing a slice.
 class TupleItemSlice extends TupleItemCell {
   const TupleItemSlice(Cell cell) : super(cell);
   factory TupleItemSlice.fromJson(Map<String, dynamic> json) {
@@ -278,6 +286,7 @@ class TupleItemSlice extends TupleItemCell {
   int get hashCode => super.hashCode ^ cell.hashCode;
 }
 
+///  Represents a tuple item containing a builder.
 class TupleItemBuilder extends TupleItemCell {
   const TupleItemBuilder(Cell cell) : super(cell);
   factory TupleItemBuilder.fromJson(Map<String, dynamic> json) {

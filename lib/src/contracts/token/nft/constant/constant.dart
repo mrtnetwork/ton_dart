@@ -1,6 +1,6 @@
 import 'package:ton_dart/src/boc/boc.dart';
 
-class TomNftConst {
+class TonNftConst {
   static const int mintNFtOperationId = 1;
   static const int batchMintNFtOperationId = 2;
   static const int changeCollectionOwnerOperationId = 3;

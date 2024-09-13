@@ -1,17 +1,20 @@
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
+import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/models/models.dart';
 
 class TransactioUtils {
-  static MessageRelaxed internal({
-    required TonAddress destination,
-    required BigInt amount,
-    Cell? body,
-    StateInit? initState,
-    bool bounce = false,
-    bool bounced = false,
-  }) {
+  static MessageRelaxed internal(
+      {required TonAddress destination,
+      required BigInt amount,
+      Cell? body,
+      StateInit? initState,
+      String? memo,
+      bool bounce = false,
+      bool bounced = false}) {
+    assert(memo == null || body == null,
+        "You have to choose a memo or body for each message.");
     return MessageRelaxed(
         info: CommonMessageInfoRelaxedInternal(
             ihrDisabled: true,
@@ -39,7 +42,7 @@ class TransactioUtils {
       required List<MessageRelaxed> messages,
       required int accountSeqno,
       required WalletVersion type,
-      SendMode sendMode = SendMode.payGasSeparately,
+      int sendMode = SendModeConst.payGasSeparately,
       int? timeout}) {
     final transaction = beginCell();
     transaction.storeUint(subWalletId, 32);
@@ -57,7 +60,7 @@ class TransactioUtils {
     }
 
     for (final message in messages) {
-      transaction.storeUint(sendMode.mode, 8);
+      transaction.storeUint(sendMode, 8);
       transaction.storeRef(beginCell().store(message).endCell());
     }
     return transaction.endCell();
@@ -66,7 +69,7 @@ class TransactioUtils {
   static Cell createV2(
       {required List<MessageRelaxed> messages,
       required int accountSeqno,
-      SendMode sendMode = SendMode.payGasSeparately,
+      int sendMode = SendModeConst.payGasSeparately,
       int? timeout}) {
     final transaction = beginCell();
     transaction.storeUint(accountSeqno, 32);
@@ -79,7 +82,7 @@ class TransactioUtils {
       transaction.storeUint(timeout, 32);
     }
     for (final message in messages) {
-      transaction.storeUint(sendMode.mode, 8);
+      transaction.storeUint(sendMode, 8);
       transaction.storeRef(beginCell().store(message).endCell());
     }
     return transaction.endCell();
@@ -88,34 +91,81 @@ class TransactioUtils {
   static Cell createV1({
     required List<MessageRelaxed> messages,
     required int accountSeqno,
-    SendMode sendMode = SendMode.payGasSeparately,
+    int sendMode = SendModeConst.payGasSeparately,
   }) {
     final transaction = beginCell();
     transaction.storeUint(accountSeqno, 32);
     for (final message in messages) {
-      transaction.storeUint(sendMode.mode, 8);
+      transaction.storeUint(sendMode, 8);
       transaction.storeRef(beginCell().store(message).endCell());
     }
     return transaction.endCell();
   }
 
-  static Cell serializeMessage({
-    required List<MessageRelaxed> messages,
-    required int accountSeqno,
-    required WalletVersion type,
-    SendMode sendMode = SendMode.payGasSeparately,
-    int? timeOut,
-    int? subwalletId,
+  static Cell createV5({
+    required OutActionsV5 actions,
+    required WalletV5AuthType type,
+    int? accountSeqno,
+    V5R1Context? context,
+    int? timeout,
+    BigInt? queryId,
   }) {
-    switch (type) {
+    if (type != WalletV5AuthType.extension) {
+      if (accountSeqno == null || context == null) {
+        throw const TonContractException(
+            "accountSeqno and context required for build wallet message v5.");
+      }
+    }
+    if (type == WalletV5AuthType.extension) {
+      return beginCell()
+          .storeUint32(type.tag)
+          .storeUint64(queryId ?? 0)
+          .store(actions)
+          .endCell();
+    }
+    if (type == WalletV5AuthType.external) {
+      List<OutActionWalletV5> fixedMode = [];
+      for (final i in actions.actions) {
+        if (i.type != OutActionType.sendMsg) {
+          fixedMode.add(i);
+          continue;
+        }
+        final sendMessage = (i as OutActionSendMsg)
+            .copyWith(mode: i.mode | SendMode.ignoreErrors.mode);
+        fixedMode.add(sendMessage);
+      }
+      actions = OutActionsV5(actions: fixedMode);
+    }
+    final signingMessage = beginCell().storeUint32(type.tag).store(context!);
+    timeout ??= (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 60;
+    if (accountSeqno == 0) {
+      for (int i = 0; i < 32; i++) {
+        signingMessage.storeBit(1);
+      }
+    } else {
+      signingMessage.storeUint32(timeout);
+    }
+    signingMessage.storeUint(accountSeqno, 32).store(actions);
+    return signingMessage.endCell();
+  }
+
+  static Cell serializeMessage(
+      {required List<MessageRelaxed> messages,
+      required int accountSeqno,
+      required ContractState type,
+      int sendMode = SendModeConst.payGasSeparately,
+      int? timeOut}) {
+    type as VersionedWalletState;
+    switch (type.version) {
       case WalletVersion.v4:
       case WalletVersion.v3R1:
       case WalletVersion.v3R2:
+        final subwalletState = type as SubWalletVersionedWalletState;
         return createV4(
-            subWalletId: subwalletId!,
+            subWalletId: subwalletState.subwallet,
             messages: messages,
             accountSeqno: accountSeqno,
-            type: type,
+            type: type.version,
             sendMode: sendMode);
       case WalletVersion.v1R1:
       case WalletVersion.v1R2:
@@ -133,4 +183,16 @@ class TransactioUtils {
         throw UnimplementedError();
     }
   }
+}
+
+class WalletV5AuthType {
+  final String name;
+  final int tag;
+  const WalletV5AuthType._({required this.name, required this.tag});
+  static const WalletV5AuthType extension =
+      WalletV5AuthType._(name: "Extension", tag: 0x6578746e);
+  static const WalletV5AuthType external =
+      WalletV5AuthType._(name: "External", tag: 0x7369676e);
+  static const WalletV5AuthType internal =
+      WalletV5AuthType._(name: "Internal", tag: 0x73696e74);
 }

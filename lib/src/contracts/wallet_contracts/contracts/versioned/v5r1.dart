@@ -1,0 +1,213 @@
+import 'package:ton_dart/src/address/address/address.dart';
+import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
+import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/types/transfer_params/versioned_v5.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/types/models/v5_client_id.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/types/state/versioned.dart';
+import 'package:ton_dart/src/crypto/crypto.dart';
+import 'package:ton_dart/src/models/models.dart';
+import 'package:ton_dart/src/provider/provider.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
+
+/// This is an extensible wallet specification aimed at replacing V4 and allowing arbitrary extensions.
+/// W5 has 25% lower fees, supports gasless transactions (via third party relayers) and implements a flexible extension mechanism.
+/// https://github.com/tonkeeper/w5/tree/main
+class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
+    VersionedV5TransferParams> {
+  WalletV5R1(
+      {V5VersionedWalletState? stateInit,
+      required TonAddress address,
+      TonChain? chain})
+      : super(
+            address: address,
+            stateInit: stateInit,
+            type: WalletVersion.v5R1,
+            chain: chain);
+
+  factory WalletV5R1.create(
+      {required V5R1Context context,
+      required List<int> publicKey,
+      TonChain? chain,
+      bool bounceableAddress = false}) {
+    if (context is V5R1ClientContext) {
+      chain = context.chain;
+    }
+    final state = V5VersionedWalletState(
+        publicKey: publicKey, version: WalletVersion.v5R1, context: context);
+    return WalletV5R1(
+      stateInit: state,
+      address: TonAddress.fromState(
+          state: state.initialState(),
+          workChain: chain?.workchain ?? 0,
+          bounceable: bounceableAddress),
+    );
+  }
+
+  static Future<WalletV5R1> fromAddress(
+      {required TonAddress address,
+      required TonProvider rpc,
+      TonChain? chain}) async {
+    final data =
+        await ContractProvider.getActiveState(rpc: rpc, address: address);
+    final state = VersionedWalletUtils.buildFromAddress<V5VersionedWalletState>(
+        address: address,
+        stateData: data.data,
+        type: WalletVersion.v5R1,
+        chain: chain);
+    return WalletV5R1(address: address, stateInit: state, chain: chain);
+  }
+
+  factory WalletV5R1.watch(TonAddress address) {
+    return WalletV5R1(address: address);
+  }
+
+  static List<OutActionSendMsg> messageRelaxedToActions(
+      {required List<MessageRelaxed> messages,
+      int sendMode = SendModeConst.payGasSeparately}) {
+    return messages
+        .map((e) => OutActionSendMsg(mode: sendMode, outMessage: e))
+        .toList();
+  }
+
+  Cell createRequest(
+      {required List<OutActionWalletV5> actions,
+      WalletV5AuthType type = WalletV5AuthType.external,
+      int? accountSeqno,
+      int? timeout,
+      BigInt? queryId}) {
+    if (type != WalletV5AuthType.extension) {
+      if (accountSeqno == null || state?.context == null) {
+        throw TonContractException(
+            "accountSeqno and wallet context required for build wallet message v5R1 in $type type.");
+      }
+    }
+    return TransactioUtils.createV5(
+        accountSeqno: accountSeqno,
+        actions: OutActionsV5(actions: actions),
+        type: type,
+        timeout: timeout,
+        queryId: queryId,
+        context: state?.context);
+  }
+
+  @override
+  Future<String> sendTransfer(
+      {required VersionedV5TransferParams params,
+      required TonProvider rpc,
+      List<MessageRelaxed> messages = const [],
+      List<OutActionWalletV5> v5Messages = const [],
+      int sendMode = SendModeConst.payGasSeparately,
+      int? timeout,
+      OnEstimateFee? onEstimateFee}) async {
+    final VersionedWalletState? state = await getContractState(rpc);
+    if (state == null && this.state == null) {
+      throw const TonContractException(
+          "cannot send transaction with watch only wallet");
+    }
+    final List<OutActionWalletV5> actions = [
+      ...messages.map((e) => OutActionSendMsg(mode: sendMode, outMessage: e)),
+      ...params.messages,
+      ...v5Messages
+    ];
+    final hasDeploy = actions.whereType<OutActionSendMsg>().any(
+        (e) => e.outMessage.info.dest == address && e.outMessage.init != null);
+    if (state != null && hasDeploy) {
+      throw TonContractException(
+          "Account is already active. should not add init state to message with with destination address $address");
+    }
+    final message = createRequest(
+        actions: actions,
+        type: params.type,
+        accountSeqno: (state?.seqno) ?? 0,
+        queryId: params.queryId
+        // queryId: params.
+        );
+    if (params.type == WalletV5AuthType.extension) {
+      return message.toBase64();
+    }
+    final body = beginCell()
+        .storeSlice(message.beginParse())
+        .storeBuffer(params.privateKey!.sign(message.hash()))
+        .endCell();
+    final ext = Message(
+        init: (state == null ? this.state!.initialState() : null),
+        info:
+            CommonMessageInfoExternalIn(dest: address, importFee: BigInt.zero),
+        body: body);
+    if (onEstimateFee != null) {
+      await onEstimateFee(ext);
+    }
+    return sendMessage(rpc: rpc, exMessage: ext);
+  }
+
+  Future<String> sendAddExtention(
+      {required VersionedV5TransferParams params,
+      required TonProvider rpc,
+      int sendMode = SendModeConst.payGasSeparately,
+      WalletV5AuthType type = WalletV5AuthType.external,
+      int? timeout,
+      OnEstimateFee? onEstimateFee}) async {
+    return sendActionRequest(
+        actions: [OutActionAddExtension(address)],
+        params: params,
+        rpc: rpc,
+        sendMode: sendMode,
+        timeout: timeout,
+        onEstimateFee: onEstimateFee);
+  }
+
+  Future<String> sendRemoveExtention(
+      {required VersionedV5TransferParams params,
+      required TonPrivateKey privateKey,
+      required TonProvider rpc,
+      int sendMode = SendModeConst.payGasSeparately,
+      WalletV5AuthType type = WalletV5AuthType.external,
+      int? timeout,
+      OnEstimateFee? onEstimateFee}) async {
+    return sendActionRequest(
+        actions: [OutActionRemoveExtension(address)],
+        params: params,
+        rpc: rpc,
+        sendMode: sendMode,
+        timeout: timeout,
+        onEstimateFee: onEstimateFee);
+  }
+
+  Future<String> sendActionRequest(
+      {required VersionedV5TransferParams params,
+      required TonProvider rpc,
+      List<OutActionWalletV5> actions = const [],
+      int sendMode = SendModeConst.payGasSeparately,
+      int? timeout,
+      OnEstimateFee? onEstimateFee}) async {
+    if (params.type == WalletV5AuthType.extension) {
+      throw const TonContractException(
+          "use create request instead sendActionRequest for build message body.");
+    }
+    if (state == null) {
+      throw const TonContractException(
+          "cannot create request with watch only wallet.");
+    }
+    return sendTransfer(
+        params: params,
+        rpc: rpc,
+        messages: const [],
+        v5Messages: actions,
+        onEstimateFee: onEstimateFee,
+        timeout: timeout,
+        sendMode: sendMode);
+  }
+
+  Future<List<TonAddress>> getExtensions(TonProvider rpc) async {
+    final state = await readState(rpc);
+    return state.extensionPubKeys;
+  }
+
+  Future<bool> setPubKeyEnabled(TonProvider rpc) async {
+    final state = await readState(rpc);
+    return state.setPubKeyEnabled;
+  }
+}

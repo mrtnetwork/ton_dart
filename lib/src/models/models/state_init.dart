@@ -6,7 +6,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/models/models/simple_library.dart';
 import 'package:ton_dart/src/models/models/tick_tock.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 
 class _StateInitUtils {
   static Dictionary<BigInt, SimpleLibrary> libraryDict(
@@ -50,13 +50,15 @@ class StateInit extends TonSerialization {
     return StateInit(
         splitDepth: json["splitDepth"],
         special: (json["special"] as Object?)
-            ?.to<TickTock, Map<String, dynamic>>((p0) => TickTock.fromJson(p0)),
+            ?.convertTo<TickTock, Map<String, dynamic>>(
+                (p0) => TickTock.fromJson(p0)),
         code: (json["code"] as Object?)
-            ?.to<Cell, String>((result) => Cell.fromBase64(result)),
+            ?.convertTo<Cell, String>((result) => Cell.fromBase64(result)),
         data: (json["data"] as Object?)
-            ?.to<Cell, String>((result) => Cell.fromBase64(result)),
+            ?.convertTo<Cell, String>((result) => Cell.fromBase64(result)),
         libraries: (json["libraries"] as Object?)
-            ?.to<Map<BigInt, SimpleLibrary>, Map<String, dynamic>>((result) {
+            ?.convertTo<Map<BigInt, SimpleLibrary>, Map<String, dynamic>>(
+                (result) {
           return result.map((key, value) =>
               MapEntry(BigintUtils.parse(key), SimpleLibrary.fromJson(value)));
         }));
@@ -78,9 +80,9 @@ class StateInit extends TonSerialization {
     }
     builder.storeMaybeRef(cell: code);
     builder.storeMaybeRef(cell: data);
-    final dict = libraries
-        ?.to<Dictionary<BigInt, SimpleLibrary>, Map<BigInt, SimpleLibrary>>(
-            (p0) => _StateInitUtils.libraryDict(map: p0));
+    final dict = libraries?.convertTo<Dictionary<BigInt, SimpleLibrary>,
+            Map<BigInt, SimpleLibrary>>(
+        (p0) => _StateInitUtils.libraryDict(map: p0));
     builder.storeDict(dict: dict);
   }
 

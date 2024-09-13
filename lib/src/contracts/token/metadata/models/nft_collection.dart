@@ -1,3 +1,4 @@
+import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
 import 'package:ton_dart/ton_dart.dart';
 
@@ -11,27 +12,42 @@ class NFTCollectionMetadata extends NFTMetadata {
   const NFTCollectionMetadata(
       {required this.collectionMetadataUri, this.collectionBase});
 
-  /// <b
-  ///   collection_json offchain-token-data ref, // Storing common ref
-  ///   <b collection_base $>B B, b> ref,
-  /// b> ref, // content cell
+  factory NFTCollectionMetadata.deserialize(Slice slice) {
+    final collectionCell = slice.loadRef().beginParse();
+    final tag = collectionCell.loadUint8();
+    if (tag != TonMetadataConstant.ftMetadataOffChainTag) {
+      throw const TonContractException(
+          "Invalid nft offchain collection metadata");
+    }
+    final String collectionMetadataUri = collectionCell.loadStringTail();
+    final Slice commonCell = slice.loadRef().beginParse();
+    return NFTCollectionMetadata(
+        collectionMetadataUri: collectionMetadataUri,
+        collectionBase: commonCell.loadStringTail());
+  }
+
   @override
   void store(Builder builder) {
-    final collentionCell = beginCell();
-    collentionCell.storeUint(TonMetadataConstant.ftMetadataOffChainTag, 8);
-    collentionCell.storeStringTail(collectionMetadataUri);
-    final content = beginCell().storeRef(collentionCell.endCell());
-    final commonCell = beginCell();
-    commonCell.storeStringTail(collectionBase ?? "");
-    content.storeRef(commonCell.endCell());
-    builder.storeRef(content.endCell());
+    builder.storeRef(toContent());
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "coolection_content": collectionMetadataUri,
-      "common_content": collectionBase
+      "collection": collectionMetadataUri,
+      "collection_base": collectionBase
     };
+  }
+
+  @override
+  Cell toContent({bool collectionless = false}) {
+    final collection = beginCell();
+    collection.storeUint(TonMetadataConstant.ftMetadataOffChainTag, 8);
+    collection.storeStringTail(collectionMetadataUri);
+    final content = beginCell().storeRef(collection.endCell());
+    final commonCell = beginCell();
+    commonCell.storeStringTail(collectionBase ?? "");
+    content.storeRef(commonCell.endCell());
+    return content.endCell();
   }
 }

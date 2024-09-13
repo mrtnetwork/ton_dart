@@ -3,7 +3,7 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 import 'master_chain_state_extra.dart';
 import 'shard_accounts.dart';
 import 'shard_ident.dart';
@@ -109,10 +109,11 @@ class ShardStateUnsplit extends TonSerialization {
         genLt: BigintUtils.parse(json["gen_lt"]),
         minRefMcSeqno: json["min_ref_mc_seqno"],
         beforeSplit: json["before_split"],
-        accounts: ((json["accounts"] as Object?)?.to<ShardAccounts, Map>(
+        accounts: ((json["accounts"] as Object?)?.convertTo<ShardAccounts, Map>(
             (result) => ShardAccounts.fromJson(result.cast()))),
-        extras: (json["extras"] as Object?)?.to<MasterchainStateExtra, Map>(
-            (result) => MasterchainStateExtra.fromJson(result.cast())));
+        extras: (json["extras"] as Object?)
+            ?.convertTo<MasterchainStateExtra, Map>(
+                (result) => MasterchainStateExtra.fromJson(result.cast())));
   }
 
   @override

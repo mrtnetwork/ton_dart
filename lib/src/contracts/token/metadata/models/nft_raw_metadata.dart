@@ -15,4 +15,9 @@ class NFTRawMetadata extends NFTMetadata {
   Map<String, dynamic> toJson() {
     return {"content": content.toBase64()};
   }
+
+  @override
+  Cell toContent({bool collectionless = false}) {
+    return content;
+  }
 }

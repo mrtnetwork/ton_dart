@@ -12,7 +12,7 @@ import 'package:ton_dart/src/boc/serialization/models/topological_sort.dart';
 import 'package:ton_dart/src/boc/cell/cell_type.dart';
 import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
-import 'package:ton_dart/src/utils/math.dart';
+import 'package:ton_dart/src/utils/utils/math.dart';
 
 class CellUtils {
   static List<CellTopoloigicalSort> topologicalSort(Cell src) {

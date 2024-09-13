@@ -20,7 +20,7 @@ class AccountStatusResponse {
 
   String get value => _value;
 
-  bool get isActive => this != uninit;
+  bool get isActive => this == active || this == frozen;
 
   static AccountStatusResponse fromName(String? name) {
     if (name == "uninitialized") return AccountStatusResponse.uninit;

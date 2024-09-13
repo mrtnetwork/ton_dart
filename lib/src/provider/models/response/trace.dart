@@ -1,5 +1,4 @@
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/ton_dart.dart';
 import 'transaction.dart';
 
 class TraceResponse with JsonSerialization {

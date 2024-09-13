@@ -20,50 +20,77 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
   - TON BOC serialization is a method for encoding and decoding data structures into a binary format within the Telegram Open Network.
 
 - **Contract**
-  - Provides support for Basic wallets 1 through 4.
-  - Offers support for deploying tokens and transferring jettos with Minter and Jetton wallets.
-  - Highload Wallet v3
+  - Provides support for Basic wallets 1 through 5.
+  - Offers support for deploying tokens and transferring Jettons with Minter and Jetton wallets (Jetton, StableJetton).
+  - Highload Wallet v3.
+  - Support for MultiOwner contracts (MultiOwner, Order).
+  - Support for NFTs contracts (NFTCollection, EditableCollection, NFTItem).
 
 ### Examples
 
 - Check [examples](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples) folder
+-
 
 #### Transfer TON
 
 - transfer
 
 ```dart
+  /// TestWallet is a utility for quickly generating and testing wallet contracts from a specified version. 
+  /// The code for this is available in the example folder.
+  final TestWallet<WalletV5R1> wallet = TestWallet(version: WalletVersion.v5R1);
 
-    /// Initialize TonProvider with HTTPProvider for Testnet
-  final rpc = TonProvider(HTTPProvider(
-    tonApiUrl: "https://testnet.tonapi.io",
-    tonCenterUrl: "https://testnet.toncenter.com/api/v2/jsonRPC",
-  ));
+  final destination = TestWallet(version: WalletVersion.v1R1);
+  final destination2 = TestWallet(version: WalletVersion.v1R2);
+  final destination3 = TestWallet(version: WalletVersion.v1R3);
+  final destination4 = TestWallet(version: WalletVersion.v2R1);
+  final destination5 = TestWallet(version: WalletVersion.v2R2);
+  final destination6 = TestWallet(version: WalletVersion.v3R1);
+  final destination7 = TestWallet(version: WalletVersion.v3R2);
+  final destination8 = TestWallet(version: WalletVersion.v4);
+  final destination9 = TestWallet(version: WalletVersion.v5R1, index: 1);
 
-  /// Define private key
-  final privateKey = TonPrivateKey.fromBytes(List<int>.filled(32, 39));
-
-  /// Create WalletV4 instance
-  final wallet = WalletV4(
-    workChain: -1,
-    publicKey: privateKey.toPublicKey().toBytes(),
-  );
-
-  /// Define destination address
-  final destination =
-      TonAddress("Ef_GHcGwnw-bASoxTGQRMNwMQ6w9iCQnTqrv1REDfJ5fCYD2");
-
-  /// Construct transfer message and send to the network
-  await wallet.sendTransfer(
-    messages: [
-      wallet.createMessageInfo(
-        amount: TonHelper.toNano("0.1"),
-        destination: destination,
-      )
-    ],
-    privateKey: privateKey,
-    rpc: rpc,
-  );
+  await wallet.wallet.sendTransfer(
+      params:
+          VersionedV5TransferParams.external(signer: wallet.signer, messages: [
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination2.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination3.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination4.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination5.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination6.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination7.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination8.address,
+                amount: TonHelper.toNano("0.01"))),
+        OutActionSendMsg(
+            outMessage: TransactioUtils.internal(
+                destination: destination9.address,
+                amount: TonHelper.toNano("0.01"))),
+      ]),
+      rpc: wallet.rpc);
 
 
 ```
@@ -71,89 +98,46 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
 - Deploy Jetton minter and mint token
 
 ```dart
+ final wallet = TestWallet<WalletV5R1>(version: WalletVersion.v5R1, index: 96);
 
-  /// Define owner wallet with WalletV4
-  final ownerWallet = WalletV4(
-    workChain: -1,
-    publicKey: privateKey.toPublicKey().toBytes(),
-  );
+  final metadata = JettonOnChainMetadata.snakeFormat(
+      name: "MRT NETWORK",
+      image: "https://avatars.githubusercontent.com/u/56779182?s=96&v=4",
+      symbol: "MRT",
+      decimals: 9,
+      description: "https://github.com/mrtnetwork/ton_dart");
 
-  /// Create JettonMinter with owner and content
-  final minter = JettonMinter.create(
-    owner: ownerWallet,
-    content: "https://github.com/mrtnetwork",
-  );
+  final jetton = JettonMinter.create(
+      owner: wallet.wallet,
+      state: MinterWalletState(
+        owner: wallet.address,
+        chain: TonChain.testnet,
+        metadata: metadata,
+      ));
 
-  /// Deploy JettonMinter contract (TOKEN)
-  await minter.deploy(
-    ownerPrivateKey: privateKey,
-    rpc: rpc,
-    amount: TonHelper.toNano("0.5"),
-  );
-
-  await Future.delayed(const Duration(seconds: 5));
-
-  /// Define the address to which tokens will be minted
-  final addressToMint =
-      TonAddress("Ef__48F3wya3lEgIHRtpK8jPzYpQCIrfwZfFSEFmjaPQfC56");
-
-  /// Define amounts
-  final amount = TonHelper.toNano("0.5");
-  final forwardAmount = TonHelper.toNano("0.3");
-  final totalAmount = TonHelper.toNano("0.4");
-  final jettonAmountForMint = BigInt.parse("1${"0" * 15}");
-
-  /// Mint tokens
-  await minter.mint(
-    privateKey: privateKey,
-    rpc: rpc,
-    jettonAmout: jettonAmountForMint,
-    forwardTonAmount: forwardAmount,
-    totalTonAmount: totalAmount,
-    amount: amount + totalAmount,
-    to: addressToMint,
-  );
+  await jetton.sendOperation(
+      signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
+      rpc: wallet.rpc,
+      amount: TonHelper.toNano("0.9"),
+      operation: JettonMinterMint(
+          totalTonAmount: TonHelper.toNano("0.5"),
+          to: wallet.address,
+          transfer: JettonMinterInternalTransfer(
+              jettonAmount: TonHelper.toNano("100000"),
+              forwardTonAmount: TonHelper.toNano("0.01")),
+          jettonAmount: TonHelper.toNano("100000")));
 
 ```
 
-- Transfer jetton
-
-```dart
-   /// Create JettonMinter to query jetton wallet address
-  final minter = JettonMinter(
-      owner: ownerWallet,
-      address: TonAddress("Ef8ns7A4eSwJC1mJf72JDE9byKY9n_xxb1hhloly9heQi_rY"));
-
-  /// Get the address of the Jetton Wallet
-  final jettonWalletAddress = await minter.getWalletAddress(
-    rpc: rpc,
-    owner: ownerWallet.address,
-  );
-
-  /// Create JettonWallet instance from the address
-  final jettonWallet = JettonWallet.fromAddress(
-    jettonWalletAddress: jettonWalletAddress,
-    owner: ownerWallet,
-  );
-
-  /// Get the balance of the Jetton Wallet
-  final balance = await jettonWallet.getBalance(rpc);
-
-  /// Define amounts
-  final forwardTonAmount = TonHelper.toNano("0.1");
-  final transferAmount = BigInt.from(1000000000);
-  final BigInt amount = TonHelper.toNano("0.3");
-
-  /// Transfer tokens from Jetton Wallet
-  await jettonWallet.transfer(
-    privateKey: privateKey,
-    rpc: rpc,
-    destination: destination,
-    forwardTonAmount: forwardTonAmount,
-    jettonAmount: transferAmount,
-    amount: amount + forwardTonAmount,
-  );
-```
+- Other Example:
+  [JettonMinter]()
+  [JettonWallet]()
+  [StableJettonMinter]()
+  [StableJettonWallet]()
+  [NFTs]()
+  [MultiOwner]()
+  [Highload]()
+  [VersionedWallets]()
 
 #### JSON-RPC
 
@@ -244,7 +228,7 @@ class HTTPProvider implements TonServiceProvider {
   final publicKey = privateKey.toPublicKey();
 
   /// Create WalletV4 instance with derived public key
-  final wallet = WalletV4(workChain: -1, publicKey: publicKey.toBytes());
+  final wallet = WalletV4(chain: TonChain.testnet, , publicKey: publicKey.toBytes());
 
   /// Get address from wallet
   final address = wallet.address;

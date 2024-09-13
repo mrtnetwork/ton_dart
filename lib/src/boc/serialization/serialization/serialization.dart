@@ -6,7 +6,7 @@ import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/boc/serialization/utils/utils.dart';
 import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
-import 'package:ton_dart/src/utils/crypto.dart';
+import 'package:ton_dart/src/utils/utils/crypto.dart';
 
 class _ParseBocResult {
   final int size;

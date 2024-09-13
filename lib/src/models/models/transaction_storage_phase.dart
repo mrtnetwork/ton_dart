@@ -3,7 +3,7 @@ import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
 import 'package:ton_dart/src/models/models/account_status_change.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L284
 /// tr_phase_storage$_ storage_fees_collected:Grams

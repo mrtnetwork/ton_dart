@@ -1,10 +1,9 @@
-import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 import 'currency_collection.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L132
@@ -43,12 +42,14 @@ class CommonMessageInfoRelaxedType {
 abstract class CommonMessageInfoRelaxed extends TonSerialization {
   const CommonMessageInfoRelaxed._();
   abstract final CommonMessageInfoRelaxedType type;
+  TonBaseAddress? get dest;
   factory CommonMessageInfoRelaxed.deserialize(Slice slice) {
     if (!slice.loadBit()) {
       return CommonMessageInfoRelaxedInternal.deserialize(slice);
     }
     if (!slice.loadBit()) {
-      throw const MessageException("Invalid CommonMessageInfoRelaxed Slice");
+      throw const TonDartPluginException(
+          "Invalid CommonMessageInfoRelaxed Slice");
     }
     return CommonMessageInfoRelaxedExternalOut.deserialize(slice);
   }
@@ -68,6 +69,7 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
   final bool bounce;
   final bool bounced;
   final TonAddress? src;
+  @override
   final TonAddress dest;
   final CurrencyCollection value;
   final BigInt ihrFee;
@@ -116,7 +118,7 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
         bounce: json["bounce"],
         bounced: json["bounced"],
         src: (json["src"] as Object?)
-            ?.to<TonAddress, String>((result) => TonAddress(result)),
+            ?.convertTo<TonAddress, String>((result) => TonAddress(result)),
         dest: TonAddress(json["dest"]),
         value: CurrencyCollection.fromJson(json["value"]),
         ihrFee: BigintUtils.parse(json["ihrFee"]),
@@ -163,6 +165,7 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
 
 class CommonMessageInfoRelaxedExternalOut extends CommonMessageInfoRelaxed {
   final TonAddress? src;
+  @override
   final ExternalAddress? dest;
   final BigInt createdLt;
   final int createdAt;
@@ -182,10 +185,10 @@ class CommonMessageInfoRelaxedExternalOut extends CommonMessageInfoRelaxed {
       Map<String, dynamic> json) {
     return CommonMessageInfoRelaxedExternalOut(
         src: (json["src"] as Object?)
-            ?.to<TonAddress, String>((result) => TonAddress(result)),
+            ?.convertTo<TonAddress, String>((result) => TonAddress(result)),
         createdLt: BigintUtils.parse(json["createdLt"]),
         createdAt: json["createdAt"],
-        dest: (json["dest"] as Object?)?.to<ExternalAddress, Map>(
+        dest: (json["dest"] as Object?)?.convertTo<ExternalAddress, Map>(
             (p0) => ExternalAddress.fromJson(p0.cast())));
   }
 

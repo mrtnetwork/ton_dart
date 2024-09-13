@@ -7,7 +7,7 @@ import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/models/models/message.dart';
 import 'package:ton_dart/src/models/models/transaction_description.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 
 import 'hash_update.dart';
 
@@ -113,8 +113,8 @@ class TonTransaction extends TonSerialization {
         outMessagesCount: json["out_meessages_count"],
         oldStatus: AccountStatus.fromJson(json["old_status"]),
         endStatus: AccountStatus.fromJson(json["end_status"]),
-        inMessage: (json["in_message"] as Object?)
-            ?.to<Message, Map>((result) => Message.fromJson(result.cast())),
+        inMessage: (json["in_message"] as Object?)?.convertTo<Message, Map>(
+            (result) => Message.fromJson(result.cast())),
         outMessages: (json["out_messages"] as Map).map<int, Message>(
             (key, value) =>
                 MapEntry(key, Message.fromJson((value as Map).cast()))),

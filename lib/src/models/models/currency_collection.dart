@@ -2,7 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extentions.dart';
 
 class CurrencyCollection extends TonSerialization {
   final Map<int, BigInt>? other;
@@ -17,7 +17,7 @@ class CurrencyCollection extends TonSerialization {
   }
   factory CurrencyCollection.fromJson(Map<String, dynamic> json) {
     return CurrencyCollection(
-      other: (json["other"] as Object?)?.to<Map<int, BigInt>, Map>((p0) {
+      other: (json["other"] as Object?)?.convertTo<Map<int, BigInt>, Map>((p0) {
         final Map<int, String> result = p0.cast();
         return result.map<int, BigInt>(
             (key, value) => MapEntry(key, BigintUtils.parse(value)));

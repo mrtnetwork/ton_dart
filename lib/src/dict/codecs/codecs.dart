@@ -5,7 +5,15 @@ import 'package:ton_dart/src/dict/dictionary/key.dart';
 import 'package:ton_dart/src/dict/dictionary/value.dart';
 import 'package:ton_dart/src/dict/exception/exception.dart';
 
+/// Provides factory methods for creating `DictionaryKey` and `DictionaryValue`
+/// instances for various data types, used in serialization and deserialization
+/// within dictionaries.
 class DictionaryCodecs {
+  /// Creates a `DictionaryKey` for `TonBaseAddress` with a fixed bit length of 267.
+  ///
+  /// The `serialize` function stores the address in a cell and encodes it as a
+  /// big integer. The `parse` function decodes the big integer from a cell and
+  /// retrieves the address.
   static DictionaryKey<TonBaseAddress> createAddressKey() {
     return DictionaryKey<TonBaseAddress>(
       bits: 267,
@@ -26,6 +34,11 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryKey` for `BigInt` with a specified bit length.
+  ///
+  /// The `serialize` function stores the big integer in a cell and encodes it as
+  /// a big integer. The `parse` function decodes the big integer from a cell and
+  /// retrieves the big integer.
   static DictionaryKey<BigInt> createBigIntKey(int bits) {
     return DictionaryKey<BigInt>(
       bits: bits,
@@ -46,6 +59,11 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryKey` for `int` with a specified bit length.
+  ///
+  /// The `serialize` function stores the integer in a cell and encodes it as
+  /// a big integer. The `parse` function decodes the big integer from a cell and
+  /// retrieves the integer.
   static DictionaryKey<int> createIntKey(int bits) {
     return DictionaryKey<int>(
       bits: bits,
@@ -69,6 +87,11 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryKey` for `BigInt` with a specified bit length for unsigned integers.
+  ///
+  /// The `serialize` function checks if the big integer is non-negative, stores it in a
+  /// cell, and encodes it as a big integer. The `parse` function decodes the big integer
+  /// from a cell and retrieves it.
   static DictionaryKey<BigInt> createBigUintKey(int bits) {
     return DictionaryKey<BigInt>(
       bits: bits,
@@ -92,6 +115,11 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryKey` for `int` with a specified bit length for unsigned integers.
+  ///
+  /// The `serialize` function checks if the integer is finite and non-negative,
+  /// stores it in a cell, and encodes it as a big integer. The `parse` function decodes
+  /// the big integer from a cell and retrieves it as an `int`.
   static DictionaryKey<int> createUintKey(int bits) {
     return DictionaryKey<int>(
       bits: bits,
@@ -119,6 +147,11 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryKey` for a `List<int>` with a specified byte length.
+  ///
+  /// The `serialize` function stores the buffer in a cell and encodes it as a
+  /// big integer. The `parse` function decodes the big integer from a cell and
+  /// retrieves the buffer.
   static DictionaryKey<List<int>> createBufferKey(int bytes) {
     return DictionaryKey<List<int>>(
       bits: bytes * 8,
@@ -139,6 +172,11 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryKey` for `BitString` with a specified bit length.
+  ///
+  /// The `serialize` function stores the bit string in a cell and encodes it as
+  /// a big integer. The `parse` function decodes the big integer from a cell and
+  /// retrieves the bit string.
   static DictionaryKey<BitString> createBitStringKey(int bits) {
     return DictionaryKey<BitString>(
       bits: bits,
@@ -157,6 +195,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `int` with a specified bit length.
+  ///
+  /// The `serialize` function stores the integer in a builder with the specified bit length.
+  /// The `parse` function retrieves the integer from the source with the specified bit length.
   static DictionaryValue<int> createIntValue(int bits) {
     return DictionaryValue<int>(
       serialize: (src, builder) {
@@ -168,6 +210,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `BigInt` with a specified bit length.
+  ///
+  /// The `serialize` function stores the big integer in a builder with the specified bit length.
+  /// The `parse` function retrieves the big integer from the source with the specified bit length.
   static DictionaryValue<BigInt> createBigIntValue(int bits) {
     return DictionaryValue<BigInt>(
       serialize: (src, builder) {
@@ -179,6 +225,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `BigInt` with a specified bit length using variable-length encoding.
+  ///
+  /// The `serialize` function stores the big integer in a builder with variable-length encoding.
+  /// The `parse` function retrieves the big integer from the source using variable-length encoding.
   static DictionaryValue<BigInt> createBigVarIntValue(int bits) {
     return DictionaryValue<BigInt>(
       serialize: (src, builder) {
@@ -190,6 +240,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `BigInt` with a specified bit length using variable-length encoding.
+  ///
+  /// The `serialize` function stores the big integer in a builder with variable-length encoding.
+  /// The `parse` function retrieves the big integer from the source using variable-length encoding.
   static DictionaryValue<BigInt> createBigVarUintValue(int bits) {
     return DictionaryValue<BigInt>(
       serialize: (src, builder) {
@@ -201,6 +255,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `int` with a specified bit length for unsigned integers.
+  ///
+  /// The `serialize` function stores the integer in a builder with the specified bit length.
+  /// The `parse` function retrieves the integer from the source with the specified bit length.
   static DictionaryValue<int> createUintValue(int bits) {
     return DictionaryValue<int>(
       serialize: (src, builder) {
@@ -212,6 +270,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `BigInt` with a specified bit length for unsigned integers.
+  ///
+  /// The `serialize` function stores the big integer in a builder with the specified bit length.
+  /// The `parse` function retrieves the big integer from the source with the specified bit length.
   static DictionaryValue<BigInt> createBigUintValue(int bits) {
     return DictionaryValue<BigInt>(
       serialize: (src, builder) {
@@ -223,6 +285,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `bool`.
+  ///
+  /// The `serialize` function stores the boolean value as a single bit (0 or 1).
+  /// The `parse` function retrieves the boolean value from the source.
   static DictionaryValue<bool> createBooleanValue() {
     return DictionaryValue<bool>(
       serialize: (src, builder) {
@@ -234,7 +300,26 @@ class DictionaryCodecs {
     );
   }
 
-  static DictionaryValue<TonBaseAddress> createAddressValue() {
+  /// Creates a `DictionaryValue` for `TonAddress`.
+  ///
+  /// The `serialize` function stores the `TonAddress` in a builder.
+  /// The `parse` function retrieves the `TonAddress` from the source.
+  static DictionaryValue<TonAddress> createAddressValue() {
+    return DictionaryValue<TonAddress>(
+      serialize: (src, builder) {
+        builder.storeAddress(src);
+      },
+      parse: (src) {
+        return src.loadAddress();
+      },
+    );
+  }
+
+  /// Creates a `DictionaryValue` for `TonBaseAddress`.
+  ///
+  /// The `serialize` function stores the `TonBaseAddress` in a builder.
+  /// The `parse` function retrieves the `TonBaseAddress` from the source.
+  static DictionaryValue<TonBaseAddress> createBaseAddressValue() {
     return DictionaryValue<TonBaseAddress>(
       serialize: (src, builder) {
         builder.storeAddress(src);
@@ -245,6 +330,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `Cell`.
+  ///
+  /// The `serialize` function stores the `Cell` as a reference in the builder.
+  /// The `parse` function retrieves the `Cell` from the source.
   static DictionaryValue<Cell> createCellValue() {
     return DictionaryValue<Cell>(
       serialize: (src, builder) {
@@ -256,6 +345,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for a `Dictionary` with specified key and value codecs.
+  ///
+  /// The `serialize` function stores the dictionary in the builder using the provided key and value codecs.
+  /// The `parse` function retrieves the dictionary from the source using the provided key and value codecs.
   static DictionaryValue<Dictionary<K, V>>
       createDictionaryValue<K extends Object, V>(
           DictionaryKey<K> key, DictionaryValue<V> value) {
@@ -269,6 +362,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for a `List<int>` with a specified size.
+  ///
+  /// The `serialize` function stores the buffer in the builder and validates its size.
+  /// The `parse` function retrieves the buffer from the source with the specified size.
   static DictionaryValue<List<int>> createBufferValue(int size) {
     return DictionaryValue<List<int>>(
       serialize: (src, builder) {
@@ -284,6 +381,10 @@ class DictionaryCodecs {
     );
   }
 
+  /// Creates a `DictionaryValue` for `BitString` with a specified bit length.
+  ///
+  /// The `serialize` function stores the bit string in the builder and validates its length.
+  /// The `parse` function retrieves the bit string from the source with the specified bit length.
   static DictionaryValue<BitString> createBitStringValue(int bits) {
     return DictionaryValue<BitString>(
       serialize: (src, builder) {

@@ -2,7 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/exception/exception.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
-import 'package:ton_dart/src/utils/math.dart';
+import 'package:ton_dart/src/utils/utils/math.dart';
 
 class _Node<T> {
   late _Edge<T> left;
@@ -12,6 +12,17 @@ class _Node<T> {
   _Node.leaf(this.value) : isLeaf = true;
   bool isLeaf;
   late final T value;
+
+  Map<String, dynamic> toJson() {
+    if (isLeaf) {
+      return {"value": value, "type": "leaf"};
+    }
+    return {
+      "left": left.toJson(),
+      "right": right.toJson(),
+      "type": "fork",
+    };
+  }
 }
 
 class _Edge<T> {
@@ -19,6 +30,9 @@ class _Edge<T> {
   final _Node<T> node;
 
   _Edge(this.label, this.node);
+  Map<String, dynamic> toJson() {
+    return {"label": label, "node": node.toJson()};
+  }
 }
 
 class _DictSerializationUtils {
@@ -160,7 +174,6 @@ class _DictSerializationUtils {
   static int detectLabelType(String src, int keyLength) {
     int kind = 0;
     int kindLength = labelShortLength(src);
-
     final longLength = labelLongLength(src, keyLength);
     if (longLength < kindLength) {
       kindLength = longLength;

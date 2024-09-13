@@ -9,4 +9,5 @@ export 'src/helper/ton_helper.dart';
 export 'src/tuple/tuple.dart';
 export 'src/provider/provider.dart';
 export 'src/models/models.dart';
-export 'src/utils/fee.dart';
+export 'src/utils/utils/fee.dart';
+export 'src/serialization/serialization.dart';

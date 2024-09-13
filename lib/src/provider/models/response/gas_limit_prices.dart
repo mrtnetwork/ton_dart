@@ -1,5 +1,4 @@
 import 'package:ton_dart/src/exception/exception.dart';
-import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/ton_dart.dart';
 
