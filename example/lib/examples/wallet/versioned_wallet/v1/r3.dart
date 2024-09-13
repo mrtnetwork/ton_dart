@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
-import 'package:example/examples/versioned_wallet/test_wallet.dart';
+import 'package:example/examples/wallet/test_wallet.dart';
 import 'package:ton_dart/ton_dart.dart';
 
 void main() async {
