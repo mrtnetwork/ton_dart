@@ -28,8 +28,14 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
 
 ### Examples
 
-- Check [examples](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples) folder
--
+  - [JettonMinter](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/minter)
+  - [JettonWallet](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/minter)
+  - [StableJettonMinter](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/stable_minter)
+  - [StableJettonWallet](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/stable_minter)
+  - [NFTs](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/nft)
+  - [MultiOwner](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/multi_owner)
+  - [Highload](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/highload)
+  - [VersionedWallets](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/versioned_wallet)
 
 #### Transfer TON
 
@@ -129,15 +135,6 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
 
 ```
 
-- Other Example:
-  - [JettonMinter](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/minter)
-  - [JettonWallet](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/minter)
-  - [StableJettonMinter](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/stable_minter)
-  - [StableJettonWallet](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/jetton/stable_minter)
-  - [NFTs](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/nft)
-  - [MultiOwner](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/multi_owner)
-  - [Highload](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/highload)
-  - [VersionedWallets](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/versioned_wallet)
 
 #### JSON-RPC
 
