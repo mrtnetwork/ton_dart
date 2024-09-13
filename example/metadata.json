@@ -1,0 +1,11 @@
+{
+  "name": "MRT JETTON",
+  "description": "https://github.com/mrtnetwork/ton_dart",
+  "image": "https://avatars.githubusercontent.com/u/56779182?s=96&v=4",
+  "symbol": "MRT",
+  "image_data": null,
+  "decimals": "12",
+  "uri": null,
+  "amount_style": null,
+  "render_type": null
+}
