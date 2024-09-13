@@ -37,13 +37,11 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
   - [Highload](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/highload)
   - [VersionedWallets](https://github.com/mrtnetwork/ton_dart/tree/main/example/lib/examples/wallet/versioned_wallet)
 
-#### Transfer TON
-
 - transfer
 
 ```dart
   /// TestWallet is a utility for quickly generating and testing wallet contracts from a specified version. 
-  /// The code for this is available in the [example](https://github.com/mrtnetwork/ton_dart/blob/main/example/lib/examples/wallet/test_wallet.dart) folder.
+  /// The code for this is available in the example folder.
   final TestWallet<WalletV5R1> wallet = TestWallet(version: WalletVersion.v5R1);
 
   final destination = TestWallet(version: WalletVersion.v1R1);
@@ -136,7 +134,7 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
 ```
 
 
-#### JSON-RPC
+### JSON-RPC
 
 ```dart
 
@@ -203,7 +201,7 @@ class HTTPProvider implements TonServiceProvider {
 
 ```
 
-#### Addresses and KeyManagment
+### Addresses and KeyManagment
 
 ```dart
 
