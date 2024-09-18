@@ -4,7 +4,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class _MasterchainStateExtraUtils {
   static Dictionary<int, Cell> dict({Map<int, String>? config}) {

@@ -1,4 +1,5 @@
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/address/address.dart';
+import 'package:ton_dart/src/serialization/serialization.dart';
 
 class AccountAddressResponse with JsonSerialization {
   final TonAddress address;

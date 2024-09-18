@@ -8,7 +8,7 @@ void main() async {
   await wallet.wallet.sendTransfer(
       params: VersionedTransferParams(privateKey: wallet.signer, messages: [
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination2.address,
                 amount: TonHelper.toNano("0.03")))
       ]),
@@ -19,7 +19,7 @@ void main() async {
   assert(publicKey == wallet.signer.toPublicKey().toHex());
   final state = await wallet.wallet.readState(wallet.rpc);
   assert(BytesUtils.bytesEqual(
-      state.publicKey, wallet.signer.toPublicKey().toBytes()));
+      state.publicKey.toBytes(), wallet.signer.toPublicKey().toBytes()));
   assert(state.subwallet == wallet.wallet.state!.subwallet);
   await WalletV4.fromAddress(address: wallet.address, rpc: wallet.rpc);
 }

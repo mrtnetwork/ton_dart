@@ -1,5 +1,6 @@
+import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/provider/models/response/trace.dart';
 
 /// Send query - unpacked external message. This method takes address, body and init-params (if any),
 /// packs it to external message and sends to network. All params should be boc-serialized.

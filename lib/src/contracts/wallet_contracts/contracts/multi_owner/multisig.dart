@@ -2,7 +2,6 @@ import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
-import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/constant/constants/mutli_owner.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/contracts/multi_owner/order.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
@@ -81,7 +80,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
         params: params,
         messages: [
-          TransactioUtils.internal(
+          TonHelper.internal(
             destination: address,
             amount: amount,
             initState: state,
@@ -195,7 +194,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
           ...chunk,
           OutActionMultiSigSendMsg(
               mode: SendModeConst.payGasSeparately,
-              outMessage: TransactioUtils.internal(
+              outMessage: TonHelper.internal(
                   destination: address,
                   amount: amount,
                   body: beginCell()

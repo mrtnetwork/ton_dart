@@ -9,7 +9,7 @@ import 'package:ton_dart/src/contracts/wallet_contracts/constant/constants/highl
 import 'package:ton_dart/src/crypto/keypair/private_key.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
-import 'package:ton_dart/src/contracts/wallet_contracts/provider/highload.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/provider/impl/highload.dart';
 
 class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     with HighloadWalletV3ProviderImpl<HighloadWalletV3State> {

@@ -5,9 +5,9 @@ import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/token/ft/types/operations/jetton.dart';
 import 'package:ton_dart/src/contracts/token/ft/types/state/wallet.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
+import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
-import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
 
 class JettonWallet<E extends WalletContractTransferParams>
     extends TonContract<JettonWalletState> {
@@ -41,7 +41,7 @@ class JettonWallet<E extends WalletContractTransferParams>
       Cell? body,
       StateInit? state,
       OnEstimateFee? onEstimateFee}) async {
-    final message = TransactioUtils.internal(
+    final message = TonHelper.internal(
         destination: address,
         amount: amount,
         initState: state,

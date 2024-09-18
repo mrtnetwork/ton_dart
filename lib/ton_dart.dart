@@ -11,3 +11,4 @@ export 'src/provider/provider.dart';
 export 'src/models/models.dart';
 export 'src/utils/utils/fee.dart';
 export 'src/serialization/serialization.dart';
+export 'src/exception/exception.dart';

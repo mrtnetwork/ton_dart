@@ -1,6 +1,8 @@
 import 'package:blockchain_utils/utils/utils.dart';
+import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
+import 'package:ton_dart/src/models/models.dart';
 
 /// A utility class for handling TON (The Open Network) specific operations.
 ///
@@ -64,5 +66,37 @@ class TonHelper {
           details: {"data": data});
     }
     return toCell;
+  }
+
+  static MessageRelaxed internal(
+      {required TonAddress destination,
+      required BigInt amount,
+      Cell? body,
+      StateInit? initState,
+      String? memo,
+      bool bounce = false,
+      bool bounced = false}) {
+    assert(memo == null || body == null,
+        "You have to choose a memo or body for each message.");
+    return MessageRelaxed(
+        info: CommonMessageInfoRelaxedInternal(
+            ihrDisabled: true,
+            bounce: bounce,
+            bounced: bounced,
+            dest: destination,
+            value: CurrencyCollection(coins: amount),
+            ihrFee: BigInt.zero,
+            forwardFee: BigInt.zero,
+            createdLt: BigInt.zero,
+            createdAt: 0),
+        body: body ?? Cell.empty,
+        init: initState);
+  }
+
+  static Cell buildMessageBody(String? memo) {
+    if (memo != null) {
+      return beginCell().storeUint(0, 32).storeStringTail(memo).endCell();
+    }
+    return Cell.empty;
   }
 }

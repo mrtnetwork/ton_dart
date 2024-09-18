@@ -1,6 +1,8 @@
+import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/exception/exception.dart';
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/serialization/serialization.dart';
 
 enum TokenContentType { unknown, offchain, onchain }
 

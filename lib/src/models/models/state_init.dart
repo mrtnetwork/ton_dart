@@ -6,7 +6,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/models/models/simple_library.dart';
 import 'package:ton_dart/src/models/models/tick_tock.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class _StateInitUtils {
   static Dictionary<BigInt, SimpleLibrary> libraryDict(

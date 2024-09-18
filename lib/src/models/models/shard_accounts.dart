@@ -4,7 +4,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/models/models/depth_balance_info.dart';
 import 'package:ton_dart/src/models/models/shard_account.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class ShardAccountsCodec {
   static final DictionaryValue<ShardAccountRef> codec =

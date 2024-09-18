@@ -3,7 +3,7 @@ import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 import 'currency_collection.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L132
@@ -18,7 +18,6 @@ class CommonMessageInfoRelaxedType {
   const CommonMessageInfoRelaxedType._(this.name);
   static const CommonMessageInfoRelaxedType internal =
       CommonMessageInfoRelaxedType._("internal");
-
   static const CommonMessageInfoRelaxedType externalOut =
       CommonMessageInfoRelaxedType._("external-out");
   static const List<CommonMessageInfoRelaxedType> values = [
@@ -61,6 +60,14 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
       default:
         return CommonMessageInfoRelaxedExternalOut.fromJson(json);
     }
+  }
+
+  T cast<T extends CommonMessageInfoRelaxed>() {
+    if (this is! T) {
+      throw TonDartPluginException("Incorrect message relaxed casting.",
+          details: {"excepted": "$runtimeType", "got": "$T"});
+    }
+    return this as T;
   }
 }
 

@@ -1,5 +1,6 @@
+import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/contracts/token/metadata/core/metadata.dart';
 
 class NFTItemMetadata extends NFTMetadata {
   final String uri;

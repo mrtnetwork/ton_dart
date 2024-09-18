@@ -1,4 +1,3 @@
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
@@ -16,7 +15,47 @@ class TonSerializationUtils {
     return dict;
   }
 
-  static Cell seralizeV5({
+  static Cell serializeV5({
+    required OutActionsV5 actions,
+    required WalletV5AuthType type,
+    required int accountSeqno,
+    required V5R1Context context,
+    int? timeout,
+  }) {
+    if (type == WalletV5AuthType.extension) {
+      throw const TonContractException(
+          "Please use `createExtensionMessage` for create extension message body.");
+    }
+    if (type == WalletV5AuthType.external) {
+      List<OutActionWalletV5> fixedMode = [];
+      for (final i in actions.actions) {
+        if (i.type != OutActionType.sendMsg) {
+          fixedMode.add(i);
+          continue;
+        }
+        final sendMessage = (i as OutActionSendMsg)
+            .copyWith(mode: i.mode | SendMode.ignoreErrors.mode);
+        fixedMode.add(sendMessage);
+      }
+      actions = OutActionsV5(actions: fixedMode);
+    }
+    final signingMessage = beginCell();
+    signingMessage.storeUint32(type.tag);
+    signingMessage.store(context);
+    timeout ??= (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 60;
+    if (accountSeqno == 0) {
+      for (int i = 0; i < 32; i++) {
+        signingMessage.storeBit(1);
+      }
+    } else {
+      signingMessage.storeUint32(timeout);
+    }
+    signingMessage.storeUint(accountSeqno, 32);
+    signingMessage.store(actions);
+    return signingMessage.endCell();
+  }
+
+  static Cell sseralizeV5({
     required OutActionsV5 actions,
     required WalletV5AuthType type,
     int? accountSeqno,

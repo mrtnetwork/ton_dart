@@ -43,7 +43,6 @@ class V5R1CustomContext extends V5R1Context {
 
 class V5R1ClientContext extends V5R1Context {
   final int walletVersion = 0;
-  // final int workchain;
   final int subwalletNumber;
 
   V5R1ClientContext({required this.subwalletNumber, required TonChain chain})

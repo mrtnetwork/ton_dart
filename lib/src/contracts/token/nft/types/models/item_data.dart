@@ -1,5 +1,7 @@
+import 'package:ton_dart/src/address/address.dart';
+import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/serialization/serialization.dart';
 
 class NFTItemData with JsonSerialization {
   final bool init;

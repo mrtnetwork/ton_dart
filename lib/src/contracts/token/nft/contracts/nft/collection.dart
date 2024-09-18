@@ -5,8 +5,8 @@ import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/token/nft/types/types.dart';
-import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
+import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/provider/provider/provider.dart';
@@ -58,7 +58,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
           "The account is inactive and requires state initialization.");
     }
 
-    final message = TransactioUtils.internal(
+    final message = TonHelper.internal(
       destination: address,
       amount: amount,
       initState: active ? null : this.state!.initialState(),

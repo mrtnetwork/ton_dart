@@ -7,3 +7,6 @@ export 'transfer_params/highload.dart';
 export 'transfer_params/multi_owner.dart';
 export 'transfer_params/versioned.dart';
 export 'transfer_params/versioned_v5.dart';
+export 'transfer_params/versioned_transaction.dart';
+export 'operation/v5.dart';
+export 'models/v5_message_type.dart';

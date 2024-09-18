@@ -1,30 +1,38 @@
 import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:ton_dart/src/address/address.dart';
+import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:ton_dart/src/contracts/token/ft/constants/constant.dart';
+import 'package:ton_dart/src/contracts/token/ft/types/state/stable_wallet.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/serialization/serialization.dart';
 
-class StableJettonMinterOperationType {
-  final int id;
-  final String name;
+class StableJettonMinterOperationType extends ContractOperationType {
   const StableJettonMinterOperationType._(
-      {required this.id, required this.name});
+      {required String name, required int operation})
+      : super(name: name, operation: operation);
   static const StableJettonMinterOperationType discovery =
-      StableJettonMinterOperationType._(id: 0x2c76b973, name: "Discovery");
+      StableJettonMinterOperationType._(
+          operation: 0x2c76b973, name: "Discovery");
   static const StableJettonMinterOperationType topUp =
-      StableJettonMinterOperationType._(id: 0xd372158c, name: "TopUp");
+      StableJettonMinterOperationType._(operation: 0xd372158c, name: "TopUp");
   static const StableJettonMinterOperationType changeAdmin =
-      StableJettonMinterOperationType._(id: 0x6501f354, name: "ChangeAdmin");
+      StableJettonMinterOperationType._(
+          operation: 0x6501f354, name: "ChangeAdmin");
   static const StableJettonMinterOperationType claimAdmin =
-      StableJettonMinterOperationType._(id: 0xfb88e119, name: "ClaimAdmin");
+      StableJettonMinterOperationType._(
+          operation: 0xfb88e119, name: "ClaimAdmin");
   static const StableJettonMinterOperationType changeContent =
-      StableJettonMinterOperationType._(id: 0xcb862902, name: "ChangeContent");
+      StableJettonMinterOperationType._(
+          operation: 0xcb862902, name: "ChangeContent");
   static const StableJettonMinterOperationType callTo =
-      StableJettonMinterOperationType._(id: 0x235caf52, name: "CallTo");
+      StableJettonMinterOperationType._(operation: 0x235caf52, name: "CallTo");
   static const StableJettonMinterOperationType mint =
-      StableJettonMinterOperationType._(id: 0x642b7d07, name: "Mint");
+      StableJettonMinterOperationType._(operation: 0x642b7d07, name: "Mint");
   static const StableJettonMinterOperationType internalTransfer =
       StableJettonMinterOperationType._(
-          id: 0x178d4519, name: "InternalTransfer");
+          operation: 0x178d4519, name: "InternalTransfer");
 
   static const List<StableJettonMinterOperationType> values = [
     mint,
@@ -36,11 +44,11 @@ class StableJettonMinterOperationType {
     callTo,
     internalTransfer
   ];
-  static StableJettonMinterOperationType fromTag(int? tag,
+  static StableJettonMinterOperationType fromTag(int? operation,
       {StableJettonMinterOperationType? excepted}) {
-    final type = values.firstWhere((e) => e.id == tag,
+    final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: tag));
+            throw TonContractExceptionConst.invalidOperationId(tag: operation));
     if (excepted != null) {
       if (type != excepted) {
         throw TonContractExceptionConst.incorrectOperation(
@@ -65,21 +73,23 @@ class StableJettonMinterOperationType {
   }
 }
 
-class StableJettonWalletOperationType {
-  final int id;
-  final String name;
+class StableJettonWalletOperationType extends ContractOperationType {
   const StableJettonWalletOperationType._(
-      {required this.id, required this.name});
+      {required String name, required int operation})
+      : super(name: name, operation: operation);
   static const StableJettonWalletOperationType setStatus =
-      StableJettonWalletOperationType._(id: 0xeed236d3, name: "SetStatus");
+      StableJettonWalletOperationType._(
+          operation: 0xeed236d3, name: "SetStatus");
   static const StableJettonWalletOperationType transfer =
-      StableJettonWalletOperationType._(id: 0xf8a7ea5, name: "Transfer");
+      StableJettonWalletOperationType._(operation: 0xf8a7ea5, name: "Transfer");
   static const StableJettonWalletOperationType burn =
-      StableJettonWalletOperationType._(id: 0x595f07bc, name: "Burn");
+      StableJettonWalletOperationType._(operation: 0x595f07bc, name: "Burn");
   static const StableJettonWalletOperationType withdrawTon =
-      StableJettonWalletOperationType._(id: 0x6d8e5e3c, name: "WithdrawTon");
+      StableJettonWalletOperationType._(
+          operation: 0x6d8e5e3c, name: "WithdrawTon");
   static const StableJettonWalletOperationType withdrawJetton =
-      StableJettonWalletOperationType._(id: 0x768a50b2, name: "WithdrawJetton");
+      StableJettonWalletOperationType._(
+          operation: 0x768a50b2, name: "WithdrawJetton");
 
   ///
   static const List<StableJettonWalletOperationType> values = [
@@ -89,11 +99,11 @@ class StableJettonWalletOperationType {
     withdrawTon,
     withdrawJetton
   ];
-  static StableJettonWalletOperationType fromTag(int? tag,
+  static StableJettonWalletOperationType fromTag(int? operation,
       {StableJettonWalletOperationType? excepted}) {
-    final type = values.firstWhere((e) => e.id == tag,
+    final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: tag));
+            throw TonContractExceptionConst.invalidOperationId(tag: operation));
     if (excepted != null) {
       if (type != excepted) {
         throw TonContractExceptionConst.incorrectOperation(
@@ -169,12 +179,22 @@ abstract class StableJettonMinterCallToOperations extends TonSerialization {
   }
 }
 
-abstract class StableJettonMinterOperation extends TonSerialization {
+abstract class StableJettonMinterOperation extends TonSerialization
+    implements ContractOperation {
+  @override
   final StableJettonMinterOperationType type;
   final BigInt queryId;
   StableJettonMinterOperation({required this.type, BigInt? queryId})
       : queryId = queryId ?? BigInt.zero;
   Cell toBody() => beginCell().store(this).endCell();
+  @override
+  String get contractName => "Stable Jetton Minter";
+
+  @override
+  Cell contractCode(TonChain chain) {
+    return JettonMinterConst.stableCode(chain.workchain);
+  }
+
   factory StableJettonMinterOperation.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
         parse: () {
@@ -281,7 +301,7 @@ class StableJettonMinterMint extends StableJettonMinterOperation {
   }
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(to);
     builder.storeCoins(totalTonAmount);
@@ -353,7 +373,7 @@ class StableJettonMinterInternalTransfer extends StableJettonMinterOperation {
   }
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeCoins(jettonAmount);
     builder.storeAddress(from);
@@ -407,7 +427,7 @@ class StableJettonMinterDiscovery extends StableJettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(owner);
     builder.storeBitBolean(includeAddress);
@@ -447,7 +467,7 @@ class StableJettonMinterTopUp extends StableJettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
   }
 
@@ -485,7 +505,7 @@ class StableJettonMinterChangeAdmin extends StableJettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(newOwner);
   }
@@ -524,7 +544,7 @@ class StableJettonMinterClaimAdmin extends StableJettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
   }
 
@@ -561,7 +581,7 @@ class StableJettonMinterChangeContent extends StableJettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeStringTail(url);
   }
@@ -613,7 +633,7 @@ class StableJettonMinterCallTo extends StableJettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(address);
     builder.storeCoins(amount);
@@ -632,10 +652,20 @@ class StableJettonMinterCallTo extends StableJettonMinterOperation {
   }
 }
 
-abstract class StableJettonWalletOperation extends TonSerialization {
+abstract class StableJettonWalletOperation extends TonSerialization
+    implements ContractOperation {
+  @override
   final StableJettonWalletOperationType type;
   final BigInt queryId;
   Cell toBody() => beginCell().store(this).endCell();
+
+  @override
+  Cell contractCode(TonChain chain) {
+    return JettonWalletConst.stableCode(chain.workchain);
+  }
+
+  @override
+  String get contractName => "Stable Jetton Wallet";
 
   T cast<T extends StableJettonWalletOperation>() {
     if (this is! T) {
@@ -717,7 +747,7 @@ class StableJettonWalletSetStatus extends StableJettonWalletOperation
   Cell toBody() => beginCell().store(this).endCell();
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeUint4(status.id);
   }
@@ -790,7 +820,7 @@ class StableJettonWalletTransfer extends StableJettonWalletOperation
   Cell toBody() => beginCell().store(this).endCell();
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeCoins(jettonAmount);
     builder.storeAddress(to);
@@ -859,7 +889,7 @@ class StableJettonWalletBurn extends StableJettonWalletOperation
   Cell toBody() => beginCell().store(this).endCell();
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeCoins(jettonAmount);
     builder.storeAddress(responseAddress);
@@ -877,99 +907,3 @@ class StableJettonWalletBurn extends StableJettonWalletOperation
     };
   }
 }
-
-// class StableTokenWalletWithrawTon extends StableJettonWalletOperation {
-//   StableTokenWalletWithrawTon({
-//     BigInt? queryId,
-//   }) : super(
-//             type: StableJettonWalletOperationType.withdrawTon, queryId: queryId);
-//   factory StableTokenWalletWithrawTon.fromJson(Map<String, dynamic> json) {
-//     return TonModelParser.parseJson(
-//         parse: () {
-//           return StableTokenWalletWithrawTon(
-//               queryId: BigintUtils.parse(json["queryId"]));
-//         },
-//         name: StableJettonWalletOperationType.withdrawTon.name);
-//   }
-//   factory StableTokenWalletWithrawTon.deserialize(Slice slice) {
-//     return TonModelParser.parseBoc(
-//         parse: () {
-//           StableJettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-//               excepted: StableJettonWalletOperationType.withdrawTon);
-//           return StableTokenWalletWithrawTon(queryId: slice.loadUint64());
-//         },
-//         name: StableJettonWalletOperationType.withdrawTon.name);
-//   }
-
-//   @override
-//   void store(Builder builder) {
-//     builder.storeUint32(type.id);
-//     builder.storeUint64(queryId);
-//   }
-
-//   @override
-//   Map<String, dynamic> toJson() {
-//     return {"type": type.name, "queryId": queryId.toString()};
-//   }
-// }
-
-// class StableTokenWalletWithrawJetton extends StableJettonWalletOperation {
-//   final BigInt amount;
-//   final TonAddress address;
-//   final Cell? customPayload;
-
-//   StableTokenWalletWithrawJetton({
-//     required this.amount,
-//     required this.address,
-//     this.customPayload,
-//     BigInt? queryId,
-//   }) : super(
-//             type: StableJettonWalletOperationType.withdrawJetton,
-//             queryId: queryId);
-//   factory StableTokenWalletWithrawJetton.fromJson(Map<String, dynamic> json) {
-//     return TonModelParser.parseJson(
-//         parse: () {
-//           return StableTokenWalletWithrawJetton(
-//               queryId: BigintUtils.parse(json["queryId"]),
-//               amount: BigintUtils.parse(json["amount"]),
-//               customPayload: json["customPayload"] == null
-//                   ? null
-//                   : Cell.fromBase64(json["customPayload"]),
-//               address: TonAddress(json["address"]));
-//         },
-//         name: StableJettonWalletOperationType.withdrawJetton.name);
-//   }
-//   factory StableTokenWalletWithrawJetton.deserialize(Slice slice) {
-//     return TonModelParser.parseBoc(
-//         parse: () {
-//           StableJettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-//               excepted: StableJettonWalletOperationType.withdrawJetton);
-//           return StableTokenWalletWithrawJetton(
-//               queryId: slice.loadUint64(),
-//               address: slice.loadAddress(),
-//               amount: slice.loadCoins(),
-//               customPayload: slice.loadMaybeRef());
-//         },
-//         name: StableJettonWalletOperationType.withdrawJetton.name);
-//   }
-
-//   @override
-//   void store(Builder builder) {
-//     builder.storeUint32(type.id);
-//     builder.storeUint64(queryId);
-//     builder.storeAddress(address);
-//     builder.storeCoins(amount);
-//     builder.storeMaybeRef(cell: customPayload);
-//   }
-
-//   @override
-//   Map<String, dynamic> toJson() {
-//     return {
-//       "type": type.name,
-//       "queryId": queryId.toString(),
-//       "amount": amount.toString(),
-//       "address": address.toRawAddress(),
-//       "customPayload": customPayload?.toBase64()
-//     };
-//   }
-// }

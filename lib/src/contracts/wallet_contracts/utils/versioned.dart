@@ -43,14 +43,14 @@ class VersionedWalletUtils {
           final context =
               loadV5Context(contextBytes: cell.loadBuffer(4), chain: chain);
           pubkeyBytes = cell.loadBuffer(32);
-          List<TonAddress> extentionPubkeys = [];
+          List<TonAddress> extensionPubkeys = [];
           final pubRefs = cell.loadMaybeRef();
           if (pubRefs != null) {
             final Dictionary<List<int>, BigInt> items = Dictionary.loadDirect(
                 key: DictionaryKey.bufferCodec(32),
                 value: DictionaryValue.bigIntValueCodec(1),
                 slice: pubRefs.beginParse());
-            extentionPubkeys = items.keys
+            extensionPubkeys = items.keys
                 .map((e) => TonAddress.fromBytes(chain.workchain, e))
                 .toList();
           }
@@ -61,7 +61,7 @@ class VersionedWalletUtils {
               context: context,
               version: type,
               setPubKeyEnabled: pubKeyEnabled,
-              extensionPubKeys: extentionPubkeys);
+              extensionPubKeys: extensionPubkeys);
         default:
           throw UnimplementedError();
       }

@@ -19,12 +19,12 @@ void main() async {
           amount: TonHelper.toNano("0.5"),
           messages: [
             OutActionMultiSigSendMsg(
-                outMessage: TransactioUtils.internal(
+                outMessage: TonHelper.internal(
                     destination:
                         destination1.address.copyWith(bounceable: false),
                     amount: TonHelper.toNano("0.01"))),
             OutActionMultiSigSendMsg(
-                outMessage: TransactioUtils.internal(
+                outMessage: TonHelper.internal(
                     destination:
                         destination2.address.copyWith(bounceable: false),
                     amount: TonHelper.toNano("0.01"))),

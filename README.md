@@ -58,39 +58,39 @@ To leverage Ton Dart's capabilities optimally, familiarity with TonApi and TonCe
       params:
           VersionedV5TransferParams.external(signer: wallet.signer, messages: [
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination2.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination3.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination4.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination5.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination6.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination7.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination8.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination9.address,
                 amount: TonHelper.toNano("0.01"))),
       ]),

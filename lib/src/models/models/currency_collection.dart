@@ -2,7 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class CurrencyCollection extends TonSerialization {
   final Map<int, BigInt>? other;

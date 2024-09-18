@@ -5,7 +5,7 @@ import 'package:ton_dart/src/models/models/split_merge_info.dart';
 import 'package:ton_dart/src/models/models/transaction.dart';
 import 'package:ton_dart/src/models/models/transaction_bounce_phase.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 import 'transaction_action_phase.dart';
 import 'transaction_compute_phase.dart';
 import 'transaction_credit_phase.dart';

@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core/transfer_params.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
@@ -33,7 +32,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
 
   Future<String> getPublicKey(TonProvider rpc) async {
     final state = await readState(rpc);
-    return BytesUtils.toHexString(state.publicKey);
+    return state.publicKey.toHex();
   }
 
   Future<C> readState(TonProvider rpc) async {
@@ -86,7 +85,8 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
     final message = TonSerializationUtils.serializeMessage(
         actions: actions,
         state: state ?? this.state!,
-        seqno: state?.seqno ?? 0);
+        seqno: state?.seqno ?? 0,
+        timeOut: timeout);
     final body = beginCell()
         .storeBuffer(params.privateKey.sign(message.hash()))
         .storeSlice(message.beginParse())

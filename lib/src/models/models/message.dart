@@ -6,7 +6,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/models/models/common_message_info.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class MessageCodec {
   static final DictionaryValue<Message> codec = DictionaryValue(

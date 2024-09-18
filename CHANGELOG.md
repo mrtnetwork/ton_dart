@@ -1,3 +1,8 @@
+## 0.1.1
+
+- Fixed W5 extension and internal messaging issues
+- Added examples for W5 extension and internal transactions
+
 ## 0.1.0
 
 - Breaking Changes: Updated APIs for NFT, Jetton, and versioned contracts. All related methods have been modified.

@@ -4,7 +4,7 @@ import 'package:ton_dart/src/boc/cell/slice.dart';
 import 'package:ton_dart/src/models/models/common_message_info_relaxed.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L151
 /// message$_ {X:Type} info:CommonMsgInfoRelaxed

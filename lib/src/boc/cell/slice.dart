@@ -539,6 +539,11 @@ class Slice {
     }
   }
 
+  void reset() {
+    _reader.reset();
+    _refsOffset = 0;
+  }
+
   @override
   String toString() {
     return asCell().toString();

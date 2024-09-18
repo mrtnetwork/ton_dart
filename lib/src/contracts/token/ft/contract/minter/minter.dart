@@ -7,10 +7,10 @@ import 'package:ton_dart/src/contracts/token/ft/contract/contracts.dart';
 import 'package:ton_dart/src/contracts/token/ft/types/types.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
+import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/provider/provider/provider.dart';
-import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
 
 class JettonMinter<E extends WalletContractTransferParams>
     extends TonContract<MinterWalletState> with ContractProvider {
@@ -60,7 +60,7 @@ class JettonMinter<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
         params: params,
         messages: [
-          TransactioUtils.internal(
+          TonHelper.internal(
             destination: address,
             amount: amount,
             initState: active ? null : state!.initialState(),

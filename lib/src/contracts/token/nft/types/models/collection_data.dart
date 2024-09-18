@@ -1,4 +1,6 @@
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/address/address/address.dart';
+import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
+import 'package:ton_dart/src/serialization/serialization.dart';
 
 class NFTCollectionData with JsonSerialization {
   final BigInt nexItemIndex;

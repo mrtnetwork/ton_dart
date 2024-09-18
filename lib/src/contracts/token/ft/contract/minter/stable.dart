@@ -8,11 +8,11 @@ import 'package:ton_dart/src/contracts/token/ft/types/models/stable_minter_data.
 import 'package:ton_dart/src/contracts/token/ft/types/state/stable_minter.dart';
 import 'package:ton_dart/src/contracts/token/ft/types/operations/stable_jetton.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
+import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/provider/provider/provider.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/minter.dart';
-import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
 
 class StableJettonMinter<E extends WalletContractTransferParams>
     extends TonContract<StableTokenMinterState> with ContractProvider {
@@ -61,7 +61,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
         params: params,
         messages: [
-          TransactioUtils.internal(
+          TonHelper.internal(
             destination: address,
             amount: amount,
             initState: state,

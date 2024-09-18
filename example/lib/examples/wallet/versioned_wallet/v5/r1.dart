@@ -19,39 +19,39 @@ void main() async {
       params:
           VersionedV5TransferParams.external(signer: wallet.signer, messages: [
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination2.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination3.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination4.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination5.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination6.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination7.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination8.address,
                 amount: TonHelper.toNano("0.01"))),
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination9.address,
                 amount: TonHelper.toNano("0.01"))),
       ]),
@@ -61,7 +61,7 @@ void main() async {
   assert(publicKey == wallet.signer.toPublicKey().toHex());
   final state = await wallet.wallet.readState(wallet.rpc);
   assert(BytesUtils.bytesEqual(
-      state.publicKey, wallet.signer.toPublicKey().toBytes()));
+      state.publicKey.toBytes(), wallet.signer.toPublicKey().toBytes()));
   assert(state.context == wallet.wallet.state!.context);
   await WalletV5R1.fromAddress(address: wallet.address, rpc: wallet.rpc);
 }

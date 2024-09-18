@@ -14,7 +14,7 @@ void main() async {
           signer: wallet.signer,
           messages: [
             OutActionSendMsg(
-                outMessage: TransactioUtils.internal(
+                outMessage: TonHelper.internal(
                     destination: destination.address,
                     amount: TonHelper.toNano("0.1"))),
           ]),
@@ -24,7 +24,7 @@ void main() async {
   assert(publicKey == wallet.signer.toPublicKey().toHex());
   final state = await wallet.wallet.readState(wallet.rpc);
   assert(BytesUtils.bytesEqual(
-      state.publicKey, wallet.signer.toPublicKey().toBytes()));
+      state.publicKey.toBytes(), wallet.signer.toPublicKey().toBytes()));
   assert(state.subWalletId == wallet.wallet.state!.subWalletId);
   await HighloadWalletV3.fromAddress(address: wallet.address, rpc: wallet.rpc);
 }

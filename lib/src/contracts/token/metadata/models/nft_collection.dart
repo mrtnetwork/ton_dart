@@ -1,6 +1,7 @@
+import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
-import 'package:ton_dart/ton_dart.dart';
+import 'package:ton_dart/src/contracts/token/token.dart';
 
 class NFTCollectionMetadata extends NFTMetadata {
   /// collection base uri like(https:/.../metadata.json)

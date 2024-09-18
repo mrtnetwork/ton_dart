@@ -8,7 +8,7 @@ void main() async {
   await wallet.wallet.sendTransfer(
       params: VersionedTransferParams(privateKey: wallet.signer, messages: [
         OutActionSendMsg(
-            outMessage: TransactioUtils.internal(
+            outMessage: TonHelper.internal(
                 destination: destination.address,
                 amount: TonHelper.toNano("4.5")))
       ]),
@@ -18,7 +18,7 @@ void main() async {
   assert(publicKey == wallet.signer.toPublicKey().toHex());
   final state = await wallet.wallet.readState(wallet.rpc);
   assert(BytesUtils.bytesEqual(
-      state.publicKey, wallet.signer.toPublicKey().toBytes()));
+      state.publicKey.toBytes(), wallet.signer.toPublicKey().toBytes()));
   await WalletV1R1.fromAddress(address: wallet.address, rpc: wallet.rpc);
 
   /// https://testnet.tonscan.org/address/kf9serWJThPWFoZqR5ad3GSjWsGmY8I_8d3IQuKOyIlODJlh

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/models/models/message.dart';
 import 'package:ton_dart/src/models/models/transaction_description.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extentions.dart';
+import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 import 'hash_update.dart';
 

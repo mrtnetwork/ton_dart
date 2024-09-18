@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/token/nft/constant/constant.dart';
@@ -9,20 +10,19 @@ import 'package:ton_dart/src/contracts/utils/parser.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
-class NFTItemOperationType {
-  final int id;
-  final String name;
-  const NFTItemOperationType._({required this.name, required this.id});
+class NFTItemOperationType extends ContractOperationType {
+  const NFTItemOperationType._({required String name, required int operation})
+      : super(name: name, operation: operation);
   static const NFTItemOperationType transfer = NFTItemOperationType._(
-      name: "Transfer", id: TonNftConst.nftTransferOperationId);
+      name: "Transfer", operation: TonNftConst.nftTransferOperationId);
   static const NFTItemOperationType getStaticData = NFTItemOperationType._(
-      name: "GetStaticData", id: TonNftConst.getStaticDataOperationId);
+      name: "GetStaticData", operation: TonNftConst.getStaticDataOperationId);
   static const List<NFTItemOperationType> values = [transfer, getStaticData];
-  static NFTItemOperationType fromTag(int? tag,
+  static NFTItemOperationType fromTag(int? operation,
       {NFTItemOperationType? excepted}) {
-    final type = values.firstWhere((e) => e.id == tag,
+    final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: tag));
+            throw TonContractExceptionConst.invalidOperationId(tag: operation));
     if (excepted != null) {
       if (type != excepted) {
         throw TonContractExceptionConst.incorrectOperation(
@@ -47,12 +47,23 @@ class NFTItemOperationType {
   }
 }
 
-abstract class NFTItemOperation extends TonSerialization {
+abstract class NFTItemOperation extends TonSerialization
+    implements ContractOperation {
+  @override
   final NFTItemOperationType type;
   final BigInt queryId;
 
+  @override
+  String get contractName => "NFT Item";
+
   NFTItemOperation({required this.type, BigInt? queryId})
       : queryId = queryId ?? BigInt.zero;
+
+  @override
+  Cell contractCode(TonChain chain) {
+    return TonNftConst.nftItemCode(chain.workchain);
+  }
+
   Cell toBody() => beginCell().store(this).endCell();
   factory NFTItemOperation.deserialize(Slice slice) {
     return TonModelParser.parseBoc<NFTItemOperation>(
@@ -154,7 +165,7 @@ class NFTItemTransfer extends NFTItemOperation {
   }
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(newOwnerAddress);
     builder.storeAddress(responseDestination);
@@ -179,6 +190,7 @@ class NFTItemTransfer extends NFTItemOperation {
 class NFTItemGetStaticData extends NFTItemOperation {
   NFTItemGetStaticData({required BigInt? queryId})
       : super(queryId: queryId, type: NFTItemOperationType.getStaticData);
+
   factory NFTItemGetStaticData.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
         parse: () {
@@ -198,7 +210,7 @@ class NFTItemGetStaticData extends NFTItemOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
   }
 
@@ -208,34 +220,33 @@ class NFTItemGetStaticData extends NFTItemOperation {
   }
 }
 
-class NFTCollectionOperationType {
-  final String name;
-  final int id;
-  const NFTCollectionOperationType._({required this.name, required this.id});
-
+class NFTCollectionOperationType extends ContractOperationType {
+  const NFTCollectionOperationType._(
+      {required String name, required int operation})
+      : super(name: name, operation: operation);
   static const NFTCollectionOperationType mint = NFTCollectionOperationType._(
-      name: "Mint", id: TonNftConst.mintNFtOperationId);
+      name: "Mint", operation: TonNftConst.mintNFtOperationId);
   static const NFTCollectionOperationType batchMint =
       NFTCollectionOperationType._(
-          name: "BatchMint", id: TonNftConst.batchMintNFtOperationId);
+          name: "BatchMint", operation: TonNftConst.batchMintNFtOperationId);
   static const NFTCollectionOperationType changeOwner =
       NFTCollectionOperationType._(
           name: "ChangeOwner",
-          id: TonNftConst.changeCollectionOwnerOperationId);
+          operation: TonNftConst.changeCollectionOwnerOperationId);
   static const NFTCollectionOperationType changeContent =
       NFTCollectionOperationType._(
-          name: "ChangeContent", id: TonNftConst.changeContent);
+          name: "ChangeContent", operation: TonNftConst.changeContent);
   static const List<NFTCollectionOperationType> values = [
     mint,
     batchMint,
     changeOwner,
     changeContent
   ];
-  static NFTCollectionOperationType fromTag(int? tag,
+  static NFTCollectionOperationType fromTag(int? operation,
       {NFTCollectionOperationType? excepted}) {
-    final type = values.firstWhere((e) => e.id == tag,
+    final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: tag));
+            throw TonContractExceptionConst.invalidOperationId(tag: operation));
     if (excepted != null) {
       if (type != excepted) {
         throw TonContractExceptionConst.incorrectOperation(
@@ -265,9 +276,19 @@ class NFTCollectionOperationType {
   }
 }
 
-abstract class NFTCollectionOperation extends TonSerialization {
+abstract class NFTCollectionOperation extends TonSerialization
+    implements ContractOperation {
+  @override
   final NFTCollectionOperationType type;
   final BigInt queryId;
+  @override
+  String get contractName => "NFT Collection";
+
+  @override
+  Cell contractCode(TonChain chain) {
+    return TonNftConst.nftCollectionCode(chain.workchain);
+  }
+
   NFTCollectionOperation({required this.type, BigInt? queryId})
       : queryId = queryId ?? BigInt.zero;
   Cell toBody() => beginCell().store(this).endCell();
@@ -341,7 +362,7 @@ class NFTCollectionMint extends NFTCollectionOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.store(mint);
   }
@@ -419,7 +440,7 @@ class NFTCollectionBatchMint extends NFTCollectionOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     final Map<BigInt, NFTMintParams> nftOBjects =
         Map.fromEntries(nfts.map((e) => MapEntry(e.itemIndex, e)));
@@ -463,7 +484,7 @@ class NFTCollectionChangeOwner extends NFTCollectionOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(newOwnerAddress);
   }
@@ -515,7 +536,7 @@ class NFTEditableCollectionChangeContent extends NFTCollectionOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeRef(content);
     builder.store(royaltyParams);

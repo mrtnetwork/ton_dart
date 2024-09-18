@@ -4,10 +4,11 @@ import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/versioned/versioned_wallet.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/models/v5_client_id.dart';
+import 'package:ton_dart/src/crypto/crypto.dart';
 import 'package:ton_dart/src/models/models.dart';
 
 abstract class VersionedWalletState implements ContractState {
-  final List<int> publicKey;
+  final TonPublicKey publicKey;
   final int seqno;
   final WalletVersion version;
 
@@ -16,15 +17,18 @@ abstract class VersionedWalletState implements ContractState {
     return StateInit(code: version.getCode(), data: initialData());
   }
 
-  const VersionedWalletState(
-      {required this.publicKey, required this.seqno, required this.version});
+  VersionedWalletState(
+      {required List<int> publicKey,
+      required this.seqno,
+      required this.version})
+      : publicKey = TonPublicKey.fromBytes(publicKey);
 
   @override
   Cell initialData();
 }
 
 class NoneSubWalletVersionedWalletState extends VersionedWalletState {
-  const NoneSubWalletVersionedWalletState(
+  NoneSubWalletVersionedWalletState(
       {required List<int> publicKey,
       int? seqno,
       required WalletVersion version})
@@ -32,13 +36,16 @@ class NoneSubWalletVersionedWalletState extends VersionedWalletState {
 
   @override
   Cell initialData() {
-    return beginCell().storeUint(0, 32).storeBuffer(publicKey).endCell();
+    return beginCell()
+        .storeUint(0, 32)
+        .storeBuffer(publicKey.toBytes())
+        .endCell();
   }
 }
 
 class SubWalletVersionedWalletState extends VersionedWalletState {
   final int subwallet;
-  const SubWalletVersionedWalletState({
+  SubWalletVersionedWalletState({
     required List<int> publicKey,
     int? seqno,
     required WalletVersion version,
@@ -53,13 +60,13 @@ class SubWalletVersionedWalletState extends VersionedWalletState {
         return beginCell()
             .storeUint(0, 32)
             .storeUint(subwallet, 32)
-            .storeBuffer(publicKey)
+            .storeBuffer(publicKey.toBytes())
             .endCell();
       case WalletVersion.v4:
         return beginCell()
             .storeUint(0, 32)
             .storeUint(subwallet, 32)
-            .storeBuffer(publicKey)
+            .storeBuffer(publicKey.toBytes())
             .storeBit(0)
             .endCell();
       default:
@@ -90,7 +97,7 @@ class V5VersionedWalletState extends VersionedWalletState {
         .storeUint(1, 1)
         .storeUint(0, 32)
         .store(context)
-        .storeBuffer(publicKey)
+        .storeBuffer(publicKey.toBytes())
         .storeBit(0)
         .endCell();
   }

@@ -5,7 +5,7 @@ import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/constant/constant.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/versioned.dart';
-import 'package:ton_dart/src/contracts/wallet_contracts/provider/versioned.dart';
+import 'package:ton_dart/src/contracts/wallet_contracts/provider/impl/versioned.dart';
 
 class WalletVersion {
   final String name;

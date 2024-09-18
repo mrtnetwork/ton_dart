@@ -6,7 +6,7 @@ import 'package:ton_dart/src/contracts/wallet_contracts/constant/constants/mutli
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/order.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/utils/multi_owner.dart';
-import 'package:ton_dart/src/contracts/utils/transaction_utils.dart';
+import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 
@@ -53,7 +53,7 @@ class OrderContract<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
         params: params,
         messages: [
-          TransactioUtils.internal(
+          TonHelper.internal(
             destination: address,
             amount: amount,
             initState: state,

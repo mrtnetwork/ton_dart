@@ -1,6 +1,7 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/minter.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/wallet.dart';
@@ -8,20 +9,20 @@ import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
-class JettonWalletOperationType {
-  final String name;
-  final int id;
-  const JettonWalletOperationType._({required this.name, required this.id});
+class JettonWalletOperationType extends ContractOperationType {
+  const JettonWalletOperationType._(
+      {required String name, required int operation})
+      : super(name: name, operation: operation);
   static const JettonWalletOperationType transfer = JettonWalletOperationType._(
-      name: "Transfer", id: JettonWalletConst.transfer);
-  static const JettonWalletOperationType burn =
-      JettonWalletOperationType._(name: "Burn", id: JettonWalletConst.burn);
+      name: "Transfer", operation: JettonWalletConst.transfer);
+  static const JettonWalletOperationType burn = JettonWalletOperationType._(
+      name: "Burn", operation: JettonWalletConst.burn);
   static const JettonWalletOperationType withdrawTon =
       JettonWalletOperationType._(
-          name: "WithdrawTon", id: JettonWalletConst.withdrawTon);
+          name: "WithdrawTon", operation: JettonWalletConst.withdrawTon);
   static const JettonWalletOperationType withdrawJetton =
       JettonWalletOperationType._(
-          name: "WithdrawJetton", id: JettonWalletConst.withdrawJetton);
+          name: "WithdrawJetton", operation: JettonWalletConst.withdrawJetton);
 
   static const List<JettonWalletOperationType> values = [
     transfer,
@@ -29,11 +30,11 @@ class JettonWalletOperationType {
     withdrawTon,
     withdrawJetton
   ];
-  static JettonWalletOperationType fromTag(int? tag,
+  static JettonWalletOperationType fromTag(int? operation,
       {JettonWalletOperationType? excepted}) {
-    final type = values.firstWhere((e) => e.id == tag,
+    final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: tag));
+            throw TonContractExceptionConst.invalidOperationId(tag: operation));
     if (excepted != null) {
       if (type != excepted) {
         throw TonContractExceptionConst.incorrectOperation(
@@ -58,10 +59,20 @@ class JettonWalletOperationType {
   }
 }
 
-abstract class JettonWalletOperation extends TonSerialization {
+abstract class JettonWalletOperation extends TonSerialization
+    implements ContractOperation {
+  @override
+  String get contractName => "Jetton Wallet";
+  @override
   final JettonWalletOperationType type;
   final BigInt queryId;
   Cell toBody() => beginCell().store(this).endCell();
+
+  @override
+  Cell contractCode(TonChain chain) {
+    return JettonWalletConst.code(chain.workchain);
+  }
+
   JettonWalletOperation({required this.type, BigInt? queryId})
       : queryId = queryId ?? BigInt.zero;
   factory JettonWalletOperation.deserialize(Slice slice) {
@@ -163,7 +174,7 @@ class JettonWalletTransfer extends JettonWalletOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeCoins(amount);
     builder.storeAddress(destination);
@@ -232,7 +243,7 @@ class JettonWalletBurn extends JettonWalletOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeCoins(burnAmount);
     builder.storeAddress(from);
@@ -287,7 +298,7 @@ class JettonWalletWithdrawTon extends JettonWalletOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeMaybeRef(cell: customPayload);
   }
@@ -345,7 +356,7 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(from);
     builder.storeCoins(amount);
@@ -364,25 +375,28 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
   }
 }
 
-class JettonMinterOperationType {
-  final String name;
-  final int id;
-  const JettonMinterOperationType._({required this.name, required this.id});
+class JettonMinterOperationType extends ContractOperationType {
+  const JettonMinterOperationType._(
+      {required String name, required int operation})
+      : super(name: name, operation: operation);
   static const JettonMinterOperationType mint = JettonMinterOperationType._(
-      name: "Mint", id: JettonMinterConst.mintOperation);
+      name: "Mint", operation: JettonMinterConst.mintOperation);
   static const JettonMinterOperationType discovery =
       JettonMinterOperationType._(
-          name: "Discovery", id: JettonMinterConst.discoverMessageOperation);
+          name: "Discovery",
+          operation: JettonMinterConst.discoverMessageOperation);
   static const JettonMinterOperationType changeAdmin =
       JettonMinterOperationType._(
-          name: "ChangeAdmin", id: JettonMinterConst.changeAdminOperation);
+          name: "ChangeAdmin",
+          operation: JettonMinterConst.changeAdminOperation);
   static const JettonMinterOperationType changeContent =
       JettonMinterOperationType._(
-          name: "ChangeContent", id: JettonMinterConst.changeContentOperation);
+          name: "ChangeContent",
+          operation: JettonMinterConst.changeContentOperation);
   static const JettonMinterOperationType internalTransfer =
       JettonMinterOperationType._(
           name: "InternalTransfer",
-          id: JettonMinterConst.internalTransferOperation);
+          operation: JettonMinterConst.internalTransferOperation);
   static List<JettonMinterOperationType> values = [
     discovery,
     changeAdmin,
@@ -390,11 +404,11 @@ class JettonMinterOperationType {
     internalTransfer,
     mint
   ];
-  static JettonMinterOperationType fromTag(int? tag,
+  static JettonMinterOperationType fromTag(int? operation,
       {JettonMinterOperationType? excepted}) {
-    final type = values.firstWhere((e) => e.id == tag,
+    final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: tag));
+            throw TonContractExceptionConst.invalidOperationId(tag: operation));
     if (excepted != null) {
       if (type != excepted) {
         throw TonContractExceptionConst.incorrectOperation(
@@ -424,9 +438,18 @@ class JettonMinterOperationType {
   }
 }
 
-abstract class JettonMinterOperation extends TonSerialization {
+abstract class JettonMinterOperation extends TonSerialization
+    implements ContractOperation {
+  @override
   final JettonMinterOperationType type;
+  @override
+  String get contractName => "Jetton Minter";
   final BigInt queryId;
+  @override
+  Cell contractCode(TonChain chain) {
+    return JettonMinterConst.code(chain.workchain);
+  }
+
   JettonMinterOperation({required this.type, BigInt? queryId})
       : queryId = queryId ?? BigInt.zero;
   Cell toBody() => beginCell().store(this).endCell();
@@ -529,7 +552,7 @@ class JettonMinterMint extends JettonMinterOperation {
   }
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(to);
     builder.storeCoins(totalTonAmount);
@@ -602,7 +625,7 @@ class JettonMinterInternalTransfer extends JettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeCoins(jettonAmount);
     builder.storeAddress(from);
@@ -655,7 +678,7 @@ class JettonMinterDiscovery extends JettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(owner);
     builder.storeBitBolean(includeAddress);
@@ -698,7 +721,7 @@ class JettonMinterChangeAdmin extends JettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeAddress(newOwner);
   }
@@ -739,7 +762,7 @@ class JettonMinterChangeContent extends JettonMinterOperation {
 
   @override
   void store(Builder builder) {
-    builder.storeUint32(type.id);
+    builder.storeUint32(type.operation);
     builder.storeUint64(queryId);
     builder.storeRef(content);
   }
