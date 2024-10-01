@@ -38,10 +38,11 @@ mixin ContractProvider {
       throw RPCError(
           message: "Run method failed with exit code ${response.exitCode}",
           errorCode: response.exitCode,
-          data: null,
           request: {
             "method": method,
             "address": address?.toString() ?? this.address.toString(),
+          },
+          details: {
             "error": response.items.map((e) => e.toJson()).toList()
           });
     }

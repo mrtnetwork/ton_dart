@@ -1,3 +1,8 @@
+## 0.1.2
+
+- Update dependencies.
+
+
 ## 0.1.1
 
 - Fixed W5 extension and internal messaging issues
