@@ -86,7 +86,7 @@ class OutActionsV5 extends TonSerialization {
         actions.whereType<OutActionSendMsg>().toList().reversed.toList();
     if (basicActions.isEmpty) return null;
 
-    Cell cell = basicActions.fold<Cell>(
+    final Cell cell = basicActions.fold<Cell>(
       beginCell().endCell(),
       (cell, action) {
         return beginCell().storeRef(cell).store(action).endCell();
@@ -120,7 +120,7 @@ class OutActionsV5 extends TonSerialization {
 
 class OutActionUtils {
   static List<OutAction> loadOutList(Slice slice) {
-    List<OutAction> actions = [];
+    final List<OutAction> actions = [];
     while (slice.remainingRefs != 0) {
       final nextCell = slice.loadRef();
       actions.add(OutAction.deserialize(slice));
@@ -148,7 +148,7 @@ class OutActionUtils {
   }
 
   static Slice storeOutList(List<OutAction> actions) {
-    Cell cell = actions.fold<Cell>(
+    final Cell cell = actions.fold<Cell>(
       beginCell().endCell(),
       (cell, action) {
         return beginCell().storeRef(cell).store(action).endCell();

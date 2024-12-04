@@ -127,7 +127,7 @@ class DictionaryUtils {
   static Cell doGenerateMerkleProof(
       String prefix, Slice slice, int n, String key) {
     // Reading label
-    Cell originalCell = slice.asCell();
+    final Cell originalCell = slice.asCell();
 
     final lb0 = slice.loadBit() ? 1 : 0;
     int prefixLength = 0;
@@ -247,7 +247,7 @@ class DictionaryUtils {
         pp += slice.loadBit() ? '1' : '0';
       }
     } else {
-      int lb1 = slice.loadBit() ? 1 : 0;
+      final int lb1 = slice.loadBit() ? 1 : 0;
       if (lb1 == 0) {
         // Long label detected
         prefixLength = slice.loadUint(MathUtils.log2(n + 1));
@@ -256,7 +256,7 @@ class DictionaryUtils {
         }
       } else {
         // Same label detected
-        String bit = slice.loadBit() ? '1' : '0';
+        final String bit = slice.loadBit() ? '1' : '0';
         prefixLength = slice.loadUint(MathUtils.log2(n + 1));
         for (int i = 0; i < prefixLength; i++) {
           pp += bit;
@@ -266,8 +266,8 @@ class DictionaryUtils {
     if (n - prefixLength == 0) {
       res[BigInt.parse(pp, radix: 2)] = extractor(slice);
     } else {
-      Cell left = slice.loadRef();
-      Cell right = slice.loadRef();
+      final Cell left = slice.loadRef();
+      final Cell right = slice.loadRef();
       if (!left.isExotic) {
         doParse(
             '${pp}0', left.beginParse(), n - prefixLength - 1, res, extractor);
@@ -281,7 +281,7 @@ class DictionaryUtils {
 
   static Map<BigInt, V> parseDict<V>(
       Slice? sc, int keySize, V Function(Slice) extractor) {
-    Map<BigInt, V> res = {};
+    final Map<BigInt, V> res = {};
     if (sc != null) {
       doParse('', sc, keySize, res, extractor);
     }

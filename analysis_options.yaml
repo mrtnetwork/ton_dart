@@ -14,17 +14,9 @@
 # include: package:lints/recommended.yaml
 include: package:flutter_lints/flutter.yaml
 # Uncomment the following section to specify additional rules.
-
-# linter:
-#   rules:
-#     - camel_case_types
-
-# analyzer:
-#   exclude:
-#     - path/to/excluded/files/**
-
-# For more information about the core and recommended set of lints, see
-# https://dart.dev/go/core-lints
-
-# For additional information about configuring this file, see
-# https://dart.dev/guides/language/analysis-options
+linter:
+  rules:
+    prefer_final_locals: true        # Warns when a local variable could be final
+    prefer_final_in_for_each: true   # Warns when a forEach variable could be final
+    prefer_const_constructors: true  # Warns when a constructor could be const
+    prefer_const_declarations: true  # Warns when a declaration could be const

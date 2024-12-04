@@ -32,9 +32,9 @@ dependencies:
     sdk: flutter
   ton_dart:
     path: ../
-  blockchain_utils: ^3.5.0
+  blockchain_utils: ^3.6.0
   # blockchain_utils:
-  #   path: ../../bitcoin/blockchain_utils
+  #   path: ../../blockchain_utils
 
 
   # The following adds the Cupertino Icons font to your application.

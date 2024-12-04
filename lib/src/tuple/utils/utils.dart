@@ -88,7 +88,7 @@ class TupleUtils {
     final type = stacks[0];
     switch (type) {
       case "num":
-        String stringVal = stacks[1].toString();
+        final stringVal = stacks[1].toString();
         BigInt val;
         if (stringVal.startsWith("-")) {
           val = -BigintUtils.parse(stringVal.substring(1));

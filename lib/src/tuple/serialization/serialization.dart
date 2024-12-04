@@ -27,7 +27,7 @@ class TupleSerialization {
         Cell? head;
         Cell? tail;
         for (var i = 0; i < tuple.items.length; i++) {
-          var s = head;
+          final s = head;
           head = tail;
           tail = s;
 
@@ -35,7 +35,7 @@ class TupleSerialization {
             head = beginCell().storeRef(tail!).storeRef(head!).endCell();
           }
 
-          var bc = beginCell();
+          final bc = beginCell();
           serializeItem(tuple.items[i], bc);
           tail = bc.endCell();
         }
@@ -70,7 +70,7 @@ class TupleSerialization {
 
   static void serializeTail(List<TupleItem> src, Builder builder) {
     if (src.isNotEmpty) {
-      var tail = Builder();
+      final tail = Builder();
       serializeTail(src.sublist(0, src.length - 1), tail);
       builder.storeRef(tail.endCell());
 
@@ -79,7 +79,7 @@ class TupleSerialization {
   }
 
   static Cell serialize(List<TupleItem> src) {
-    var builder = Builder();
+    final builder = Builder();
     builder.storeUint(src.length, 24);
     serializeTail(List<TupleItem>.from(src), builder);
     return builder.endCell();

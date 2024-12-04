@@ -19,7 +19,7 @@ class CellUtils {
     List<Cell> pending = [src];
     final Map<String, Map<String, dynamic>> allCells = {};
     final Set<String> notPermCells = {};
-    List<String> sorted = [];
+    final List<String> sorted = [];
     while (pending.isNotEmpty) {
       final List<Cell> cells = List<Cell>.from(pending);
       pending = [];
@@ -34,12 +34,12 @@ class CellUtils {
           'refs':
               cell.refs.map((v) => BytesUtils.toHexString(v.hash())).toList()
         };
-        for (var r in cell.refs) {
+        for (final r in cell.refs) {
           pending.add(r);
         }
       }
     }
-    Set<String> tempMark = {};
+    final Set<String> tempMark = {};
 
     void visit(String hash) {
       if (!notPermCells.contains(hash)) {
@@ -60,7 +60,7 @@ class CellUtils {
     }
 
     while (notPermCells.isNotEmpty) {
-      String id = notPermCells.first;
+      final id = notPermCells.first;
       visit(id);
     }
 
@@ -408,11 +408,11 @@ class CellUtils {
         currentDepth++;
       }
 
-      List<int> repr = getRepr(
+      final List<int> repr = getRepr(
           bits, currentBits, refs, levelI, levelMask.apply(levelI).value, type);
-      List<int> hash = QuickCrypto.sha256Hash(repr);
+      final List<int> hash = QuickCrypto.sha256Hash(repr);
 
-      int destI = hashI - hashIOffset;
+      final destI = hashI - hashIOffset;
       depths.insert(destI, currentDepth);
       hashes.insert(destI, hash);
 

@@ -189,12 +189,13 @@ class _BocSerializationUtils {
 
   static void writeCellToBuilder(
       Cell cell, List<int> refs, int sizeBytes, BitBuilder to) {
-    int d1 = CellUtils.getRefsDescriptor(cell.refs, cell.mask.value, cell.type);
-    int d2 = CellUtils.getBitsDescriptor(cell.bits);
+    final int d1 =
+        CellUtils.getRefsDescriptor(cell.refs, cell.mask.value, cell.type);
+    final int d2 = CellUtils.getBitsDescriptor(cell.bits);
     to.writeUint(d1, 8);
     to.writeUint(d2, 8);
     to.writeBuffer(BocUtils.bitsToPaddedBuffer(cell.bits).buffer());
-    for (int r in refs) {
+    for (final int r in refs) {
       to.writeUint(r, sizeBytes * 8);
     }
   }
@@ -314,7 +315,7 @@ class BocSerialization {
   static List<Cell> deserialize(List<int> src) {
     /// Parse BOC
     final _ParseBocResult boc = _BocSerializationUtils.parseBoc(src);
-    BitReader reader =
+    final BitReader reader =
         BitReader(BitString(boc.cellData, 0, boc.cellData.length * 8));
 
     /// Load cells
@@ -323,9 +324,9 @@ class BocSerialization {
 
     /// Build cells
     for (int i = cells.length - 1; i >= 0; i--) {
-      List<Cell> refs = [];
+      final List<Cell> refs = [];
       final cell = cells[i];
-      for (int r in cell.refsList) {
+      for (final int r in cell.refsList) {
         final result = cells[r].result;
         if (result == null) {
           throw BocException('Invalid BOC file');
