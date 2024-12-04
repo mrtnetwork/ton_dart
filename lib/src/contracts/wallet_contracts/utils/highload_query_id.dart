@@ -31,14 +31,14 @@ class HighloadQueryId {
   }
 
   factory HighloadQueryId.fromQueryId(BigInt queryId) {
-    BigInt shift = queryId >> _HighloadQueryIdConst.bitNumberSize;
-    BigInt bitNumber = queryId & BigInt.from(1023);
+    final BigInt shift = queryId >> _HighloadQueryIdConst.bitNumberSize;
+    final BigInt bitNumber = queryId & BigInt.from(1023);
     return HighloadQueryId.fromShiftAndBitNumber(shift, bitNumber);
   }
 
   factory HighloadQueryId.fromSeqno(BigInt i) {
-    BigInt shift = i ~/ BigInt.from(1023);
-    BigInt bitNumber = i % BigInt.from(1023);
+    final BigInt shift = i ~/ BigInt.from(1023);
+    final BigInt bitNumber = i % BigInt.from(1023);
     return HighloadQueryId.fromShiftAndBitNumber(shift, bitNumber);
   }
 
@@ -63,7 +63,7 @@ class HighloadQueryId {
   }
 
   bool hasNext() {
-    bool isEnd =
+    final bool isEnd =
         _bitNumber >= BigInt.from(_HighloadQueryIdConst.maxBitNumber - 1) &&
             _shift == BigInt.from(_HighloadQueryIdConst.maxShift);
     return !isEnd;

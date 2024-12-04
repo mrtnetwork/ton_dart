@@ -211,7 +211,7 @@ class Cell {
   /// Returns a formatted string representation of the cell and its references.
   @override
   String toString({String indent = ""}) {
-    String id = indent;
+    final String id = indent;
     String t = "x";
     if (isExotic) {
       if (type == CellType.merkleProof) {
@@ -223,7 +223,7 @@ class Cell {
       }
     }
     String s = '$id$t{$bits}';
-    for (Cell i in refs) {
+    for (final Cell i in refs) {
       s += "\n" + i.toString(indent: "$id ");
     }
     return s;

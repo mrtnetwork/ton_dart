@@ -46,7 +46,7 @@ class BitReader {
 
   /// Loads a single bit and increments the offset.
   bool loadBit() {
-    bool r = _bits.at(_offset);
+    final bool r = _bits.at(_offset);
     _offset++;
     return r;
   }
@@ -58,7 +58,7 @@ class BitReader {
 
   /// Loads the specified number of bits and increments the offset.
   BitString loadBits(int bits) {
-    BitString r = _bits.substring(_offset, bits);
+    final BitString r = _bits.substring(_offset, bits);
     _offset += bits;
     return r;
   }
@@ -70,7 +70,7 @@ class BitReader {
 
   /// Loads a buffer of the specified number of bytes and increments the offset.
   List<int> loadBuffer(int bytes) {
-    List<int> buf = _preloadBuffer(bytes, _offset);
+    final List<int> buf = _preloadBuffer(bytes, _offset);
     _offset += bytes * 8;
     return buf;
   }
@@ -87,7 +87,7 @@ class BitReader {
 
   /// Loads a large unsigned integer (BigInt) of the specified number of bits.
   BigInt loadUintBig(int bits) {
-    BigInt loaded = _preloadUint(bits, _offset);
+    final BigInt loaded = _preloadUint(bits, _offset);
     _offset += bits;
     return loaded;
   }
@@ -109,7 +109,7 @@ class BitReader {
 
   /// Loads a large signed integer (BigInt) of the specified number of bits.
   BigInt loadIntBig(int bits) {
-    BigInt res = _preloadInt(bits, _offset);
+    final BigInt res = _preloadInt(bits, _offset);
     _offset += bits;
     return res;
   }
@@ -126,13 +126,13 @@ class BitReader {
 
   /// Loads a variable-length unsigned integer, with a specified number of size bits.
   int loadVarUint(int bits) {
-    int size = loadUint(bits);
+    final int size = loadUint(bits);
     return loadUintBig(size * 8).toInt();
   }
 
   /// Loads a variable-length unsigned integer (BigInt).
   BigInt loadVarUintBig(int bits) {
-    int size = loadUint(bits);
+    final int size = loadUint(bits);
     return loadUintBig(size * 8);
   }
 
@@ -143,7 +143,7 @@ class BitReader {
 
   /// Preloads a variable-length unsigned integer (BigInt).
   BigInt preloadVarUintBig(int bits) {
-    int size = _preloadUint(bits, offset).toInt();
+    final int size = _preloadUint(bits, offset).toInt();
     return _preloadUint(size * 8, offset + bits);
   }
 
@@ -154,7 +154,7 @@ class BitReader {
 
   /// Loads a variable-length signed integer (BigInt).
   BigInt loadVarIntBig(int bits) {
-    int size = loadUint(bits);
+    final int size = loadUint(bits);
     return loadIntBig(size * 8);
   }
 
@@ -165,7 +165,7 @@ class BitReader {
 
   /// Preloads a variable-length signed integer (BigInt).
   BigInt preloadVarIntBig(int bits) {
-    int size = _preloadInt(bits, offset).toInt();
+    final int size = _preloadInt(bits, offset).toInt();
     return _preloadInt(size * 8, offset + bits);
   }
 
@@ -186,7 +186,7 @@ class BitReader {
 
   /// Loads a TON address if it exists, otherwise returns null.
   TonAddress? loadMaybeAddress() {
-    int type = preloadUint(2);
+    final int type = preloadUint(2);
     if (type == 0) {
       _offset += 2;
       return null;
@@ -201,7 +201,7 @@ class BitReader {
 
   /// Loads an external address if it exists, otherwise returns null.
   ExternalAddress? loadMaybeExternalAddress() {
-    int type = preloadUint(2);
+    final int type = preloadUint(2);
     if (type == 0) {
       _offset += 2;
       return null;
@@ -211,7 +211,7 @@ class BitReader {
 
   /// Loads any type of address (TON or external), or returns null if none exists.
   TonBaseAddress? loadAddressAny() {
-    int type = preloadUint(2);
+    final int type = preloadUint(2);
     if (type == 0) {
       _offset += 2;
       return null;
@@ -242,7 +242,7 @@ class BitReader {
       }
     }
 
-    BitString r = _bits.substring(_offset, length);
+    final BitString r = _bits.substring(_offset, length);
     _offset += bits;
     return r;
   }
@@ -256,7 +256,7 @@ class BitReader {
     if (bits == 0) {
       return BigInt.zero;
     }
-    bool sign = _bits.at(offset);
+    final bool sign = _bits.at(offset);
     BigInt res = BigInt.zero;
     for (int i = 0; i < bits - 1; i++) {
       if (_bits.at(offset + 1 + i)) {
@@ -283,12 +283,12 @@ class BitReader {
   }
 
   List<int> _preloadBuffer(int bytes, int offset) {
-    List<int>? fastBuffer = _bits.subbuffer(offset, bytes * 8);
+    final List<int>? fastBuffer = _bits.subbuffer(offset, bytes * 8);
     if (fastBuffer != null) {
       return fastBuffer;
     }
 
-    List<int> buf = List<int>.filled(bytes, 0);
+    final List<int> buf = List<int>.filled(bytes, 0);
     for (int i = 0; i < bytes; i++) {
       buf[i] = _preloadUint(8, offset + i * 8).toInt();
     }
@@ -296,7 +296,7 @@ class BitReader {
   }
 
   TonAddress _loadInternalAddress() {
-    int type = preloadUint(2);
+    final int type = preloadUint(2);
     if (type != 2) {
       throw BocException("Invalid address.");
     }
@@ -305,8 +305,8 @@ class BitReader {
       throw BocException("Invalid address.");
     }
 
-    int wc = _preloadInt(8, _offset + 3).toInt();
-    List<int> hash = _preloadBuffer(32, _offset + 11);
+    final int wc = _preloadInt(8, _offset + 3).toInt();
+    final List<int> hash = _preloadBuffer(32, _offset + 11);
 
     _offset += 267;
 
@@ -314,13 +314,13 @@ class BitReader {
   }
 
   ExternalAddress _loadExternalAddress() {
-    int type = preloadUint(2);
+    final int type = preloadUint(2);
     if (type != 1) {
       throw BocException('Invalid extenal address.');
     }
 
-    int bits = _preloadUint(9, _offset + 2).toInt();
-    BigInt value = _preloadUint(bits, _offset + 11);
+    final int bits = _preloadUint(9, _offset + 2).toInt();
+    final BigInt value = _preloadUint(bits, _offset + 11);
 
     _offset += 11 + bits;
     return ExternalAddress(value, bits);

@@ -111,7 +111,7 @@ class VersionedWalletUtils {
         stateData: stateData,
         type: type,
         chain: chain ?? TonChain.fromWorkchain(address.workChain));
-    StateInit currentState = state.initialState();
+    final StateInit currentState = state.initialState();
     final currentAddress =
         TonAddress.fromState(state: currentState, workChain: address.workChain);
     if (currentAddress.toRawAddress() != address.toRawAddress()) {

@@ -28,7 +28,7 @@ class BocUtils {
     // Finding rightmost non-zero byte in the buffer
     for (int i = buff.length - 1; i >= 0; i--) {
       if (buff[i] != 0) {
-        int testByte = buff[i];
+        final testByte = buff[i];
         // Looking for a rightmost set padding bit
         int bitPos = testByte & -testByte;
         if ((bitPos & 1) == 0) {

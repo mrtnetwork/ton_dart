@@ -27,7 +27,7 @@ class TonSerializationUtils {
           "Please use `createExtensionMessage` for create extension message body.");
     }
     if (type == WalletV5AuthType.external) {
-      List<OutActionWalletV5> fixedMode = [];
+      final List<OutActionWalletV5> fixedMode = [];
       for (final i in actions.actions) {
         if (i.type != OutActionType.sendMsg) {
           fixedMode.add(i);
@@ -77,7 +77,7 @@ class TonSerializationUtils {
           .endCell();
     }
     if (type == WalletV5AuthType.external) {
-      List<OutActionWalletV5> fixedMode = [];
+      final List<OutActionWalletV5> fixedMode = [];
       for (final i in actions.actions) {
         if (i.type != OutActionType.sendMsg) {
           fixedMode.add(i);

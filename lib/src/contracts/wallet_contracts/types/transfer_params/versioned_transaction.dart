@@ -13,7 +13,7 @@ class VersionedWalletTransactionV1 implements VersionedWalletTransaction {
       : outActions = outActions.immutable;
   factory VersionedWalletTransactionV1.deserialize(Slice slice) {
     final int accountSeqno = slice.loadUint32();
-    List<OutActionSendMsg> outActions = [];
+    final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
           mode: slice.loadUint8(),
@@ -37,7 +37,7 @@ class VersionedWalletTransactionV2 implements VersionedWalletTransaction {
   factory VersionedWalletTransactionV2.deserialize(Slice slice) {
     final int accountSeqno = slice.loadUint32();
     final int timeout = slice.loadUint32();
-    List<OutActionSendMsg> outActions = [];
+    final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
           mode: slice.loadUint8(),
@@ -64,7 +64,7 @@ class VersionedWalletTransactionV3 implements VersionedWalletTransaction {
     final int subwalletId = slice.loadUint32();
     final int timeout = slice.loadUint32();
     final int accountSeqno = slice.loadUint32();
-    List<OutActionSendMsg> outActions = [];
+    final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
           mode: slice.loadUint8(),
@@ -95,7 +95,7 @@ class VersionedWalletTransactionV4 implements VersionedWalletTransaction {
     final int timeout = slice.loadUint32();
     final int accountSeqno = slice.loadUint32();
     slice.skip(8);
-    List<OutActionSendMsg> outActions = [];
+    final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
           mode: slice.loadUint8(),

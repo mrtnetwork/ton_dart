@@ -12,7 +12,7 @@ class StorageStat {
 
 class TonFeeUtils {
   static BigInt shr16ceil(BigInt src) {
-    BigInt rem = src % BigInt.from(65536);
+    final BigInt rem = src % BigInt.from(65536);
     BigInt res = src >> 16;
     if (rem != BigInt.zero) {
       res += BigInt.one;
@@ -33,8 +33,8 @@ class TonFeeUtils {
   static StorageStat collectCellStats(Cell cell) {
     int bits = cell.bits.length;
     int cells = 1;
-    for (Cell ref in cell.refs) {
-      StorageStat r = collectCellStats(ref);
+    for (final Cell ref in cell.refs) {
+      final StorageStat r = collectCellStats(ref);
       cells += r.cells;
       bits += r.bits;
     }
@@ -49,7 +49,7 @@ class TonFeeUtils {
 
   static BigInt computeExternalMessageFees(
       MsgForwardPricesResponse msgPrices, Cell cell) {
-    StorageStat storageStats = collectCellStats(cell);
+    final StorageStat storageStats = collectCellStats(cell);
     storageStats.bits -= cell.bits.length;
     storageStats.cells -= 1;
     return computeFwdFees(msgPrices, BigInt.from(storageStats.cells),
@@ -58,26 +58,26 @@ class TonFeeUtils {
 
   static Tuple<BigInt, BigInt> computeMessageForwardFees(
       MsgForwardPricesResponse msgPrices, MessageRelaxed msg) {
-    StorageStat storageStats = StorageStat(bits: 0, cells: 0);
+    final StorageStat storageStats = StorageStat(bits: 0, cells: 0);
     if (msg.init != null) {
-      Cell raw = beginCell().store(msg.init!).endCell();
-      StorageStat c = collectCellStats(raw);
+      final Cell raw = beginCell().store(msg.init!).endCell();
+      final StorageStat c = collectCellStats(raw);
       c.bits -= raw.bits.length;
       c.cells -= 1;
       storageStats.bits += c.bits;
       storageStats.cells += c.cells;
     }
 
-    StorageStat bc = collectCellStats(msg.body);
+    final StorageStat bc = collectCellStats(msg.body);
     bc.bits -= msg.body.bits.length;
     bc.cells -= 1;
     storageStats.bits += bc.bits;
     storageStats.cells += bc.cells;
 
-    BigInt fees = computeFwdFees(msgPrices, BigInt.from(storageStats.cells),
-        BigInt.from(storageStats.bits));
-    BigInt res = (fees * BigInt.from(msgPrices.firstFrac)) >> 16;
-    BigInt remaining = fees - res;
+    final BigInt fees = computeFwdFees(msgPrices,
+        BigInt.from(storageStats.cells), BigInt.from(storageStats.bits));
+    final BigInt res = (fees * BigInt.from(msgPrices.firstFrac)) >> 16;
+    final BigInt remaining = fees - res;
     return Tuple(res, remaining);
   }
 
@@ -106,7 +106,7 @@ class TonFeeUtils {
           : now);
       BigInt payment = BigInt.zero;
       if (upto < validUntil) {
-        int delta = validUntil - upto;
+        final int delta = validUntil - upto;
         payment += (storageStats.usedCells *
             (masterchain
                 ? storagePrices[i].mcCellPricePs

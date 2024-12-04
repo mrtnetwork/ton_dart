@@ -9,7 +9,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'config_test_vector.dart';
 
 Builder storeBits(Builder builder, String src) {
-  for (var s in src.runes) {
+  for (final s in src.runes) {
     if (s == 48) {
       builder.storeBit(0);
     } else {
@@ -125,7 +125,7 @@ void _test() {
   });
 
   test('should correctly serialize BitString keys and values', () {
-    int keyLen = 9; // Not 8 bit aligned
+    const keyLen = 9; // Not 8 bit aligned
     final DictionaryKey<BitString> keys = DictionaryKey.bitStringCodec(keyLen);
     final DictionaryValue<BitString> values =
         DictionaryValue.bitStringCodec(72);

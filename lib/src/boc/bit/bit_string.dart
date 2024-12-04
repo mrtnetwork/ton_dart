@@ -57,8 +57,8 @@ class BitString {
           details: {"index": index, "length": length});
     }
 
-    int byteIndex = (_offset + index) >> 3;
-    int bitIndex = 7 - ((_offset + index) % 8);
+    final int byteIndex = (_offset + index) >> 3;
+    final int bitIndex = 7 - ((_offset + index) % 8);
 
     return (_data[byteIndex] & (1 << bitIndex)) != 0;
   }
@@ -94,8 +94,8 @@ class BitString {
       return null;
     }
 
-    int start = ((_offset + offset) >> 3);
-    int end = start + (length >> 3);
+    final int start = ((_offset + offset) >> 3);
+    final int end = start + (length >> 3);
     return _data.sublist(start, end);
   }
 

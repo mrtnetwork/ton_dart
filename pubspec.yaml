@@ -1,6 +1,6 @@
 name: ton_dart
 description: "Ton Dart streamlines transaction management and crypto ops in the Ton network. It supports Wallet Contract, Highload Wallet, and Jetton contracts."
-version: 0.1.3
+version: 0.1.4
 homepage: "https://github.com/mrtnetwork/ton_dart"
 repository: "https://github.com/mrtnetwork/ton_dart"
 Author: mrhaydari.t@gmail.com
@@ -16,9 +16,9 @@ environment:
 
 
 dependencies:
-  blockchain_utils: ^3.5.0
+  blockchain_utils: ^3.6.0
   # blockchain_utils:
-  #   path: ../bitcoin/blockchain_utils
+  #   path: ../blockchain_utils
 
 
 dev_dependencies:

@@ -109,15 +109,15 @@ class BitBuilder {
       throw BocException("BitBuilder overflow");
     }
 
-    int tillByte = 8 - (_length % 8);
+    final int tillByte = 8 - (_length % 8);
     if (tillByte > 0) {
-      int bidx = (_length / 8).floor();
+      final int bidx = (_length / 8).floor();
       if (bits < tillByte) {
-        int wb = v.toInt();
+        final int wb = v.toInt();
         _bytes[bidx] |= wb << (tillByte - bits);
         _length += bits;
       } else {
-        int wb = (v >> (bits - tillByte)).toInt();
+        final int wb = (v >> (bits - tillByte)).toInt();
         _bytes[bidx] |= wb;
         _length += tillByte;
       }
@@ -162,7 +162,7 @@ class BitBuilder {
       }
     }
 
-    BigInt vBits = BigInt.one << (bits - 1);
+    final BigInt vBits = BigInt.one << (bits - 1);
     if (v < -vBits || v >= vBits) {
       throw BocException("Out of range.",
           details: {"value": v, "length": bits});
@@ -188,8 +188,8 @@ class BitBuilder {
       return;
     }
 
-    int sizeBytes = (v.bitLength + 7) ~/ 8;
-    int sizeBits = sizeBytes * 8;
+    final int sizeBytes = (v.bitLength + 7) ~/ 8;
+    final int sizeBits = sizeBytes * 8;
 
     writeUint(sizeBytes, bits);
 
@@ -204,9 +204,9 @@ class BitBuilder {
       writeUint(0, bits);
       return;
     }
-    BigInt v2 = v > BigInt.zero ? v : -v;
-    int sizeBytes = 1 + (v2.bitLength + 7) ~/ 8;
-    int sizeBits = sizeBytes * 8;
+    final BigInt v2 = v > BigInt.zero ? v : -v;
+    final int sizeBytes = 1 + (v2.bitLength + 7) ~/ 8;
+    final int sizeBits = sizeBytes * 8;
     writeUint(sizeBytes, bits);
     writeInt(v, sizeBits);
   }
