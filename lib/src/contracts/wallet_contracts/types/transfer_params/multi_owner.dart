@@ -14,6 +14,5 @@ class MultiOwnerTransferParams<E extends WalletContractTransferParams>
       required this.amount,
       this.orderId,
       this.queryId,
-      List<OutActionMultiSig> messages = const []})
-      : super(messages: messages);
+      super.messages = const []});
 }

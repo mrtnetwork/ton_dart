@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/raw_block_proof.dart';
 /// Get raw block proof.
 ///
 class TonApiGetRawBlockProof
-    extends TonApiRequestParam<RawBlockProofResponse, Map<String, dynamic>> {
+    extends TonApiRequest<RawBlockProofResponse, Map<String, dynamic>> {
   /// known block: (workchain,shard,seqno,root_hash,file_hash)
   /// (-1,8000000000000000,4234234,3E575DAB1D25...90D8,47192E5C46C...BB29)
   final String knownBlock;
@@ -26,10 +26,10 @@ class TonApiGetRawBlockProof
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"known_block": knownBlock, "target_block": targetBlock, "mode": mode};
+      {'known_block': knownBlock, 'target_block': targetBlock, 'mode': mode};
 
   @override
-  RawBlockProofResponse onResonse(Map<String, dynamic> json) {
-    return RawBlockProofResponse.fromJson(json);
+  RawBlockProofResponse onResonse(Map<String, dynamic> result) {
+    return RawBlockProofResponse.fromJson(result);
   }
 }

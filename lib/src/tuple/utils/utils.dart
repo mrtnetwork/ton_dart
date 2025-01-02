@@ -83,30 +83,30 @@ class TupleUtils {
 
   static TupleItem _parseStackItemAsList(List<dynamic> stacks) {
     if (stacks.isEmpty) {
-      throw TupleException("Invali stack list item");
+      throw TupleException('Invali stack list item');
     }
     final type = stacks[0];
     switch (type) {
-      case "num":
-        final stringVal = stacks[1].toString();
+      case 'num':
+        final String stringVal = stacks[1].toString();
         BigInt val;
-        if (stringVal.startsWith("-")) {
+        if (stringVal.startsWith('-')) {
           val = -BigintUtils.parse(stringVal.substring(1));
         } else {
           val = BigintUtils.parse(stringVal);
         }
         return TupleItemInt(val);
-      case "null":
+      case 'null':
         return const TupleItemNull();
-      case "cell":
-        return TupleItemCell(Cell.fromBase64((stacks[1] as Map)["bytes"]));
-      case "slice":
-        return TupleItemSlice(Cell.fromBase64((stacks[1] as Map)["bytes"]));
-      case "builder":
-        return TupleItemBuilder(Cell.fromBase64((stacks[1] as Map)["bytes"]));
+      case 'cell':
+        return TupleItemCell(Cell.fromBase64((stacks[1] as Map)['bytes']));
+      case 'slice':
+        return TupleItemSlice(Cell.fromBase64((stacks[1] as Map)['bytes']));
+      case 'builder':
+        return TupleItemBuilder(Cell.fromBase64((stacks[1] as Map)['bytes']));
       default:
-        throw TonDartPluginException("Unsuported tuple type.",
-            details: {"type": type});
+        throw TonDartPluginException('Unsuported tuple type.',
+            details: {'type': type});
     }
   }
 

@@ -4,7 +4,7 @@ import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 
 void main() {
-  group("serialize dict", () => _test());
+  group('serialize dict', () => _test());
 }
 
 void _test() {
@@ -21,6 +21,6 @@ void _test() {
         map, 16, (src, cell) => cell.storeUint(src, 16), builder);
     final root = builder.endCell();
     expect(BytesUtils.toHexString(root.hash()),
-        "c8c0ca7071eabf18a71adcbb398d1d2164b1378b9ae70c00510049fb865aec6a");
+        'c8c0ca7071eabf18a71adcbb398d1d2164b1378b9ae70c00510049fb865aec6a');
   });
 }

@@ -51,10 +51,10 @@ class RawBlockProofStepsItemResponse with JsonSerialization {
     return RawBlockProofStepsItemResponse(
         liteServerBlockLinkBack:
             RawBlockProofStepsItemLiteServerBlockLinkBackResponse.fromJson(
-                json["lite_server_block_link_back"]),
+                json['lite_server_block_link_back']),
         liteServerBlockLinkForward:
             RawBlockProofStepsItemLiteServerBlockLinkForwardResponse.fromJson(
-                json["lite_server_block_link_forward"]));
+                json['lite_server_block_link_forward']));
   }
 
   @override

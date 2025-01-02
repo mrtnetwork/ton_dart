@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/subscribtions.dart';
 /// Get all subscriptions by wallet address.
 ///
 class TonApiGetAccountSubscriptions
-    extends TonApiRequestParam<SubscriptionsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<SubscriptionsResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetAccountSubscriptions(this.accountId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetAccountSubscriptions
   List<String> get pathParameters => [accountId];
 
   @override
-  SubscriptionsResponse onResonse(Map<String, dynamic> json) {
-    return SubscriptionsResponse.fromJson(json);
+  SubscriptionsResponse onResonse(Map<String, dynamic> result) {
+    return SubscriptionsResponse.fromJson(result);
   }
 }

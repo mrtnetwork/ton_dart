@@ -4,7 +4,7 @@ import 'package:ton_dart/src/provider/models/response/ton_center_address_info.da
 
 /// Get basic information about the address: balance, code, data, last_transaction_id.
 /// https://toncenter.com/api/v2/#/accounts/get_address_information_getAddressInformation_get
-class TonCenterGetAddressInformation extends TonCenterPostRequestParam<
+class TonCenterGetAddressInformation extends TonCenterPostRequest<
     TonCenterFullAccountStateResponse, Map<String, dynamic>> {
   /// Identifier of target TON account in any form.
   final String address;
@@ -15,11 +15,11 @@ class TonCenterGetAddressInformation extends TonCenterPostRequestParam<
 
   @override
   Map<String, dynamic> params() {
-    return {"address": address};
+    return {'address': address};
   }
 
   @override
-  TonCenterFullAccountStateResponse onResonse(Map<String, dynamic> json) {
-    return TonCenterFullAccountStateResponse.fromJson(json);
+  TonCenterFullAccountStateResponse onResonse(Map<String, dynamic> result) {
+    return TonCenterFullAccountStateResponse.fromJson(result);
   }
 }

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/accounts.dart';
 /// Get wallets by public key.
 ///
 class TonApiGetWalletsByPublicKey
-    extends TonApiRequestParam<AccountsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AccountsResponse, Map<String, dynamic>> {
   final String publicKey;
   TonApiGetWalletsByPublicKey(this.publicKey);
   @override
@@ -17,7 +17,7 @@ class TonApiGetWalletsByPublicKey
   List<String> get pathParameters => [publicKey];
 
   @override
-  AccountsResponse onResonse(Map<String, dynamic> json) {
-    return AccountsResponse.fromJson(json);
+  AccountsResponse onResonse(Map<String, dynamic> result) {
+    return AccountsResponse.fromJson(result);
   }
 }

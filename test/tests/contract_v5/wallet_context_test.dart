@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
 
 void main() {
-  group("Wallet V5 context", () {
+  group('Wallet V5 context', () {
     _walletV5ClientContext();
     _walletV5ClientContextDeserialize();
     _deserializeWalletCustomWalletContext();
@@ -11,7 +11,7 @@ void main() {
 }
 
 void _walletV5ClientContext() {
-  test("client context", () {
+  test('client context', () {
     final walletContext =
         V5R1ClientContext(chain: TonChain.mainnet, subwalletNumber: 0);
 
@@ -30,12 +30,12 @@ void _walletV5ClientContext() {
         .storeInt(BigInt.from(context) ^ BigInt.from(-239), 32)
         .endCell();
     expect(actual, expected);
-    expect(actual.toBase64(), "te6cckEBAQEABgAACH///xHZat+l");
+    expect(actual.toBase64(), 'te6cckEBAQEABgAACH///xHZat+l');
   });
 }
 
 void _walletV5ClientContextDeserialize() {
-  test("deserialize client wallet context", () {
+  test('deserialize client wallet context', () {
     final walletContext =
         V5R1ClientContext(chain: TonChain.mainnet, subwalletNumber: 0);
     final context = beginCell()
@@ -58,7 +58,7 @@ void _walletV5ClientContextDeserialize() {
 }
 
 void _serializeWalletCustomWalletContext() {
-  test("serialize custom wallet context", () {
+  test('serialize custom wallet context', () {
     const walletContext = V5R1CustomContext(
       context: 239239239,
       chain: TonChain.testnet,
@@ -75,12 +75,12 @@ void _serializeWalletCustomWalletContext() {
             BigInt.from(context) ^ BigInt.from(walletContext.chain.id), 32)
         .endCell();
     expect(actual, expected);
-    expect(expected.toBase64(), "te6cckEBAQEABgAACPG9f7rC5HWN");
+    expect(expected.toBase64(), 'te6cckEBAQEABgAACPG9f7rC5HWN');
   });
 }
 
 void _deserializeWalletCustomWalletContext() {
-  test("deserialize custom wallet context", () {
+  test('deserialize custom wallet context', () {
     const walletContext =
         V5R1CustomContext(context: 239239239, chain: TonChain.testnet);
     final context = beginCell()

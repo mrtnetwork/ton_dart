@@ -2,9 +2,6 @@
 export 'core/core.dart';
 export 'core/methods.dart';
 
-/// exception
-export 'exception/exception.dart';
-
 /// methods
 export 'methods/methods.dart';
 

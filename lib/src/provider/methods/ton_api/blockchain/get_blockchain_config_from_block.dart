@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Get blockchain config from a specific block, if present.
 ///
 class TonApiGetBlockchainConfigFromBlock
-    extends TonApiRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TonApiRequest<Map<String, dynamic>, Map<String, dynamic>> {
   final String masterChainSeqno;
   TonApiGetBlockchainConfigFromBlock(this.masterChainSeqno);
   @override

@@ -53,8 +53,8 @@ class TupleReader {
   BigInt readBigNumber() {
     final TupleItem popped = pop();
     if (popped is! TupleItemInt) {
-      throw TupleException("Invalid integer tuple item.",
-          details: {"value": popped});
+      throw TupleException('Invalid integer tuple item.',
+          details: {'value': popped});
     }
     return popped.value;
   }
@@ -75,8 +75,8 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemInt) {
-      throw TupleException("Invalid integer tuple item.",
-          details: {"value": popped});
+      throw TupleException('Invalid integer tuple item.',
+          details: {'value': popped});
     }
     return popped.value;
   }
@@ -129,7 +129,7 @@ class TupleReader {
   Cell readCell() {
     final TupleItem popped = pop();
     if (popped is TupleItemCell) return popped.cell;
-    throw TupleException("Invalid tuple cell.", details: {"value": popped});
+    throw TupleException('Invalid tuple cell.', details: {'value': popped});
   }
 
   /// Reads an optional cell from the next tuple item.
@@ -140,7 +140,7 @@ class TupleReader {
       return null;
     }
     if (popped is TupleItemCell) return popped.cell;
-    throw TupleException("Invalid tuple cell.", details: {"value": popped});
+    throw TupleException('Invalid tuple cell.', details: {'value': popped});
   }
 
   /// Reads a tuple from the next tuple item and returns a new TupleReader for the tuple.
@@ -148,7 +148,7 @@ class TupleReader {
   TupleReader readTuple() {
     final TupleItem popped = pop();
     if (popped is! TupleItemTuple) {
-      throw TupleException("Invalid tuple type.", details: {"value": popped});
+      throw TupleException('Invalid tuple type.', details: {'value': popped});
     }
     return TupleReader(popped.items);
   }
@@ -161,7 +161,7 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemTuple) {
-      throw TupleException("Invalid tuple type.", details: {"value": popped});
+      throw TupleException('Invalid tuple type.', details: {'value': popped});
     }
     return TupleReader(popped.items);
   }
@@ -177,7 +177,7 @@ class TupleReader {
           (tail._items[0] is! TupleItemTuple &&
               tail._items[0] is! TupleItemNull)) {
         throw TupleException(
-            "Lisp list consists only from (any, tuple) elements and ends with null");
+            'Lisp list consists only from (any, tuple) elements and ends with null');
       }
       tail = tail.readTupleOpt();
       result.add(head);
@@ -205,10 +205,10 @@ class TupleReader {
   List<int> readBuffer() {
     final Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
-      throw TupleException("Invalid buffer length.");
+      throw TupleException('Invalid buffer length.');
     }
     if (s.remainingBits % 8 != 0) {
-      throw TupleException("Invalid buffer length.");
+      throw TupleException('Invalid buffer length.');
     }
     return s.loadBuffer(s.remainingBits ~/ 8);
   }
@@ -222,10 +222,10 @@ class TupleReader {
     }
     final Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
-      throw TupleException("Invalid buffer length.");
+      throw TupleException('Invalid buffer length.');
     }
     if (s.remainingBits % 8 != 0) {
-      throw TupleException("Invalid buffer length.");
+      throw TupleException('Invalid buffer length.');
     }
     return s.loadBuffer(s.remainingBits ~/ 8);
   }

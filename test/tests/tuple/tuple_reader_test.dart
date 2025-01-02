@@ -5,7 +5,7 @@ import 'package:ton_dart/src/tuple/tuple/tuple_reader.dart';
 import 'tuple_json_test_vector.dart';
 
 void main() {
-  group("tuple reader", () => _test());
+  group('tuple reader', () => _test());
 }
 
 void _test() {

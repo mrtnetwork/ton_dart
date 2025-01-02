@@ -62,8 +62,8 @@ class TonHelper {
   static Cell toCell(String? data) {
     final toCell = tryToCell(data);
     if (toCell == null) {
-      throw TonDartPluginException("Invalid cell data.",
-          details: {"data": data});
+      throw TonDartPluginException('Invalid cell data.',
+          details: {'data': data});
     }
     return toCell;
   }
@@ -77,7 +77,7 @@ class TonHelper {
       bool bounce = false,
       bool bounced = false}) {
     assert(memo == null || body == null,
-        "You have to choose a memo or body for each message.");
+        'You have to choose a memo or body for each message.');
     return MessageRelaxed(
         info: CommonMessageInfoRelaxedInternal(
             ihrDisabled: true,

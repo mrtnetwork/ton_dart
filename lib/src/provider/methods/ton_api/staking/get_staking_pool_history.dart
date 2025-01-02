@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/apy_history.dart';
 /// Pool history.
 ///
 class TonApiGetStakingPoolHistory
-    extends TonApiRequestParam<List<ApyHistoryResponse>, Map<String, dynamic>> {
+    extends TonApiRequest<List<ApyHistoryResponse>, Map<String, dynamic>> {
   final String accountId;
   TonApiGetStakingPoolHistory(this.accountId);
   @override
@@ -16,8 +16,8 @@ class TonApiGetStakingPoolHistory
   @override
   List<String> get pathParameters => [accountId];
   @override
-  List<ApyHistoryResponse> onResonse(Map<String, dynamic> json) {
-    return (json["apy"] as List)
+  List<ApyHistoryResponse> onResonse(Map<String, dynamic> result) {
+    return (result['apy'] as List)
         .map((e) => ApyHistoryResponse.fromJson(e))
         .toList();
   }

@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/models/response/raw_blockchain_block_heade
 ///
 /// Get raw blockchain block header.
 ///
-class TonApiGetRawBlockchainBlockHeader extends TonApiRequestParam<
+class TonApiGetRawBlockchainBlockHeader extends TonApiRequest<
     RawBlockchainBlockHeaderResponseResponse, Map<String, dynamic>> {
   final String blockId;
   final int mode;
@@ -20,11 +20,11 @@ class TonApiGetRawBlockchainBlockHeader extends TonApiRequestParam<
   List<String> get pathParameters => [blockId];
 
   @override
-  Map<String, dynamic> get queryParameters => {"mode": mode};
+  Map<String, dynamic> get queryParameters => {'mode': mode};
 
   @override
   RawBlockchainBlockHeaderResponseResponse onResonse(
-      Map<String, dynamic> json) {
-    return RawBlockchainBlockHeaderResponseResponse.fromJson(json);
+      Map<String, dynamic> result) {
+    return RawBlockchainBlockHeaderResponseResponse.fromJson(result);
   }
 }

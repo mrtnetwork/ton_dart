@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Get public key by account id.
 ///
 class TonApiGetAccountPublicKey
-    extends TonApiRequestParam<String, Map<String, dynamic>> {
+    extends TonApiRequest<String, Map<String, dynamic>> {
   final String accountId;
   TonApiGetAccountPublicKey(this.accountId);
   @override
@@ -16,7 +16,7 @@ class TonApiGetAccountPublicKey
   List<String> get pathParameters => [accountId];
 
   @override
-  String onResonse(Map<String, dynamic> json) {
-    return json["public_key"];
+  String onResonse(Map<String, dynamic> result) {
+    return result['public_key'];
   }
 }

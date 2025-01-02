@@ -6,17 +6,17 @@ import 'package:ton_dart/src/provider/models/response/raw_master_chain_info_ext.
 ///
 /// Get raw masterchain info ext.
 ///
-class TonApiGetRawMasterchainInfoExt extends TonApiRequestParam<
-    RawMasterchainInfoExtResponse, Map<String, dynamic>> {
+class TonApiGetRawMasterchainInfoExt
+    extends TonApiRequest<RawMasterchainInfoExtResponse, Map<String, dynamic>> {
   final int mode;
   TonApiGetRawMasterchainInfoExt(this.mode);
   @override
   String get method => TonApiMethods.getrawmasterchaininfoext.url;
 
   @override
-  Map<String, dynamic> get queryParameters => {"mode": mode};
+  Map<String, dynamic> get queryParameters => {'mode': mode};
   @override
-  RawMasterchainInfoExtResponse onResonse(Map<String, dynamic> json) {
-    return RawMasterchainInfoExtResponse.fromJson(json);
+  RawMasterchainInfoExtResponse onResonse(Map<String, dynamic> result) {
+    return RawMasterchainInfoExtResponse.fromJson(result);
   }
 }

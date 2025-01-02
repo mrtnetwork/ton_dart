@@ -55,7 +55,7 @@ class JettonMinter<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
-          "The account is inactive and requires state initialization.");
+          'The account is inactive and requires state initialization.');
     }
     return await owner.sendTransfer(
         params: params,
@@ -129,16 +129,16 @@ class JettonMinter<E extends WalletContractTransferParams>
   }
 
   Future<MinterWalletState> getJettonData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_jetton_data");
+    final data = await getStateStack(rpc: rpc, method: 'get_jetton_data');
     return MinterWalletState.fromTupple(data.reader());
   }
 
   Future<TonAddress> getWalletAddress(
       {required TonProvider rpc, required TonAddress owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
-        ["tvm.Slice", beginCell().storeAddress(owner).endCell().toBase64()]
+        ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
       else
         owner.toString()
     ]);
@@ -150,10 +150,10 @@ class JettonMinter<E extends WalletContractTransferParams>
           {required TonProvider rpc,
           required WalletContract<ContractState, T> owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
         [
-          "tvm.Slice",
+          'tvm.Slice',
           beginCell().storeAddress(owner.address).endCell().toBase64()
         ]
       else

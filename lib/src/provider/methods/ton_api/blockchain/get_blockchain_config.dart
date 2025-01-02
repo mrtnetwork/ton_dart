@@ -7,12 +7,12 @@ import 'package:ton_dart/src/provider/models/response/blockchain_config.dart';
 /// Get blockchain config.
 ///
 class TonApiGetBlockchainConfig
-    extends TonApiRequestParam<BlockchainConfigResponse, Map<String, dynamic>> {
+    extends TonApiRequest<BlockchainConfigResponse, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.getblockchainconfig.url;
 
   @override
-  BlockchainConfigResponse onResonse(Map<String, dynamic> json) {
-    return BlockchainConfigResponse.fromJson(json);
+  BlockchainConfigResponse onResonse(Map<String, dynamic> result) {
+    return BlockchainConfigResponse.fromJson(result);
   }
 }

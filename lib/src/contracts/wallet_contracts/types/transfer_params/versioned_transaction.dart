@@ -126,7 +126,7 @@ class VersionedWalletTransactionV5Extension
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
       throw const TonContractException(
-          "Incorrect Wallet Version V5 Extension body");
+          'Incorrect Wallet Version V5 Extension body');
     }
     final queryId = slice.loadUint64();
     final outActions = OutActionsV5.deserialize(slice);
@@ -155,7 +155,7 @@ class VersionedWalletTransactionV5Internal
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.internal.tag) {
       throw const TonContractException(
-          "Incorrect Wallet Version V5 Internal body");
+          'Incorrect Wallet Version V5 Internal body');
     }
     final context = VersionedWalletUtils.loadV5Context(
         contextBytes: slice.loadBuffer(4), chain: chain);
@@ -190,7 +190,7 @@ class VersionedWalletTransactionV5External
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
       throw const TonContractException(
-          "Incorrect Wallet Version V5 External body");
+          'Incorrect Wallet Version V5 External body');
     }
     final context = VersionedWalletUtils.loadV5Context(
         contextBytes: slice.loadBuffer(4), chain: chain);

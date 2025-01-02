@@ -6,45 +6,45 @@ class ActionTypeResponse {
   const ActionTypeResponse._(this._value);
 
   static const ActionTypeResponse tonTransfer =
-      ActionTypeResponse._("TonTransfer");
+      ActionTypeResponse._('TonTransfer');
   static const ActionTypeResponse jettonTransfer =
-      ActionTypeResponse._("JettonTransfer");
+      ActionTypeResponse._('JettonTransfer');
   static const ActionTypeResponse jettonBurn =
-      ActionTypeResponse._("JettonBurn");
+      ActionTypeResponse._('JettonBurn');
   static const ActionTypeResponse jettonMint =
-      ActionTypeResponse._("JettonMint");
+      ActionTypeResponse._('JettonMint');
   static const ActionTypeResponse nftItemTransfer =
-      ActionTypeResponse._("NftItemTransfer");
+      ActionTypeResponse._('NftItemTransfer');
   static const ActionTypeResponse contractDeploy =
-      ActionTypeResponse._("ContractDeploy");
-  static const ActionTypeResponse subscribe = ActionTypeResponse._("Subscribe");
+      ActionTypeResponse._('ContractDeploy');
+  static const ActionTypeResponse subscribe = ActionTypeResponse._('Subscribe');
   static const ActionTypeResponse unSubscribe =
-      ActionTypeResponse._("UnSubscribe");
+      ActionTypeResponse._('UnSubscribe');
   static const ActionTypeResponse auctionBid =
-      ActionTypeResponse._("AuctionBid");
+      ActionTypeResponse._('AuctionBid');
   static const ActionTypeResponse nftPurchase =
-      ActionTypeResponse._("NftPurchase");
+      ActionTypeResponse._('NftPurchase');
   static const ActionTypeResponse depositStake =
-      ActionTypeResponse._("DepositStake");
+      ActionTypeResponse._('DepositStake');
   static const ActionTypeResponse withdrawStake =
-      ActionTypeResponse._("WithdrawStake");
+      ActionTypeResponse._('WithdrawStake');
   static const ActionTypeResponse withdrawStakeRequest =
-      ActionTypeResponse._("WithdrawStakeRequest");
+      ActionTypeResponse._('WithdrawStakeRequest');
   static const ActionTypeResponse jettonSwap =
-      ActionTypeResponse._("JettonSwap");
+      ActionTypeResponse._('JettonSwap');
   static const ActionTypeResponse smartContractExec =
-      ActionTypeResponse._("SmartContractExec");
+      ActionTypeResponse._('SmartContractExec');
   static const ActionTypeResponse electionsRecoverStake =
-      ActionTypeResponse._("ElectionsRecoverStake");
+      ActionTypeResponse._('ElectionsRecoverStake');
   static const ActionTypeResponse electionsDepositStake =
-      ActionTypeResponse._("ElectionsDepositStake");
+      ActionTypeResponse._('ElectionsDepositStake');
   static const ActionTypeResponse domainRenew =
-      ActionTypeResponse._("DomainRenew");
+      ActionTypeResponse._('DomainRenew');
   static const ActionTypeResponse inscriptionTransfer =
-      ActionTypeResponse._("InscriptionTransfer");
+      ActionTypeResponse._('InscriptionTransfer');
   static const ActionTypeResponse inscriptionMint =
-      ActionTypeResponse._("InscriptionMint");
-  static const ActionTypeResponse unknown = ActionTypeResponse._("Unknown");
+      ActionTypeResponse._('InscriptionMint');
+  static const ActionTypeResponse unknown = ActionTypeResponse._('Unknown');
 
   static const List<ActionTypeResponse> values = [
     tonTransfer,
@@ -76,7 +76,7 @@ class ActionTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No ActionTypeResponse found with the provided name: $name"),
+          'No ActionTypeResponse found with the provided name: $name'),
     );
   }
 }

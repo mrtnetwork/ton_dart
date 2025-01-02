@@ -12,11 +12,11 @@ class StableTokenMinterData {
   final Cell? walletCode;
   Map<String, dynamic> toJson() {
     return {
-      "adminAddress": adminAddress.toRawAddress(),
-      "content": content.toBase64(),
-      "totalSupply": totalSupply.toString(),
-      "walletCode": walletCode?.toBase64(),
-      "metadata": metadata.toJson()
+      'adminAddress': adminAddress.toRawAddress(),
+      'content': content.toBase64(),
+      'totalSupply': totalSupply.toString(),
+      'walletCode': walletCode?.toBase64(),
+      'metadata': metadata.toJson()
     };
   }
 
@@ -29,11 +29,11 @@ class StableTokenMinterData {
   });
   factory StableTokenMinterData.fromJson(Map<String, dynamic> json) {
     return StableTokenMinterData(
-        adminAddress: TonAddress(json["adminAddress"]),
-        totalSupply: BigintUtils.parse(json["totalSupply"]),
-        mutable: json["mutable"],
-        walletCode: Cell.fromBase64(json["walletCode"]),
-        content: Cell.fromBase64(json["content"]));
+        adminAddress: TonAddress(json['adminAddress']),
+        totalSupply: BigintUtils.parse(json['totalSupply']),
+        mutable: json['mutable'],
+        walletCode: Cell.fromBase64(json['walletCode']),
+        content: Cell.fromBase64(json['content']));
   }
 
   factory StableTokenMinterData.fromTuple(TupleReader reader) {

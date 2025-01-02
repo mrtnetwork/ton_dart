@@ -7,12 +7,12 @@ import 'package:ton_dart/src/provider/models/response/service_status.dart';
 /// Status.
 ///
 class TonApiStatus
-    extends TonApiRequestParam<ServiceStatusResponse, Map<String, dynamic>> {
+    extends TonApiRequest<ServiceStatusResponse, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.status.url;
 
   @override
-  ServiceStatusResponse onResonse(Map<String, dynamic> json) {
-    return ServiceStatusResponse.fromJson(json);
+  ServiceStatusResponse onResonse(Map<String, dynamic> result) {
+    return ServiceStatusResponse.fromJson(result);
   }
 }

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/account.dart';
 /// Get human-friendly information about an account without low-level details.
 ///
 class TonApiGetAccount
-    extends TonApiRequestParam<AccountResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AccountResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetAccount(this.accountId);
 
@@ -18,7 +18,7 @@ class TonApiGetAccount
   List<String> get pathParameters => [accountId];
 
   @override
-  AccountResponse onResonse(Map<String, dynamic> json) {
-    return AccountResponse.fromJson(json);
+  AccountResponse onResonse(Map<String, dynamic> result) {
+    return AccountResponse.fromJson(result);
   }
 }

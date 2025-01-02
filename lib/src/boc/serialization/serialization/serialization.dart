@@ -114,9 +114,9 @@ class _BocSerializationUtils {
         final crc32 = reader.loadBuffer(4);
         if (!BytesUtils.bytesEqual(
             CryptoUtils.crc32c(src.sublist(0, src.length - 4)), crc32)) {
-          throw BocException("Invalid CRC32C", details: {
-            "crc32": crc32,
-            "excepted": src.sublist(0, src.length - 4)
+          throw BocException('Invalid CRC32C', details: {
+            'crc32': crc32,
+            'excepted': src.sublist(0, src.length - 4)
           });
         }
         return _ParseBocResult(
@@ -155,9 +155,9 @@ class _BocSerializationUtils {
           final List<int> crc32 = reader.loadBuffer(4);
           if (!BytesUtils.bytesEqual(
               CryptoUtils.crc32c(src.sublist(0, src.length - 4)), crc32)) {
-            throw BocException("Invalid CRC32C", details: {
-              "crc32": crc32,
-              "excepted": src.sublist(0, src.length - 4)
+            throw BocException('Invalid CRC32C', details: {
+              'crc32': crc32,
+              'excepted': src.sublist(0, src.length - 4)
             });
           }
         }
@@ -175,10 +175,10 @@ class _BocSerializationUtils {
             hasIndex: hasIdx,
             magicNumber: magic);
       default:
-        throw BocException("Invalid magic number.", details: {
-          "magic": magic,
-          "excepted": [bocMagicNumber, customFormatMagic, anotherMagicNumber]
-              .join("or ")
+        throw BocException('Invalid magic number.', details: {
+          'magic': magic,
+          'excepted': [bocMagicNumber, customFormatMagic, anotherMagicNumber]
+              .join('or ')
         });
     }
   }
@@ -307,7 +307,7 @@ class BocSerialization {
     final List<int> res = builder.buffer();
     if (res.length != totalSize ~/ 8) {
       throw BocException('Serialization cannot verify length.',
-          details: {"excepted": totalSize ~/ 8, "length": res.length});
+          details: {'excepted': totalSize ~/ 8, 'length': res.length});
     }
     return res;
   }

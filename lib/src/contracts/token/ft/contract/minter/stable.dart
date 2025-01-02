@@ -87,11 +87,11 @@ class StableJettonMinter<E extends WalletContractTransferParams>
       OnEstimateFee? onEstimateFee}) async {
     final active = await isActive(rpc);
     if (active) {
-      throw const TonContractException("Account is already active.");
+      throw const TonContractException('Account is already active.');
     }
     if (state == null) {
       throw const TonContractException(
-          "For deploy minter please use create constructor to build state");
+          'For deploy minter please use create constructor to build state');
     }
     return _sendTransaction(
         params: params,
@@ -142,16 +142,16 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   }
 
   Future<StableTokenMinterData> getJettonData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_jetton_data");
+    final data = await getStateStack(rpc: rpc, method: 'get_jetton_data');
     return StableTokenMinterData.fromTuple(data.reader());
   }
 
   Future<TonAddress> getWalletAddress(
       {required TonProvider rpc, required TonAddress owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
-        ["tvm.Slice", beginCell().storeAddress(owner).endCell().toBase64()]
+        ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
       else
         owner.toString()
     ]);
@@ -163,10 +163,10 @@ class StableJettonMinter<E extends WalletContractTransferParams>
           {required TonProvider rpc,
           required WalletContract<ContractState, T> owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
         [
-          "tvm.Slice",
+          'tvm.Slice',
           beginCell().storeAddress(owner.address).endCell().toBase64()
         ]
       else
@@ -189,7 +189,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
 
   Future<TonAddress?> getNextAdminAddress(TonProvider rpc) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_next_admin_address");
+        await getStateStack(rpc: rpc, method: 'get_next_admin_address');
     return data.reader().readAddressOpt();
   }
 }

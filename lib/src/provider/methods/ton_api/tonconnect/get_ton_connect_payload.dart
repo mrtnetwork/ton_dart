@@ -6,12 +6,12 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Get a payload for further token receipt.
 ///
 class TonApiGetTonConnectPayload
-    extends TonApiRequestParam<String, Map<String, dynamic>> {
+    extends TonApiRequest<String, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.gettonconnectpayload.url;
 
   @override
-  String onResonse(Map<String, dynamic> json) {
-    return json["payload"];
+  String onResonse(Map<String, dynamic> result) {
+    return result['payload'];
   }
 }

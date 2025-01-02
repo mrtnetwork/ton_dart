@@ -19,19 +19,19 @@ class TonCenterV3EstimateFee extends TonCenterV3PostRequestParam<
       this.ignoreChksig = true});
 
   @override
-  Object? get body => {
-        "address": address,
-        "body": messageBody,
-        "init_code": initCode,
-        "init_data": initData,
-        "ignore_chksig": ignoreChksig
+  Map<String, dynamic>? get body => {
+        'address': address,
+        'body': messageBody,
+        'init_code': initCode,
+        'init_data': initData,
+        'ignore_chksig': ignoreChksig
       };
 
   @override
   String get method => TonCenterV3Methods.estimateFee.uri;
 
   @override
-  EstimateFeeResponse onResonse(Map<String, dynamic> json) {
-    return EstimateFeeResponse.fromJson(json);
+  EstimateFeeResponse onResonse(Map<String, dynamic> result) {
+    return EstimateFeeResponse.fromJson(result);
   }
 }

@@ -3,7 +3,7 @@ import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/bit/bit_builder.dart';
 
 void main() {
-  group("bit builder", () {
+  group('bit builder', () {
     _serializeUint();
     _serializeInt();
     _serializeCoins();
@@ -64,7 +64,7 @@ void _serializeUint() {
     [45519, 24, '00B1CF'],
     [53126, 26, '0033E1A_']
   ];
-  test("serialize uint", () {
+  test('serialize uint', () {
     for (final c in cases) {
       final builder = BitBuilder();
       builder.writeUint(c[0], c[1]);
@@ -127,7 +127,7 @@ void _serializeInt() {
     [4617, 23, '002413_'],
     [-20390, 21, 'FD82D4_']
   ];
-  test("serialize int", () {
+  test('serialize int', () {
     for (final c in cases) {
       final builder = BitBuilder();
       builder.writeInt(c[0], c[1]);
@@ -190,7 +190,7 @@ void _serializeCoins() {
     ['31720663732116', '61CD98AE4CF94'],
     ['132368134922315', '678635BA9604B']
   ];
-  test("serialize coins", () {
+  test('serialize coins', () {
     for (final c in cases) {
       final builder = BitBuilder();
       builder.writeCoins(BigInt.parse(c[0]));
@@ -403,7 +403,7 @@ void _serializeAddress() {
       '801D8DC20D4552A68C396CE552CE6A03798F187A366F012DDD0848711E13AE2AAED_'
     ]
   ];
-  test("serialize addresses", () {
+  test('serialize addresses', () {
     for (final c in cases) {
       final builder = BitBuilder();
       builder.writeAddress(TonAddress(c[0]));

@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
 
 void main() {
-  group("address", () {
+  group('address', () {
     _testAddress();
     _frindlyForm();
     _equalAddresses();
@@ -12,9 +12,9 @@ void main() {
 }
 
 void _testAddress() {
-  test("TonAddress", () {
+  test('TonAddress', () {
     final address1 = TonAddressUtils.fromFriendlyAddress(
-        "0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO");
+        '0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO');
     final address2 = TonAddressUtils.fromFriendlyAddress(
         'kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
     final TonAddress address3 = TonAddress(
@@ -42,49 +42,49 @@ void _testAddress() {
             '2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3'));
     expect(
         TonAddress.fromBytes(address1.workchain, address1.hash).toRawAddress(),
-        "0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3");
+        '0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3');
     expect(
         TonAddress.fromBytes(address2.workchain, address2.hash).toRawAddress(),
-        "0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3");
+        '0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3');
     expect(address3.toRawAddress(),
-        "0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3");
+        '0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3');
     expect(address4.workChain, -1);
     expect(
         address4.hash,
         BytesUtils.fromHexString(
-            "3333333333333333333333333333333333333333333333333333333333333333"));
+            '3333333333333333333333333333333333333333333333333333333333333333'));
   });
 }
 
 void _frindlyForm() {
-  test("friendly form", () {
+  test('friendly form', () {
     final address = TonAddress(
         '0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3');
 
     // Bounceable
     expect(address.toFriendlyAddress(bounceable: true),
-        "EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB");
+        'EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB');
     expect(address.toFriendlyAddress(bounceable: true, testOnly: true),
-        "kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL");
+        'kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
     expect(address.toFriendlyAddress(bounceable: true),
-        "EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB");
+        'EQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4wJB');
     expect(address.toFriendlyAddress(testOnly: true, bounceable: true),
-        "kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL");
+        'kQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi47nL');
 
     // Non-Bounceable
     expect(address.toFriendlyAddress(bounceable: false),
-        "UQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi41-E");
+        'UQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi41-E');
     expect(address.toFriendlyAddress(bounceable: false, testOnly: true),
-        "0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO");
+        '0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO');
     expect(address.toFriendlyAddress(bounceable: false),
-        "UQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi41-E");
+        'UQAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi41-E');
     expect(address.toFriendlyAddress(bounceable: false, testOnly: true),
-        "0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO");
+        '0QAs9VlT6S776tq3unJcP5Ogsj-ELLunLXuOb1EKcOQi4-QO');
   });
 }
 
 void _equalAddresses() {
-  test("equality", () {
+  test('equality', () {
     final address1 = TonAddress(
         '0:2cf55953e92efbeadab7ba725c3f93a0b23f842cbba72d7b8e6f510a70e422e3');
     final address2 = TonAddress(

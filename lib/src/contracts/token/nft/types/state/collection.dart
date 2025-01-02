@@ -13,12 +13,12 @@ class NftCollectionState extends ContractState {
 
   Map<String, dynamic> toJson() {
     return {
-      "royaltyParams": royaltyParams.toJson(),
-      "ownerAddress": ownerAddress.toFriendlyAddress(),
-      "content": content.toBase64(),
-      "nftItemCode": nftItemCode.toBase64(),
-      "nextItemIndex": nextItemIndex,
-      "metadata": metadata.toJson()
+      'royaltyParams': royaltyParams.toJson(),
+      'ownerAddress': ownerAddress.toFriendlyAddress(),
+      'content': content.toBase64(),
+      'nftItemCode': nftItemCode.toBase64(),
+      'nextItemIndex': nextItemIndex,
+      'metadata': metadata.toJson()
     };
   }
 
@@ -73,17 +73,12 @@ class NftCollectionState extends ContractState {
 
 class NftEditableCollectionState extends NftCollectionState {
   NftEditableCollectionState._(
-      {required RoyaltyParams royaltyParams,
-      required TonAddress ownerAddress,
-      required Cell content,
-      required Cell nftItemCode,
-      required BigInt nextItemIndex})
-      : super._(
-            royaltyParams: royaltyParams,
-            ownerAddress: ownerAddress,
-            content: content,
-            nftItemCode: nftItemCode,
-            nextItemIndex: nextItemIndex);
+      {required super.royaltyParams,
+      required super.ownerAddress,
+      required super.content,
+      required super.nftItemCode,
+      required super.nextItemIndex})
+      : super._();
   factory NftEditableCollectionState(
       {required RoyaltyParams royaltyParams,
       required TonAddress ownerAddress,

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/nft_items.dart';
 /// Get all NFT items by owner address.
 ///
 class TonApiGetAccountNftItems
-    extends TonApiRequestParam<NftItemsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<NftItemsResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// collection
@@ -39,14 +39,14 @@ class TonApiGetAccountNftItems
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "collection": collection,
-        "limit": limit,
-        "offset": offset,
-        "indirect_ownership": indirectOwnership
+        'collection': collection,
+        'limit': limit,
+        'offset': offset,
+        'indirect_ownership': indirectOwnership
       };
 
   @override
-  NftItemsResponse onResonse(Map<String, dynamic> json) {
-    return NftItemsResponse.fromJson(json);
+  NftItemsResponse onResonse(Map<String, dynamic> result) {
+    return NftItemsResponse.fromJson(result);
   }
 }

@@ -8,364 +8,364 @@ class TonApiMethods {
       {required this.name, required this.type, required this.url});
 
   static const TonApiMethods accountdnsbackresolve = TonApiMethods._(
-      name: "AccountDnsBackResolve",
+      name: 'AccountDnsBackResolve',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/dns/backresolve");
+      url: '/v2/accounts/{account_id}/dns/backresolve');
   static const TonApiMethods addressparse = TonApiMethods._(
-      name: "AddressParse",
+      name: 'AddressParse',
       type: RequestMethod.get,
-      url: "/v2/address/{account_id}/parse");
+      url: '/v2/address/{account_id}/parse');
   static const TonApiMethods blockchainaccountinspect = TonApiMethods._(
-      name: "BlockchainAccountInspectResponse",
+      name: 'BlockchainAccountInspectResponse',
       type: RequestMethod.get,
-      url: "/v2/blockchain/accounts/{account_id}/inspect");
+      url: '/v2/blockchain/accounts/{account_id}/inspect');
   static const TonApiMethods decodemessage = TonApiMethods._(
-      name: "DecodeMessage",
+      name: 'DecodeMessage',
       type: RequestMethod.post,
-      url: "/v2/message/decode");
+      url: '/v2/message/decode');
   static const TonApiMethods dnsresolve = TonApiMethods._(
-      name: "DnsResolve",
+      name: 'DnsResolve',
       type: RequestMethod.get,
-      url: "/v2/dns/{domain_name}/resolve");
+      url: '/v2/dns/{domain_name}/resolve');
   static const TonApiMethods emulatemessagetoaccountevent = TonApiMethods._(
-      name: "EmulateMessageToAccountEvent",
+      name: 'EmulateMessageToAccountEvent',
       type: RequestMethod.post,
-      url: "/v2/accounts/{account_id}/events/emulate");
+      url: '/v2/accounts/{account_id}/events/emulate');
   static const TonApiMethods emulatemessagetoevent = TonApiMethods._(
-      name: "EmulateMessageToEvent",
+      name: 'EmulateMessageToEvent',
       type: RequestMethod.post,
-      url: "/v2/events/emulate");
+      url: '/v2/events/emulate');
   static const TonApiMethods emulatemessagetotrace = TonApiMethods._(
-      name: "EmulateMessageToTrace",
+      name: 'EmulateMessageToTrace',
       type: RequestMethod.post,
-      url: "/v2/traces/emulate");
+      url: '/v2/traces/emulate');
   static const TonApiMethods emulatemessagetowallet = TonApiMethods._(
-      name: "EmulateMessageToWallet",
+      name: 'EmulateMessageToWallet',
       type: RequestMethod.post,
-      url: "/v2/wallet/emulate");
+      url: '/v2/wallet/emulate');
   static const TonApiMethods execgetmethodforblockchainaccount =
       TonApiMethods._(
-          name: "ExecGetMethodForBlockchainAccount",
+          name: 'ExecGetMethodForBlockchainAccount',
           type: RequestMethod.get,
-          url: "/v2/blockchain/accounts/{account_id}/methods/{method_name}");
+          url: '/v2/blockchain/accounts/{account_id}/methods/{method_name}');
   static const TonApiMethods getaccount = TonApiMethods._(
-      name: "GetAccount",
+      name: 'GetAccount',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}");
+      url: '/v2/accounts/{account_id}');
   static const TonApiMethods getaccountdiff = TonApiMethods._(
-      name: "GetAccountDiff",
+      name: 'GetAccountDiff',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/diff");
+      url: '/v2/accounts/{account_id}/diff');
   static const TonApiMethods getaccountdnsexpiring = TonApiMethods._(
-      name: "GetAccountDnsExpiring",
+      name: 'GetAccountDnsExpiring',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/dns/expiring");
+      url: '/v2/accounts/{account_id}/dns/expiring');
   static const TonApiMethods getaccountevent = TonApiMethods._(
-      name: "GetAccountEvent",
+      name: 'GetAccountEvent',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/events/{event_id}");
+      url: '/v2/accounts/{account_id}/events/{event_id}');
   static const TonApiMethods getaccountevents = TonApiMethods._(
-      name: "GetAccountEvents",
+      name: 'GetAccountEvents',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/events");
+      url: '/v2/accounts/{account_id}/events');
   static const TonApiMethods getaccountinfobystateinit = TonApiMethods._(
-      name: "GetAccountInfoByStateInit",
+      name: 'GetAccountInfoByStateInit',
       type: RequestMethod.post,
-      url: "/v2/tonconnect/stateinit");
+      url: '/v2/tonconnect/stateinit');
   static const TonApiMethods getaccountinscriptions = TonApiMethods._(
-      name: "GetAccountInscriptions",
+      name: 'GetAccountInscriptions',
       type: RequestMethod.get,
-      url: "/v2/experimental/accounts/{account_id}/inscriptions");
+      url: '/v2/experimental/accounts/{account_id}/inscriptions');
   static const TonApiMethods getaccountinscriptionshistory = TonApiMethods._(
-      name: "GetAccountInscriptionsHistory",
+      name: 'GetAccountInscriptionsHistory',
       type: RequestMethod.get,
-      url: "/v2/experimental/accounts/{account_id}/inscriptions/history");
+      url: '/v2/experimental/accounts/{account_id}/inscriptions/history');
   static const TonApiMethods getaccountinscriptionshistorybyticker =
       TonApiMethods._(
-          name: "GetAccountInscriptionsHistoryByTicker",
+          name: 'GetAccountInscriptionsHistoryByTicker',
           type: RequestMethod.get,
           url:
-              "/v2/experimental/accounts/{account_id}/inscriptions/{ticker}/history");
+              '/v2/experimental/accounts/{account_id}/inscriptions/{ticker}/history');
   static const TonApiMethods getaccountjettonhistorybyid = TonApiMethods._(
-      name: "GetAccountJettonHistoryByID",
+      name: 'GetAccountJettonHistoryByID',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/jettons/{jetton_id}/history");
+      url: '/v2/accounts/{account_id}/jettons/{jetton_id}/history');
   static const TonApiMethods getaccountjettonsbalances = TonApiMethods._(
-      name: "GetAccountJettonsBalances",
+      name: 'GetAccountJettonsBalances',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/jettons");
+      url: '/v2/accounts/{account_id}/jettons');
   static const TonApiMethods getaccountjettonshistory = TonApiMethods._(
-      name: "GetAccountJettonsHistory",
+      name: 'GetAccountJettonsHistory',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/jettons/history");
+      url: '/v2/accounts/{account_id}/jettons/history');
   static const TonApiMethods getaccountnfthistory = TonApiMethods._(
-      name: "GetAccountNftHistory",
+      name: 'GetAccountNftHistory',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/nfts/history");
+      url: '/v2/accounts/{account_id}/nfts/history');
   static const TonApiMethods getaccountnftitems = TonApiMethods._(
-      name: "GetAccountNftItems",
+      name: 'GetAccountNftItems',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/nfts");
+      url: '/v2/accounts/{account_id}/nfts');
   static const TonApiMethods getaccountnominatorspools = TonApiMethods._(
-      name: "GetAccountNominatorsPools",
+      name: 'GetAccountNominatorsPools',
       type: RequestMethod.get,
-      url: "/v2/staking/nominator/{account_id}/pools");
+      url: '/v2/staking/nominator/{account_id}/pools');
   static const TonApiMethods getaccountpublickey = TonApiMethods._(
-      name: "GetAccountPublicKey",
+      name: 'GetAccountPublicKey',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/publickey");
+      url: '/v2/accounts/{account_id}/publickey');
   static const TonApiMethods getaccountseqno = TonApiMethods._(
-      name: "GetAccountSeqno",
+      name: 'GetAccountSeqno',
       type: RequestMethod.get,
-      url: "/v2/wallet/{account_id}/seqno");
+      url: '/v2/wallet/{account_id}/seqno');
   static const TonApiMethods getaccountsubscriptions = TonApiMethods._(
-      name: "GetAccountSubscriptions",
+      name: 'GetAccountSubscriptions',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/subscriptions");
+      url: '/v2/accounts/{account_id}/subscriptions');
   static const TonApiMethods getaccounttraces = TonApiMethods._(
-      name: "GetAccountTraces",
+      name: 'GetAccountTraces',
       type: RequestMethod.get,
-      url: "/v2/accounts/{account_id}/traces");
+      url: '/v2/accounts/{account_id}/traces');
   static const TonApiMethods getaccounts = TonApiMethods._(
-      name: "GetAccounts", type: RequestMethod.post, url: "/v2/accounts/_bulk");
+      name: 'GetAccounts', type: RequestMethod.post, url: '/v2/accounts/_bulk');
   static const TonApiMethods getallauctions = TonApiMethods._(
-      name: "GetAllAuctions", type: RequestMethod.get, url: "/v2/dns/auctions");
+      name: 'GetAllAuctions', type: RequestMethod.get, url: '/v2/dns/auctions');
   static const TonApiMethods getallrawshardsinfo = TonApiMethods._(
-      name: "GetAllRawShardsInfo",
+      name: 'GetAllRawShardsInfo',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_all_shards_info/{block_id}");
+      url: '/v2/liteserver/get_all_shards_info/{block_id}');
   static const TonApiMethods getblockchainaccounttransactions = TonApiMethods._(
-      name: "GetBlockchainAccountTransactions",
+      name: 'GetBlockchainAccountTransactions',
       type: RequestMethod.get,
-      url: "/v2/blockchain/accounts/{account_id}/transactions");
+      url: '/v2/blockchain/accounts/{account_id}/transactions');
   static const TonApiMethods getblockchainblock = TonApiMethods._(
-      name: "GetBlockchainBlock",
+      name: 'GetBlockchainBlock',
       type: RequestMethod.get,
-      url: "/v2/blockchain/blocks/{block_id}");
+      url: '/v2/blockchain/blocks/{block_id}');
   static const TonApiMethods getblockchainblocktransactions = TonApiMethods._(
-      name: "GetBlockchainBlockTransactions",
+      name: 'GetBlockchainBlockTransactions',
       type: RequestMethod.get,
-      url: "/v2/blockchain/blocks/{block_id}/transactions");
+      url: '/v2/blockchain/blocks/{block_id}/transactions');
   static const TonApiMethods getblockchainconfig = TonApiMethods._(
-      name: "GetBlockchainConfig",
+      name: 'GetBlockchainConfig',
       type: RequestMethod.get,
-      url: "/v2/blockchain/config");
+      url: '/v2/blockchain/config');
   static const TonApiMethods getblockchainconfigfromblock = TonApiMethods._(
-      name: "GetBlockchainConfigFromBlock",
+      name: 'GetBlockchainConfigFromBlock',
       type: RequestMethod.get,
-      url: "/v2/blockchain/masterchain/{masterchain_seqno}/config");
+      url: '/v2/blockchain/masterchain/{masterchain_seqno}/config');
   static const TonApiMethods getblockchainmasterchainblocks = TonApiMethods._(
-      name: "GetBlockchainMasterchainBlocks",
+      name: 'GetBlockchainMasterchainBlocks',
       type: RequestMethod.get,
-      url: "/v2/blockchain/masterchain/{masterchain_seqno}/blocks");
+      url: '/v2/blockchain/masterchain/{masterchain_seqno}/blocks');
   static const TonApiMethods getblockchainmasterchainhead = TonApiMethods._(
-      name: "GetBlockchainMasterchainHead",
+      name: 'GetBlockchainMasterchainHead',
       type: RequestMethod.get,
-      url: "/v2/blockchain/masterchain-head");
+      url: '/v2/blockchain/masterchain-head');
   static const TonApiMethods getblockchainmasterchainshards = TonApiMethods._(
-      name: "GetBlockchainMasterchainShards",
+      name: 'GetBlockchainMasterchainShards',
       type: RequestMethod.get,
-      url: "/v2/blockchain/masterchain/{masterchain_seqno}/shards");
+      url: '/v2/blockchain/masterchain/{masterchain_seqno}/shards');
   static const TonApiMethods getblockchainmasterchaintransactions =
       TonApiMethods._(
-          name: "GetBlockchainMasterchainTransactions",
+          name: 'GetBlockchainMasterchainTransactions',
           type: RequestMethod.get,
-          url: "/v2/blockchain/masterchain/{masterchain_seqno}/transactions");
+          url: '/v2/blockchain/masterchain/{masterchain_seqno}/transactions');
   static const TonApiMethods getblockchainrawaccount = TonApiMethods._(
-      name: "GetBlockchainRawAccount",
+      name: 'GetBlockchainRawAccount',
       type: RequestMethod.get,
-      url: "/v2/blockchain/accounts/{account_id}");
+      url: '/v2/blockchain/accounts/{account_id}');
   static const TonApiMethods getblockchaintransaction = TonApiMethods._(
-      name: "GetBlockchainTransaction",
+      name: 'GetBlockchainTransaction',
       type: RequestMethod.get,
-      url: "/v2/blockchain/transactions/{transaction_id}");
+      url: '/v2/blockchain/transactions/{transaction_id}');
   static const TonApiMethods getblockchaintransactionbymessagehash =
       TonApiMethods._(
-          name: "GetBlockchainTransactionByMessageHash",
+          name: 'GetBlockchainTransactionByMessageHash',
           type: RequestMethod.get,
-          url: "/v2/blockchain/messages/{msg_id}/transaction");
+          url: '/v2/blockchain/messages/{msg_id}/transaction');
   static const TonApiMethods getblockchainvalidators = TonApiMethods._(
-      name: "GetBlockchainValidators",
+      name: 'GetBlockchainValidators',
       type: RequestMethod.get,
-      url: "/v2/blockchain/validators");
+      url: '/v2/blockchain/validators');
   static const TonApiMethods getchartrates = TonApiMethods._(
-      name: "GetChartRates", type: RequestMethod.get, url: "/v2/rates/chart");
+      name: 'GetChartRates', type: RequestMethod.get, url: '/v2/rates/chart');
   static const TonApiMethods getdnsinfo = TonApiMethods._(
-      name: "GetDnsInfo",
+      name: 'GetDnsInfo',
       type: RequestMethod.get,
-      url: "/v2/dns/{domain_name}");
+      url: '/v2/dns/{domain_name}');
   static const TonApiMethods getdomainbids = TonApiMethods._(
-      name: "GetDomainBids",
+      name: 'GetDomainBids',
       type: RequestMethod.get,
-      url: "/v2/dns/{domain_name}/bids");
+      url: '/v2/dns/{domain_name}/bids');
   static const TonApiMethods getevent = TonApiMethods._(
-      name: "GetEvent", type: RequestMethod.get, url: "/v2/events/{event_id}");
+      name: 'GetEvent', type: RequestMethod.get, url: '/v2/events/{event_id}');
   static const TonApiMethods getinscriptionoptemplate = TonApiMethods._(
-      name: "GetInscriptionOpTemplate",
+      name: 'GetInscriptionOpTemplate',
       type: RequestMethod.get,
-      url: "/v2/experimental/inscriptions/op-template");
+      url: '/v2/experimental/inscriptions/op-template');
   static const TonApiMethods getitemsfromcollection = TonApiMethods._(
-      name: "GetItemsFromCollection",
+      name: 'GetItemsFromCollection',
       type: RequestMethod.get,
-      url: "/v2/nfts/collections/{account_id}/items");
+      url: '/v2/nfts/collections/{account_id}/items');
   static const TonApiMethods getjettonholders = TonApiMethods._(
-      name: "GetJettonHolders",
+      name: 'GetJettonHolders',
       type: RequestMethod.get,
-      url: "/v2/jettons/{account_id}/holders");
+      url: '/v2/jettons/{account_id}/holders');
   static const TonApiMethods getjettoninfo = TonApiMethods._(
-      name: "GetJettonInfo",
+      name: 'GetJettonInfo',
       type: RequestMethod.get,
-      url: "/v2/jettons/{account_id}");
+      url: '/v2/jettons/{account_id}');
   static const TonApiMethods getjettons = TonApiMethods._(
-      name: "GetJettons", type: RequestMethod.get, url: "/v2/jettons");
+      name: 'GetJettons', type: RequestMethod.get, url: '/v2/jettons');
   static const TonApiMethods getjettonsevents = TonApiMethods._(
-      name: "GetJettonsEvents",
+      name: 'GetJettonsEvents',
       type: RequestMethod.get,
-      url: "/v2/events/{event_id}/jettons");
+      url: '/v2/events/{event_id}/jettons');
   static const TonApiMethods getmarketsrates = TonApiMethods._(
-      name: "GetMarketsRates",
+      name: 'GetMarketsRates',
       type: RequestMethod.get,
-      url: "/v2/rates/markets");
+      url: '/v2/rates/markets');
   static const TonApiMethods getnftcollection = TonApiMethods._(
-      name: "GetNftCollection",
+      name: 'GetNftCollection',
       type: RequestMethod.get,
-      url: "/v2/nfts/collections/{account_id}");
+      url: '/v2/nfts/collections/{account_id}');
   static const TonApiMethods getnftcollections = TonApiMethods._(
-      name: "GetNftCollections",
+      name: 'GetNftCollections',
       type: RequestMethod.get,
-      url: "/v2/nfts/collections");
+      url: '/v2/nfts/collections');
   static const TonApiMethods getnfthistorybyid = TonApiMethods._(
-      name: "GetNftHistoryByID",
+      name: 'GetNftHistoryByID',
       type: RequestMethod.get,
-      url: "/v2/nfts/{account_id}/history");
+      url: '/v2/nfts/{account_id}/history');
   static const TonApiMethods getnftitembyaddress = TonApiMethods._(
-      name: "GetNftItemByAddress",
+      name: 'GetNftItemByAddress',
       type: RequestMethod.get,
-      url: "/v2/nfts/{account_id}");
+      url: '/v2/nfts/{account_id}');
   static const TonApiMethods getnftitemsbyaddresses = TonApiMethods._(
-      name: "GetNftItemsByAddresses",
+      name: 'GetNftItemsByAddresses',
       type: RequestMethod.post,
-      url: "/v2/nfts/_bulk");
+      url: '/v2/nfts/_bulk');
   static const TonApiMethods getoutmsgqueuesizes = TonApiMethods._(
-      name: "GetOutMsgQueueSizes",
+      name: 'GetOutMsgQueueSizes',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_out_msg_queue_sizes");
+      url: '/v2/liteserver/get_out_msg_queue_sizes');
   static const TonApiMethods getrates = TonApiMethods._(
-      name: "GetRates", type: RequestMethod.get, url: "/v2/rates");
+      name: 'GetRates', type: RequestMethod.get, url: '/v2/rates');
   static const TonApiMethods getrawaccountstate = TonApiMethods._(
-      name: "GetRawAccountState",
+      name: 'GetRawAccountState',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_account_state/{account_id}");
+      url: '/v2/liteserver/get_account_state/{account_id}');
   static const TonApiMethods getrawblockproof = TonApiMethods._(
-      name: "GetRawBlockProof",
+      name: 'GetRawBlockProof',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_block_proof");
+      url: '/v2/liteserver/get_block_proof');
   static const TonApiMethods getrawblockchainblock = TonApiMethods._(
-      name: "GetRawBlockchainBlock",
+      name: 'GetRawBlockchainBlock',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_block/{block_id}");
+      url: '/v2/liteserver/get_block/{block_id}');
   static const TonApiMethods getrawblockchainblockheader = TonApiMethods._(
-      name: "GetRawBlockchainBlockHeader",
+      name: 'GetRawBlockchainBlockHeader',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_block_header/{block_id}");
+      url: '/v2/liteserver/get_block_header/{block_id}');
   static const TonApiMethods getrawblockchainblockstate = TonApiMethods._(
-      name: "GetRawBlockchainBlockState",
+      name: 'GetRawBlockchainBlockState',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_state/{block_id}");
+      url: '/v2/liteserver/get_state/{block_id}');
   static const TonApiMethods getrawblockchainconfig = TonApiMethods._(
-      name: "GetRawBlockchainConfig",
+      name: 'GetRawBlockchainConfig',
       type: RequestMethod.get,
-      url: "/v2/blockchain/config/raw");
+      url: '/v2/blockchain/config/raw');
   static const TonApiMethods getrawblockchainconfigfromblock = TonApiMethods._(
-      name: "GetRawBlockchainConfigFromBlock",
+      name: 'GetRawBlockchainConfigFromBlock',
       type: RequestMethod.get,
-      url: "/v2/blockchain/masterchain/{masterchain_seqno}/config/raw");
+      url: '/v2/blockchain/masterchain/{masterchain_seqno}/config/raw');
   static const TonApiMethods getrawconfig = TonApiMethods._(
-      name: "GetRawConfig",
+      name: 'GetRawConfig',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_config_all/{block_id}");
+      url: '/v2/liteserver/get_config_all/{block_id}');
   static const TonApiMethods getrawlistblocktransactions = TonApiMethods._(
-      name: "GetRawListBlockTransactions",
+      name: 'GetRawListBlockTransactions',
       type: RequestMethod.get,
-      url: "/v2/liteserver/list_block_transactions/{block_id}");
+      url: '/v2/liteserver/list_block_transactions/{block_id}');
   static const TonApiMethods getrawmasterchaininfo = TonApiMethods._(
-      name: "GetRawMasterchainInfo",
+      name: 'GetRawMasterchainInfo',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_masterchain_info");
+      url: '/v2/liteserver/get_masterchain_info');
   static const TonApiMethods getrawmasterchaininfoext = TonApiMethods._(
-      name: "GetRawMasterchainInfoExt",
+      name: 'GetRawMasterchainInfoExt',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_masterchain_info_ext");
+      url: '/v2/liteserver/get_masterchain_info_ext');
   static const TonApiMethods getrawshardblockproof = TonApiMethods._(
-      name: "GetRawShardBlockProof",
+      name: 'GetRawShardBlockProof',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_shard_block_proof/{block_id}");
+      url: '/v2/liteserver/get_shard_block_proof/{block_id}');
   static const TonApiMethods getrawshardinfo = TonApiMethods._(
-      name: "GetRawShardInfo",
+      name: 'GetRawShardInfo',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_shard_info/{block_id}");
+      url: '/v2/liteserver/get_shard_info/{block_id}');
   static const TonApiMethods getrawtime = TonApiMethods._(
-      name: "GetRawTime",
+      name: 'GetRawTime',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_time");
+      url: '/v2/liteserver/get_time');
   static const TonApiMethods getrawtransactions = TonApiMethods._(
-      name: "GetRawTransactions",
+      name: 'GetRawTransactions',
       type: RequestMethod.get,
-      url: "/v2/liteserver/get_transactions/{account_id}");
+      url: '/v2/liteserver/get_transactions/{account_id}');
   static const TonApiMethods getstakingpoolhistory = TonApiMethods._(
-      name: "GetStakingPoolHistory",
+      name: 'GetStakingPoolHistory',
       type: RequestMethod.get,
-      url: "/v2/staking/pool/{account_id}/history");
+      url: '/v2/staking/pool/{account_id}/history');
   static const TonApiMethods getstakingpoolinfo = TonApiMethods._(
-      name: "GetStakingPoolInfo",
+      name: 'GetStakingPoolInfo',
       type: RequestMethod.get,
-      url: "/v2/staking/pool/{account_id}");
+      url: '/v2/staking/pool/{account_id}');
   static const TonApiMethods getstakingpools = TonApiMethods._(
-      name: "GetStakingPools",
+      name: 'GetStakingPools',
       type: RequestMethod.get,
-      url: "/v2/staking/pools");
+      url: '/v2/staking/pools');
   static const TonApiMethods getstorageproviders = TonApiMethods._(
-      name: "GetStorageProviders",
+      name: 'GetStorageProviders',
       type: RequestMethod.get,
-      url: "/v2/storage/providers");
+      url: '/v2/storage/providers');
   static const TonApiMethods gettonconnectpayload = TonApiMethods._(
-      name: "GetTonConnectPayload",
+      name: 'GetTonConnectPayload',
       type: RequestMethod.get,
-      url: "/v2/tonconnect/payload");
+      url: '/v2/tonconnect/payload');
   static const TonApiMethods gettrace = TonApiMethods._(
-      name: "GetTrace", type: RequestMethod.get, url: "/v2/traces/{trace_id}");
+      name: 'GetTrace', type: RequestMethod.get, url: '/v2/traces/{trace_id}');
   static const TonApiMethods getwalletbackup = TonApiMethods._(
-      name: "GetWalletBackup",
+      name: 'GetWalletBackup',
       type: RequestMethod.get,
-      url: "/v2/wallet/backup");
+      url: '/v2/wallet/backup');
   static const TonApiMethods getwalletsbypublickey = TonApiMethods._(
-      name: "GetWalletsByPublicKey",
+      name: 'GetWalletsByPublicKey',
       type: RequestMethod.get,
-      url: "/v2/pubkeys/{public_key}/wallets");
+      url: '/v2/pubkeys/{public_key}/wallets');
   static const TonApiMethods reindexaccount = TonApiMethods._(
-      name: "ReindexAccount",
+      name: 'ReindexAccount',
       type: RequestMethod.post,
-      url: "/v2/accounts/{account_id}/reindex");
+      url: '/v2/accounts/{account_id}/reindex');
   static const TonApiMethods searchaccounts = TonApiMethods._(
-      name: "SearchAccounts",
+      name: 'SearchAccounts',
       type: RequestMethod.get,
-      url: "/v2/accounts/search");
+      url: '/v2/accounts/search');
   static const TonApiMethods sendblockchainmessage = TonApiMethods._(
-      name: "SendBlockchainMessage",
+      name: 'SendBlockchainMessage',
       type: RequestMethod.post,
-      url: "/v2/blockchain/message");
+      url: '/v2/blockchain/message');
   static const TonApiMethods sendrawmessage = TonApiMethods._(
-      name: "SendRawMessage",
+      name: 'SendRawMessage',
       type: RequestMethod.post,
-      url: "/v2/liteserver/send_message");
+      url: '/v2/liteserver/send_message');
   static const TonApiMethods setwalletbackup = TonApiMethods._(
-      name: "SetWalletBackup",
+      name: 'SetWalletBackup',
       type: RequestMethod.put,
-      url: "/v2/wallet/backup");
+      url: '/v2/wallet/backup');
   static const TonApiMethods status = TonApiMethods._(
-      name: "Status", type: RequestMethod.get, url: "/v2/status");
+      name: 'Status', type: RequestMethod.get, url: '/v2/status');
   static const TonApiMethods tonconnectproof = TonApiMethods._(
-      name: "TonConnectProof",
+      name: 'TonConnectProof',
       type: RequestMethod.post,
-      url: "/v2/wallet/auth/proof");
+      url: '/v2/wallet/auth/proof');
 }

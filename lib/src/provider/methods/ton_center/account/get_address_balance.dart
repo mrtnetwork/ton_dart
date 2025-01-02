@@ -4,8 +4,7 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get balance (in nanotons) of a given address.
 /// https://toncenter.com/api/v2/#/accounts/get_address_balance_getAddressBalance_get
-class TonCenterGetAddressBalance
-    extends TonCenterPostRequestParam<BigInt, String> {
+class TonCenterGetAddressBalance extends TonCenterPostRequest<BigInt, String> {
   /// Identifier of target TON account in any form.
   final String address;
 
@@ -16,11 +15,11 @@ class TonCenterGetAddressBalance
 
   @override
   Map<String, dynamic> params() {
-    return {"address": address};
+    return {'address': address};
   }
 
   @override
-  BigInt onResonse(String json) {
-    return BigintUtils.parse(json);
+  BigInt onResonse(String result) {
+    return BigintUtils.parse(result);
   }
 }

@@ -13,7 +13,7 @@ class TickTock extends TonSerialization {
     );
   }
   factory TickTock.fromJson(Map<String, dynamic> json) {
-    return TickTock(tick: json["tick"], tock: json["tock"]);
+    return TickTock(tick: json['tick'], tock: json['tock']);
   }
   @override
   void store(Builder builder) {
@@ -23,6 +23,6 @@ class TickTock extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"tick": tick, "tock": tock};
+    return {'tick': tick, 'tock': tock};
   }
 }

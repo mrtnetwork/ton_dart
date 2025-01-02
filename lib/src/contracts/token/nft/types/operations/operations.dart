@@ -11,12 +11,11 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 class NFTItemOperationType extends ContractOperationType {
-  const NFTItemOperationType._({required String name, required int operation})
-      : super(name: name, operation: operation);
+  const NFTItemOperationType._({required super.name, required super.operation});
   static const NFTItemOperationType transfer = NFTItemOperationType._(
-      name: "Transfer", operation: TonNftConst.nftTransferOperationId);
+      name: 'Transfer', operation: TonNftConst.nftTransferOperationId);
   static const NFTItemOperationType getStaticData = NFTItemOperationType._(
-      name: "GetStaticData", operation: TonNftConst.getStaticDataOperationId);
+      name: 'GetStaticData', operation: TonNftConst.getStaticDataOperationId);
   static const List<NFTItemOperationType> values = [transfer, getStaticData];
   static NFTItemOperationType fromTag(int? operation,
       {NFTItemOperationType? excepted}) {
@@ -54,7 +53,7 @@ abstract class NFTItemOperation extends TonSerialization
   final BigInt queryId;
 
   @override
-  String get contractName => "NFT Item";
+  String get contractName => 'NFT Item';
 
   NFTItemOperation({required this.type, BigInt? queryId})
       : queryId = queryId ?? BigInt.zero;
@@ -75,33 +74,33 @@ abstract class NFTItemOperation extends TonSerialization
             case NFTItemOperationType.getStaticData:
               return NFTItemGetStaticData.deserialize(slice);
             default:
-              throw TonContractException("Invalid NFT Item operation type.",
-                  details: {"type": type.name});
+              throw TonContractException('Invalid NFT Item operation type.',
+                  details: {'type': type.name});
           }
         },
-        name: "NFTItem");
+        name: 'NFTItem');
   }
   factory NFTItemOperation.fromJson(Map<String, dynamic>? json) {
     return TonModelParser.parseJson(
         parse: () {
-          final type = NFTItemOperationType.fromName(json?["type"]);
+          final type = NFTItemOperationType.fromName(json?['type']);
           switch (type) {
             case NFTItemOperationType.transfer:
               return NFTItemTransfer.fromJson(json!);
             case NFTItemOperationType.getStaticData:
               return NFTItemGetStaticData.fromJson(json!);
             default:
-              throw TonContractException("Invalid NFT Item operation type.",
-                  details: {"type": type.name});
+              throw TonContractException('Invalid NFT Item operation type.',
+                  details: {'type': type.name});
           }
         },
-        name: "NFTItem");
+        name: 'NFTItem');
   }
 
   T cast<T extends NFTItemOperation>() {
     if (this is! T) {
-      throw TonContractException("Incorrect NFTItemOperation casting.",
-          details: {"excepted": "$runtimeType", "got": "$T"});
+      throw TonContractException('Incorrect NFTItemOperation casting.',
+          details: {'excepted': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
@@ -124,12 +123,12 @@ class NFTItemTransfer extends NFTItemOperation {
   /// optional custom data that should be sent to the new owner.
   final Cell? forwardPayload;
   NFTItemTransfer(
-      {BigInt? queryId,
+      {super.queryId,
       required this.newOwnerAddress,
       this.responseDestination,
       required this.forwardAmount,
       this.forwardPayload})
-      : super(queryId: queryId, type: NFTItemOperationType.transfer);
+      : super(type: NFTItemOperationType.transfer);
   factory NFTItemTransfer.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
         parse: () {
@@ -151,15 +150,15 @@ class NFTItemTransfer extends NFTItemOperation {
     return TonModelParser.parseJson(
         parse: () {
           return NFTItemTransfer(
-              queryId: BigintUtils.tryParse(json["queryId"]),
-              newOwnerAddress: TonAddress(json["newOwnerAddress"]),
-              responseDestination: json["responseDestination"] == null
+              queryId: BigintUtils.tryParse(json['queryId']),
+              newOwnerAddress: TonAddress(json['newOwnerAddress']),
+              responseDestination: json['responseDestination'] == null
                   ? null
-                  : TonAddress(json["responseDestination"]),
-              forwardAmount: BigintUtils.parse(json["forwardAmount"]),
-              forwardPayload: json["forwardPayload"] == null
+                  : TonAddress(json['responseDestination']),
+              forwardAmount: BigintUtils.parse(json['forwardAmount']),
+              forwardPayload: json['forwardPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["forwardPayload"]));
+                  : Cell.fromBase64(json['forwardPayload']));
         },
         name: NFTItemOperationType.transfer.name);
   }
@@ -177,19 +176,19 @@ class NFTItemTransfer extends NFTItemOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "newOwnerAddress": newOwnerAddress.toFriendlyAddress(),
-      "responseDestination": responseDestination?.toFriendlyAddress(),
-      "forwardAmount": forwardAmount.toString(),
-      "forwardPayload": forwardPayload?.toBase64(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'newOwnerAddress': newOwnerAddress.toFriendlyAddress(),
+      'responseDestination': responseDestination?.toFriendlyAddress(),
+      'forwardAmount': forwardAmount.toString(),
+      'forwardPayload': forwardPayload?.toBase64(),
+      'type': type.name
     };
   }
 }
 
 class NFTItemGetStaticData extends NFTItemOperation {
-  NFTItemGetStaticData({required BigInt? queryId})
-      : super(queryId: queryId, type: NFTItemOperationType.getStaticData);
+  NFTItemGetStaticData({required super.queryId})
+      : super(type: NFTItemOperationType.getStaticData);
 
   factory NFTItemGetStaticData.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
@@ -203,7 +202,7 @@ class NFTItemGetStaticData extends NFTItemOperation {
     return TonModelParser.parseJson(
         parse: () {
           return NFTItemGetStaticData(
-              queryId: BigintUtils.parse(json["queryId"]));
+              queryId: BigintUtils.parse(json['queryId']));
         },
         name: NFTItemOperationType.getStaticData.name);
   }
@@ -216,26 +215,25 @@ class NFTItemGetStaticData extends NFTItemOperation {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"queryId": queryId.toString(), "type": type.name};
+    return {'queryId': queryId.toString(), 'type': type.name};
   }
 }
 
 class NFTCollectionOperationType extends ContractOperationType {
   const NFTCollectionOperationType._(
-      {required String name, required int operation})
-      : super(name: name, operation: operation);
+      {required super.name, required super.operation});
   static const NFTCollectionOperationType mint = NFTCollectionOperationType._(
-      name: "Mint", operation: TonNftConst.mintNFtOperationId);
+      name: 'Mint', operation: TonNftConst.mintNFtOperationId);
   static const NFTCollectionOperationType batchMint =
       NFTCollectionOperationType._(
-          name: "BatchMint", operation: TonNftConst.batchMintNFtOperationId);
+          name: 'BatchMint', operation: TonNftConst.batchMintNFtOperationId);
   static const NFTCollectionOperationType changeOwner =
       NFTCollectionOperationType._(
-          name: "ChangeOwner",
+          name: 'ChangeOwner',
           operation: TonNftConst.changeCollectionOwnerOperationId);
   static const NFTCollectionOperationType changeContent =
       NFTCollectionOperationType._(
-          name: "ChangeContent", operation: TonNftConst.changeContent);
+          name: 'ChangeContent', operation: TonNftConst.changeContent);
   static const List<NFTCollectionOperationType> values = [
     mint,
     batchMint,
@@ -272,7 +270,7 @@ class NFTCollectionOperationType extends ContractOperationType {
 
   @override
   String toString() {
-    return "NFTCollectionOperationType.$name";
+    return 'NFTCollectionOperationType.$name';
   }
 }
 
@@ -282,7 +280,7 @@ abstract class NFTCollectionOperation extends TonSerialization
   final NFTCollectionOperationType type;
   final BigInt queryId;
   @override
-  String get contractName => "NFT Collection";
+  String get contractName => 'NFT Collection';
 
   @override
   Cell contractCode(TonChain chain) {
@@ -308,16 +306,16 @@ abstract class NFTCollectionOperation extends TonSerialization
               return NFTCollectionMint.deserialize(slice);
             default:
               throw TonContractException(
-                  "Invalid NFT Collection operation type.",
-                  details: {"type": type.name});
+                  'Invalid NFT Collection operation type.',
+                  details: {'type': type.name});
           }
         },
-        name: "NFTCollection");
+        name: 'NFTCollection');
   }
   factory NFTCollectionOperation.fromJson(Map<String, dynamic>? json) {
     return TonModelParser.parseJson(
         parse: () {
-          final type = NFTCollectionOperationType.fromName(json?["type"]);
+          final type = NFTCollectionOperationType.fromName(json?['type']);
           switch (type) {
             case NFTCollectionOperationType.batchMint:
               return NFTCollectionBatchMint.fromJson(json!);
@@ -329,16 +327,16 @@ abstract class NFTCollectionOperation extends TonSerialization
               return NFTCollectionMint.fromJson(json!);
             default:
               throw TonContractException(
-                  "Invalid NFT Collection operation type.",
-                  details: {"type": type.name});
+                  'Invalid NFT Collection operation type.',
+                  details: {'type': type.name});
           }
         },
-        name: "NFTCollection");
+        name: 'NFTCollection');
   }
   T cast<T extends NFTCollectionOperation>() {
     if (this is! T) {
-      throw TonContractException("Incorrect NFTCollectionOperation casting.",
-          details: {"excepted": "$runtimeType", "got": "$T"});
+      throw TonContractException('Incorrect NFTCollectionOperation casting.',
+          details: {'excepted': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
@@ -347,8 +345,8 @@ abstract class NFTCollectionOperation extends TonSerialization
 class NFTCollectionMint extends NFTCollectionOperation {
   final NFTMintParams mint;
 
-  NFTCollectionMint({BigInt? queryId, required this.mint})
-      : super(type: NFTCollectionOperationType.mint, queryId: queryId);
+  NFTCollectionMint({super.queryId, required this.mint})
+      : super(type: NFTCollectionOperationType.mint);
   factory NFTCollectionMint.deserialize(Slice slice) {
     NFTCollectionOperationType.fromTag(slice.tryLoadUint32());
     return NFTCollectionMint(
@@ -356,8 +354,8 @@ class NFTCollectionMint extends NFTCollectionOperation {
   }
   factory NFTCollectionMint.fromJson(Map<String, dynamic> json) {
     return NFTCollectionMint(
-        queryId: BigintUtils.parse(json["queryId"]),
-        mint: NFTMintParams.fromJson(json["mint"]));
+        queryId: BigintUtils.parse(json['queryId']),
+        mint: NFTMintParams.fromJson(json['mint']));
   }
 
   @override
@@ -370,9 +368,9 @@ class NFTCollectionMint extends NFTCollectionOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "mint": mint.toJson(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'mint': mint.toJson(),
+      'type': type.name
     };
   }
 }
@@ -413,9 +411,9 @@ class _BatchNFTsMintParamsUtils {
 class NFTCollectionBatchMint extends NFTCollectionOperation {
   final List<NFTMintParams> nfts;
 
-  NFTCollectionBatchMint({BigInt? queryId, required List<NFTMintParams> nfts})
+  NFTCollectionBatchMint({super.queryId, required List<NFTMintParams> nfts})
       : nfts = List<NFTMintParams>.unmodifiable(nfts),
-        super(type: NFTCollectionOperationType.batchMint, queryId: queryId);
+        super(type: NFTCollectionOperationType.batchMint);
   factory NFTCollectionBatchMint.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
         parse: () {
@@ -430,8 +428,8 @@ class NFTCollectionBatchMint extends NFTCollectionOperation {
     return TonModelParser.parseBoc(
         parse: () {
           return NFTCollectionBatchMint(
-              queryId: BigintUtils.parse(json["queryId"]),
-              nfts: (json["nfts"] as List)
+              queryId: BigintUtils.parse(json['queryId']),
+              nfts: (json['nfts'] as List)
                   .map((e) => NFTMintParams.fromJson(e))
                   .toList());
         },
@@ -451,17 +449,17 @@ class NFTCollectionBatchMint extends NFTCollectionOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "nfts": nfts.map((e) => e.toJson()).toList(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'nfts': nfts.map((e) => e.toJson()).toList(),
+      'type': type.name
     };
   }
 }
 
 class NFTCollectionChangeOwner extends NFTCollectionOperation {
   final TonAddress newOwnerAddress;
-  NFTCollectionChangeOwner({BigInt? queryId, required this.newOwnerAddress})
-      : super(queryId: queryId, type: NFTCollectionOperationType.changeOwner);
+  NFTCollectionChangeOwner({super.queryId, required this.newOwnerAddress})
+      : super(type: NFTCollectionOperationType.changeOwner);
   factory NFTCollectionChangeOwner.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
         parse: () {
@@ -476,8 +474,8 @@ class NFTCollectionChangeOwner extends NFTCollectionOperation {
     return TonModelParser.parseBoc(
         parse: () {
           return NFTCollectionChangeOwner(
-              queryId: BigintUtils.parse(json["queryId"]),
-              newOwnerAddress: TonAddress(json["newOwnerAddress"]));
+              queryId: BigintUtils.parse(json['queryId']),
+              newOwnerAddress: TonAddress(json['newOwnerAddress']));
         },
         name: NFTCollectionOperationType.changeOwner.name);
   }
@@ -494,9 +492,9 @@ class NFTCollectionChangeOwner extends NFTCollectionOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "newOwnerAddress": newOwnerAddress.toRawAddress(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'newOwnerAddress': newOwnerAddress.toRawAddress(),
+      'type': type.name
     };
   }
 }
@@ -505,10 +503,10 @@ class NFTEditableCollectionChangeContent extends NFTCollectionOperation {
   final RoyaltyParams royaltyParams;
   final Cell content;
   NFTEditableCollectionChangeContent(
-      {required BigInt? queryId,
+      {required super.queryId,
       required this.royaltyParams,
       required this.content})
-      : super(type: NFTCollectionOperationType.changeContent, queryId: queryId);
+      : super(type: NFTCollectionOperationType.changeContent);
   factory NFTEditableCollectionChangeContent.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
         parse: () {
@@ -527,9 +525,9 @@ class NFTEditableCollectionChangeContent extends NFTCollectionOperation {
     return TonModelParser.parseJson(
         parse: () {
           return NFTEditableCollectionChangeContent(
-              queryId: BigintUtils.parse(json["queryId"]),
-              content: Cell.fromBase64(json["content"]),
-              royaltyParams: RoyaltyParams.fromJson(json["royaltyParams"]));
+              queryId: BigintUtils.parse(json['queryId']),
+              content: Cell.fromBase64(json['content']),
+              royaltyParams: RoyaltyParams.fromJson(json['royaltyParams']));
         },
         name: NFTCollectionOperationType.changeContent.name);
   }
@@ -545,11 +543,11 @@ class NFTEditableCollectionChangeContent extends NFTCollectionOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "royaltyParams": royaltyParams.toJson(),
-      "content": content.toBase64(),
-      "metadata": metadata.toJson(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'royaltyParams': royaltyParams.toJson(),
+      'content': content.toBase64(),
+      'metadata': metadata.toJson(),
+      'type': type.name
     };
   }
 

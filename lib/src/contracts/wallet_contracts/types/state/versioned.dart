@@ -29,10 +29,8 @@ abstract class VersionedWalletState implements ContractState {
 
 class NoneSubWalletVersionedWalletState extends VersionedWalletState {
   NoneSubWalletVersionedWalletState(
-      {required List<int> publicKey,
-      int? seqno,
-      required WalletVersion version})
-      : super(publicKey: publicKey, seqno: seqno ?? 0, version: version);
+      {required super.publicKey, int? seqno, required super.version})
+      : super(seqno: seqno ?? 0);
 
   @override
   Cell initialData() {
@@ -46,11 +44,11 @@ class NoneSubWalletVersionedWalletState extends VersionedWalletState {
 class SubWalletVersionedWalletState extends VersionedWalletState {
   final int subwallet;
   SubWalletVersionedWalletState({
-    required List<int> publicKey,
+    required super.publicKey,
     int? seqno,
-    required WalletVersion version,
+    required super.version,
     required this.subwallet,
-  }) : super(publicKey: publicKey, seqno: seqno ?? 0, version: version);
+  }) : super(seqno: seqno ?? 0);
 
   @override
   Cell initialData() {
@@ -71,7 +69,7 @@ class SubWalletVersionedWalletState extends VersionedWalletState {
             .endCell();
       default:
         throw const TonContractException(
-            "SubWalletVersionedWalletState only accept version 3 and 4");
+            'SubWalletVersionedWalletState only accept version 3 and 4');
     }
   }
 }
@@ -82,14 +80,14 @@ class V5VersionedWalletState extends VersionedWalletState {
   final List<TonAddress> extensionPubKeys;
 
   V5VersionedWalletState(
-      {required List<int> publicKey,
+      {required super.publicKey,
       int? seqno,
       required this.context,
-      required WalletVersion version,
+      required super.version,
       this.setPubKeyEnabled = true,
       List<TonAddress> extensionPubKeys = const []})
       : extensionPubKeys = List<TonAddress>.unmodifiable(extensionPubKeys),
-        super(publicKey: publicKey, seqno: seqno ?? 0, version: version);
+        super(seqno: seqno ?? 0);
 
   @override
   Cell initialData() {

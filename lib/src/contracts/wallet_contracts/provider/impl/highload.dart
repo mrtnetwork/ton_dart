@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/provider.dart';
 mixin HighloadWalletV3ProviderImpl<T extends ContractState>
     on HighloadWallets<T> {
   Future<String> getPublicKey(TonProvider rpc) async {
-    final result = await getStateStack(rpc: rpc, method: "get_public_key");
+    final result = await getStateStack(rpc: rpc, method: 'get_public_key');
     final reader = result.reader();
     return reader.readBigNumberAsHex();
   }
@@ -25,19 +25,19 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
   }
 
   Future<int> getSubwalletId({required TonProvider rpc}) async {
-    final result = await getStateStack(rpc: rpc, method: "get_subwallet_id");
+    final result = await getStateStack(rpc: rpc, method: 'get_subwallet_id');
     final reader = result.reader();
     return reader.readNumber();
   }
 
   Future<int> getTimeout({required TonProvider rpc}) async {
-    final result = await getStateStack(rpc: rpc, method: "get_timeout");
+    final result = await getStateStack(rpc: rpc, method: 'get_timeout');
     final reader = result.reader();
     return reader.readNumber();
   }
 
   Future<int> getLastCleaned({required TonProvider rpc}) async {
-    final result = await getStateStack(rpc: rpc, method: "get_last_clean_time");
+    final result = await getStateStack(rpc: rpc, method: 'get_last_clean_time');
     final reader = result.reader();
     return reader.readNumber();
   }
@@ -49,13 +49,13 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
     final int clean = needClean ? 1 : 0;
     final result = await getStateStack(
         rpc: rpc,
-        method: "processed?",
+        method: 'processed?',
         stack: rpc.isTonCenter
             ? [
-                ["num", queryId],
-                ["num", clean]
+                ['num', queryId],
+                ['num', clean]
               ]
-            : ["$queryId", "$clean"]);
+            : ['$queryId', '$clean']);
     final reader = result.reader();
     return reader.readBoolean();
   }

@@ -7,12 +7,12 @@ import 'package:ton_dart/src/provider/models/response/markets.dart';
 /// Get the TON price from markets.
 ///
 class TonApiGetMarketsRates
-    extends TonApiRequestParam<MarketsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<MarketsResponse, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.getmarketsrates.url;
 
   @override
-  MarketsResponse onResonse(Map<String, dynamic> json) {
-    return MarketsResponse.fromJson(json);
+  MarketsResponse onResonse(Map<String, dynamic> result) {
+    return MarketsResponse.fromJson(result);
   }
 }

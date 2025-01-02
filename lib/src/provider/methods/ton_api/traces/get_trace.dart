@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/trace.dart';
 /// Get the trace by trace ID or hash of any transaction in trace.
 ///
 class TonApiGetTrace
-    extends TonApiRequestParam<TraceResponse, Map<String, dynamic>> {
+    extends TonApiRequest<TraceResponse, Map<String, dynamic>> {
   /// trace ID or transaction hash in hex (without 0x) or base64url format
   final String traceId;
   TonApiGetTrace(this.traceId);
@@ -18,7 +18,7 @@ class TonApiGetTrace
   List<String> get pathParameters => [traceId];
 
   @override
-  TraceResponse onResonse(Map<String, dynamic> json) {
-    return TraceResponse.fromJson(json);
+  TraceResponse onResonse(Map<String, dynamic> result) {
+    return TraceResponse.fromJson(result);
   }
 }

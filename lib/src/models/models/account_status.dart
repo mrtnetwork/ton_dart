@@ -8,17 +8,17 @@ class AccountStatus extends TonSerialization {
   final String status;
   const AccountStatus._(this.tag, this.status);
   static const AccountStatus uninitialized =
-      AccountStatus._(0x00, "uninitialized");
-  static const AccountStatus frozen = AccountStatus._(0x01, "frozen");
-  static const AccountStatus active = AccountStatus._(0x02, "active");
+      AccountStatus._(0x00, 'uninitialized');
+  static const AccountStatus frozen = AccountStatus._(0x01, 'frozen');
+  static const AccountStatus active = AccountStatus._(0x02, 'active');
   static const AccountStatus nonExisting =
-      AccountStatus._(0x03, "non-existing");
+      AccountStatus._(0x03, 'non-existing');
 
   factory AccountStatus.deserialize(Slice slice) {
     return AccountStatus.fromTag(slice.loadUint(2));
   }
   factory AccountStatus.fromJson(Map<String, dynamic> json) {
-    return AccountStatus.fromValue(json["status"]);
+    return AccountStatus.fromValue(json['status']);
   }
 
   static const List<AccountStatus> values = [
@@ -31,16 +31,16 @@ class AccountStatus extends TonSerialization {
     return values.firstWhere(
       (element) => element.status == status,
       orElse: () => throw TonDartPluginException(
-          "Cannot find AccountStatus from provided status",
-          details: {"status": status}),
+          'Cannot find AccountStatus from provided status',
+          details: {'status': status}),
     );
   }
   factory AccountStatus.fromTag(int? tag) {
     return values.firstWhere(
       (element) => element.tag == tag,
       orElse: () => throw TonDartPluginException(
-          "Cannot find AccountStatus from provided tag",
-          details: {"tag": tag}),
+          'Cannot find AccountStatus from provided tag',
+          details: {'tag': tag}),
     );
   }
 
@@ -53,11 +53,11 @@ class AccountStatus extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"status": status};
+    return {'status': status};
   }
 
   @override
   String toString() {
-    return "AccountStatus.$status";
+    return 'AccountStatus.$status';
   }
 }

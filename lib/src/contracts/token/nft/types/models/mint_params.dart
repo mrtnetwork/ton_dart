@@ -24,10 +24,10 @@ class NFTMintParams extends TonSerialization {
 
   factory NFTMintParams.fromJson(Map<String, dynamic> json) {
     return NFTMintParams(
-        ownerAddress: TonAddress(json["ownerAddress"]),
-        content: Cell.fromBase64(json["content"]),
-        initAmount: BigintUtils.parse(json["initAmount"]),
-        itemIndex: BigintUtils.parse(json["itemIndex"]));
+        ownerAddress: TonAddress(json['ownerAddress']),
+        content: Cell.fromBase64(json['content']),
+        initAmount: BigintUtils.parse(json['initAmount']),
+        itemIndex: BigintUtils.parse(json['itemIndex']));
   }
   NFTMintParams copyWith(
       {TonAddress? ownerAddress,
@@ -62,11 +62,11 @@ class NFTMintParams extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "metadata": metadata.toJson(),
-      "content": content.toBase64(),
-      "initAmount": initAmount.toString(),
-      "ownerAddress": ownerAddress.toRawAddress(),
-      "itemIndex": itemIndex.toString()
+      'metadata': metadata.toJson(),
+      'content': content.toBase64(),
+      'initAmount': initAmount.toString(),
+      'ownerAddress': ownerAddress.toRawAddress(),
+      'itemIndex': itemIndex.toString()
     };
   }
 }

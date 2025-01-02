@@ -9,11 +9,11 @@ class TransactionBouncePhaseType {
   const TransactionBouncePhaseType._(this.name);
 
   static const TransactionBouncePhaseType negativeFounds =
-      TransactionBouncePhaseType._("negativeFounds");
+      TransactionBouncePhaseType._('negativeFounds');
   static const TransactionBouncePhaseType noFounds =
-      TransactionBouncePhaseType._("noFounds");
+      TransactionBouncePhaseType._('noFounds');
   static const TransactionBouncePhaseType ok =
-      TransactionBouncePhaseType._("ok");
+      TransactionBouncePhaseType._('ok');
   static const List<TransactionBouncePhaseType> values = [
     negativeFounds,
     noFounds,
@@ -23,13 +23,13 @@ class TransactionBouncePhaseType {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw TonDartPluginException(
-          "Cannot find TransactionBouncePhaseType from provided name",
-          details: {"name": name}),
+          'Cannot find TransactionBouncePhaseType from provided name',
+          details: {'name': name}),
     );
   }
   @override
   String toString() {
-    return "TransactionBouncePhaseType.$name";
+    return 'TransactionBouncePhaseType.$name';
   }
 }
 
@@ -46,7 +46,7 @@ abstract class TransactionBouncePhase extends TonSerialization {
     return TransactionBounceNegativeFunds();
   }
   factory TransactionBouncePhase.fromJson(Map<String, dynamic> json) {
-    final type = TransactionBouncePhaseType.fromValue(json["type"]);
+    final type = TransactionBouncePhaseType.fromValue(json['type']);
     switch (type) {
       case TransactionBouncePhaseType.ok:
         return TransactionBounceOk.fromJson(json);
@@ -75,7 +75,7 @@ class TransactionBounceNegativeFunds extends TransactionBouncePhase {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"type": type.name};
+    return {'type': type.name};
   }
 }
 
@@ -96,9 +96,9 @@ class TransactionBounceOk extends TransactionBouncePhase {
   }
   factory TransactionBounceOk.fromJson(Map<String, dynamic> json) {
     return TransactionBounceOk(
-        messageSize: StorageUsedShort.fromJson(json["message_size"]),
-        messageFees: BigintUtils.parse(json["message_fee"]),
-        forwardFees: BigintUtils.parse(json["forward_fees"]));
+        messageSize: StorageUsedShort.fromJson(json['message_size']),
+        messageFees: BigintUtils.parse(json['message_fee']),
+        forwardFees: BigintUtils.parse(json['forward_fees']));
   }
   @override
   void store(Builder builder) {
@@ -114,10 +114,10 @@ class TransactionBounceOk extends TransactionBouncePhase {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "message_size": messageSize.toJson(),
-      "message_fee": messageFees.toString(),
-      "forward_fees": forwardFees.toString()
+      'type': type.name,
+      'message_size': messageSize.toJson(),
+      'message_fee': messageFees.toString(),
+      'forward_fees': forwardFees.toString()
     };
   }
 }
@@ -135,8 +135,8 @@ class TransactionBounceNoFunds extends TransactionBouncePhase {
   }
   factory TransactionBounceNoFunds.fromJson(Map<String, dynamic> json) {
     return TransactionBounceNoFunds(
-        messageSize: StorageUsedShort.fromJson(json["message_size"]),
-        requiredForwardFees: BigintUtils.parse(json["required_forward_fees"]));
+        messageSize: StorageUsedShort.fromJson(json['message_size']),
+        requiredForwardFees: BigintUtils.parse(json['required_forward_fees']));
   }
   @override
   void store(Builder builder) {
@@ -152,9 +152,9 @@ class TransactionBounceNoFunds extends TransactionBouncePhase {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "message_size": messageSize.toJson(),
-      "required_forward_fees": requiredForwardFees.toString()
+      'type': type.name,
+      'message_size': messageSize.toJson(),
+      'required_forward_fees': requiredForwardFees.toString()
     };
   }
 }

@@ -24,28 +24,28 @@ class RawMasterchainInfoExtResponse with JsonSerialization {
   });
   factory RawMasterchainInfoExtResponse.fromJson(Map<String, dynamic> json) {
     return RawMasterchainInfoExtResponse(
-      mode: json["mode"],
-      version: json["version"],
-      now: json["now"],
-      capabilities: BigintUtils.parse(json["capabilities"]),
-      lastUtime: json["last_utime"],
-      last: BlockRawResponse.fromJson(json["last"]),
-      stateRootHash: json["state_root_hash"],
-      init: InitStateRawResponse.fromJson(json["init"]),
+      mode: json['mode'],
+      version: json['version'],
+      now: json['now'],
+      capabilities: BigintUtils.parse(json['capabilities']),
+      lastUtime: json['last_utime'],
+      last: BlockRawResponse.fromJson(json['last']),
+      stateRootHash: json['state_root_hash'],
+      init: InitStateRawResponse.fromJson(json['init']),
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "version": version,
-      "last_utime": lastUtime,
-      "capabilities": capabilities.toString(),
-      "now": now,
-      "mode": mode,
-      "last": last.toJson(),
-      "state_root_hash": stateRootHash,
-      "init": init.toJson()
+      'version': version,
+      'last_utime': lastUtime,
+      'capabilities': capabilities.toString(),
+      'now': now,
+      'mode': mode,
+      'last': last.toJson(),
+      'state_root_hash': stateRootHash,
+      'init': init.toJson()
     };
   }
 }

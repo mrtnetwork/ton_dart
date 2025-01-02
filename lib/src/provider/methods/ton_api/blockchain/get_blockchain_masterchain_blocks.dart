@@ -9,7 +9,7 @@ import 'package:ton_dart/src/provider/models/response/blockchain_blocks.dart';
 /// around this method because it has problem with scalability and will work very slow in the future.
 ///
 class TonApiGetBlockchainMasterchainBlocks
-    extends TonApiRequestParam<BlockchainBlocksResponse, Map<String, dynamic>> {
+    extends TonApiRequest<BlockchainBlocksResponse, Map<String, dynamic>> {
   final int masterchainSeqno;
   TonApiGetBlockchainMasterchainBlocks(this.masterchainSeqno);
   @override
@@ -19,7 +19,7 @@ class TonApiGetBlockchainMasterchainBlocks
   List<String> get pathParameters => [masterchainSeqno.toString()];
 
   @override
-  BlockchainBlocksResponse onResonse(Map<String, dynamic> json) {
-    return BlockchainBlocksResponse.fromJson(json);
+  BlockchainBlocksResponse onResonse(Map<String, dynamic> result) {
+    return BlockchainBlocksResponse.fromJson(result);
   }
 }

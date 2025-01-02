@@ -25,7 +25,7 @@ int _generateRandomSign() {
 }
 
 void main() {
-  group("slice", () => _test());
+  group('slice', () => _test());
 }
 
 void _test() {

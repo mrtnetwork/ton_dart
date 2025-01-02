@@ -55,7 +55,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
-          "The account is inactive and requires state initialization.");
+          'The account is inactive and requires state initialization.');
     }
 
     final message = TonHelper.internal(
@@ -107,7 +107,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
       Cell? body}) async {
     if (operation.type == NFTCollectionOperationType.changeContent) {
       throw const TonContractException(
-          "The ChangeContent operation is not available in the NFTCollectionContract.");
+          'The ChangeContent operation is not available in the NFTCollectionContract.');
     }
     return _sendTransaction(
         params: params,
@@ -121,7 +121,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
   }
 
   Future<NFTCollectionData> getCollectionData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_collection_data");
+    final data = await getStateStack(rpc: rpc, method: 'get_collection_data');
     final reader = data.reader();
     final nexItemIndex = reader.readBigNumber();
     final content = reader.readCell();
@@ -152,9 +152,9 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
       {required BigInt index, required TonProvider rpc}) async {
     final result = await getStateStack(
         rpc: rpc,
-        method: "get_nft_address_by_index",
+        method: 'get_nft_address_by_index',
         stack: [
-          if (rpc.isTonCenter) ["num", index.toString()] else index.toString()
+          if (rpc.isTonCenter) ['num', index.toString()] else index.toString()
         ]);
     final reader = result.reader();
     return reader.readAddress();
@@ -175,7 +175,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
   }
 
   Future<RoyaltyParams> royaltyParams(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "royalty_params");
+    final data = await getStateStack(rpc: rpc, method: 'royalty_params');
     final reader = data.reader();
     final int royaltyFactor = reader.readNumber();
     final int royaltyBase = reader.readNumber();
@@ -189,13 +189,13 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
   Future<String> getNftContent(
       {required TonProvider rpc, required NFTItemData nftData}) async {
     if (!nftData.init) {
-      throw const TonContractException("The NFT has not been initialized.");
+      throw const TonContractException('The NFT has not been initialized.');
     }
     final data =
-        await getStateStack(rpc: rpc, method: "get_nft_content", stack: [
+        await getStateStack(rpc: rpc, method: 'get_nft_content', stack: [
       if (rpc.isTonCenter) ...[
-        ["num", nftData.index.toString()],
-        ["tvm.Cell", nftData.content!.toBase64()]
+        ['num', nftData.index.toString()],
+        ['tvm.Cell', nftData.content!.toBase64()]
       ] else ...[
         nftData.index,
         nftData.content?.toBase64(),

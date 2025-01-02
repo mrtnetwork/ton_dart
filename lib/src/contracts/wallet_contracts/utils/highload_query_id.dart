@@ -20,12 +20,12 @@ class HighloadQueryId {
       BigInt shift, BigInt bitNumber) {
     if (shift < BigInt.zero ||
         shift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-      throw TonContractException("Invalid shift", details: {"shift": shift});
+      throw TonContractException('Invalid shift', details: {'shift': shift});
     }
     if (bitNumber < BigInt.zero ||
         bitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
-      throw TonContractException("Invalid bitNumber",
-          details: {"bitNumber": bitNumber});
+      throw TonContractException('Invalid bitNumber',
+          details: {'bitNumber': bitNumber});
     }
     return HighloadQueryId._(shift, bitNumber);
   }
@@ -48,14 +48,14 @@ class HighloadQueryId {
 
     if (newShift == BigInt.from(_HighloadQueryIdConst.maxShift) &&
         newBitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber - 1)) {
-      throw const TonContractException("Overload");
+      throw const TonContractException('Overload');
     }
 
     if (newBitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
       newBitNumber = BigInt.zero;
       newShift += BigInt.one;
       if (newShift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-        throw const TonContractException("Overload");
+        throw const TonContractException('Overload');
       }
     }
 

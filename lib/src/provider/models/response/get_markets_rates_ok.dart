@@ -15,6 +15,6 @@ class MarketsRatesResponse with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"markets": markets.map((v) => v.toJson()).toList()};
+    return {'markets': markets.map((v) => v.toJson()).toList()};
   }
 }

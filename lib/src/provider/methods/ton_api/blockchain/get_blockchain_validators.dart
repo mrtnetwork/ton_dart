@@ -7,12 +7,12 @@ import 'package:ton_dart/src/provider/models/response/validators.dart';
 /// Get blockchain validators.
 ///
 class TonApiGetBlockchainValidators
-    extends TonApiRequestParam<ValidatorsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<ValidatorsResponse, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.getblockchainvalidators.url;
 
   @override
-  ValidatorsResponse onResonse(Map<String, dynamic> json) {
-    return ValidatorsResponse.fromJson(json);
+  ValidatorsResponse onResonse(Map<String, dynamic> result) {
+    return ValidatorsResponse.fromJson(result);
   }
 }

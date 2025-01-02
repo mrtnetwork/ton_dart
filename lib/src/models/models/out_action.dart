@@ -14,20 +14,20 @@ class OutActionType {
   final int tag;
   const OutActionType._({required this.name, required this.tag});
   static const OutActionType sendMsg =
-      OutActionType._(name: "sendMsg", tag: 0x0ec3c86d);
+      OutActionType._(name: 'sendMsg', tag: 0x0ec3c86d);
   static const OutActionType multiSigSendMessage =
-      OutActionType._(name: "multiSigSendMsg", tag: 0xf1381e5b);
+      OutActionType._(name: 'multiSigSendMsg', tag: 0xf1381e5b);
   static const OutActionType updateMiltiSig =
-      OutActionType._(name: "updateMultiSig", tag: 0x1d0cfbd3);
+      OutActionType._(name: 'updateMultiSig', tag: 0x1d0cfbd3);
 
   static const OutActionType setCode =
-      OutActionType._(name: "setCode", tag: 0xad4de08e);
+      OutActionType._(name: 'setCode', tag: 0xad4de08e);
   static const OutActionType addExtension =
-      OutActionType._(name: "AddExtension", tag: 0x02);
+      OutActionType._(name: 'AddExtension', tag: 0x02);
   static const OutActionType removeExtension =
-      OutActionType._(tag: 0x03, name: "RemoveExtension");
+      OutActionType._(tag: 0x03, name: 'RemoveExtension');
   static const OutActionType setIsPublicKeyEnabled =
-      OutActionType._(tag: 0x04, name: "SetIsPublicKeyEnabled");
+      OutActionType._(tag: 0x04, name: 'SetIsPublicKeyEnabled');
   static const List<OutActionType> values = [
     sendMsg,
     setCode,
@@ -40,18 +40,18 @@ class OutActionType {
   factory OutActionType.fromValue(String? name) {
     return values.firstWhere((element) => element.name == name,
         orElse: () => throw TonDartPluginException(
-            "Cannot find OutActionType from provided name",
-            details: {"name": name}));
+            'Cannot find OutActionType from provided name',
+            details: {'name': name}));
   }
   factory OutActionType.fromTag(int? tag) {
     return values.firstWhere((element) => element.tag == tag,
         orElse: () => throw TonDartPluginException(
-            "Cannot find OutActionType from provided tag",
-            details: {"tag": tag}));
+            'Cannot find OutActionType from provided tag',
+            details: {'tag': tag}));
   }
   @override
   String toString() {
-    return "OutActionType.$name";
+    return 'OutActionType.$name';
   }
 }
 
@@ -114,7 +114,7 @@ class OutActionsV5 extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"actions": actions.map((e) => e.toJson()).toList()};
+    return {'actions': actions.map((e) => e.toJson()).toList()};
   }
 }
 
@@ -202,14 +202,14 @@ abstract class OutAction extends TonSerialization {
       case OutActionType.multiSigSendMessage:
         return OutActionMultiSigSendMsg.deserialize(slice);
       default:
-        throw TonDartPluginException("Invalid OutAction tag.", details: {
-          "excepted": OutActionType.values.map((e) => e.tag).join(", "),
-          "tag": tag
+        throw TonDartPluginException('Invalid OutAction tag.', details: {
+          'excepted': OutActionType.values.map((e) => e.tag).join(', '),
+          'tag': tag
         });
     }
   }
   factory OutAction.fromJson(Map<String, dynamic> json) {
-    final type = OutActionType.fromValue(json["type"]);
+    final type = OutActionType.fromValue(json['type']);
     switch (type) {
       case OutActionType.sendMsg:
         return OutActionSendMsg.fromJson(json);
@@ -222,7 +222,7 @@ abstract class OutAction extends TonSerialization {
       case OutActionType.setCode:
         return OutActionSetCode.fromJson(json);
       default:
-        throw UnimplementedError("Invalid or unsupported OutActionType.");
+        throw UnimplementedError('Invalid or unsupported OutActionType.');
     }
   }
 }
@@ -235,7 +235,7 @@ class OutActionSendMsg extends OutActionWalletV5 {
   factory OutActionSendMsg.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.sendMsg.tag) {
-      throw const TonDartPluginException("Invalid OutActionSendMsg tag");
+      throw const TonDartPluginException('Invalid OutActionSendMsg tag');
     }
     return OutActionSendMsg(
         mode: slice.loadUint(8),
@@ -243,8 +243,8 @@ class OutActionSendMsg extends OutActionWalletV5 {
   }
   factory OutActionSendMsg.fromJson(Map<String, dynamic> json) {
     return OutActionSendMsg(
-        mode: json["mode"],
-        outMessage: MessageRelaxed.fromJson(json["out_message"]));
+        mode: json['mode'],
+        outMessage: MessageRelaxed.fromJson(json['out_message']));
   }
 
   OutActionSendMsg copyWith({int? mode, MessageRelaxed? outMessage}) {
@@ -264,9 +264,9 @@ class OutActionSendMsg extends OutActionWalletV5 {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "mode": mode,
-      "out_message": outMessage.toJson(),
-      "type": type.name
+      'mode': mode,
+      'out_message': outMessage.toJson(),
+      'type': type.name
     };
   }
 
@@ -280,12 +280,12 @@ class OutActionSetCode extends OutAction {
   factory OutActionSetCode.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.setCode.tag) {
-      throw const TonDartPluginException("Invalid OutActionSetCode tag");
+      throw const TonDartPluginException('Invalid OutActionSetCode tag');
     }
     return OutActionSetCode(slice.loadRef());
   }
   factory OutActionSetCode.fromJson(Map<String, dynamic> json) {
-    return OutActionSetCode(Cell.fromBase64(json["new_code"]));
+    return OutActionSetCode(Cell.fromBase64(json['new_code']));
   }
 
   @override
@@ -296,7 +296,7 @@ class OutActionSetCode extends OutAction {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"new_code": newCode.toBase64(), "type": type.name};
+    return {'new_code': newCode.toBase64(), 'type': type.name};
   }
 
   @override
@@ -316,8 +316,8 @@ abstract class OutActionExtended extends OutActionWalletV5 {
       case OutActionType.setIsPublicKeyEnabled:
         return OutActionSetIsPublicKeyEnabled.deserialize(slice);
       default:
-        throw TonDartPluginException("Invalid OutAction extended tag.",
-            details: {"tag": tag});
+        throw TonDartPluginException('Invalid OutAction extended tag.',
+            details: {'tag': tag});
     }
   }
 }
@@ -328,12 +328,12 @@ class OutActionAddExtension extends OutActionExtended {
   factory OutActionAddExtension.deserialize(Slice slice) {
     final tag = slice.tryLoadUint8();
     if (tag != OutActionType.addExtension.tag) {
-      throw const TonDartPluginException("Invalid OutActionAddExtension tag");
+      throw const TonDartPluginException('Invalid OutActionAddExtension tag');
     }
     return OutActionAddExtension(slice.loadAddress());
   }
   factory OutActionAddExtension.fromJson(Map<String, dynamic> json) {
-    return OutActionAddExtension(TonAddress(json["address"]));
+    return OutActionAddExtension(TonAddress(json['address']));
   }
   @override
   void store(Builder builder) {
@@ -343,7 +343,7 @@ class OutActionAddExtension extends OutActionExtended {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address.toFriendlyAddress()};
+    return {'address': address.toFriendlyAddress()};
   }
 
   @override
@@ -357,12 +357,12 @@ class OutActionRemoveExtension extends OutActionExtended {
     final tag = slice.tryLoadUint8();
     if (tag != OutActionType.removeExtension.tag) {
       throw const TonDartPluginException(
-          "Invalid OutActionRemoveExtension tag");
+          'Invalid OutActionRemoveExtension tag');
     }
     return OutActionRemoveExtension(slice.loadAddress());
   }
   factory OutActionRemoveExtension.fromJson(Map<String, dynamic> json) {
-    return OutActionRemoveExtension(TonAddress(json["address"]));
+    return OutActionRemoveExtension(TonAddress(json['address']));
   }
   @override
   void store(Builder builder) {
@@ -372,7 +372,7 @@ class OutActionRemoveExtension extends OutActionExtended {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address.toFriendlyAddress()};
+    return {'address': address.toFriendlyAddress()};
   }
 
   @override
@@ -383,13 +383,13 @@ class OutActionSetIsPublicKeyEnabled extends OutActionExtended {
   final bool isEnabled;
   const OutActionSetIsPublicKeyEnabled(this.isEnabled);
   factory OutActionSetIsPublicKeyEnabled.fromJson(Map<String, dynamic> json) {
-    return OutActionSetIsPublicKeyEnabled(json["isEnabled"]);
+    return OutActionSetIsPublicKeyEnabled(json['isEnabled']);
   }
   factory OutActionSetIsPublicKeyEnabled.deserialize(Slice slice) {
     final tag = slice.tryLoadUint8();
     if (tag != OutActionType.setIsPublicKeyEnabled.tag) {
       throw const TonDartPluginException(
-          "Invalid OutActionSetIsPublicKeyEnabled tag");
+          'Invalid OutActionSetIsPublicKeyEnabled tag');
     }
     return OutActionSetIsPublicKeyEnabled(slice.loadBoolean());
   }
@@ -403,7 +403,7 @@ class OutActionSetIsPublicKeyEnabled extends OutActionExtended {
   OutActionType get type => OutActionType.setIsPublicKeyEnabled;
   @override
   Map<String, dynamic> toJson() {
-    return {"isEnabled": isEnabled};
+    return {'isEnabled': isEnabled};
   }
 }
 
@@ -420,7 +420,7 @@ class OutActionMultiSigSendMsg extends OutActionMultiSig {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.multiSigSendMessage.tag) {
       throw const TonDartPluginException(
-          "Invalid OutActionMultiSigSendMsg tag");
+          'Invalid OutActionMultiSigSendMsg tag');
     }
     return OutActionMultiSigSendMsg(
         mode: slice.loadUint(8),
@@ -428,8 +428,8 @@ class OutActionMultiSigSendMsg extends OutActionMultiSig {
   }
   factory OutActionMultiSigSendMsg.fromJson(Map<String, dynamic> json) {
     return OutActionMultiSigSendMsg(
-        mode: json["mode"],
-        outMessage: MessageRelaxed.fromJson(json["out_message"]));
+        mode: json['mode'],
+        outMessage: MessageRelaxed.fromJson(json['out_message']));
   }
 
   OutActionMultiSigSendMsg copyWith({int? mode, MessageRelaxed? outMessage}) {
@@ -449,9 +449,9 @@ class OutActionMultiSigSendMsg extends OutActionMultiSig {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "mode": mode,
-      "out_message": outMessage.toJson(),
-      "type": type.name
+      'mode': mode,
+      'out_message': outMessage.toJson(),
+      'type': type.name
     };
   }
 
@@ -473,7 +473,7 @@ class OutActionUpdateMultiSig extends OutActionMultiSig {
   factory OutActionUpdateMultiSig.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.updateMiltiSig.tag) {
-      throw const TonDartPluginException("Invalid OutActionUpdateMultiSig tag");
+      throw const TonDartPluginException('Invalid OutActionUpdateMultiSig tag');
     }
     final threshhold = slice.loadUint8();
     final signers = OutActionUtils.signerCellToList(slice.loadMaybeRef());
@@ -487,10 +487,10 @@ class OutActionUpdateMultiSig extends OutActionMultiSig {
   }
   factory OutActionUpdateMultiSig.fromJson(Map<String, dynamic> json) {
     return OutActionUpdateMultiSig(
-        signers: (json["signers"] as List).map((e) => TonAddress(e)).toList(),
+        signers: (json['signers'] as List).map((e) => TonAddress(e)).toList(),
         proposers:
-            (json["proposers"] as List).map((e) => TonAddress(e)).toList(),
-        threshold: json["threshold"]);
+            (json['proposers'] as List).map((e) => TonAddress(e)).toList(),
+        threshold: json['threshold']);
   }
 
   @override
@@ -506,10 +506,10 @@ class OutActionUpdateMultiSig extends OutActionMultiSig {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "threshold": threshold,
-      "signers": signers.map((e) => e.toFriendlyAddress()).toList(),
-      "proposers": proposers.map((e) => e.toFriendlyAddress()).toList()
+      'type': type.name,
+      'threshold': threshold,
+      'signers': signers.map((e) => e.toFriendlyAddress()).toList(),
+      'proposers': proposers.map((e) => e.toFriendlyAddress()).toList()
     };
   }
 

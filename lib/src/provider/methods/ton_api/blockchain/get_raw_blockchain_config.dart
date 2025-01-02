@@ -6,13 +6,13 @@ import 'package:ton_dart/src/provider/models/response/raw_blockchain_config.dart
 ///
 /// Get raw blockchain config.
 ///
-class TonApiGetRawBlockchainConfig extends TonApiRequestParam<
-    RawBlockchainConfigResponse, Map<String, dynamic>> {
+class TonApiGetRawBlockchainConfig
+    extends TonApiRequest<RawBlockchainConfigResponse, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.getrawblockchainconfig.url;
 
   @override
-  RawBlockchainConfigResponse onResonse(Map<String, dynamic> json) {
-    return RawBlockchainConfigResponse.fromJson(json);
+  RawBlockchainConfigResponse onResonse(Map<String, dynamic> result) {
+    return RawBlockchainConfigResponse.fromJson(result);
   }
 }

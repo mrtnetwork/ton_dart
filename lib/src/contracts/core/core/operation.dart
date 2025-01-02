@@ -8,7 +8,7 @@ abstract class ContractOperationType {
   const ContractOperationType({required this.operation, required this.name});
   @override
   String toString() {
-    return "$runtimeType.$name";
+    return '$runtimeType.$name';
   }
 }
 

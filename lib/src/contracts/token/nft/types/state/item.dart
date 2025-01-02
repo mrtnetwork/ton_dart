@@ -56,11 +56,11 @@ class NFTItemState extends ContractState {
 
   Map<String, dynamic> toJson() {
     return {
-      "index": index,
-      "collectionAddress": collectionAddress?.toFriendlyAddress(),
-      "ownerAddress": ownerAddress.toFriendlyAddress(),
-      "content": content.toBase64(),
-      "metadata": metadata.toJson()
+      'index': index,
+      'collectionAddress': collectionAddress?.toFriendlyAddress(),
+      'ownerAddress': ownerAddress.toFriendlyAddress(),
+      'content': content.toBase64(),
+      'metadata': metadata.toJson()
     };
   }
 }

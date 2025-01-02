@@ -3,8 +3,8 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get NFT or Jetton information.
 /// https://toncenter.com/api/v2/#/accounts/get_token_data_getTokenData_get
-class TonCenterGetTokenData extends TonCenterPostRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterGetTokenData
+    extends TonCenterPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// TonAddress of NFT collection/item or Jetton master/wallet smart contract
   final String address;
   TonCenterGetTokenData(this.address);
@@ -14,6 +14,6 @@ class TonCenterGetTokenData extends TonCenterPostRequestParam<
 
   @override
   Map<String, dynamic> params() {
-    return {"address": address};
+    return {'address': address};
   }
 }

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/raw_shard_info.dart';
 /// Get raw shard info.
 ///
 class TonApiGetRawShardInfo
-    extends TonApiRequestParam<RawShardInfoResponse, Map<String, dynamic>> {
+    extends TonApiRequest<RawShardInfoResponse, Map<String, dynamic>> {
   /// block ID: (workchain,shard,seqno,root_hash,file_hash)
   final String blockId;
   final int workchain;
@@ -27,10 +27,10 @@ class TonApiGetRawShardInfo
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"workchain": workchain, "shard": shard, "exact": exact};
+      {'workchain': workchain, 'shard': shard, 'exact': exact};
 
   @override
-  RawShardInfoResponse onResonse(Map<String, dynamic> json) {
-    return RawShardInfoResponse.fromJson(json);
+  RawShardInfoResponse onResonse(Map<String, dynamic> result) {
+    return RawShardInfoResponse.fromJson(result);
   }
 }

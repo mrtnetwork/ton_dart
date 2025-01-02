@@ -9,21 +9,21 @@ class TransactionComputePhaseType {
   const TransactionComputePhaseType._(this.name);
 
   static const TransactionComputePhaseType skipped =
-      TransactionComputePhaseType._("skipped");
+      TransactionComputePhaseType._('skipped');
   static const TransactionComputePhaseType vm =
-      TransactionComputePhaseType._("vm");
+      TransactionComputePhaseType._('vm');
   static const List<TransactionComputePhaseType> values = [skipped, vm];
   factory TransactionComputePhaseType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw TonDartPluginException(
-          "Cannot find TransactionComputePhaseType from provided name",
-          details: {"name": name}),
+          'Cannot find TransactionComputePhaseType from provided name',
+          details: {'name': name}),
     );
   }
   @override
   String toString() {
-    return "TransactionComputePhaseType.$name";
+    return 'TransactionComputePhaseType.$name';
   }
 }
 
@@ -49,7 +49,7 @@ abstract class TransactionComputePhase extends TonSerialization {
     return TransactionComputeVm.deserialize(slice);
   }
   factory TransactionComputePhase.fromJson(Map<String, dynamic> json) {
-    final type = TransactionComputePhaseType.fromValue(json["type"]);
+    final type = TransactionComputePhaseType.fromValue(json['type']);
     switch (type) {
       case TransactionComputePhaseType.vm:
         return TransactionComputeVm.fromJson(json);
@@ -120,38 +120,38 @@ class TransactionComputeVm extends TransactionComputePhase {
   }
   factory TransactionComputeVm.fromJson(Map<String, dynamic> json) {
     return TransactionComputeVm(
-        success: json["success"],
-        messageStateUsed: json["message_state_used"],
-        accountActivated: json["account_activated"],
-        gasFees: BigintUtils.parse(json["gas_fees"]),
-        gasUsed: BigintUtils.parse(json["gas_used"]),
-        gasLimit: BigintUtils.parse(json["gas_limit"]),
-        gasCredit: BigintUtils.tryParse(json["gas_credit"]),
-        mode: json["mode"],
-        exitCode: json["exit_code"],
-        exitArg: json["exit_arg"],
-        vmSteps: json["vm_steps"],
-        vmInitStateHash: BigintUtils.parse(json["vm_init_state_hash"]),
-        vmFinalStateHash: BigintUtils.parse(json["vm_final_state_hash"]));
+        success: json['success'],
+        messageStateUsed: json['message_state_used'],
+        accountActivated: json['account_activated'],
+        gasFees: BigintUtils.parse(json['gas_fees']),
+        gasUsed: BigintUtils.parse(json['gas_used']),
+        gasLimit: BigintUtils.parse(json['gas_limit']),
+        gasCredit: BigintUtils.tryParse(json['gas_credit']),
+        mode: json['mode'],
+        exitCode: json['exit_code'],
+        exitArg: json['exit_arg'],
+        vmSteps: json['vm_steps'],
+        vmInitStateHash: BigintUtils.parse(json['vm_init_state_hash']),
+        vmFinalStateHash: BigintUtils.parse(json['vm_final_state_hash']));
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "success": success,
-      "message_state_used": messageStateUsed,
-      "account_activated": accountActivated,
-      "gas_fees": gasFees.toString(),
-      "gas_used": gasUsed.toString(),
-      "gas_limit": gasLimit.toString(),
-      "gas_credit": gasCredit?.toString(),
-      "mode": mode,
-      "exit_code": exitCode,
-      "exit_arg": exitArg,
-      "vm_steps": vmSteps,
-      "vm_init_state_hash": vmInitStateHash.toString(),
-      "vm_final_state_hash": vmFinalStateHash.toString(),
-      "type": type.name
+      'success': success,
+      'message_state_used': messageStateUsed,
+      'account_activated': accountActivated,
+      'gas_fees': gasFees.toString(),
+      'gas_used': gasUsed.toString(),
+      'gas_limit': gasLimit.toString(),
+      'gas_credit': gasCredit?.toString(),
+      'mode': mode,
+      'exit_code': exitCode,
+      'exit_arg': exitArg,
+      'vm_steps': vmSteps,
+      'vm_init_state_hash': vmInitStateHash.toString(),
+      'vm_final_state_hash': vmFinalStateHash.toString(),
+      'type': type.name
     };
   }
 
@@ -199,7 +199,7 @@ class TransactionComputeSkipped extends TransactionComputePhase {
   }
   factory TransactionComputeSkipped.fromJson(Map<String, dynamic> json) {
     return TransactionComputeSkipped(
-        ComputeSkipReason.fromJson(json["reason"]));
+        ComputeSkipReason.fromJson(json['reason']));
   }
 
   @override
@@ -210,7 +210,7 @@ class TransactionComputeSkipped extends TransactionComputePhase {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"reason": reason.toJson(), "type": type.name};
+    return {'reason': reason.toJson(), 'type': type.name};
   }
 
   @override

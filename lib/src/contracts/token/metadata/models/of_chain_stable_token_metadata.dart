@@ -13,7 +13,7 @@ class StableJettonOffChainMetadata extends TokenMetadata {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"uri": uri};
+    return {'uri': uri};
   }
 
   @override

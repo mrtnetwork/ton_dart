@@ -3,8 +3,8 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get metadata of a given block.
 /// https://toncenter.com/api/v2/#/blocks/get_block_header_getBlockHeader_get
-class TonCenterGetBlockHeader extends TonCenterPostRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterGetBlockHeader
+    extends TonCenterPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   final int workchain;
   final int shard;
   final int seqno;
@@ -24,11 +24,11 @@ class TonCenterGetBlockHeader extends TonCenterPostRequestParam<
   @override
   Map<String, dynamic> params() {
     return {
-      "workchain": workchain,
-      "shard": shard,
-      "seqno": seqno,
-      "root_hash": rootHash,
-      "file_hash": fileHash
+      'workchain': workchain,
+      'shard': shard,
+      'seqno': seqno,
+      'root_hash': rootHash,
+      'file_hash': fileHash
     };
   }
 }

@@ -12,14 +12,9 @@ import 'collection.dart';
 class NFTCollectionEditableContract<E extends WalletContractTransferParams>
     extends NFTCollectionContract<E> {
   const NFTCollectionEditableContract(
-      {required WalletContract<dynamic, E> owner,
-      required TonAddress address,
-      NftEditableCollectionState? state})
-      : super(
-          owner: owner,
-          address: address,
-          state: state,
-        );
+      {required super.owner,
+      required super.address,
+      NftEditableCollectionState? super.state});
 
   factory NFTCollectionEditableContract.create({
     required WalletContract<dynamic, E> owner,
@@ -57,7 +52,7 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
-          "The account is inactive and requires state initialization.");
+          'The account is inactive and requires state initialization.');
     }
     final message = TonHelper.internal(
       destination: address,

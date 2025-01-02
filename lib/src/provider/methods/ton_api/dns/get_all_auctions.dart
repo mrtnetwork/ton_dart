@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/auctions.dart';
 /// Get all auctions.
 ///
 class TonApiGetAllAuctions
-    extends TonApiRequestParam<AuctionsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AuctionsResponse, Map<String, dynamic>> {
   /// domain filter for current auctions "ton" or "t.me"
   final String? tld;
   TonApiGetAllAuctions({this.tld});
@@ -18,10 +18,10 @@ class TonApiGetAllAuctions
   List<String> get pathParameters => [];
 
   @override
-  Map<String, dynamic> get queryParameters => {"tld": tld};
+  Map<String, dynamic> get queryParameters => {'tld': tld};
 
   @override
-  AuctionsResponse onResonse(Map<String, dynamic> json) {
-    return AuctionsResponse.fromJson(json);
+  AuctionsResponse onResonse(Map<String, dynamic> result) {
+    return AuctionsResponse.fromJson(result);
   }
 }

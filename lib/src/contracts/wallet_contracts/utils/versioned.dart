@@ -75,7 +75,7 @@ class VersionedWalletUtils {
           seqno: seqno,
           version: type);
     } catch (e) {
-      throw TonContractException("Invalid ${type.name} state account data.");
+      throw TonContractException('Invalid ${type.name} state account data.');
     }
   }
 
@@ -89,12 +89,12 @@ class VersionedWalletUtils {
       final workchain = slice.loadInt(8);
       final walletVersionRaw = slice.loadUint(8);
       if (walletVersionRaw != 0) {
-        throw const TonContractException("Invalid wallet contract v5 version.");
+        throw const TonContractException('Invalid wallet contract v5 version.');
       }
       final subwalletNumber = slice.loadUint(15);
       if (chain.workchain != workchain) {
-        throw TonContractException("Incorrect workchain.",
-            details: {"excepted": workchain, "got": chain.workchain});
+        throw TonContractException('Incorrect workchain.',
+            details: {'excepted': workchain, 'got': chain.workchain});
       }
       return V5R1ClientContext(chain: chain, subwalletNumber: subwalletNumber);
     }
@@ -116,15 +116,15 @@ class VersionedWalletUtils {
         TonAddress.fromState(state: currentState, workChain: address.workChain);
     if (currentAddress.toRawAddress() != address.toRawAddress()) {
       throw TonContractException(
-          "Invalid wallet address. state gives a different address",
+          'Invalid wallet address. state gives a different address',
           details: {
-            "excepted": currentAddress.toRawAddress(),
-            "address": address.toRawAddress()
+            'excepted': currentAddress.toRawAddress(),
+            'address': address.toRawAddress()
           });
     }
     if (state is! T) {
-      throw TonContractException("Incurrect state casting.",
-          details: {"excepted": state.toString(), "got": "$T"});
+      throw TonContractException('Incurrect state casting.',
+          details: {'excepted': state.toString(), 'got': '$T'});
     }
     return state;
   }

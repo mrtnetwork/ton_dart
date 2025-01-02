@@ -6,11 +6,11 @@ class JettonVerificationTypeResponse {
   const JettonVerificationTypeResponse._(this._value);
 
   static const JettonVerificationTypeResponse whitelist =
-      JettonVerificationTypeResponse._("whitelist");
+      JettonVerificationTypeResponse._('whitelist');
   static const JettonVerificationTypeResponse blacklist =
-      JettonVerificationTypeResponse._("blacklist");
+      JettonVerificationTypeResponse._('blacklist');
   static const JettonVerificationTypeResponse none =
-      JettonVerificationTypeResponse._("none");
+      JettonVerificationTypeResponse._('none');
 
   static const List<JettonVerificationTypeResponse> values = [
     whitelist,
@@ -24,7 +24,7 @@ class JettonVerificationTypeResponse {
     return values.firstWhere(
       (element) => element._value == name,
       orElse: () => throw TonDartPluginException(
-          "No JettonVerificationTypeResponse found with the provided name: $name"),
+          'No JettonVerificationTypeResponse found with the provided name: $name'),
     );
   }
 }

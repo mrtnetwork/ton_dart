@@ -16,21 +16,21 @@ class RawAccountStateResponse with JsonSerialization {
       required this.state});
   factory RawAccountStateResponse.fromJson(Map<String, dynamic> json) {
     return RawAccountStateResponse(
-        id: BlockRawResponse.fromJson(json["id"]),
-        shardblk: BlockRawResponse.fromJson(json["shardblk"]),
-        shardProof: json["shard_proof"],
-        proof: json["proof"],
-        state: json["state"]);
+        id: BlockRawResponse.fromJson(json['id']),
+        shardblk: BlockRawResponse.fromJson(json['shardblk']),
+        shardProof: json['shard_proof'],
+        proof: json['proof'],
+        state: json['state']);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "id": id.toJson(),
-      "shardblk": shardblk.toJson(),
-      "shard_proof": shardProof,
-      "proof": proof,
-      "state": state
+      'id': id.toJson(),
+      'shardblk': shardblk.toJson(),
+      'shard_proof': shardProof,
+      'proof': proof,
+      'state': state
     };
   }
 }

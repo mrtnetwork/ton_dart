@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/event.dart';
 /// Get only jetton transfers in the event.
 ///
 class TonApiGetJettonsEvents
-    extends TonApiRequestParam<EventResponse, Map<String, dynamic>> {
+    extends TonApiRequest<EventResponse, Map<String, dynamic>> {
   /// event ID or transaction hash in hex (without 0x) or base64url format
   final String eventId;
   final String? acceptLanguage;
@@ -19,10 +19,10 @@ class TonApiGetJettonsEvents
   List<String> get pathParameters => [eventId];
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
 
   @override
-  EventResponse onResonse(Map<String, dynamic> json) {
-    return EventResponse.fromJson(json);
+  EventResponse onResonse(Map<String, dynamic> result) {
+    return EventResponse.fromJson(result);
   }
 }

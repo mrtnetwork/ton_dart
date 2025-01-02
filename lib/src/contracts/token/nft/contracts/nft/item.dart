@@ -50,7 +50,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
-          "The account is inactive and requires state initialization.");
+          'The account is inactive and requires state initialization.');
     }
     final message = TonHelper.internal(
       destination: address,
@@ -112,7 +112,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
   }
 
   Future<NFTItemData> getNftData(TonProvider rpc) async {
-    final result = await getStateStack(rpc: rpc, method: "get_nft_data");
+    final result = await getStateStack(rpc: rpc, method: 'get_nft_data');
     final reader = result.reader();
     final bool init = reader.readNumber() != 0;
     final index = reader.readBigNumber();

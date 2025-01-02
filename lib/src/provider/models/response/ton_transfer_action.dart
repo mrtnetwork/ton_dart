@@ -28,7 +28,7 @@ class TonTransferActionResponse with JsonSerialization {
       recipient: AccountAddressResponse.fromJson(json['recipient']),
       amount: BigintUtils.parse(json['amount']),
       comment: json['comment'],
-      encryptedComment: json["encrypted_comment"] == null
+      encryptedComment: json['encrypted_comment'] == null
           ? null
           : EncryptedCommentResponse.fromJson(json['encrypted_comment']),
       refund: json['refund'] == null

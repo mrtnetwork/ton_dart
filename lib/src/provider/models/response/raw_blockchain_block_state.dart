@@ -13,19 +13,19 @@ class RawBlockchainBlockStateResponse with JsonSerialization {
       required this.data});
   factory RawBlockchainBlockStateResponse.fromJson(Map<String, dynamic> json) {
     return RawBlockchainBlockStateResponse(
-        id: BlockRawResponse.fromJson(json["id"]),
-        rootHash: json["root_hash"],
-        fileHash: json["file_hash"],
-        data: json["data"]);
+        id: BlockRawResponse.fromJson(json['id']),
+        rootHash: json['root_hash'],
+        fileHash: json['file_hash'],
+        data: json['data']);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "id": id.toJson(),
-      "root_hash": rootHash,
-      "file_hash": fileHash,
-      "data": data
+      'id': id.toJson(),
+      'root_hash': rootHash,
+      'file_hash': fileHash,
+      'data': data
     };
   }
 }

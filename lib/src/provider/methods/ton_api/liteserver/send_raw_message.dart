@@ -6,16 +6,16 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Send raw message to blockchain.
 ///
 class TonApiSendRawMessage
-    extends TonApiPostRequestParam<int, Map<String, dynamic>> {
+    extends TonApiPostRequest<int, Map<String, dynamic>> {
   final String rawMessage;
   TonApiSendRawMessage(this.rawMessage);
   @override
-  Object get body => {"body": rawMessage};
+  Map<String, dynamic> get body => {'body': rawMessage};
 
   @override
   String get method => TonApiMethods.sendrawmessage.url;
   @override
-  int onResonse(Map<String, dynamic> json) {
-    return json["code"];
+  int onResonse(Map<String, dynamic> result) {
+    return result['code'];
   }
 }

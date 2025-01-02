@@ -96,12 +96,12 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   }
 
   Future<StableJettonWalletState> getWalletData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_wallet_data");
+    final data = await getStateStack(rpc: rpc, method: 'get_wallet_data');
     return StableJettonWalletState.fromTuple(data.reader());
   }
 
   Future<StableTokenWalletStatus> getStatus(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_status");
+    final data = await getStateStack(rpc: rpc, method: 'get_status');
     return StableTokenWalletStatus.fromTag(data.reader().readNumber());
   }
 }

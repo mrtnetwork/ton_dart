@@ -24,7 +24,7 @@ class TonSerializationUtils {
   }) {
     if (type == WalletV5AuthType.extension) {
       throw const TonContractException(
-          "Please use `createExtensionMessage` for create extension message body.");
+          'Please use `createExtensionMessage` for create extension message body.');
     }
     if (type == WalletV5AuthType.external) {
       final List<OutActionWalletV5> fixedMode = [];
@@ -66,7 +66,7 @@ class TonSerializationUtils {
     if (type != WalletV5AuthType.extension) {
       if (accountSeqno == null || context == null) {
         throw const TonContractException(
-            "accountSeqno and context required for build wallet message v5.");
+            'accountSeqno and context required for build wallet message v5.');
       }
     }
     if (type == WalletV5AuthType.extension) {
@@ -171,7 +171,7 @@ class TonSerializationUtils {
       int? timeOut}) {
     if (actions.length > state.version.maxMessageLength) {
       throw TonContractException(
-          "Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}");
+          'Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}');
     }
     switch (state.version) {
       case WalletVersion.v4:

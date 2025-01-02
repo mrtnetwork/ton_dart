@@ -8,7 +8,7 @@ import 'package:ton_dart/src/provider/models/response/transactions.dart';
 /// Get account transactions.
 ///
 class TonApiGetBlockchainAccountTransactions
-    extends TonApiRequestParam<TransactionsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<TransactionsResponse, Map<String, dynamic>> {
   final String accountId;
   final BigInt? afterLt;
   final BigInt? beforeLt;
@@ -30,14 +30,14 @@ class TonApiGetBlockchainAccountTransactions
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "sort_order": sortOrder?.name,
-        "before_lt": beforeLt,
-        "after_lt": afterLt,
-        "limit": limit
+        'sort_order': sortOrder?.name,
+        'before_lt': beforeLt,
+        'after_lt': afterLt,
+        'limit': limit
       };
 
   @override
-  TransactionsResponse onResonse(Map<String, dynamic> json) {
-    return TransactionsResponse.fromJson(json);
+  TransactionsResponse onResonse(Map<String, dynamic> result) {
+    return TransactionsResponse.fromJson(result);
   }
 }

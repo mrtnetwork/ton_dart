@@ -6,8 +6,7 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 ///
 /// Get account's balance change.
 ///
-class TonApiGetAccountDiff
-    extends TonApiRequestParam<BigInt, Map<String, dynamic>> {
+class TonApiGetAccountDiff extends TonApiRequest<BigInt, Map<String, dynamic>> {
   final String accountId;
   final BigInt startDate;
   final BigInt endDate;
@@ -24,9 +23,9 @@ class TonApiGetAccountDiff
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"start_date": startDate.toString(), "end_date": endDate.toString()};
+      {'start_date': startDate.toString(), 'end_date': endDate.toString()};
   @override
-  BigInt onResonse(Map<String, dynamic> json) {
-    return BigintUtils.parse(json["balance_change"]);
+  BigInt onResonse(Map<String, dynamic> result) {
+    return BigintUtils.parse(result['balance_change']);
   }
 }

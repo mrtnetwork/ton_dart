@@ -83,7 +83,7 @@ export 'accounts/account_dns_back_resolve.dart';
 export 'accounts/get_account.dart';
 export 'accounts/reindex_account.dart';
 export 'accounts/get_account_public_key.dart';
-export 'accounts/get_account_jetton_history_by_i_d.dart';
+export 'accounts/get_account_jetton_history_by_id.dart';
 export 'accounts/get_account_subscriptions.dart';
 export 'accounts/get_account_traces.dart';
 export 'accounts/get_account_diff.dart';
@@ -97,7 +97,6 @@ export 'staking/get_staking_pool_info.dart';
 export 'staking/get_staking_pools.dart';
 
 /// wallet
-export 'wallet/set_wallet_backup.dart';
 export 'wallet/get_wallet_backup.dart';
 export 'wallet/ton_connect_proof.dart';
 export 'wallet/get_account_seqno.dart';

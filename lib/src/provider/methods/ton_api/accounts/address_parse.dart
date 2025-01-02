@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/address_parse.dart';
 /// Parse address and display in all formats.
 ///
 class TonApiAddressParse
-    extends TonApiRequestParam<AddressParseResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AddressParseResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiAddressParse(this.accountId);
 
@@ -18,7 +18,7 @@ class TonApiAddressParse
   List<String> get pathParameters => [accountId];
 
   @override
-  AddressParseResponse onResonse(Map<String, dynamic> json) {
-    return AddressParseResponse.fromJson(json);
+  AddressParseResponse onResonse(Map<String, dynamic> result) {
+    return AddressParseResponse.fromJson(result);
   }
 }

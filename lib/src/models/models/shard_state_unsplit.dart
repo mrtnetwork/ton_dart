@@ -53,7 +53,7 @@ class ShardStateUnsplit extends TonSerialization {
   factory ShardStateUnsplit.deserialize(Slice slice) {
     if (slice.loadUint(32) != _ShardStateUnsplitConst.magic) {
       throw const TonDartPluginException(
-          "Invalid ShardStateUnsplit slice data.");
+          'Invalid ShardStateUnsplit slice data.');
     }
     final globalId = slice.loadInt(32);
     final shardId = ShardIdent.deserialize(slice);
@@ -101,17 +101,17 @@ class ShardStateUnsplit extends TonSerialization {
   }
   factory ShardStateUnsplit.fromJson(Map<String, dynamic> json) {
     return ShardStateUnsplit(
-        globalId: json["global_id"],
-        shardId: ShardIdent.fromJson(json["shard_id"]),
-        seqno: json["seqno"],
-        vertSeqNo: json["vert_seq_no"],
-        genUtime: json["gen_utime"],
-        genLt: BigintUtils.parse(json["gen_lt"]),
-        minRefMcSeqno: json["min_ref_mc_seqno"],
-        beforeSplit: json["before_split"],
-        accounts: ((json["accounts"] as Object?)?.convertTo<ShardAccounts, Map>(
+        globalId: json['global_id'],
+        shardId: ShardIdent.fromJson(json['shard_id']),
+        seqno: json['seqno'],
+        vertSeqNo: json['vert_seq_no'],
+        genUtime: json['gen_utime'],
+        genLt: BigintUtils.parse(json['gen_lt']),
+        minRefMcSeqno: json['min_ref_mc_seqno'],
+        beforeSplit: json['before_split'],
+        accounts: ((json['accounts'] as Object?)?.convertTo<ShardAccounts, Map>(
             (result) => ShardAccounts.fromJson(result.cast()))),
-        extras: (json["extras"] as Object?)
+        extras: (json['extras'] as Object?)
             ?.convertTo<MasterchainStateExtra, Map>(
                 (result) => MasterchainStateExtra.fromJson(result.cast())));
   }
@@ -124,16 +124,16 @@ class ShardStateUnsplit extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "global_id": globalId,
-      "shard_id": shardId.toJson(),
-      "seqno": seqno,
-      "vert_seq_no": vertSeqNo,
-      "gen_utime": genUtime,
-      "gen_lt": genLt.toString(),
-      "min_ref_mc_seqno": minRefMcSeqno,
-      "before_split": beforeSplit,
-      "accounts": accounts?.toJson(),
-      "extras": extras?.toJson()
+      'global_id': globalId,
+      'shard_id': shardId.toJson(),
+      'seqno': seqno,
+      'vert_seq_no': vertSeqNo,
+      'gen_utime': genUtime,
+      'gen_lt': genLt.toString(),
+      'min_ref_mc_seqno': minRefMcSeqno,
+      'before_split': beforeSplit,
+      'accounts': accounts?.toJson(),
+      'extras': extras?.toJson()
     };
   }
 }

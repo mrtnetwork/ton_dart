@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/found_accounts.dart';
 /// Search by account domain name.
 ///
 class TonApiSearchAccounts
-    extends TonApiRequestParam<FoundAccountsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<FoundAccountsResponse, Map<String, dynamic>> {
   final String name;
   TonApiSearchAccounts(this.name);
 
@@ -18,10 +18,10 @@ class TonApiSearchAccounts
   List<String> get pathParameters => [];
 
   @override
-  Map<String, dynamic> get queryParameters => {"name": name};
+  Map<String, dynamic> get queryParameters => {'name': name};
 
   @override
-  FoundAccountsResponse onResonse(Map<String, dynamic> json) {
-    return FoundAccountsResponse.fromJson(json);
+  FoundAccountsResponse onResonse(Map<String, dynamic> result) {
+    return FoundAccountsResponse.fromJson(result);
   }
 }

@@ -15,15 +15,8 @@ import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
 /// https://github.com/tonkeeper/w5/tree/main
 class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
     VersionedV5TransferParams> {
-  WalletV5R1(
-      {V5VersionedWalletState? stateInit,
-      required TonAddress address,
-      TonChain? chain})
-      : super(
-            address: address,
-            stateInit: stateInit,
-            type: WalletVersion.v5R1,
-            chain: chain);
+  WalletV5R1({super.stateInit, required super.address, super.chain})
+      : super(type: WalletVersion.v5R1);
 
   factory WalletV5R1.create(
       {required V5R1Context context,
@@ -81,7 +74,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
     }
     if (accountSeqno == null || state?.context == null) {
       throw TonContractException(
-          "accountSeqno and wallet context required for build wallet message v5R1 in $type type.");
+          'accountSeqno and wallet context required for build wallet message v5R1 in $type type.');
     }
     return TonSerializationUtils.serializeV5(
         accountSeqno: accountSeqno,
@@ -113,7 +106,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
     final VersionedWalletState? state = await getContractState(rpc);
     if (state == null && this.state == null) {
       throw const TonContractException(
-          "cannot send transaction with watch only wallet");
+          'cannot send transaction with watch only wallet');
     }
     final List<OutActionWalletV5> actions = [
       ...messages.map((e) => OutActionSendMsg(mode: sendMode, outMessage: e)),
@@ -123,7 +116,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
         (e) => e.outMessage.info.dest == address && e.outMessage.init != null);
     if (state != null && hasDeploy) {
       throw TonContractException(
-          "Account is already active. should not add init state to message with with destination address $address");
+          'Account is already active. should not add init state to message with with destination address $address');
     }
     final message = createRequest(
         actions: actions,
@@ -148,7 +141,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
     final VersionedWalletState? state = await getContractState(rpc);
     if (state == null && this.state == null) {
       throw const TonContractException(
-          "cannot send transaction with watch only wallet");
+          'cannot send transaction with watch only wallet');
     }
     final List<OutActionWalletV5> actions = [
       ...messages.map((e) => OutActionSendMsg(mode: sendMode, outMessage: e)),
@@ -159,7 +152,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
         (e) => e.outMessage.info.dest == address && e.outMessage.init != null);
     if (state != null && hasDeploy) {
       throw TonContractException(
-          "Account is already active. should not add init state to message with with destination address $address");
+          'Account is already active. should not add init state to message with with destination address $address');
     }
     final message = createRequest(
         actions: actions,
@@ -208,11 +201,11 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
       OnEstimateFee? onEstimateFee}) async {
     if (params.type == WalletV5AuthType.extension) {
       throw const TonContractException(
-          "use create request instead sendActionRequest for build message body.");
+          'use create request instead sendActionRequest for build message body.');
     }
     if (state == null) {
       throw const TonContractException(
-          "cannot create request with watch only wallet.");
+          'cannot create request with watch only wallet.');
     }
     return sendTransfer(
         params: params,

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/transactions.dart';
 /// Get transactions from block.
 ///
 class TonApiGetBlockchainBlockTransactions
-    extends TonApiRequestParam<TransactionsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<TransactionsResponse, Map<String, dynamic>> {
   final String blockId;
   TonApiGetBlockchainBlockTransactions(this.blockId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetBlockchainBlockTransactions
   List<String> get pathParameters => [blockId];
 
   @override
-  TransactionsResponse onResonse(Map<String, dynamic> json) {
-    return TransactionsResponse.fromJson(json);
+  TransactionsResponse onResonse(Map<String, dynamic> result) {
+    return TransactionsResponse.fromJson(result);
   }
 }

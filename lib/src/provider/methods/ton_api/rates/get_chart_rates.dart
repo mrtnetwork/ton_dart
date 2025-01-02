@@ -5,8 +5,7 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 ///
 /// Get chart by token.
 ///
-class TonApiGetChartRates
-    extends TonApiRequestParam<String, Map<String, dynamic>> {
+class TonApiGetChartRates extends TonApiRequest<String, Map<String, dynamic>> {
   /// accept jetton master address
   final String token;
 
@@ -28,15 +27,15 @@ class TonApiGetChartRates
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "currency": currency,
-        "token": token,
-        "start_date": startDate,
-        "end_date": endDate,
-        "points_count": pointsCount
+        'currency': currency,
+        'token': token,
+        'start_date': startDate,
+        'end_date': endDate,
+        'points_count': pointsCount
       };
 
   @override
-  String onResonse(Map<String, dynamic> json) {
-    return json["points"];
+  String onResonse(Map<String, dynamic> result) {
+    return result['points'];
   }
 }

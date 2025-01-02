@@ -114,8 +114,8 @@ class TokneMetadataUtils {
         castMap = Map<int, String>.from(source);
       } catch (e) {
         throw TokenMetadataException(
-            "Invalid metadata value. value must be string or chunked format(Map<int,String>)",
-            details: {"value": source});
+            'Invalid metadata value. value must be string or chunked format(Map<int,String>)',
+            details: {'value': source});
       }
       ref.storeUint(1, 8);
       final result = Dictionary.fromEnteries<int, Cell>(
@@ -136,7 +136,7 @@ class TokneMetadataUtils {
           DictionaryKey.uintCodec(32), DictionaryValue.cellCodec());
       return result.asMap.values.map((e) => e.beginParse().loadStringTail());
     }
-    throw const TokenMetadataException("Invalid or Unsuported metadata type.");
+    throw const TokenMetadataException('Invalid or Unsuported metadata type.');
   });
   static Dictionary<List<int>, dynamic> _onChainMetadataDict(
       Map<String, dynamic> content) {

@@ -5,13 +5,13 @@ import 'package:ton_dart/src/boc/utils/utils.dart';
 class _BitStringUtils {
   static void validateOffset(int offset, int length, {int? at}) {
     if (offset.isNegative) {
-      throw BocException("Offset is out of bounds",
-          details: {"offset": offset, "length": length, "at": at});
+      throw BocException('Offset is out of bounds',
+          details: {'offset': offset, 'length': length, 'at': at});
     }
     final int index = offset + (at ?? 0);
     if (index > length) {
-      throw BocException("Offset is out of bounds",
-          details: {"offset": index, "length": length, "at": at});
+      throw BocException('Offset is out of bounds',
+          details: {'offset': index, 'length': length, 'at': at});
     }
   }
 }
@@ -36,8 +36,8 @@ class BitString {
   /// Throws a [BocException] if the length is out of bounds.
   factory BitString(List<int> data, int offset, int length) {
     if (length < 0) {
-      throw BocException("Length is out of bounds",
-          details: {"length": length});
+      throw BocException('Length is out of bounds',
+          details: {'length': length});
     }
     return BitString._(
         BytesUtils.toBytes(data, unmodifiable: true), offset, length);
@@ -53,8 +53,8 @@ class BitString {
   bool at(int index) {
     _BitStringUtils.validateOffset(index, _length);
     if (index >= _length) {
-      throw BocException("index is out of bounds",
-          details: {"index": index, "length": length});
+      throw BocException('index is out of bounds',
+          details: {'index': index, 'length': length});
     }
 
     final int byteIndex = (_offset + index) >> 3;
@@ -127,7 +127,7 @@ class BitString {
   List<int> get buffer => List<int>.from(_data);
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! BitString) return false;
     if (other.length != _length) return false;
     for (int i = 0; i < _length; i++) {

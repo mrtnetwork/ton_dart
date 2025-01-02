@@ -3,8 +3,8 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Look up block by either seqno, lt or unixtime.
 /// https://toncenter.com/api/v2/#/blocks/lookup_block_lookupBlock_get
-class TonCenterLookupBlock extends TonCenterPostRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterLookupBlock
+    extends TonCenterPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// Workchain id to look up block in
   final int workchain;
 
@@ -33,11 +33,11 @@ class TonCenterLookupBlock extends TonCenterPostRequestParam<
   @override
   Map<String, dynamic> params() {
     return {
-      "workchain": workchain,
-      "shard": shard,
-      "seqno": seqno,
-      "lt": lt,
-      "unixtime": unixtime
+      'workchain': workchain,
+      'shard': shard,
+      'seqno': seqno,
+      'lt': lt,
+      'unixtime': unixtime
     };
   }
 }

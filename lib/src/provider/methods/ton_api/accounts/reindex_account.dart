@@ -6,11 +6,11 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Update internal cache for a particular account.
 ///
 class TonApiReindexAccount
-    extends TonApiPostRequestParam<Null, Map<String, dynamic>> {
+    extends TonApiPostRequest<Null, Map<String, dynamic>> {
   final String accountId;
   TonApiReindexAccount(this.accountId);
   @override
-  Object? get body => null;
+  Map<String, dynamic>? get body => null;
 
   @override
   String get method => TonApiMethods.reindexaccount.url;

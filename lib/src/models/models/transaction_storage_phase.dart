@@ -26,9 +26,9 @@ class TransactionStoragePhase extends TonSerialization {
   }
   factory TransactionStoragePhase.fromJson(Map<String, dynamic> json) {
     return TransactionStoragePhase(
-        storageFeesCollected: BigintUtils.parse(json["storage_fees_collected"]),
-        storageFeesDue: BigintUtils.tryParse(json["storage_fees_due"]),
-        statusChange: AccountStatusChange.fromJson(json["status_change"]));
+        storageFeesCollected: BigintUtils.parse(json['storage_fees_collected']),
+        storageFeesDue: BigintUtils.tryParse(json['storage_fees_due']),
+        statusChange: AccountStatusChange.fromJson(json['status_change']));
   }
 
   @override
@@ -44,9 +44,9 @@ class TransactionStoragePhase extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "status_change": statusChange.toJson(),
-      "storage_fees_due": storageFeesDue?.toString(),
-      "storage_fees_collected": storageFeesCollected.toString()
+      'status_change': statusChange.toJson(),
+      'storage_fees_due': storageFeesDue?.toString(),
+      'storage_fees_collected': storageFeesCollected.toString()
     };
   }
 }

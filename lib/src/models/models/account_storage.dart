@@ -24,9 +24,9 @@ class AccountStorage extends TonSerialization {
   }
   factory AccountStorage.fromJson(Map<String, dynamic> json) {
     return AccountStorage(
-      lastTransLt: BigintUtils.parse(json["last_trans_lt"]),
-      balance: CurrencyCollection.fromJson(json["balance"]),
-      state: AccountState.fromJson(json["state"]),
+      lastTransLt: BigintUtils.parse(json['last_trans_lt']),
+      balance: CurrencyCollection.fromJson(json['balance']),
+      state: AccountState.fromJson(json['state']),
     );
   }
 
@@ -40,9 +40,9 @@ class AccountStorage extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "last_trans_lt": lastTransLt.toString(),
-      "balance": balance.toJson(),
-      "state": state.toJson()
+      'last_trans_lt': lastTransLt.toString(),
+      'balance': balance.toJson(),
+      'state': state.toJson()
     };
   }
 }

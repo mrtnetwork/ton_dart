@@ -47,8 +47,8 @@ class JettonMetadataResponse with JsonSerialization {
       'social': social,
       'websites': websites,
       'catalogs': catalogs,
-      "image": image,
-      "description": description
+      'image': image,
+      'description': description
     };
   }
 }

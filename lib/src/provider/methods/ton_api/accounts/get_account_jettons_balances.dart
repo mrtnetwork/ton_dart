@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/jettons_balances.dart';
 /// Get all JettonsResponse balances by owner address.
 ///
 class TonApiGetAccountJettonsBalances
-    extends TonApiRequestParam<JettonsBalancesResponse, Map<String, dynamic>> {
+    extends TonApiRequest<JettonsBalancesResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// accept ton and all possible fiat currencies
@@ -21,9 +21,9 @@ class TonApiGetAccountJettonsBalances
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"currencies": currencies?.join(",")};
+      {'currencies': currencies?.join(',')};
   @override
-  JettonsBalancesResponse onResonse(Map<String, dynamic> json) {
-    return JettonsBalancesResponse.fromJson(json);
+  JettonsBalancesResponse onResonse(Map<String, dynamic> result) {
+    return JettonsBalancesResponse.fromJson(result);
   }
 }

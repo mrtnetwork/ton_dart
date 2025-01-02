@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Get raw blockchain block.
 ///
 class TonApiGetRawBlockchainBlock
-    extends TonApiRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+    extends TonApiRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// block ID: (workchain,shard,seqno,root_hash,file_hash)
   final String blockId;
   TonApiGetRawBlockchainBlock(this.blockId);

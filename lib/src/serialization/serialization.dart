@@ -6,7 +6,7 @@ mixin JsonSerialization {
   @override
   String toString() {
     final js = toJson();
-    return "$runtimeType${js.toString()}";
+    return '$runtimeType${js.toString()}';
   }
 }
 

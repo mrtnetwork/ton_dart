@@ -6,6 +6,5 @@ class VersionedTransferParams
     extends WalletContractTransferParams<OutActionSendMsg> {
   final TonPrivateKey privateKey;
   VersionedTransferParams(
-      {List<OutActionSendMsg> messages = const [], required this.privateKey})
-      : super(messages: messages);
+      {super.messages = const [], required this.privateKey});
 }

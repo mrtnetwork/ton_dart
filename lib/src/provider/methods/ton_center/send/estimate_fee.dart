@@ -4,8 +4,8 @@ import 'package:ton_dart/src/provider/models/response/estimate_fee_response.dart
 
 /// Estimate fees required for query processing. body, init-code and init-data accepted in serialized format (b64-encoded).
 /// https://toncenter.com/api/v2/#/send/estimate_fee_estimateFee_post
-class TonCenterEstimateFee extends TonCenterPostRequestParam<
-    EstimateFeeResponse, Map<String, dynamic>> {
+class TonCenterEstimateFee
+    extends TonCenterPostRequest<EstimateFeeResponse, Map<String, dynamic>> {
   final String address;
   final String body;
   final String initCode;
@@ -24,16 +24,16 @@ class TonCenterEstimateFee extends TonCenterPostRequestParam<
   @override
   Map<String, dynamic> params() {
     return {
-      "address": address,
-      "body": body,
-      "init_code": initCode,
-      "init_data": initData,
-      "ignore_chksig": ignoreChksig
+      'address': address,
+      'body': body,
+      'init_code': initCode,
+      'init_data': initData,
+      'ignore_chksig': ignoreChksig
     };
   }
 
   @override
-  EstimateFeeResponse onResonse(Map<String, dynamic> json) {
-    return EstimateFeeResponse.fromJson(json);
+  EstimateFeeResponse onResonse(Map<String, dynamic> result) {
+    return EstimateFeeResponse.fromJson(result);
   }
 }

@@ -48,15 +48,15 @@ class StateInit extends TonSerialization {
   }
   factory StateInit.fromJson(Map<String, dynamic> json) {
     return StateInit(
-        splitDepth: json["splitDepth"],
-        special: (json["special"] as Object?)
+        splitDepth: json['splitDepth'],
+        special: (json['special'] as Object?)
             ?.convertTo<TickTock, Map<String, dynamic>>(
                 (p0) => TickTock.fromJson(p0)),
-        code: (json["code"] as Object?)
+        code: (json['code'] as Object?)
             ?.convertTo<Cell, String>((result) => Cell.fromBase64(result)),
-        data: (json["data"] as Object?)
+        data: (json['data'] as Object?)
             ?.convertTo<Cell, String>((result) => Cell.fromBase64(result)),
-        libraries: (json["libraries"] as Object?)
+        libraries: (json['libraries'] as Object?)
             ?.convertTo<Map<BigInt, SimpleLibrary>, Map<String, dynamic>>(
                 (result) {
           return result.map((key, value) =>
@@ -89,11 +89,11 @@ class StateInit extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "splitDepth": splitDepth,
-      "special": special?.toJson(),
-      "code": code?.toBase64(),
-      "data": data?.toBase64(),
-      "libraries": libraries
+      'splitDepth': splitDepth,
+      'special': special?.toJson(),
+      'code': code?.toBase64(),
+      'data': data?.toBase64(),
+      'libraries': libraries
           ?.map((key, value) => MapEntry(key.toString(), value.toJson()))
     };
   }

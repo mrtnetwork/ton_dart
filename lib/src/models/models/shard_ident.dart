@@ -18,7 +18,7 @@ class ShardIdent extends TonSerialization {
   factory ShardIdent.deserialize(Slice slice) {
     final shardIdent = slice.loadUint(2);
     if (shardIdent != 0) {
-      throw const TonDartPluginException("Invalid ShardIdent slice.");
+      throw const TonDartPluginException('Invalid ShardIdent slice.');
     }
     return ShardIdent(
       shardPrefixBits: slice.loadUint(6),
@@ -28,9 +28,9 @@ class ShardIdent extends TonSerialization {
   }
   factory ShardIdent.fromJson(Map<String, dynamic> json) {
     return ShardIdent(
-      shardPrefixBits: json["shard_prefix_bits"],
-      workchainId: json["workchain_id"],
-      shardPrefix: BigintUtils.parse(json["shard_prefix"]),
+      shardPrefixBits: json['shard_prefix_bits'],
+      workchainId: json['workchain_id'],
+      shardPrefix: BigintUtils.parse(json['shard_prefix']),
     );
   }
 
@@ -45,9 +45,9 @@ class ShardIdent extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "shard_prefix_bits": shardPrefixBits,
-      "workchain_id": workchainId,
-      "shard_prefix": shardPrefix.toString()
+      'shard_prefix_bits': shardPrefixBits,
+      'workchain_id': workchainId,
+      'shard_prefix': shardPrefix.toString()
     };
   }
 }

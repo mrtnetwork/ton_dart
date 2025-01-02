@@ -10,7 +10,7 @@ class JettonRawMetadata extends TokenMetadata {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"content": content.toBase64()};
+    return {'content': content.toBase64()};
   }
 
   @override
@@ -28,7 +28,7 @@ class JettonOffChainMetadata extends TokenMetadata {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"uri": uri};
+    return {'uri': uri};
   }
 
   @override

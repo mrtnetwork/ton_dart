@@ -24,9 +24,9 @@ class TonAccount extends TonSerialization {
   }
   factory TonAccount.fromJson(Map<String, dynamic> json) {
     return TonAccount(
-      addr: TonAddress(json["addr"]),
-      storageStats: StorageInfo.fromJson(json["storage_stats"]),
-      storage: AccountStorage.fromJson(json["storage"]),
+      addr: TonAddress(json['addr']),
+      storageStats: StorageInfo.fromJson(json['storage_stats']),
+      storage: AccountStorage.fromJson(json['storage']),
     );
   }
 
@@ -40,9 +40,9 @@ class TonAccount extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "storage_stats": storageStats.toJson(),
-      "addr": addr.toRawAddress(),
-      "storage": storage.toJson()
+      'storage_stats': storageStats.toJson(),
+      'addr': addr.toRawAddress(),
+      'storage': storage.toJson()
     };
   }
 }

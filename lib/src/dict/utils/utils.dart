@@ -32,7 +32,7 @@ class DictionaryUtils {
   static String serializeInternalKey(dynamic value) {
     if (value is int) {
       if (!value.isFinite) {
-        throw DictException("Invalid key type. not a safe integer.");
+        throw DictException('Invalid key type. not a safe integer.');
       }
       return 'n:${value.toString()}';
     } else if (value is BigInt) {
@@ -44,18 +44,18 @@ class DictionaryUtils {
     } else if (value is BitString) {
       return 'B:${value.toString()}';
     } else {
-      throw DictException("Invalid key type.",
-          details: {"key": value, "type": value.runtimeType.toString()});
+      throw DictException('Invalid key type.',
+          details: {'key': value, 'type': value.runtimeType.toString()});
     }
   }
 
   static T deserializeInternalKey<T>(String value) {
     final decode = _deserializeInternalKey(value);
     if (decode is! T) {
-      throw DictException("Invalid key type.", details: {
-        "value": decode,
-        "excepted": "$T",
-        "key": decode.runtimeType.toString()
+      throw DictException('Invalid key type.', details: {
+        'value': decode,
+        'excepted': '$T',
+        'key': decode.runtimeType.toString()
       });
     }
     return decode;
@@ -65,15 +65,15 @@ class DictionaryUtils {
     final k = value.substring(0, 2);
     final v = value.substring(2);
     switch (k) {
-      case "n:":
+      case 'n:':
         return int.parse(v);
-      case "b:":
+      case 'b:':
         return BigInt.parse(v);
-      case "a:":
+      case 'a:':
         return TonAddress(v);
-      case "f:":
+      case 'f:':
         return BytesUtils.fromHexString(v);
-      case "B:":
+      case 'B:':
         final lastDash = v.endsWith('_');
         final isPadded = lastDash || v.length % 2 != 0;
         if (isPadded) {
@@ -93,8 +93,8 @@ class DictionaryUtils {
           return BitString(BytesUtils.fromHexString(v), 0, v.length << 2);
         }
       default:
-        throw DictException("Invalid key type.",
-            details: {"key": k, "type": k.runtimeType.toString()});
+        throw DictException('Invalid key type.',
+            details: {'key': k, 'type': k.runtimeType.toString()});
     }
   }
 

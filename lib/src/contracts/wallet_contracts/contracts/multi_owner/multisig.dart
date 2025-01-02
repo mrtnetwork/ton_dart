@@ -17,13 +17,11 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   final WalletContract<ContractState, E> owner;
 
   MultiOwnerContract({
-    required TonAddress address,
+    required super.address,
     required this.owner,
     MultiOwnerWalletState? stateInit,
   }) : super(
-            address: address,
-            state: stateInit,
-            chain: TonChain.fromWorkchain(address.workChain));
+            state: stateInit, chain: TonChain.fromWorkchain(address.workChain));
   MultiOwnerContract<T>
       changeOwnerWallet<T extends WalletContractTransferParams>(
           WalletContract<ContractState, T> owner) {
@@ -106,10 +104,10 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       OnEstimateFee? onEstimateFee}) async {
     final active = await isActive(rpc);
     if (active) {
-      throw const TonContractException("Account is already active.");
+      throw const TonContractException('Account is already active.');
     }
     if (state == null) {
-      throw const TonContractException("cannot deploy with watch only wallet.");
+      throw const TonContractException('cannot deploy with watch only wallet.');
     }
     return _sendTransaction(
         params: params,
@@ -154,7 +152,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
         key: DictionaryKey.uintCodec(8), value: DictionaryValue.cellCodec());
     if (actions.length > 255) {
       throw const TonContractException(
-          "For action chains above 255, use packLarge method");
+          'For action chains above 255, use packLarge method');
     } else {
       // pack transfers to the order_body cell
       for (int i = 0; i < actions.length; i++) {
@@ -211,7 +209,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
 
     if (tailChunk == null) {
       throw const TonContractException(
-          "Something went wrong during large order pack");
+          'Something went wrong during large order pack');
     }
 
     return tailChunk;
@@ -245,7 +243,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (state == null) {
       throw const TonContractException(
-          "Cannot create new order with watch only wallet");
+          'Cannot create new order with watch only wallet');
     }
     int addrIdx = state!.signers.indexOf(owner.address);
     bool isSigner;
@@ -255,7 +253,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       addrIdx = state!.proposers.indexOf(owner.address);
       if (addrIdx < 0) {
         throw const TonContractException(
-            "the owner is not a signer or proposer.");
+            'the owner is not a signer or proposer.');
       }
       isSigner = false;
     }
@@ -264,7 +262,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       actionCell = packLarge(
           actions: messages,
           address: address,
-          amount: TonHelper.toNano("0.01"));
+          amount: TonHelper.toNano('0.01'));
     } else {
       actionCell = packOrder(messages);
     }
@@ -294,9 +292,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   Future<TonAddress> orderAddress(
       {required TonProvider rpc, required BigInt seqno}) async {
     final call =
-        await getStateStack(rpc: rpc, method: "get_order_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_order_address', stack: [
       if (rpc.isTonCenter) ...[
-        ["num", seqno.toString()]
+        ['num', seqno.toString()]
       ] else
         seqno.toString()
     ]);
@@ -309,9 +307,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
           required BigInt seqno,
           required WalletContract<ContractState, T> signerWallet}) async {
     final call =
-        await getStateStack(rpc: rpc, method: "get_order_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_order_address', stack: [
       if (rpc.isTonCenter) ...[
-        ["num", seqno.toString()]
+        ['num', seqno.toString()]
       ] else
         seqno.toString()
     ]);

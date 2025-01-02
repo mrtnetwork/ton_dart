@@ -15,8 +15,8 @@ class DepthBalanceInfo extends TonSerialization {
   }
   factory DepthBalanceInfo.fromJson(Map<String, dynamic> json) {
     return DepthBalanceInfo(
-      splitDepth: json["split_depth"],
-      balance: CurrencyCollection.fromJson(json["balance"]),
+      splitDepth: json['split_depth'],
+      balance: CurrencyCollection.fromJson(json['balance']),
     );
   }
 
@@ -28,6 +28,6 @@ class DepthBalanceInfo extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"split_depth": splitDepth, "balance": balance.toJson()};
+    return {'split_depth': splitDepth, 'balance': balance.toJson()};
   }
 }

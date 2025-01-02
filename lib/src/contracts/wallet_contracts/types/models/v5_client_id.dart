@@ -15,12 +15,11 @@ abstract class V5R1Context extends TonSerialization {
 
 class V5R1CustomContext extends V5R1Context {
   final int context;
-  const V5R1CustomContext({required this.context, required TonChain chain})
-      : super(chain: chain);
+  const V5R1CustomContext({required this.context, required super.chain});
 
   @override
   Map<String, dynamic> toJson() {
-    return {"context": context, "networkGlobalId": chain.id};
+    return {'context': context, 'networkGlobalId': chain.id};
   }
 
   @override
@@ -32,7 +31,7 @@ class V5R1CustomContext extends V5R1Context {
       .loadInt(32);
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! V5R1CustomContext) return false;
     return other.context == context && other.chain == chain;
   }
@@ -45,15 +44,14 @@ class V5R1ClientContext extends V5R1Context {
   final int walletVersion = 0;
   final int subwalletNumber;
 
-  V5R1ClientContext({required this.subwalletNumber, required TonChain chain})
-      : super(chain: chain);
+  V5R1ClientContext({required this.subwalletNumber, required super.chain});
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "networkGlobalId": chain.id,
-      "subwalletNumber": subwalletNumber,
-      "workchain": chain.workchain
+      'networkGlobalId': chain.id,
+      'subwalletNumber': subwalletNumber,
+      'workchain': chain.workchain
     };
   }
 
@@ -68,7 +66,7 @@ class V5R1ClientContext extends V5R1Context {
       .loadInt(32);
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! V5R1ClientContext) return false;
     return other.subwalletNumber == subwalletNumber && other.chain == chain;
   }

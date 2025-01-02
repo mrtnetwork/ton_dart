@@ -40,8 +40,8 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
     final stateData = VersionedWalletUtils.readState(
         stateData: state.data, type: type, chain: chain);
     if (stateData is! C) {
-      throw TonContractException("Incorrect state data.",
-          details: {"excepted": "$C", "got": "${stateData.runtimeType}"});
+      throw TonContractException('Incorrect state data.',
+          details: {'excepted': '$C', 'got': '${stateData.runtimeType}'});
     }
     return stateData;
   }
@@ -52,8 +52,8 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
     final stateData = VersionedWalletUtils.readState(
         stateData: state.data, type: type, chain: chain);
     if (stateData is! C) {
-      throw TonContractException("Incorrect state data.",
-          details: {"excepted": "$C", "got": "${stateData.runtimeType}"});
+      throw TonContractException('Incorrect state data.',
+          details: {'excepted': '$C', 'got': '${stateData.runtimeType}'});
     }
     return stateData;
   }
@@ -67,15 +67,15 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
       int? timeout,
       OnEstimateFee? onEstimateFee}) async {
     if (params is! VersionedTransferParams) {
-      throw TonContractException("Invalid transaction params", details: {
-        "excepted": "VersionedTransferParams",
-        "got": "${params.runtimeType}"
+      throw TonContractException('Invalid transaction params', details: {
+        'excepted': 'VersionedTransferParams',
+        'got': '${params.runtimeType}'
       });
     }
     final VersionedWalletState? state = await getContractState(rpc);
     if (this.state == null && state == null) {
       throw const TonContractException(
-          "cannot send transaction with watch only wallet");
+          'cannot send transaction with watch only wallet');
     }
     final List<OutActionSendMsg> actions = [
       ...messages.map((e) => OutActionSendMsg(mode: sendMode, outMessage: e)),

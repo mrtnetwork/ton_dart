@@ -72,15 +72,15 @@ class OrderContractState extends ContractState {
 
   Map<String, dynamic> toJson() {
     return {
-      "multisig": multisig.toFriendlyAddress(),
-      "orderSeqno": orderSeqno.toString(),
-      "threshold": threshold,
-      "executed": executed,
-      "signers": signers.map((e) => e.toFriendlyAddress()).toList(),
-      "approvals": approvals,
-      "approvalsNum": approvalsNum,
-      "expirationDate": expirationDate,
-      "order": order?.toBase64()
+      'multisig': multisig.toFriendlyAddress(),
+      'orderSeqno': orderSeqno.toString(),
+      'threshold': threshold,
+      'executed': executed,
+      'signers': signers.map((e) => e.toFriendlyAddress()).toList(),
+      'approvals': approvals,
+      'approvalsNum': approvalsNum,
+      'expirationDate': expirationDate,
+      'order': order?.toBase64()
     };
   }
 }

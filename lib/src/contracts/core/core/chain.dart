@@ -13,12 +13,12 @@ class TonChain {
   static TonChain fromWorkchain(int? workchain) {
     return values.firstWhere(
       (e) => e.workchain == workchain,
-      orElse: () => throw const TonContractException("Invalid workchain."),
+      orElse: () => throw const TonContractException('Invalid workchain.'),
     );
   }
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! TonChain) return false;
     return workchain == other.workchain && id == other.id;
   }

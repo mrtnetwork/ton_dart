@@ -49,7 +49,7 @@ class MasterchainStateExtra extends TonSerialization {
     // Check magic
     if (slice.loadUint(16) != _MasterChainStateExtraConst.magic) {
       throw const TonDartPluginException(
-          "Invalid MasterchainStateExtra slice data");
+          'Invalid MasterchainStateExtra slice data');
     }
 
     // Skip shard_hashes
@@ -69,10 +69,10 @@ class MasterchainStateExtra extends TonSerialization {
   }
   factory MasterchainStateExtra.fromJson(Map<String, dynamic> json) {
     return MasterchainStateExtra(
-        configAddress: BigintUtils.parse(json["config_address"]),
-        config: (json["config_address"] as Map)
+        configAddress: BigintUtils.parse(json['config_address']),
+        config: (json['config_address'] as Map)
             .map((key, value) => MapEntry(key, Cell.fromBase64(value))),
-        globalBalance: CurrencyCollection.fromJson(json["global_balance"]));
+        globalBalance: CurrencyCollection.fromJson(json['global_balance']));
   }
 
   @override
@@ -83,9 +83,9 @@ class MasterchainStateExtra extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "config_address": configAddress.toString(),
-      "config": config.map((key, value) => MapEntry(key, value.toBase64())),
-      "global_balance": globalBalance.toJson()
+      'config_address': configAddress.toString(),
+      'config': config.map((key, value) => MapEntry(key, value.toBase64())),
+      'global_balance': globalBalance.toJson()
     };
   }
 }

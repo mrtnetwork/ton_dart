@@ -7,7 +7,7 @@ class NFTItemMetadata extends NFTMetadata {
   const NFTItemMetadata(this.uri);
   factory NFTItemMetadata.deserialize(Slice slice) {
     if (slice.remainingBits == 0) {
-      return const NFTItemMetadata("");
+      return const NFTItemMetadata('');
     }
     final tag = slice.preloadUint(8);
     if (tag != TonMetadataConstant.ftMetadataOffChainTag) {
@@ -24,7 +24,7 @@ class NFTItemMetadata extends NFTMetadata {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"uri": uri};
+    return {'uri': uri};
   }
 
   @override

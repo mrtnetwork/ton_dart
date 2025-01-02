@@ -15,7 +15,7 @@ class DomainRenewActionResponse with JsonSerialization {
     return DomainRenewActionResponse(
       domain: json['domain'],
       contractAddress: json['contract_address'],
-      renewer: AccountAddressResponse.fromJson(json["renewer"]),
+      renewer: AccountAddressResponse.fromJson(json['renewer']),
     );
   }
 

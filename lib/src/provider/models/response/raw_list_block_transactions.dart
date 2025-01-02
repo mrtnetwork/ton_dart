@@ -15,20 +15,20 @@ class RawListBlockTransactionsIdsItemResponse with JsonSerialization {
   factory RawListBlockTransactionsIdsItemResponse.fromJson(
       Map<String, dynamic> json) {
     return RawListBlockTransactionsIdsItemResponse(
-      mode: json["mode"],
-      account: json["versaccountion"],
-      lt: BigintUtils.tryParse(json["lt"]),
-      hash: json["hash"],
+      mode: json['mode'],
+      account: json['versaccountion'],
+      lt: BigintUtils.tryParse(json['lt']),
+      hash: json['hash'],
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "hash": hash,
-      "lt": lt?.toString(),
-      "account": account,
-      "mode": mode
+      'hash': hash,
+      'lt': lt?.toString(),
+      'account': account,
+      'mode': mode
     };
   }
 }
@@ -49,23 +49,23 @@ class RawListBlockTransactionsResponse with JsonSerialization {
 
   factory RawListBlockTransactionsResponse.fromJson(Map<String, dynamic> json) {
     return RawListBlockTransactionsResponse(
-        id: BlockRawResponse.fromJson(json["id"]),
-        reqCount: json["req_count"],
-        incomplete: json["incomplete"],
-        ids: (json["ids"] as List)
+        id: BlockRawResponse.fromJson(json['id']),
+        reqCount: json['req_count'],
+        incomplete: json['incomplete'],
+        ids: (json['ids'] as List)
             .map((e) => RawListBlockTransactionsIdsItemResponse.fromJson(e))
             .toList(),
-        proof: json["proof"]);
+        proof: json['proof']);
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "id": id.toJson(),
-      "req_count": reqCount,
-      "incomplete": incomplete,
-      "ids": ids.map((e) => e.toJson()).toList(),
-      "proof": proof
+      'id': id.toJson(),
+      'req_count': reqCount,
+      'incomplete': incomplete,
+      'ids': ids.map((e) => e.toJson()).toList(),
+      'proof': proof
     };
   }
 }

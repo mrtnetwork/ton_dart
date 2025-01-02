@@ -5,7 +5,7 @@ import 'package:ton_dart/src/boc/bit/bit_string.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
 
 void main() {
-  group("dict keys", () => _test());
+  group('dict keys', () => _test());
 }
 
 void _test() {
@@ -25,8 +25,8 @@ void _test() {
       BigInt.one,
       BigInt.from(123123123),
       BigInt.from(-123123123),
-      BigInt.parse("1231231231231237812683128376123"),
-      BigInt.parse("-1231273612873681263871263871263")
+      BigInt.parse('1231231231231237812683128376123'),
+      BigInt.parse('-1231273612873681263871263871263')
     ];
     for (final c in cs) {
       expect(
@@ -54,7 +54,7 @@ void _test() {
       [0x00],
       [0xff],
       [0x0f],
-      BytesUtils.fromHexString("0f000011002233456611")
+      BytesUtils.fromHexString('0f000011002233456611')
     ];
     for (final c in cs) {
       expect(
@@ -68,7 +68,7 @@ void _test() {
       [0x00],
       [0xff],
       [0x0f],
-      BytesUtils.fromHexString("0f000011002233456611")
+      BytesUtils.fromHexString('0f000011002233456611')
     ];
     for (final c in cs) {
       for (int i = 0; i < c.length * 8 - 1; i++) {

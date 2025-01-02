@@ -26,7 +26,7 @@ int _generateRandomSign() {
 }
 
 void main() {
-  group("bit reader", () => _test());
+  group('bit reader', () => _test());
 }
 
 void _test() {

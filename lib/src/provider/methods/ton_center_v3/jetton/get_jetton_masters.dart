@@ -21,10 +21,10 @@ class TonCenterV3GetJettonMasters extends TonCenterV3RequestParam<
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "address": address,
-        "admin_address": adminAddress,
-        "limit": limit,
-        "offset": offset
+        'address': address,
+        'admin_address': adminAddress,
+        'limit': limit,
+        'offset': offset
       };
 
   TonCenterV3GetJettonMasters(

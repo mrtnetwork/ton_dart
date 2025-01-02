@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/nft_items.dart';
 /// Get NFT items from collection by collection address.
 ///
 class TonApiGetItemsFromCollection
-    extends TonApiRequestParam<NftItemsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<NftItemsResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// Default: 1000
@@ -25,10 +25,10 @@ class TonApiGetItemsFromCollection
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"limit": limit, "offset": offset};
+      {'limit': limit, 'offset': offset};
 
   @override
-  NftItemsResponse onResonse(Map<String, dynamic> json) {
-    return NftItemsResponse.fromJson(json);
+  NftItemsResponse onResonse(Map<String, dynamic> result) {
+    return NftItemsResponse.fromJson(result);
   }
 }

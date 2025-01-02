@@ -6,13 +6,13 @@ class AuctionBidActionAuctionTypeResponse {
   const AuctionBidActionAuctionTypeResponse._(this._value);
 
   static const AuctionBidActionAuctionTypeResponse dnsTon =
-      AuctionBidActionAuctionTypeResponse._("DNS.ton");
+      AuctionBidActionAuctionTypeResponse._('DNS.ton');
   static const AuctionBidActionAuctionTypeResponse dnsTg =
-      AuctionBidActionAuctionTypeResponse._("DNS.tg");
+      AuctionBidActionAuctionTypeResponse._('DNS.tg');
   static const AuctionBidActionAuctionTypeResponse numberTg =
-      AuctionBidActionAuctionTypeResponse._("NUMBER.tg");
+      AuctionBidActionAuctionTypeResponse._('NUMBER.tg');
   static const AuctionBidActionAuctionTypeResponse getgems =
-      AuctionBidActionAuctionTypeResponse._("getgems");
+      AuctionBidActionAuctionTypeResponse._('getgems');
 
   static const List<AuctionBidActionAuctionTypeResponse> values = [
     dnsTon,
@@ -27,7 +27,7 @@ class AuctionBidActionAuctionTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No AuctionBidActionAuctionTypeResponse found with the provided name: $name"),
+          'No AuctionBidActionAuctionTypeResponse found with the provided name: $name'),
     );
   }
 }

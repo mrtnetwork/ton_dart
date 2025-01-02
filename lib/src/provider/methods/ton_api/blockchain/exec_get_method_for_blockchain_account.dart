@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/method_execution_result.da
 ///
 /// Execute get method for account.
 ///
-class TonApiExecGetMethodForBlockchainAccount extends TonApiRequestParam<
-    MethodExecutionResultResponse, Map<String, dynamic>> {
+class TonApiExecGetMethodForBlockchainAccount
+    extends TonApiRequest<MethodExecutionResultResponse, Map<String, dynamic>> {
   final String accountId;
   final String methodName;
   final dynamic args;
@@ -23,11 +23,11 @@ class TonApiExecGetMethodForBlockchainAccount extends TonApiRequestParam<
 
   @override
   Map<String, dynamic> get queryParameters {
-    return {"args": args};
+    return {'args': args};
   }
 
   @override
-  MethodExecutionResultResponse onResonse(Map<String, dynamic> json) {
-    return MethodExecutionResultResponse.fromJson(json);
+  MethodExecutionResultResponse onResonse(Map<String, dynamic> result) {
+    return MethodExecutionResultResponse.fromJson(result);
   }
 }

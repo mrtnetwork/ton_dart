@@ -6,15 +6,15 @@ class TvmStackRecordTypeResponse {
   const TvmStackRecordTypeResponse._(this._value);
 
   static const TvmStackRecordTypeResponse cell =
-      TvmStackRecordTypeResponse._("cell");
+      TvmStackRecordTypeResponse._('cell');
   static const TvmStackRecordTypeResponse num =
-      TvmStackRecordTypeResponse._("num");
+      TvmStackRecordTypeResponse._('num');
   static const TvmStackRecordTypeResponse nan =
-      TvmStackRecordTypeResponse._("nan");
+      TvmStackRecordTypeResponse._('nan');
   static const TvmStackRecordTypeResponse nullType =
-      TvmStackRecordTypeResponse._("null");
+      TvmStackRecordTypeResponse._('null');
   static const TvmStackRecordTypeResponse tuple =
-      TvmStackRecordTypeResponse._("tuple");
+      TvmStackRecordTypeResponse._('tuple');
 
   static const List<TvmStackRecordTypeResponse> values = [
     cell,
@@ -30,7 +30,7 @@ class TvmStackRecordTypeResponse {
     return values.firstWhere(
       (element) => element._value == name,
       orElse: () => throw TonDartPluginException(
-          "No TvmStackRecordTypeResponse found with the provided name: $name"),
+          'No TvmStackRecordTypeResponse found with the provided name: $name'),
     );
   }
 }

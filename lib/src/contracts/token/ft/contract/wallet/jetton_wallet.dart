@@ -95,16 +95,16 @@ class JettonWallet<E extends WalletContractTransferParams>
   }
 
   Future<JettonWalletState> getWalletData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_wallet_data");
+    final data = await getStateStack(rpc: rpc, method: 'get_wallet_data');
     return JettonWalletState.fromTuple(data.reader());
   }
 
   Future<TonAddress> getWalletAddress(
       {required TonProvider rpc, required TonAddress owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
-        ["tvm.Slice", beginCell().storeAddress(owner).endCell().toBase64()]
+        ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
       else
         owner.toString()
     ]);

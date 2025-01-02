@@ -6,11 +6,11 @@ class AccStatusChangeResponse {
   const AccStatusChangeResponse._(this._value);
 
   static const AccStatusChangeResponse acstUnchanged =
-      AccStatusChangeResponse._("acst_unchanged");
+      AccStatusChangeResponse._('acst_unchanged');
   static const AccStatusChangeResponse acstFrozen =
-      AccStatusChangeResponse._("acst_frozen");
+      AccStatusChangeResponse._('acst_frozen');
   static const AccStatusChangeResponse acstDeleted =
-      AccStatusChangeResponse._("acst_deleted");
+      AccStatusChangeResponse._('acst_deleted');
 
   static const List<AccStatusChangeResponse> values = [
     acstUnchanged,
@@ -24,7 +24,7 @@ class AccStatusChangeResponse {
     return values.firstWhere(
       (element) => element._value == name,
       orElse: () => throw TonDartPluginException(
-          "No AccStatusChangeResponse found with the provided name: $name"),
+          'No AccStatusChangeResponse found with the provided name: $name'),
     );
   }
 }

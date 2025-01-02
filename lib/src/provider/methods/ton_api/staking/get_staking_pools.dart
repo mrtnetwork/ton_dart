@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/staking_pools.dart';
 /// All pools available in network.
 ///
 class TonApiGetStakingPools
-    extends TonApiRequestParam<StakingPoolsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<StakingPoolsResponse, Map<String, dynamic>> {
   final String? availableFor;
 
   /// return also pools not from white list - just compatible by interfaces (maybe dangerous!)
@@ -25,15 +25,15 @@ class TonApiGetStakingPools
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "available_for": availableFor,
-        "include_unverified": includeUnverified,
+        'available_for': availableFor,
+        'include_unverified': includeUnverified,
       };
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
 
   @override
-  StakingPoolsResponse onResonse(Map<String, dynamic> json) {
-    return StakingPoolsResponse.fromJson(json);
+  StakingPoolsResponse onResonse(Map<String, dynamic> result) {
+    return StakingPoolsResponse.fromJson(result);
   }
 }

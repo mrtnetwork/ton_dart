@@ -8,12 +8,11 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class VersionedWalletV5OperaionType extends ContractOperationType {
   const VersionedWalletV5OperaionType._(
-      {required String name, required int operation})
-      : super(name: name, operation: operation);
+      {required super.name, required super.operation});
   static const VersionedWalletV5OperaionType internal =
-      VersionedWalletV5OperaionType._(name: "Internal", operation: 0x73696e74);
+      VersionedWalletV5OperaionType._(name: 'Internal', operation: 0x73696e74);
   static const VersionedWalletV5OperaionType extension =
-      VersionedWalletV5OperaionType._(name: "Extension", operation: 0x6578746e);
+      VersionedWalletV5OperaionType._(name: 'Extension', operation: 0x6578746e);
 
   static const List<VersionedWalletV5OperaionType> values = [
     internal,
@@ -38,7 +37,7 @@ abstract class VersionedWalletV5Operaion extends TonSerialization
   final VersionedWalletV5OperaionType type;
   const VersionedWalletV5Operaion({required this.type});
   @override
-  String get contractName => "Wallet V5R1";
+  String get contractName => 'Wallet V5R1';
   factory VersionedWalletV5Operaion.deserialize(
       {required Slice slice, required TonChain chain}) {
     final type =
@@ -80,9 +79,9 @@ class VersionedWalletV5Extension extends VersionedWalletV5Operaion {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "queryId": queryId.toString(),
-      "actions": actions.map((e) => e.toJson()).toList()
+      'type': type.name,
+      'queryId': queryId.toString(),
+      'actions': actions.map((e) => e.toJson()).toList()
     };
   }
 }
@@ -111,7 +110,7 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
             actions: OutActionsV5.deserialize(slice).actions,
           );
         },
-        name: "Wallet V5R1");
+        name: 'Wallet V5R1');
   }
 
   @override
@@ -132,10 +131,10 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "accountSeqno": accountSeqno,
-      "walletId": walletId.toJson(),
-      "actions": actions.map((e) => e.toJson()).toList(),
-      "timeout": timeout
+      'accountSeqno': accountSeqno,
+      'walletId': walletId.toJson(),
+      'actions': actions.map((e) => e.toJson()).toList(),
+      'timeout': timeout
     };
   }
 }
@@ -157,7 +156,7 @@ class VersionedWalletV5Internal extends VersionedWalletV5Operaion {
             signature: slice.loadBuffer(64),
           );
         },
-        name: "Wallet V5R1");
+        name: 'Wallet V5R1');
   }
 
   @override
@@ -169,9 +168,9 @@ class VersionedWalletV5Internal extends VersionedWalletV5Operaion {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "message": message.toJson(),
-      "signature": BytesUtils.toHexString(signature)
+      'type': type.name,
+      'message': message.toJson(),
+      'signature': BytesUtils.toHexString(signature)
     };
   }
 }

@@ -16,23 +16,23 @@ class AddressParseResponse with JsonSerialization {
 
   factory AddressParseResponse.fromJson(Map<String, dynamic> json) {
     return AddressParseResponse(
-        rawForm: json["raw_form"],
-        bounceable: AddressParseBounceableResponse.fromJson(json["bounceable"]),
+        rawForm: json['raw_form'],
+        bounceable: AddressParseBounceableResponse.fromJson(json['bounceable']),
         nonBounceable:
-            AddressParseBounceableResponse.fromJson(json["non_bounceable"]),
-        givenType: json["given_type"],
-        testOnly: json["test_only"]);
+            AddressParseBounceableResponse.fromJson(json['non_bounceable']),
+        givenType: json['given_type'],
+        testOnly: json['test_only']);
   }
 
   @override
   @override
   Map<String, dynamic> toJson() {
     return {
-      "raw_form": rawForm,
-      "bounceable": bounceable.toJson(),
-      "non_bounceable": nonBounceable.toJson(),
-      "given_type": givenType,
-      "test_only": testOnly
+      'raw_form': rawForm,
+      'bounceable': bounceable.toJson(),
+      'non_bounceable': nonBounceable.toJson(),
+      'given_type': givenType,
+      'test_only': testOnly
     };
   }
 }

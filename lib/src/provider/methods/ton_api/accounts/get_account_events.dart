@@ -11,7 +11,7 @@ import 'package:ton_dart/src/provider/models/response/account_events.dart';
 /// to build any logic on top of actions because actions can be changed at any time.
 ///
 class TonApiGetAccountEvents
-    extends TonApiRequestParam<AccountEventsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AccountEventsResponse, Map<String, dynamic>> {
   final String accountId;
   final String? acceptLanguage;
 
@@ -47,19 +47,19 @@ class TonApiGetAccountEvents
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "initiator": initiator,
-        "subject_only": subjectOnly,
-        "before_lt": beforeLt,
-        "limit": limit,
-        "start_date": startDate,
-        "end_date": endDate
+        'initiator': initiator,
+        'subject_only': subjectOnly,
+        'before_lt': beforeLt,
+        'limit': limit,
+        'start_date': startDate,
+        'end_date': endDate
       };
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
 
   @override
-  AccountEventsResponse onResonse(Map<String, dynamic> json) {
-    return AccountEventsResponse.fromJson(json);
+  AccountEventsResponse onResonse(Map<String, dynamic> result) {
+    return AccountEventsResponse.fromJson(result);
   }
 }
