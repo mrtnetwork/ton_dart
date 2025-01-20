@@ -144,7 +144,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
       List<OutActionWalletV5> v5Messages = const [],
       int sendMode = SendModeConst.payGasSeparately,
       int? timeout,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee, bool sendToBlockchain = true}) async {
     final VersionedWalletState? state = await getContractState(rpc);
     if (state == null && this.state == null) {
       throw const TonContractException(
@@ -179,7 +179,8 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
     if (onEstimateFee != null) {
       await onEstimateFee(ext);
     }
-    return sendMessage(rpc: rpc, exMessage: ext);
+    if (sendToBlockchain) return sendMessage(rpc: rpc, exMessage: ext);
+    return ext.serialize().toBase64();
   }
 
   Future<String> sendRemoveExtension(
