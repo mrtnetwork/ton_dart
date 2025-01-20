@@ -65,7 +65,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
       List<MessageRelaxed> messages = const [],
       int sendMode = SendModeConst.payGasSeparately,
       int? timeout,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee, bool sendToBlockchain = true}) async {
     if (params is! VersionedTransferParams) {
       throw TonContractException("Invalid transaction params", details: {
         "excepted": "VersionedTransferParams",
@@ -99,7 +99,8 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
     if (onEstimateFee != null) {
       await onEstimateFee(ext);
     }
-    return sendMessage(rpc: rpc, exMessage: ext);
+    if (sendToBlockchain) return sendMessage(rpc: rpc, exMessage: ext);
+    return ext.serialize().toBase64();
   }
 
   Future<String> deploy(
