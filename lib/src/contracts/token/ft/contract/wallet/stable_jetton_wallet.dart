@@ -11,9 +11,14 @@ import 'package:ton_dart/src/provider/provider.dart';
 
 class StableJettonWallet<E extends WalletContractTransferParams>
     extends TonContract<StableJettonWalletState> {
+  /// jetton owner wallet
   final WalletContract<ContractState, E> owner;
+
+  /// contract address
   @override
   final TonAddress address;
+
+  /// contract state
   @override
   final StableJettonWalletState? state;
 
@@ -90,16 +95,19 @@ class StableJettonWallet<E extends WalletContractTransferParams>
         onEstimateFee: onEstimateFee);
   }
 
+  /// get contract balance
   Future<BigInt> getBalance(TonProvider rpc) async {
     final data = await getWalletData(rpc);
     return data.balance;
   }
 
+  /// get wallet data
   Future<StableJettonWalletState> getWalletData(TonProvider rpc) async {
     final data = await getStateStack(rpc: rpc, method: 'get_wallet_data');
     return StableJettonWalletState.fromTuple(data.reader());
   }
 
+  /// get wallet status
   Future<StableTokenWalletStatus> getStatus(TonProvider rpc) async {
     final data = await getStateStack(rpc: rpc, method: 'get_status');
     return StableTokenWalletStatus.fromTag(data.reader().readNumber());

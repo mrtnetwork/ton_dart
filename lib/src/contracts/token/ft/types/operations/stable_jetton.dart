@@ -8,27 +8,44 @@ import 'package:ton_dart/src/contracts/token/ft/types/state/stable_wallet.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
+/// stable jetton minter operations
 class StableJettonMinterOperationType extends ContractOperationType {
   const StableJettonMinterOperationType._(
       {required super.name, required super.operation});
+
+  /// discovery
   static const StableJettonMinterOperationType discovery =
       StableJettonMinterOperationType._(
           operation: 0x2c76b973, name: 'Discovery');
+
+  /// top up
   static const StableJettonMinterOperationType topUp =
       StableJettonMinterOperationType._(operation: 0xd372158c, name: 'TopUp');
+
+  /// change admin
   static const StableJettonMinterOperationType changeAdmin =
       StableJettonMinterOperationType._(
           operation: 0x6501f354, name: 'ChangeAdmin');
+
+  /// clam admin
   static const StableJettonMinterOperationType claimAdmin =
       StableJettonMinterOperationType._(
           operation: 0xfb88e119, name: 'ClaimAdmin');
+
+  /// change content
   static const StableJettonMinterOperationType changeContent =
       StableJettonMinterOperationType._(
           operation: 0xcb862902, name: 'ChangeContent');
+
+  /// callTo
   static const StableJettonMinterOperationType callTo =
       StableJettonMinterOperationType._(operation: 0x235caf52, name: 'CallTo');
+
+  /// mint
   static const StableJettonMinterOperationType mint =
       StableJettonMinterOperationType._(operation: 0x642b7d07, name: 'Mint');
+
+  /// inter transfer
   static const StableJettonMinterOperationType internalTransfer =
       StableJettonMinterOperationType._(
           operation: 0x178d4519, name: 'InternalTransfer');
@@ -72,19 +89,30 @@ class StableJettonMinterOperationType extends ContractOperationType {
   }
 }
 
+/// stasble jetton wallet operations
 class StableJettonWalletOperationType extends ContractOperationType {
   const StableJettonWalletOperationType._(
       {required super.name, required super.operation});
+
+  /// set status
   static const StableJettonWalletOperationType setStatus =
       StableJettonWalletOperationType._(
           operation: 0xeed236d3, name: 'SetStatus');
+
+  /// transfer
   static const StableJettonWalletOperationType transfer =
       StableJettonWalletOperationType._(operation: 0xf8a7ea5, name: 'Transfer');
+
+  /// burn
   static const StableJettonWalletOperationType burn =
       StableJettonWalletOperationType._(operation: 0x595f07bc, name: 'Burn');
+
+  /// withdraw ton
   static const StableJettonWalletOperationType withdrawTon =
       StableJettonWalletOperationType._(
           operation: 0x6d8e5e3c, name: 'WithdrawTon');
+
+  /// withdraw jetton
   static const StableJettonWalletOperationType withdrawJetton =
       StableJettonWalletOperationType._(
           operation: 0x768a50b2, name: 'WithdrawJetton');
@@ -260,6 +288,7 @@ abstract class StableJettonMinterOperation extends TonSerialization
   }
 }
 
+/// mint params
 class StableJettonMinterMint extends StableJettonMinterOperation {
   final BigInt totalTonAmount;
   final TonAddress to;
@@ -318,6 +347,7 @@ class StableJettonMinterMint extends StableJettonMinterOperation {
   }
 }
 
+/// internal transfer params
 class StableJettonMinterInternalTransfer extends StableJettonMinterOperation {
   final BigInt jettonAmount;
   final TonAddress? from;
@@ -391,6 +421,7 @@ class StableJettonMinterInternalTransfer extends StableJettonMinterOperation {
   }
 }
 
+/// discovery params
 class StableJettonMinterDiscovery extends StableJettonMinterOperation {
   final TonAddress owner;
   final bool includeAddress;
@@ -439,6 +470,7 @@ class StableJettonMinterDiscovery extends StableJettonMinterOperation {
   }
 }
 
+/// top up params
 class StableJettonMinterTopUp extends StableJettonMinterOperation {
   StableJettonMinterTopUp({super.queryId})
       : super(type: StableJettonMinterOperationType.topUp);
@@ -472,6 +504,7 @@ class StableJettonMinterTopUp extends StableJettonMinterOperation {
   }
 }
 
+/// change admin params
 class StableJettonMinterChangeAdmin extends StableJettonMinterOperation {
   final TonAddress newOwner;
   StableJettonMinterChangeAdmin({required this.newOwner, super.queryId})
@@ -513,6 +546,7 @@ class StableJettonMinterChangeAdmin extends StableJettonMinterOperation {
   }
 }
 
+/// clain admin params
 class StableJettonMinterClaimAdmin extends StableJettonMinterOperation {
   StableJettonMinterClaimAdmin({super.queryId})
       : super(type: StableJettonMinterOperationType.claimAdmin);
@@ -546,6 +580,7 @@ class StableJettonMinterClaimAdmin extends StableJettonMinterOperation {
   }
 }
 
+/// change content params
 class StableJettonMinterChangeContent extends StableJettonMinterOperation {
   final String url;
   StableJettonMinterChangeContent({required this.url, super.queryId})
@@ -582,6 +617,7 @@ class StableJettonMinterChangeContent extends StableJettonMinterOperation {
   }
 }
 
+/// call to params
 class StableJettonMinterCallTo extends StableJettonMinterOperation {
   final TonAddress address;
   final BigInt amount;
@@ -707,6 +743,7 @@ abstract class StableJettonWalletOperation extends TonSerialization
   }
 }
 
+/// set status parasm
 class StableJettonWalletSetStatus extends StableJettonWalletOperation
     implements StableJettonMinterCallToOperations {
   final StableTokenWalletStatus status;
@@ -751,6 +788,7 @@ class StableJettonWalletSetStatus extends StableJettonWalletOperation
   }
 }
 
+/// transfer params
 class StableJettonWalletTransfer extends StableJettonWalletOperation
     implements StableJettonMinterCallToOperations {
   final BigInt jettonAmount;
@@ -834,6 +872,7 @@ class StableJettonWalletTransfer extends StableJettonWalletOperation
   }
 }
 
+/// burn params
 class StableJettonWalletBurn extends StableJettonWalletOperation
     implements StableJettonMinterCallToOperations {
   final BigInt jettonAmount;

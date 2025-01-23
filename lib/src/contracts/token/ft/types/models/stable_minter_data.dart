@@ -4,11 +4,21 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple_reader.dart';
 
+/// data related to stable token minter
 class StableTokenMinterData {
+  /// admin address
   final TonAddress adminAddress;
+
+  /// jetton content (metadata)
   final Cell content;
+
+  /// minting status
   final bool mutable;
+
+  /// total supply
   final BigInt totalSupply;
+
+  /// wallet code
   final Cell? walletCode;
   Map<String, dynamic> toJson() {
     return {
@@ -51,5 +61,6 @@ class StableTokenMinterData {
         content: content);
   }
 
+  /// convert content to metadata
   TokenMetadata get metadata => TokneMetadataUtils.loadContent(content);
 }

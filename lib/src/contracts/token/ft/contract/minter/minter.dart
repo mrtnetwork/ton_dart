@@ -14,9 +14,14 @@ import 'package:ton_dart/src/provider/provider/provider.dart';
 
 class JettonMinter<E extends WalletContractTransferParams>
     extends TonContract<MinterWalletState> with ContractProvider {
+  /// the minter contract owner wallet
   final WalletContract<dynamic, E> owner;
+
+  /// address of contract
   @override
   final TonAddress address;
+
+  /// state of contract
   @override
   final MinterWalletState? state;
 
@@ -75,6 +80,7 @@ class JettonMinter<E extends WalletContractTransferParams>
         onEstimateFee: onEstimateFee);
   }
 
+  /// deploy contract
   Future<String> deploy(
       {required E params,
       required TonProvider rpc,
@@ -128,11 +134,13 @@ class JettonMinter<E extends WalletContractTransferParams>
         timeout: timeout);
   }
 
+  /// get jetton data
   Future<MinterWalletState> getJettonData(TonProvider rpc) async {
     final data = await getStateStack(rpc: rpc, method: 'get_jetton_data');
     return MinterWalletState.fromTupple(data.reader());
   }
 
+  /// get jetton wallet address
   Future<TonAddress> getWalletAddress(
       {required TonProvider rpc, required TonAddress owner}) async {
     final data =
@@ -145,6 +153,7 @@ class JettonMinter<E extends WalletContractTransferParams>
     return data.reader().readAddress();
   }
 
+  /// get jetton wallet contract
   Future<JettonWallet<T>>
       getJettonWalletContract<T extends WalletContractTransferParams>(
           {required TonProvider rpc,
@@ -163,21 +172,25 @@ class JettonMinter<E extends WalletContractTransferParams>
         address: data.reader().readAddress(), owner: owner, rpc: rpc);
   }
 
+  /// total supply
   Future<BigInt> totalSupply(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.totalSupply;
   }
 
+  /// admin address of jetton
   Future<TonAddress?> adminAddress(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.owner;
   }
 
+  /// jetton content
   Future<Cell> getContent(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.content;
   }
 
+  /// jetton metadata
   Future<TokenMetadata?> getMetadata(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return TokneMetadataUtils.loadContent(data.content);

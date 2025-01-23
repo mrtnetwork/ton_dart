@@ -16,9 +16,14 @@ import 'package:ton_dart/src/contracts/token/ft/constants/constant/minter.dart';
 
 class StableJettonMinter<E extends WalletContractTransferParams>
     extends TonContract<StableTokenMinterState> with ContractProvider {
+  /// jetton owner wallet
   final WalletContract<dynamic, E> owner;
+
+  /// jetton contract address
   @override
   final TonAddress address;
+
+  /// contract state
   @override
   final StableTokenMinterState? state;
 
@@ -141,11 +146,13 @@ class StableJettonMinter<E extends WalletContractTransferParams>
         onEstimateFee: onEstimateFee);
   }
 
+  /// jetton data
   Future<StableTokenMinterData> getJettonData(TonProvider rpc) async {
     final data = await getStateStack(rpc: rpc, method: 'get_jetton_data');
     return StableTokenMinterData.fromTuple(data.reader());
   }
 
+  /// get jetton wallet address
   Future<TonAddress> getWalletAddress(
       {required TonProvider rpc, required TonAddress owner}) async {
     final data =
@@ -158,6 +165,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
     return data.reader().readAddress();
   }
 
+  /// get jetton wallet contract
   Future<StableJettonWallet<T>>
       getJettonWalletContract<T extends WalletContractTransferParams>(
           {required TonProvider rpc,
@@ -177,16 +185,19 @@ class StableJettonMinter<E extends WalletContractTransferParams>
         address: address, owner: owner, rpc: rpc);
   }
 
+  /// total supply
   Future<BigInt> totalSupply(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.totalSupply;
   }
 
+  /// jetton admin address
   Future<TonAddress?> adminAddress(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.adminAddress;
   }
 
+  /// get next admin address
   Future<TonAddress?> getNextAdminAddress(TonProvider rpc) async {
     final data =
         await getStateStack(rpc: rpc, method: 'get_next_admin_address');

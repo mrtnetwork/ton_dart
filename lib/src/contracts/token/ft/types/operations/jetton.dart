@@ -9,16 +9,25 @@ import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
+/// jetton wallet operations
 class JettonWalletOperationType extends ContractOperationType {
   const JettonWalletOperationType._(
       {required super.name, required super.operation});
+
+  /// transfer
   static const JettonWalletOperationType transfer = JettonWalletOperationType._(
       name: 'Transfer', operation: JettonWalletConst.transfer);
+
+  /// burn
   static const JettonWalletOperationType burn = JettonWalletOperationType._(
       name: 'Burn', operation: JettonWalletConst.burn);
+
+  /// withdraw ton
   static const JettonWalletOperationType withdrawTon =
       JettonWalletOperationType._(
           name: 'WithdrawTon', operation: JettonWalletConst.withdrawTon);
+
+  /// withdraw jetton
   static const JettonWalletOperationType withdrawJetton =
       JettonWalletOperationType._(
           name: 'WithdrawJetton', operation: JettonWalletConst.withdrawJetton);
@@ -113,12 +122,22 @@ abstract class JettonWalletOperation extends TonSerialization
   }
 }
 
+/// jetton wallet transfer params
 class JettonWalletTransfer extends JettonWalletOperation {
+  /// destination
   final TonAddress destination;
   final TonAddress? responseDestination;
+
+  /// forward ton amount
   final BigInt forwardTonAmount;
+
+  /// jetton amount
   final BigInt amount;
+
+  /// payload
   final Cell? customPayload;
+
+  /// forward payload
   final Cell? forwardPayload;
   JettonWalletTransfer(
       {required this.amount,
@@ -198,6 +217,7 @@ class JettonWalletTransfer extends JettonWalletOperation {
   }
 }
 
+/// jetton burn params
 class JettonWalletBurn extends JettonWalletOperation {
   final TonAddress? from;
   final BigInt burnAmount;
@@ -261,6 +281,7 @@ class JettonWalletBurn extends JettonWalletOperation {
   }
 }
 
+/// widthraw ton params
 class JettonWalletWithdrawTon extends JettonWalletOperation {
   final Cell? customPayload;
   JettonWalletWithdrawTon({
@@ -312,6 +333,7 @@ class JettonWalletWithdrawTon extends JettonWalletOperation {
   }
 }
 
+/// withdraw jetton params
 class JettonWalletWithdrawJetton extends JettonWalletOperation {
   final Cell? customPayload;
   final TonAddress from;
@@ -374,23 +396,34 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
   }
 }
 
+/// jetton minter operations
 class JettonMinterOperationType extends ContractOperationType {
   const JettonMinterOperationType._(
       {required super.name, required super.operation});
+
+  /// mint
   static const JettonMinterOperationType mint = JettonMinterOperationType._(
       name: 'Mint', operation: JettonMinterConst.mintOperation);
+
+  /// discovery
   static const JettonMinterOperationType discovery =
       JettonMinterOperationType._(
           name: 'Discovery',
           operation: JettonMinterConst.discoverMessageOperation);
+
+  ///  change admin
   static const JettonMinterOperationType changeAdmin =
       JettonMinterOperationType._(
           name: 'ChangeAdmin',
           operation: JettonMinterConst.changeAdminOperation);
+
+  /// change content
   static const JettonMinterOperationType changeContent =
       JettonMinterOperationType._(
           name: 'ChangeContent',
           operation: JettonMinterConst.changeContentOperation);
+
+  /// internal transfer
   static const JettonMinterOperationType internalTransfer =
       JettonMinterOperationType._(
           name: 'InternalTransfer',
@@ -506,6 +539,7 @@ abstract class JettonMinterOperation extends TonSerialization
   }
 }
 
+/// jetton mint params
 class JettonMinterMint extends JettonMinterOperation {
   final BigInt totalTonAmount;
   final BigInt jettonAmount;
@@ -571,6 +605,7 @@ class JettonMinterMint extends JettonMinterOperation {
   }
 }
 
+/// jetton internal transfer params
 class JettonMinterInternalTransfer extends JettonMinterOperation {
   final BigInt jettonAmount;
   final TonAddress? from;
@@ -644,6 +679,7 @@ class JettonMinterInternalTransfer extends JettonMinterOperation {
   }
 }
 
+/// jetton discovery params
 class JettonMinterDiscovery extends JettonMinterOperation {
   final TonAddress owner;
   final bool includeAddress;
@@ -692,6 +728,7 @@ class JettonMinterDiscovery extends JettonMinterOperation {
   }
 }
 
+/// jetton change admin params
 class JettonMinterChangeAdmin extends JettonMinterOperation {
   final TonAddress newOwner;
   JettonMinterChangeAdmin({required this.newOwner, super.queryId})
@@ -733,6 +770,7 @@ class JettonMinterChangeAdmin extends JettonMinterOperation {
   }
 }
 
+/// jetton change content params
 class JettonMinterChangeContent extends JettonMinterOperation {
   final Cell content;
   JettonMinterChangeContent({required this.content, super.queryId})

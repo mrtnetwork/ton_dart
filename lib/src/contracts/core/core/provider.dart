@@ -9,6 +9,7 @@ import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 
 mixin ContractProvider {
+  /// the address of contract
   TonAddress get address;
 
   /// call contract methods
