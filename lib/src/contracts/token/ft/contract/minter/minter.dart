@@ -14,9 +14,14 @@ import 'package:ton_dart/src/provider/provider/provider.dart';
 
 class JettonMinter<E extends WalletContractTransferParams>
     extends TonContract<MinterWalletState> with ContractProvider {
+  /// the minter contract owner wallet
   final WalletContract<dynamic, E> owner;
+
+  /// address of contract
   @override
   final TonAddress address;
+
+  /// state of contract
   @override
   final MinterWalletState? state;
 
@@ -55,7 +60,7 @@ class JettonMinter<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
-          "The account is inactive and requires state initialization.");
+          'The account is inactive and requires state initialization.');
     }
     return await owner.sendTransfer(
         params: params,
@@ -75,6 +80,7 @@ class JettonMinter<E extends WalletContractTransferParams>
         onEstimateFee: onEstimateFee);
   }
 
+  /// deploy contract
   Future<String> deploy(
       {required E params,
       required TonProvider rpc,
@@ -128,32 +134,35 @@ class JettonMinter<E extends WalletContractTransferParams>
         timeout: timeout);
   }
 
+  /// get jetton data
   Future<MinterWalletState> getJettonData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: "get_jetton_data");
+    final data = await getStateStack(rpc: rpc, method: 'get_jetton_data');
     return MinterWalletState.fromTupple(data.reader());
   }
 
+  /// get jetton wallet address
   Future<TonAddress> getWalletAddress(
       {required TonProvider rpc, required TonAddress owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
-        ["tvm.Slice", beginCell().storeAddress(owner).endCell().toBase64()]
+        ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
       else
         owner.toString()
     ]);
     return data.reader().readAddress();
   }
 
+  /// get jetton wallet contract
   Future<JettonWallet<T>>
       getJettonWalletContract<T extends WalletContractTransferParams>(
           {required TonProvider rpc,
           required WalletContract<ContractState, T> owner}) async {
     final data =
-        await getStateStack(rpc: rpc, method: "get_wallet_address", stack: [
+        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
       if (rpc.isTonCenter)
         [
-          "tvm.Slice",
+          'tvm.Slice',
           beginCell().storeAddress(owner.address).endCell().toBase64()
         ]
       else
@@ -163,21 +172,25 @@ class JettonMinter<E extends WalletContractTransferParams>
         address: data.reader().readAddress(), owner: owner, rpc: rpc);
   }
 
+  /// total supply
   Future<BigInt> totalSupply(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.totalSupply;
   }
 
+  /// admin address of jetton
   Future<TonAddress?> adminAddress(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.owner;
   }
 
+  /// jetton content
   Future<Cell> getContent(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return data.content;
   }
 
+  /// jetton metadata
   Future<TokenMetadata?> getMetadata(TonProvider rpc) async {
     final data = await getJettonData(rpc);
     return TokneMetadataUtils.loadContent(data.content);

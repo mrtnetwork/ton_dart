@@ -13,9 +13,7 @@ import 'package:ton_dart/src/contracts/wallet_contracts/provider/impl/highload.d
 
 class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     with HighloadWalletV3ProviderImpl<HighloadWalletV3State> {
-  HighloadWalletV3(
-      {required TonAddress address, HighloadWalletV3State? stateInit})
-      : super(stateInit: stateInit, address: address);
+  HighloadWalletV3({required super.address, super.stateInit});
 
   factory HighloadWalletV3.create(
       {required TonChain chain,
@@ -39,10 +37,10 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     final walletAddress = TonAddress.fromState(
         state: state.initialState(), workChain: address.workChain);
     if (walletAddress != address) {
-      throw TonContractException("Incorrect state address.", details: {
-        "excepted": walletAddress.toRawAddress(),
-        "address": address.toRawAddress(),
-        "workChain": address.workChain
+      throw TonContractException('Incorrect state address.', details: {
+        'excepted': walletAddress.toRawAddress(),
+        'address': address.toRawAddress(),
+        'workChain': address.workChain
       });
     }
     return HighloadWalletV3(address: address, stateInit: state);
@@ -53,7 +51,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     final Cell actionsCell;
     if (acctions.length > 254) {
       throw const TonContractException(
-          "Max allowed action count is 254. Use packActions instead.");
+          'Max allowed action count is 254. Use packActions instead.');
     }
     final actionsBuilder = beginCell();
     final out = OutActionUtils.storeOutList(acctions);
@@ -179,7 +177,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
-          "Cannot Send Batch Transaction with watch only wallet");
+          'Cannot Send Batch Transaction with watch only wallet');
     }
     final extMessage = createAndSignExternalMessage(
         signer: signer,

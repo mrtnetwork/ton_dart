@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/raw_blockchain_config.dart
 ///
 /// Get raw blockchain config from a specific block, if present.
 ///
-class TonApiGetRawBlockchainConfigFromBlock extends TonApiRequestParam<
-    RawBlockchainConfigResponse, Map<String, dynamic>> {
+class TonApiGetRawBlockchainConfigFromBlock
+    extends TonApiRequest<RawBlockchainConfigResponse, Map<String, dynamic>> {
   final int masterchainSeqno;
   TonApiGetRawBlockchainConfigFromBlock(this.masterchainSeqno);
   @override
@@ -17,7 +17,7 @@ class TonApiGetRawBlockchainConfigFromBlock extends TonApiRequestParam<
   List<String> get pathParameters => [masterchainSeqno.toString()];
 
   @override
-  RawBlockchainConfigResponse onResonse(Map<String, dynamic> json) {
-    return RawBlockchainConfigResponse.fromJson(json);
+  RawBlockchainConfigResponse onResonse(Map<String, dynamic> result) {
+    return RawBlockchainConfigResponse.fromJson(result);
   }
 }

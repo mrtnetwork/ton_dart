@@ -28,7 +28,7 @@ class BocUtils {
     // Finding rightmost non-zero byte in the buffer
     for (int i = buff.length - 1; i >= 0; i--) {
       if (buff[i] != 0) {
-        final testByte = buff[i];
+        final int testByte = buff[i];
         // Looking for a rightmost set padding bit
         int bitPos = testByte & -testByte;
         if ((bitPos & 1) == 0) {
@@ -49,12 +49,12 @@ class BocUtils {
   static List<int> readBuffer(Slice slice) {
     // Check consistency
     if (slice.remainingBits % 8 != 0) {
-      throw BocException("Invalid string length.",
-          details: {"length": slice.remainingBits});
+      throw BocException('Invalid string length.',
+          details: {'length': slice.remainingBits});
     }
     if (slice.remainingRefs != 0 && slice.remainingRefs != 1) {
-      throw BocException("Invalid number of refs",
-          details: {"length": slice.remainingRefs});
+      throw BocException('Invalid number of refs',
+          details: {'length': slice.remainingRefs});
     }
 
     // Read string

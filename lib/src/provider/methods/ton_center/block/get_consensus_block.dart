@@ -3,8 +3,8 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get consensus block and its update timestamp.
 /// https://toncenter.com/api/v2/#/blocks/get_consensus_block_getConsensusBlock_get
-class TonCenterGetConsensusBlock extends TonCenterPostRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterGetConsensusBlock
+    extends TonCenterPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   TonCenterGetConsensusBlock();
 
   @override

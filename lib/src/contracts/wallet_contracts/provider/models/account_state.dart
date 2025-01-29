@@ -16,10 +16,10 @@ class AccountStateResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "balance": balance.toString(),
-      "code": code,
-      "data": data,
-      "state": state.value,
+      'balance': balance.toString(),
+      'code': code,
+      'data': data,
+      'state': state.value,
     };
   }
 }

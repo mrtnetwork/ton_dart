@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/blockchain_raw_account.dar
 ///
 /// Get low-level information about an account taken directly from the blockchain.
 ///
-class TonApiGetBlockchainRawAccount extends TonApiRequestParam<
-    BlockchainRawAccountResponse, Map<String, dynamic>> {
+class TonApiGetBlockchainRawAccount
+    extends TonApiRequest<BlockchainRawAccountResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetBlockchainRawAccount(this.accountId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetBlockchainRawAccount extends TonApiRequestParam<
   List<String> get pathParameters => [accountId];
 
   @override
-  BlockchainRawAccountResponse onResonse(Map<String, dynamic> json) {
-    return BlockchainRawAccountResponse.fromJson(json);
+  BlockchainRawAccountResponse onResonse(Map<String, dynamic> result) {
+    return BlockchainRawAccountResponse.fromJson(result);
   }
 }

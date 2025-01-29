@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/nft_collection.dart';
 /// Get NFT collection by collection address.
 ///
 class TonApiGetNftCollection
-    extends TonApiRequestParam<NftCollectionResponse, Map<String, dynamic>> {
+    extends TonApiRequest<NftCollectionResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetNftCollection(this.accountId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetNftCollection
   List<String> get pathParameters => [accountId];
 
   @override
-  NftCollectionResponse onResonse(Map<String, dynamic> json) {
-    return NftCollectionResponse.fromJson(json);
+  NftCollectionResponse onResonse(Map<String, dynamic> result) {
+    return NftCollectionResponse.fromJson(result);
   }
 }

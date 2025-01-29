@@ -57,8 +57,8 @@ class Cell {
   factory Cell.fromBytes(List<int> src) {
     final parsed = Cell.fromBoc(src);
     if (parsed.length != 1) {
-      throw BocException("Deserialized more than one cell.",
-          details: {"cells": parsed});
+      throw BocException('Deserialized more than one cell.',
+          details: {'cells': parsed});
     }
     return parsed[0];
   }
@@ -120,11 +120,11 @@ class Cell {
     } else {
       // Check correctness
       if (refs.length > 4) {
-        throw BocException("Invalid number of references");
+        throw BocException('Invalid number of references');
       }
       if (bits.length > 1023) {
-        throw BocException("Bits overflow",
-            details: {"maximum_length": 1023, "length": bits.length});
+        throw BocException('Bits overflow',
+            details: {'maximum_length': 1023, 'length': bits.length});
       }
 
       final wonders = CellUtils.wonderCalculator(type, bits, refs);
@@ -149,7 +149,7 @@ class Cell {
   /// Returns a `Slice` object to read the cell's bit data and references.
   Slice beginParse({bool allowExotic = false}) {
     if (isExotic && !allowExotic) {
-      throw BocException("Exotic cells cannot be parsed");
+      throw BocException('Exotic cells cannot be parsed');
     }
     return Slice(BitReader(bits), refs);
   }
@@ -210,21 +210,21 @@ class Cell {
   ///
   /// Returns a formatted string representation of the cell and its references.
   @override
-  String toString({String indent = ""}) {
+  String toString({String indent = ''}) {
     final String id = indent;
-    String t = "x";
+    String t = 'x';
     if (isExotic) {
       if (type == CellType.merkleProof) {
-        t = "p";
+        t = 'p';
       } else if (type == CellType.merkleUpdate) {
-        t = "u";
+        t = 'u';
       } else if (type == CellType.prunedBranch) {
-        t = "p";
+        t = 'p';
       }
     }
     String s = '$id$t{$bits}';
     for (final Cell i in refs) {
-      s += "\n" + i.toString(indent: "$id ");
+      s += '\n' + i.toString(indent: '$id ');
     }
     return s;
   }
@@ -241,7 +241,7 @@ class Cell {
   }
 
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! Cell) return false;
     if (other._hashes.length != _hashes.length) return false;
     for (int i = 0; i < _hashes.length; i++) {

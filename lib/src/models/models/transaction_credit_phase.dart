@@ -15,8 +15,8 @@ class TransactionCreditPhase extends TonSerialization {
   const TransactionCreditPhase({this.dueFeesColelcted, required this.credit});
   factory TransactionCreditPhase.fromJson(Map<String, dynamic> json) {
     return TransactionCreditPhase(
-      dueFeesColelcted: BigintUtils.tryParse(json["due_fees_colelcted"]),
-      credit: CurrencyCollection.fromJson(json["credit"]),
+      dueFeesColelcted: BigintUtils.tryParse(json['due_fees_colelcted']),
+      credit: CurrencyCollection.fromJson(json['credit']),
     );
   }
   factory TransactionCreditPhase.deserialize(Slice slice) {
@@ -39,8 +39,8 @@ class TransactionCreditPhase extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "due_fees_colelcted": dueFeesColelcted?.toString(),
-      "credit": credit.toJson()
+      'due_fees_colelcted': dueFeesColelcted?.toString(),
+      'credit': credit.toJson()
     };
   }
 }

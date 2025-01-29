@@ -6,11 +6,11 @@ class PoolImplementationTypeResponse {
   const PoolImplementationTypeResponse._(this._value);
 
   static const PoolImplementationTypeResponse whales =
-      PoolImplementationTypeResponse._("whales");
+      PoolImplementationTypeResponse._('whales');
   static const PoolImplementationTypeResponse tf =
-      PoolImplementationTypeResponse._("tf");
+      PoolImplementationTypeResponse._('tf');
   static const PoolImplementationTypeResponse liquidTF =
-      PoolImplementationTypeResponse._("liquidTF");
+      PoolImplementationTypeResponse._('liquidTF');
 
   static const List<PoolImplementationTypeResponse> values = [
     whales,
@@ -24,7 +24,7 @@ class PoolImplementationTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No PoolImplementationTypeResponse found with the provided name: $name"),
+          'No PoolImplementationTypeResponse found with the provided name: $name'),
     );
   }
 }

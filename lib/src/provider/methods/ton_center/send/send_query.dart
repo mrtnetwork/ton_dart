@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/models/response/trace.dart';
 /// packs it to external message and sends to network. All params should be boc-serialized.
 /// https://toncenter.com/api/v2/#/send/send_query_sendQuery_post
 class TonCenterSendQuery
-    extends TonCenterPostRequestParam<TraceResponse, Map<String, dynamic>> {
+    extends TonCenterPostRequest<TraceResponse, Map<String, dynamic>> {
   final String address;
   final String body;
   final String initCode;
@@ -23,15 +23,15 @@ class TonCenterSendQuery
   @override
   Map<String, dynamic> params() {
     return {
-      "address": address,
-      "body": body,
-      "init_code": initCode,
-      "init_data": initData
+      'address': address,
+      'body': body,
+      'init_code': initCode,
+      'init_data': initData
     };
   }
 
   @override
-  TraceResponse onResonse(Map<String, dynamic> json) {
-    return TraceResponse.fromJson(json);
+  TraceResponse onResonse(Map<String, dynamic> result) {
+    return TraceResponse.fromJson(result);
   }
 }

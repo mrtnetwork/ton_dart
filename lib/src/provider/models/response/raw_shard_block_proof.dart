@@ -9,12 +9,12 @@ class RawhardBlockProofLinksItemResponse with JsonSerialization {
   factory RawhardBlockProofLinksItemResponse.fromJson(
       Map<String, dynamic> json) {
     return RawhardBlockProofLinksItemResponse(
-        id: BlockRawResponse.fromJson(json["id"]), proof: json["proof"]);
+        id: BlockRawResponse.fromJson(json['id']), proof: json['proof']);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"id": id.toJson(), "proof": proof};
+    return {'id': id.toJson(), 'proof': proof};
   }
 }
 
@@ -26,8 +26,8 @@ class RawShardBlockProofResponse with JsonSerialization {
       {required this.masterchainId, required this.links});
   factory RawShardBlockProofResponse.fromJson(Map<String, dynamic> json) {
     return RawShardBlockProofResponse(
-      masterchainId: BlockRawResponse.fromJson(json["masterchain_id"]),
-      links: (json["links"] as List)
+      masterchainId: BlockRawResponse.fromJson(json['masterchain_id']),
+      links: (json['links'] as List)
           .map((e) => RawhardBlockProofLinksItemResponse.fromJson(e))
           .toList(),
     );
@@ -36,8 +36,8 @@ class RawShardBlockProofResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "masterchain_id": masterchainId,
-      "links": links.map((e) => e.toJson()).toList()
+      'masterchain_id': masterchainId,
+      'links': links.map((e) => e.toJson()).toList()
     };
   }
 }

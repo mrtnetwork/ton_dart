@@ -18,7 +18,7 @@ class NFTCollectionMetadata extends NFTMetadata {
     final tag = collectionCell.loadUint8();
     if (tag != TonMetadataConstant.ftMetadataOffChainTag) {
       throw const TonContractException(
-          "Invalid nft offchain collection metadata");
+          'Invalid nft offchain collection metadata');
     }
     final String collectionMetadataUri = collectionCell.loadStringTail();
     final Slice commonCell = slice.loadRef().beginParse();
@@ -35,8 +35,8 @@ class NFTCollectionMetadata extends NFTMetadata {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "collection": collectionMetadataUri,
-      "collection_base": collectionBase
+      'collection': collectionMetadataUri,
+      'collection_base': collectionBase
     };
   }
 
@@ -47,7 +47,7 @@ class NFTCollectionMetadata extends NFTMetadata {
     collection.storeStringTail(collectionMetadataUri);
     final content = beginCell().storeRef(collection.endCell());
     final commonCell = beginCell();
-    commonCell.storeStringTail(collectionBase ?? "");
+    commonCell.storeStringTail(collectionBase ?? '');
     content.storeRef(commonCell.endCell());
     return content.endCell();
   }

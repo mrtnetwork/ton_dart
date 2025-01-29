@@ -13,18 +13,18 @@ class RawMasterchainInfoResponse with JsonSerialization {
   });
   factory RawMasterchainInfoResponse.fromJson(Map<String, dynamic> json) {
     return RawMasterchainInfoResponse(
-      last: BlockRawResponse.fromJson(json["last"]),
-      stateRootHash: json["state_root_hash"],
-      init: InitStateRawResponse.fromJson(json["init"]),
+      last: BlockRawResponse.fromJson(json['last']),
+      stateRootHash: json['state_root_hash'],
+      init: InitStateRawResponse.fromJson(json['init']),
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      "last": last.toJson(),
-      "state_root_hash": stateRootHash,
-      "init": init.toJson()
+      'last': last.toJson(),
+      'state_root_hash': stateRootHash,
+      'init': init.toJson()
     };
   }
 }

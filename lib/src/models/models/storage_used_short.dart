@@ -17,8 +17,8 @@ class StorageUsedShort extends TonSerialization {
   }
   factory StorageUsedShort.fromJson(Map<String, dynamic> json) {
     return StorageUsedShort(
-      cells: BigintUtils.parse(json["cells"]),
-      bits: BigintUtils.parse(json["bits"]),
+      cells: BigintUtils.parse(json['cells']),
+      bits: BigintUtils.parse(json['bits']),
     );
   }
 
@@ -31,8 +31,8 @@ class StorageUsedShort extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "cells": cells.toString(),
-      "bits": bits.toString(),
+      'cells': cells.toString(),
+      'bits': bits.toString(),
     };
   }
 }

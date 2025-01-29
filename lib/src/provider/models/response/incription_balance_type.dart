@@ -6,9 +6,9 @@ class InscriptionTypeResponse {
   const InscriptionTypeResponse._(this._value);
 
   static const InscriptionTypeResponse ton20 =
-      InscriptionTypeResponse._("ton20");
+      InscriptionTypeResponse._('ton20');
   static const InscriptionTypeResponse gram20 =
-      InscriptionTypeResponse._("gram20");
+      InscriptionTypeResponse._('gram20');
 
   static const List<InscriptionTypeResponse> values = [
     ton20,
@@ -21,7 +21,7 @@ class InscriptionTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No InscriptionTypeResponse found with the provided name: $name"),
+          'No InscriptionTypeResponse found with the provided name: $name'),
     );
   }
 }

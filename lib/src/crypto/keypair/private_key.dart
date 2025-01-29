@@ -21,10 +21,10 @@ class TonPrivateKey {
           keyBytes.sublist(0, Ed25519KeysConst.privKeyByteLen)));
     } catch (e) {
       throw KeyException(
-          "Invalid Ton Private key. Key must be a valid Ed25519 private key.",
+          'Invalid Ton Private key. Key must be a valid Ed25519 private key.',
           details: {
-            "key": BytesUtils.toHexString(keyBytes),
-            "error": e.toString()
+            'key': BytesUtils.toHexString(keyBytes),
+            'error': e.toString()
           });
     }
   }

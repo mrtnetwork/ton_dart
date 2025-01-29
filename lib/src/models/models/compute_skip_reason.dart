@@ -11,16 +11,16 @@ class ComputeSkipReason extends TonSerialization {
   final int tag;
   final String reason;
   const ComputeSkipReason._(this.tag, this.reason);
-  static const ComputeSkipReason noState = ComputeSkipReason._(0x00, "noState");
+  static const ComputeSkipReason noState = ComputeSkipReason._(0x00, 'noState');
   static const ComputeSkipReason badState =
-      ComputeSkipReason._(0x01, "badState");
-  static const ComputeSkipReason noGas = ComputeSkipReason._(0x02, "noGas");
+      ComputeSkipReason._(0x01, 'badState');
+  static const ComputeSkipReason noGas = ComputeSkipReason._(0x02, 'noGas');
 
   factory ComputeSkipReason.deserialize(Slice slice) {
     return ComputeSkipReason.fromTag(slice.loadUint(2));
   }
   factory ComputeSkipReason.fromJson(Map<String, dynamic> json) {
-    return ComputeSkipReason.fromValue(json["reason"]);
+    return ComputeSkipReason.fromValue(json['reason']);
   }
 
   static const List<ComputeSkipReason> values = [noState, badState, noGas];
@@ -28,21 +28,21 @@ class ComputeSkipReason extends TonSerialization {
     return values.firstWhere(
       (element) => element.reason == status,
       orElse: () => throw TonDartPluginException(
-          "Cannot find ComputeSkipReason from provided status",
-          details: {"status": status}),
+          'Cannot find ComputeSkipReason from provided status',
+          details: {'status': status}),
     );
   }
   factory ComputeSkipReason.fromTag(int? tag) {
     return values.firstWhere(
       (element) => element.tag == tag,
       orElse: () => throw TonDartPluginException(
-          "Cannot find ComputeSkipReason from provided tag",
-          details: {"tag": tag}),
+          'Cannot find ComputeSkipReason from provided tag',
+          details: {'tag': tag}),
     );
   }
   @override
   String toString() {
-    return "ComputeSkipReason.$reason";
+    return 'ComputeSkipReason.$reason';
   }
 
   @override
@@ -52,6 +52,6 @@ class ComputeSkipReason extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"reason": reason};
+    return {'reason': reason};
   }
 }

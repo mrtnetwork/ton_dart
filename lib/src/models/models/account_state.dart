@@ -8,21 +8,21 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 class AccountStateType {
   final String name;
   const AccountStateType._(this.name);
-  static const AccountStateType uninit = AccountStateType._("uninit");
-  static const AccountStateType active = AccountStateType._("active");
-  static const AccountStateType frozen = AccountStateType._("frozen");
+  static const AccountStateType uninit = AccountStateType._('uninit');
+  static const AccountStateType active = AccountStateType._('active');
+  static const AccountStateType frozen = AccountStateType._('frozen');
   static const List<AccountStateType> values = [uninit, active, frozen];
   factory AccountStateType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw TonDartPluginException(
-          "Cannot find AccountStateType from provided name",
-          details: {"name": name}),
+          'Cannot find AccountStateType from provided name',
+          details: {'name': name}),
     );
   }
   @override
   String toString() {
-    return "AccountStateType.$name";
+    return 'AccountStateType.$name';
   }
 }
 
@@ -39,7 +39,7 @@ abstract class AccountState extends TonSerialization {
     return AccountStateUninit();
   }
   factory AccountState.fromJson(Map<String, dynamic> json) {
-    final type = AccountStateType.fromValue(json["type"]);
+    final type = AccountStateType.fromValue(json['type']);
     switch (type) {
       case AccountStateType.active:
         return AccountStateActive.fromJson(json);
@@ -60,7 +60,7 @@ class AccountStateUninit extends AccountState {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"type": type.name};
+    return {'type': type.name};
   }
 
   @override
@@ -74,7 +74,7 @@ class AccountStateFrozen extends AccountState {
     return AccountStateFrozen(slice.loadUintBig(256));
   }
   factory AccountStateFrozen.fromJson(Map<String, dynamic> json) {
-    return AccountStateFrozen(BigintUtils.parse(json["stateHash"]));
+    return AccountStateFrozen(BigintUtils.parse(json['stateHash']));
   }
   @override
   void store(Builder builder) {
@@ -85,7 +85,7 @@ class AccountStateFrozen extends AccountState {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"stateHash": stateHash.toString(), "type": type.name};
+    return {'stateHash': stateHash.toString(), 'type': type.name};
   }
 
   @override
@@ -99,7 +99,7 @@ class AccountStateActive extends AccountState {
     return AccountStateActive(StateInit.deserialize(slice));
   }
   factory AccountStateActive.fromJson(Map<String, dynamic> json) {
-    return AccountStateActive(StateInit.fromJson(json["state"]));
+    return AccountStateActive(StateInit.fromJson(json['state']));
   }
   @override
   void store(Builder builder) {
@@ -109,7 +109,7 @@ class AccountStateActive extends AccountState {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"state": state.toJson(), "type": type.name};
+    return {'state': state.toJson(), 'type': type.name};
   }
 
   @override

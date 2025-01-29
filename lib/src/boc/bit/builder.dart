@@ -201,8 +201,8 @@ class Builder {
   /// Stores a reference (cell). Throws [BocException] if more than 4 references are added.
   Builder storeRef(Cell cell) {
     if (_refs.length >= 4) {
-      throw BocException("Too many references.",
-          details: {"maximum": 4, "refrence": _refs.length});
+      throw BocException('Too many references.',
+          details: {'maximum': 4, 'refrence': _refs.length});
     }
     _refs.add(cell);
     return this;

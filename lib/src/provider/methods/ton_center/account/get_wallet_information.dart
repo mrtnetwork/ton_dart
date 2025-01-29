@@ -4,8 +4,8 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 /// Retrieve wallet information. This method parses contract state and currently supports more wallet types than
 /// getExtendedAddressInformation: simple wallet, standart wallet, v3 wallet, v4 wallet.
 /// https://toncenter.com/api/v2/#/accounts/get_wallet_information_getWalletInformation_get
-class TonCenterGetWalletInformation extends TonCenterPostRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterGetWalletInformation
+    extends TonCenterPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   final String address;
   TonCenterGetWalletInformation(this.address);
 
@@ -14,6 +14,6 @@ class TonCenterGetWalletInformation extends TonCenterPostRequestParam<
 
   @override
   Map<String, dynamic> params() {
-    return {"address": address};
+    return {'address': address};
   }
 }

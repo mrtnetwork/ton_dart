@@ -6,11 +6,11 @@ class NftApprovedByItemResponse {
   const NftApprovedByItemResponse._(this._value);
 
   static const NftApprovedByItemResponse getgems =
-      NftApprovedByItemResponse._("getgems");
+      NftApprovedByItemResponse._('getgems');
   static const NftApprovedByItemResponse tonkeeper =
-      NftApprovedByItemResponse._("tonkeeper");
+      NftApprovedByItemResponse._('tonkeeper');
   static const NftApprovedByItemResponse tonDiamonds =
-      NftApprovedByItemResponse._("ton.diamonds");
+      NftApprovedByItemResponse._('ton.diamonds');
 
   static const List<NftApprovedByItemResponse> values = [
     getgems,
@@ -23,6 +23,6 @@ class NftApprovedByItemResponse {
   static NftApprovedByItemResponse fromName(String? name) {
     return values.firstWhere((element) => element.value == name,
         orElse: () => throw TonDartPluginException(
-            "No NftApprovedByItemResponse found with the provided name: $name"));
+            'No NftApprovedByItemResponse found with the provided name: $name'));
   }
 }

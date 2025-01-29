@@ -15,24 +15,24 @@ class StableTokenMinterState extends ContractState {
   final Cell? walletCode;
   Map<String, dynamic> toJson() {
     return {
-      "adminAddress": adminAddress.toRawAddress(),
-      "content": content.toBase64(),
-      "totalSupply": totalSupply.toString(),
-      "walletCode": walletCode?.toBase64(),
-      "nextAdminAddress": nextAdminAddress?.toRawAddress(),
-      "metadata": metadata.toJson()
+      'adminAddress': adminAddress.toRawAddress(),
+      'content': content.toBase64(),
+      'totalSupply': totalSupply.toString(),
+      'walletCode': walletCode?.toBase64(),
+      'nextAdminAddress': nextAdminAddress?.toRawAddress(),
+      'metadata': metadata.toJson()
     };
   }
 
   factory StableTokenMinterState.fromJson(Map<String, dynamic> json) {
     return StableTokenMinterState._(
-        adminAddress: TonAddress(json["adminAddress"]),
-        totalSupply: BigintUtils.parse(json["totalSupply"]),
-        walletCode: Cell.fromBase64(json["walletCode"]),
-        content: Cell.fromBase64(json["content"]),
-        nextAdminAddress: json["nextAdminAddress"] == null
+        adminAddress: TonAddress(json['adminAddress']),
+        totalSupply: BigintUtils.parse(json['totalSupply']),
+        walletCode: Cell.fromBase64(json['walletCode']),
+        content: Cell.fromBase64(json['content']),
+        nextAdminAddress: json['nextAdminAddress'] == null
             ? null
-            : TonAddress(json["nextAdminAddress"]));
+            : TonAddress(json['nextAdminAddress']));
   }
 
   const StableTokenMinterState._({
@@ -51,7 +51,7 @@ class StableTokenMinterState extends ContractState {
       BigInt? totalSupply}) {
     if (metadata != null && contect != null) {
       throw const TonContractException(
-          "Use only content or metadata for jetton content");
+          'Use only content or metadata for jetton content');
     }
     return StableTokenMinterState._(
         adminAddress: adminAddress,

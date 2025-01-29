@@ -1,4 +1,3 @@
-import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
@@ -11,15 +10,15 @@ class WalletVersion {
   final String name;
   final int version;
   const WalletVersion._(this.name, this.version);
-  static const WalletVersion v1R1 = WalletVersion._("v1R1", 1);
-  static const WalletVersion v1R2 = WalletVersion._("v1R2", 1);
-  static const WalletVersion v1R3 = WalletVersion._("v1R3", 1);
-  static const WalletVersion v2R1 = WalletVersion._("v2R1", 2);
-  static const WalletVersion v2R2 = WalletVersion._("v2R2", 2);
-  static const WalletVersion v3R1 = WalletVersion._("v3R1", 3);
-  static const WalletVersion v3R2 = WalletVersion._("v3R2", 3);
-  static const WalletVersion v4 = WalletVersion._("v4", 4);
-  static const WalletVersion v5R1 = WalletVersion._("v5R1", 5);
+  static const WalletVersion v1R1 = WalletVersion._('v1R1', 1);
+  static const WalletVersion v1R2 = WalletVersion._('v1R2', 1);
+  static const WalletVersion v1R3 = WalletVersion._('v1R3', 1);
+  static const WalletVersion v2R1 = WalletVersion._('v2R1', 2);
+  static const WalletVersion v2R2 = WalletVersion._('v2R2', 2);
+  static const WalletVersion v3R1 = WalletVersion._('v3R1', 3);
+  static const WalletVersion v3R2 = WalletVersion._('v3R2', 3);
+  static const WalletVersion v4 = WalletVersion._('v4', 4);
+  static const WalletVersion v5R1 = WalletVersion._('v5R1', 5);
 
   static const List<WalletVersion> values = [
     v1R1,
@@ -76,14 +75,14 @@ class WalletVersion {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw TonContractException(
-          "Cannot find WalletVersion from provided status",
-          details: {"name": name}),
+          'Cannot find WalletVersion from provided status',
+          details: {'name': name}),
     );
   }
 
   @override
   String toString() {
-    return "WalletVersion.$name";
+    return 'WalletVersion.$name';
   }
 }
 
@@ -97,10 +96,9 @@ abstract class VersionedWalletContract<STATE extends VersionedWalletState,
   VersionedWalletContract(
       {required STATE? stateInit,
       required TonChain? chain,
-      required TonAddress address,
+      required super.address,
       required this.type})
       : super(
             state: stateInit,
-            address: address,
             chain: chain ?? TonChain.fromWorkchain(address.workChain));
 }

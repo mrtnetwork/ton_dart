@@ -25,7 +25,7 @@ class SimpleLibrary extends TonSerialization {
   }
   factory SimpleLibrary.fromJson(Map<String, dynamic> json) {
     return SimpleLibrary(
-        public: json["public"], root: Cell.fromBase64(json["root"]));
+        public: json['public'], root: Cell.fromBase64(json['root']));
   }
 
   @override
@@ -36,6 +36,6 @@ class SimpleLibrary extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"public": public, "root": root.toBase64()};
+    return {'public': public, 'root': root.toBase64()};
   }
 }

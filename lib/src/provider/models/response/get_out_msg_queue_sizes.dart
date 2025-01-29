@@ -9,11 +9,11 @@ class OutMsgQueueSizesShardsItemResponse with JsonSerialization {
   factory OutMsgQueueSizesShardsItemResponse.fromJson(
       Map<String, dynamic> json) {
     return OutMsgQueueSizesShardsItemResponse(
-        id: BlockRawResponse.fromJson(json["id"]), size: json["sizes"]);
+        id: BlockRawResponse.fromJson(json['id']), size: json['sizes']);
   }
   @override
   Map<String, dynamic> toJson() {
-    return {"id": id.toJson(), "size": size};
+    return {'id': id.toJson(), 'size': size};
   }
 }
 
@@ -24,8 +24,8 @@ class OutMsgQueueSizesResponse with JsonSerialization {
       {required this.extMsgQueueSizeLimit, required this.shards});
   factory OutMsgQueueSizesResponse.fromJson(Map<String, dynamic> json) {
     return OutMsgQueueSizesResponse(
-      extMsgQueueSizeLimit: json["ext_msg_queue_size_limit"],
-      shards: (json["shards"] as List)
+      extMsgQueueSizeLimit: json['ext_msg_queue_size_limit'],
+      shards: (json['shards'] as List)
           .map((e) => OutMsgQueueSizesShardsItemResponse.fromJson(e))
           .toList(),
     );
@@ -34,8 +34,8 @@ class OutMsgQueueSizesResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "shards": shards.map((e) => e.toJson()).toList(),
-      "ext_msg_queue_size_limit": extMsgQueueSizeLimit
+      'shards': shards.map((e) => e.toJson()).toList(),
+      'ext_msg_queue_size_limit': extMsgQueueSizeLimit
     };
   }
 }

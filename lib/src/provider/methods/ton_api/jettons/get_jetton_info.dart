@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/jetton_info.dart';
 /// Get jetton metadata by jetton master address.
 ///
 class TonApiGetJettonInfo
-    extends TonApiRequestParam<JettonInfoResponse, Map<String, dynamic>> {
+    extends TonApiRequest<JettonInfoResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetJettonInfo(this.accountId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetJettonInfo
   List<String> get pathParameters => [accountId];
 
   @override
-  JettonInfoResponse onResonse(Map<String, dynamic> json) {
-    return JettonInfoResponse.fromJson(json);
+  JettonInfoResponse onResonse(Map<String, dynamic> result) {
+    return JettonInfoResponse.fromJson(result);
   }
 }

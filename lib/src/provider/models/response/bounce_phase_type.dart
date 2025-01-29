@@ -6,11 +6,11 @@ class BouncePhaseTypeResponse {
   const BouncePhaseTypeResponse._(this._value);
 
   static const BouncePhaseTypeResponse trPhaseBounceNegfunds =
-      BouncePhaseTypeResponse._("TrPhaseBounceNegfunds");
+      BouncePhaseTypeResponse._('TrPhaseBounceNegfunds');
   static const BouncePhaseTypeResponse trPhaseBounceNofunds =
-      BouncePhaseTypeResponse._("TrPhaseBounceNofunds");
+      BouncePhaseTypeResponse._('TrPhaseBounceNofunds');
   static const BouncePhaseTypeResponse trPhaseBounceOk =
-      BouncePhaseTypeResponse._("TrPhaseBounceOk");
+      BouncePhaseTypeResponse._('TrPhaseBounceOk');
 
   static const List<BouncePhaseTypeResponse> values = [
     trPhaseBounceNegfunds,
@@ -23,13 +23,13 @@ class BouncePhaseTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No BouncePhaseTypeResponse find with provided name.",
-          details: {"name": name}),
+          'No BouncePhaseTypeResponse find with provided name.',
+          details: {'name': name}),
     );
   }
 
   @override
   String toString() {
-    return "BouncePhaseTypeResponse.$value";
+    return 'BouncePhaseTypeResponse.$value';
   }
 }

@@ -16,7 +16,7 @@ class StakingPoolsResponse with JsonSerialization {
       pools: (json['pools'] as List<dynamic>)
           .map((pool) => PoolInfoResponse.fromJson(pool))
           .toList(),
-      implementations: (json["implementations"] as Map)
+      implementations: (json['implementations'] as Map)
           .map<String, PoolImplementationResponse>((key, value) => MapEntry(
               key, PoolImplementationResponse.fromJson((value as Map).cast()))),
     );

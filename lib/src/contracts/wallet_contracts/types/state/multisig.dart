@@ -79,12 +79,12 @@ class MultiOwnerWalletState extends ContractState {
 
   Map<String, dynamic> toJson() {
     return {
-      "threshold": threshold,
-      "signers": signers.map((e) => e.toFriendlyAddress()).toList(),
-      "proposers": proposers.map((e) => e.toFriendlyAddress()).toList(),
-      "nextOrderSeqno": nextOrderSeqno.toString(),
-      "allowArbitrarySeqno": allowArbitrarySeqno,
-      "signersNum": signersNum
+      'threshold': threshold,
+      'signers': signers.map((e) => e.toFriendlyAddress()).toList(),
+      'proposers': proposers.map((e) => e.toFriendlyAddress()).toList(),
+      'nextOrderSeqno': nextOrderSeqno.toString(),
+      'allowArbitrarySeqno': allowArbitrarySeqno,
+      'signersNum': signersNum
     };
   }
 }

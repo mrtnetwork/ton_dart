@@ -41,11 +41,11 @@ class NFTItemData with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "init": init,
-      "index": index.toString(),
-      "collection_address": collectionAddress?.toFriendlyAddress(),
-      "owner_address": ownerAddress?.toFriendlyAddress(),
-      "content": content?.toBase64()
+      'init': init,
+      'index': index.toString(),
+      'collection_address': collectionAddress?.toFriendlyAddress(),
+      'owner_address': ownerAddress?.toFriendlyAddress(),
+      'content': content?.toBase64()
     };
   }
 }

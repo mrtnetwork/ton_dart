@@ -63,7 +63,7 @@ class TonTransaction extends TonSerialization {
     final raw = slice.asCell();
 
     if (slice.loadUint(4) != 0x07) {
-      throw const TonDartPluginException("Invalid transaction slice data.");
+      throw const TonDartPluginException('Invalid transaction slice data.');
     }
 
     final BigInt address = slice.loadUintBig(256);
@@ -105,23 +105,23 @@ class TonTransaction extends TonSerialization {
   }
   factory TonTransaction.fromJson(Map<String, dynamic> json) {
     return TonTransaction(
-        address: BigintUtils.parse(json["address"]),
-        lt: BigintUtils.parse(json["lt"]),
-        prevTransactionHash: BigintUtils.parse(json["prev_transaction_hash"]),
-        prevTransactionLt: BigintUtils.parse(json["prev_transaction_lt"]),
-        now: json["now"],
-        outMessagesCount: json["out_meessages_count"],
-        oldStatus: AccountStatus.fromJson(json["old_status"]),
-        endStatus: AccountStatus.fromJson(json["end_status"]),
-        inMessage: (json["in_message"] as Object?)?.convertTo<Message, Map>(
+        address: BigintUtils.parse(json['address']),
+        lt: BigintUtils.parse(json['lt']),
+        prevTransactionHash: BigintUtils.parse(json['prev_transaction_hash']),
+        prevTransactionLt: BigintUtils.parse(json['prev_transaction_lt']),
+        now: json['now'],
+        outMessagesCount: json['out_meessages_count'],
+        oldStatus: AccountStatus.fromJson(json['old_status']),
+        endStatus: AccountStatus.fromJson(json['end_status']),
+        inMessage: (json['in_message'] as Object?)?.convertTo<Message, Map>(
             (result) => Message.fromJson(result.cast())),
-        outMessages: (json["out_messages"] as Map).map<int, Message>(
+        outMessages: (json['out_messages'] as Map).map<int, Message>(
             (key, value) =>
                 MapEntry(key, Message.fromJson((value as Map).cast()))),
-        totalFees: CurrencyCollection.fromJson(json["total_fees"]),
-        stateUpdate: HashUpdate.fromJson(json["state_update"]),
-        description: TransactionDescription.fromJson(json["description"]),
-        raw: Cell.fromBase64(json["raw"]));
+        totalFees: CurrencyCollection.fromJson(json['total_fees']),
+        stateUpdate: HashUpdate.fromJson(json['state_update']),
+        description: TransactionDescription.fromJson(json['description']),
+        raw: Cell.fromBase64(json['raw']));
   }
 
   @override
@@ -153,21 +153,21 @@ class TonTransaction extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "address": address.toString(),
-      "lt": lt.toString(),
-      "prev_transaction_hash": prevTransactionHash.toString(),
-      "prev_transaction_lt": prevTransactionLt.toString(),
-      "now": now,
-      "out_meessages_count": outMessagesCount,
-      "old_status": oldStatus.toJson(),
-      "end_status": endStatus.toJson(),
-      "in_message": inMessage?.toJson(),
-      "out_messages": outMessages.map<int, Map<String, dynamic>>(
+      'address': address.toString(),
+      'lt': lt.toString(),
+      'prev_transaction_hash': prevTransactionHash.toString(),
+      'prev_transaction_lt': prevTransactionLt.toString(),
+      'now': now,
+      'out_meessages_count': outMessagesCount,
+      'old_status': oldStatus.toJson(),
+      'end_status': endStatus.toJson(),
+      'in_message': inMessage?.toJson(),
+      'out_messages': outMessages.map<int, Map<String, dynamic>>(
           (key, value) => MapEntry(key, value.toJson())),
-      "total_fees": totalFees.toJson(),
-      "state_update": stateUpdate.toJson(),
-      "description": description.toJson(),
-      "raw": raw.toBase64()
+      'total_fees': totalFees.toJson(),
+      'state_update': stateUpdate.toJson(),
+      'description': description.toJson(),
+      'raw': raw.toBase64()
     };
   }
 

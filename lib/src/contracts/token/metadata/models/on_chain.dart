@@ -20,8 +20,8 @@ class _JettonOnChainMetadataUtils {
       }
     } catch (e) {
       throw TokenMetadataException(
-          "Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>",
-          details: {"content": content});
+          'Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>',
+          details: {'content': content});
     }
     final fixKeys =
         metadata.map((key, value) => MapEntry(StringUtils.strip0x(key), value));
@@ -134,16 +134,16 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
           content: data, dataFormat: OnChainMetadataFormat.chunked);
     }
     return JettonOnChainMetadata._(
-        uri: _JettonOnChainMetadataUtils.key("uri", data),
-        name: _JettonOnChainMetadataUtils.key("name", data),
-        description: _JettonOnChainMetadataUtils.key("description", data),
-        image: _JettonOnChainMetadataUtils.key("image", data),
-        imageData: _JettonOnChainMetadataUtils.key("image_data", data),
-        symbol: _JettonOnChainMetadataUtils.key("symbol", data),
+        uri: _JettonOnChainMetadataUtils.key('uri', data),
+        name: _JettonOnChainMetadataUtils.key('name', data),
+        description: _JettonOnChainMetadataUtils.key('description', data),
+        image: _JettonOnChainMetadataUtils.key('image', data),
+        imageData: _JettonOnChainMetadataUtils.key('image_data', data),
+        symbol: _JettonOnChainMetadataUtils.key('symbol', data),
         decimals: int.tryParse(
-            _JettonOnChainMetadataUtils.key("decimals", data) ?? ""),
-        amountStyle: _JettonOnChainMetadataUtils.key("amount_style", data),
-        renderType: _JettonOnChainMetadataUtils.key("render_type", data),
+            _JettonOnChainMetadataUtils.key('decimals', data) ?? ''),
+        amountStyle: _JettonOnChainMetadataUtils.key('amount_style', data),
+        renderType: _JettonOnChainMetadataUtils.key('render_type', data),
         content: data,
         dataFormat: OnChainMetadataFormat.snake);
   }
@@ -151,16 +151,16 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "uri": uri,
-      "name": name,
-      "description": description,
-      "image": image,
-      "image_data": imageData,
-      "symbol": symbol,
-      "decimals": decimals,
-      "amount_style": amountStyle,
-      "render_type": renderType,
-      "content": content
+      'uri': uri,
+      'name': name,
+      'description': description,
+      'image': image,
+      'image_data': imageData,
+      'symbol': symbol,
+      'decimals': decimals,
+      'amount_style': amountStyle,
+      'render_type': renderType,
+      'content': content
     };
   }
 
@@ -178,7 +178,7 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
         .map((e) => MapEntry(e.key, e.value.toString()));
     final contentJson = Map<String, String>.fromEntries(contentData);
     final inJson = toJson()
-      ..removeWhere((key, value) => value == null || key == "content");
+      ..removeWhere((key, value) => value == null || key == 'content');
     for (final i in contentJson.entries) {
       inJson.putIfAbsent(i.key, () => i.value);
     }

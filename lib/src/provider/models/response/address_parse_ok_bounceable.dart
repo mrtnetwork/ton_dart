@@ -8,11 +8,11 @@ class AddressParseBounceableResponse with JsonSerialization {
 
   factory AddressParseBounceableResponse.fromJson(Map<String, dynamic> json) {
     return AddressParseBounceableResponse(
-        b64: json["b64"], b64Url: json["b64url"]);
+        b64: json['b64'], b64Url: json['b64url']);
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {"b64": b64, "b64url": b64Url};
+    return {'b64': b64, 'b64url': b64Url};
   }
 }

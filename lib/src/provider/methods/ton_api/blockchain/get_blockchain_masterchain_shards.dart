@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/blockchain_block_shards.da
 ///
 /// Get blockchain block shards.
 ///
-class TonApiGetBlockchainMasterchainShards extends TonApiRequestParam<
-    BlockchainBlockShardsResponse, Map<String, dynamic>> {
+class TonApiGetBlockchainMasterchainShards
+    extends TonApiRequest<BlockchainBlockShardsResponse, Map<String, dynamic>> {
   final int masterchainSeqno;
   TonApiGetBlockchainMasterchainShards(this.masterchainSeqno);
   @override
@@ -17,7 +17,7 @@ class TonApiGetBlockchainMasterchainShards extends TonApiRequestParam<
   List<String> get pathParameters => [masterchainSeqno.toString()];
 
   @override
-  BlockchainBlockShardsResponse onResonse(Map<String, dynamic> json) {
-    return BlockchainBlockShardsResponse.fromJson(json);
+  BlockchainBlockShardsResponse onResonse(Map<String, dynamic> result) {
+    return BlockchainBlockShardsResponse.fromJson(result);
   }
 }

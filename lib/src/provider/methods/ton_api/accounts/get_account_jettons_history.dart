@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/account_events.dart';
 /// Get the transfer jettons history for account.
 ///
 class TonApiGetAccountJettonsHistory
-    extends TonApiRequestParam<AccountEventsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AccountEventsResponse, Map<String, dynamic>> {
   final String accountId;
 
   final String? acceptLanguage;
@@ -35,17 +35,17 @@ class TonApiGetAccountJettonsHistory
   List<String> get pathParameters => [accountId];
   @override
   Map<String, dynamic> get queryParameters => {
-        "before_lt": beforeLt,
-        "limit": limit,
-        "start_date": startDate,
-        "end_date": endDate
+        'before_lt': beforeLt,
+        'limit': limit,
+        'start_date': startDate,
+        'end_date': endDate
       };
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
 
   @override
-  AccountEventsResponse onResonse(Map<String, dynamic> json) {
-    return AccountEventsResponse.fromJson(json);
+  AccountEventsResponse onResonse(Map<String, dynamic> result) {
+    return AccountEventsResponse.fromJson(result);
   }
 }

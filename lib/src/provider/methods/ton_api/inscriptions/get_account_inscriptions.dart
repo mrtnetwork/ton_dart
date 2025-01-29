@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/inscription_balances.dart'
 ///
 /// Get all inscriptions by owner address. It's experimental API and can be dropped in the future.
 ///
-class TonApiGetAccountInscriptions extends TonApiRequestParam<
-    InscriptionBalancesResponse, Map<String, dynamic>> {
+class TonApiGetAccountInscriptions
+    extends TonApiRequest<InscriptionBalancesResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// default: 100
@@ -27,10 +27,10 @@ class TonApiGetAccountInscriptions extends TonApiRequestParam<
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"limit": limit, "offset": offset};
+      {'limit': limit, 'offset': offset};
 
   @override
-  InscriptionBalancesResponse onResonse(Map<String, dynamic> json) {
-    return InscriptionBalancesResponse.fromJson(json);
+  InscriptionBalancesResponse onResonse(Map<String, dynamic> result) {
+    return InscriptionBalancesResponse.fromJson(result);
   }
 }

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/staking_pool.dart';
 /// Stacking pool info.
 ///
 class TonApiGetStakingPoolInfo
-    extends TonApiRequestParam<StakingPoolResponse, Map<String, dynamic>> {
+    extends TonApiRequest<StakingPoolResponse, Map<String, dynamic>> {
   final String accountId;
   final String? acceptLanguage;
   TonApiGetStakingPoolInfo({required this.accountId, this.acceptLanguage});
@@ -18,9 +18,9 @@ class TonApiGetStakingPoolInfo
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
   @override
-  StakingPoolResponse onResonse(Map<String, dynamic> json) {
-    return StakingPoolResponse.fromJson(json);
+  StakingPoolResponse onResonse(Map<String, dynamic> result) {
+    return StakingPoolResponse.fromJson(result);
   }
 }

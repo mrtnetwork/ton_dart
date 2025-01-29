@@ -14,13 +14,13 @@ class Base64Utils {
     try {
       String b64 = base64;
       final int reminder = b64.length % 4;
-      if (reminder != 0 && !b64.endsWith("=")) {
-        b64 += "=" * (4 - reminder);
+      if (reminder != 0 && !b64.endsWith('=')) {
+        b64 += '=' * (4 - reminder);
       }
       return StringUtils.encode(b64, type: StringEncoding.base64);
     } catch (e) {
-      throw TonDartPluginException("Invalid base64 string.",
-          details: {"value": base64});
+      throw TonDartPluginException('Invalid base64 string.',
+          details: {'value': base64});
     }
   }
 }

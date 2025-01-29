@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/dns_record.dart';
 /// DNS resolve for domain name.
 ///
 class TonApiDnsResolve
-    extends TonApiRequestParam<DnsRecordResponse, Map<String, dynamic>> {
+    extends TonApiRequest<DnsRecordResponse, Map<String, dynamic>> {
   final String domainName;
   TonApiDnsResolve(this.domainName);
   @override
@@ -17,7 +17,7 @@ class TonApiDnsResolve
   List<String> get pathParameters => [domainName];
 
   @override
-  DnsRecordResponse onResonse(Map<String, dynamic> json) {
-    return DnsRecordResponse.fromJson(json);
+  DnsRecordResponse onResonse(Map<String, dynamic> result) {
+    return DnsRecordResponse.fromJson(result);
   }
 }

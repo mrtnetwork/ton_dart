@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/event.dart';
 /// Emulate sending message to blockchain.
 ///
 class TonApiEmulateMessageToEvent
-    extends TonApiPostRequestParam<EventResponse, Map<String, dynamic>> {
+    extends TonApiPostRequest<EventResponse, Map<String, dynamic>> {
   /// Default value : en
   final String? acceptLanguage;
   final bool ignoreSignatureCheck;
@@ -17,7 +17,7 @@ class TonApiEmulateMessageToEvent
       required this.ignoreSignatureCheck,
       this.acceptLanguage});
   @override
-  Object get body => {"boc": boc};
+  Map<String, dynamic> get body => {'boc': boc};
 
   @override
   String get method => TonApiMethods.emulatemessagetoevent.url;
@@ -27,12 +27,12 @@ class TonApiEmulateMessageToEvent
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"ignore_signature_check": ignoreSignatureCheck.toString()};
+      {'ignore_signature_check': ignoreSignatureCheck.toString()};
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
   @override
-  EventResponse onResonse(Map<String, dynamic> json) {
-    return EventResponse.fromJson(json);
+  EventResponse onResonse(Map<String, dynamic> result) {
+    return EventResponse.fromJson(result);
   }
 }

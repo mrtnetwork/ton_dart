@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/raw_shard_block_proof.dart
 ///
 /// Get raw shard block proof.
 ///
-class TonApiGetRawShardBlockProof extends TonApiRequestParam<
-    RawShardBlockProofResponse, Map<String, dynamic>> {
+class TonApiGetRawShardBlockProof
+    extends TonApiRequest<RawShardBlockProofResponse, Map<String, dynamic>> {
   /// block ID: (workchain,shard,seqno,root_hash,file_hash)
   final String blockId;
   TonApiGetRawShardBlockProof(this.blockId);
@@ -18,7 +18,7 @@ class TonApiGetRawShardBlockProof extends TonApiRequestParam<
   List<String> get pathParameters => [blockId];
 
   @override
-  RawShardBlockProofResponse onResonse(Map<String, dynamic> json) {
-    return RawShardBlockProofResponse.fromJson(json);
+  RawShardBlockProofResponse onResonse(Map<String, dynamic> result) {
+    return RawShardBlockProofResponse.fromJson(result);
   }
 }

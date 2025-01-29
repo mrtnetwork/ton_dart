@@ -11,19 +11,19 @@ class CellType {
   const CellType._(this.tag, this.name);
 
   /// Represents an ordinary cell type with a tag of `-1`.
-  static const CellType ordinary = CellType._(-1, "Ordinary");
+  static const CellType ordinary = CellType._(-1, 'Ordinary');
 
   /// Represents a pruned branch cell type with a tag of `1`.
-  static const CellType prunedBranch = CellType._(1, "PrunedBranch");
+  static const CellType prunedBranch = CellType._(1, 'PrunedBranch');
 
   /// Represents a library cell type with a tag of `2`.
-  static const CellType library = CellType._(2, "Library");
+  static const CellType library = CellType._(2, 'Library');
 
   /// Represents a Merkle proof cell type with a tag of `3`.
-  static const CellType merkleProof = CellType._(3, "MerkleProof");
+  static const CellType merkleProof = CellType._(3, 'MerkleProof');
 
   /// Represents a Merkle update cell type with a tag of `4`.
-  static const CellType merkleUpdate = CellType._(4, "MerkleUpdate");
+  static const CellType merkleUpdate = CellType._(4, 'MerkleUpdate');
 
   /// A list containing all available cell types.
   static const List<CellType> values = [
@@ -47,6 +47,6 @@ class CellType {
   /// Returns a string representation of the `CellType`.
   @override
   String toString() {
-    return "CellType.$name";
+    return 'CellType.$name';
   }
 }

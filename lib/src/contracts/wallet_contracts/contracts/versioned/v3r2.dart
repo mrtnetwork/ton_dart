@@ -16,15 +16,8 @@ import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
 /// https://docs.ton.org/participate/wallets/contracts
 class WalletV3R2 extends VersionedWalletContract<SubWalletVersionedWalletState,
     VersionedTransferParams> {
-  WalletV3R2(
-      {SubWalletVersionedWalletState? stateInit,
-      required TonAddress address,
-      TonChain? chain})
-      : super(
-            address: address,
-            type: WalletVersion.v3R2,
-            stateInit: stateInit,
-            chain: chain);
+  WalletV3R2({super.stateInit, required super.address, super.chain})
+      : super(type: WalletVersion.v3R2);
 
   factory WalletV3R2.create(
       {required TonChain chain,

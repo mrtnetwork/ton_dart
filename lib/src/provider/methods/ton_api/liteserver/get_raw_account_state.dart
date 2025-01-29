@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/raw_account_state.dart';
 /// Get raw account state.
 ///
 class TonApiGetRawAccountState
-    extends TonApiRequestParam<RawAccountStateResponse, Map<String, dynamic>> {
+    extends TonApiRequest<RawAccountStateResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// target block: (workchain,shard,seqno,root_hash,file_hash)
@@ -23,10 +23,10 @@ class TonApiGetRawAccountState
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters => {"target_block": targetBlock};
+  Map<String, dynamic> get queryParameters => {'target_block': targetBlock};
 
   @override
-  RawAccountStateResponse onResonse(Map<String, dynamic> json) {
-    return RawAccountStateResponse.fromJson(json);
+  RawAccountStateResponse onResonse(Map<String, dynamic> result) {
+    return RawAccountStateResponse.fromJson(result);
   }
 }

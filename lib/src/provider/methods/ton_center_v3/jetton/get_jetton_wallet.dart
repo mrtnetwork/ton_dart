@@ -27,11 +27,11 @@ class TonCenterV3GetJettonWallets extends TonCenterV3RequestParam<
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "address": address,
-        "owner_address": ownerAddress,
-        "jetton_address": jettonAddress,
-        "limit": limit,
-        "offset": offset
+        'address': address,
+        'owner_address': ownerAddress,
+        'jetton_address': jettonAddress,
+        'limit': limit,
+        'offset': offset
       };
 
   TonCenterV3GetJettonWallets(
@@ -44,8 +44,8 @@ class TonCenterV3GetJettonWallets extends TonCenterV3RequestParam<
   String get method => TonCenterV3Methods.jettonWallets.uri;
 
   @override
-  List<JettonWalletsResponse> onResonse(Map<String, dynamic> json) {
-    return (json["jetton_wallets"] as List?)
+  List<JettonWalletsResponse> onResonse(Map<String, dynamic> result) {
+    return (result['jetton_wallets'] as List?)
             ?.map((e) => JettonWalletsResponse.fromJson(e))
             .toList() ??
         [];

@@ -36,8 +36,8 @@ class ShardAccountRef extends TonSerialization {
   }
   factory ShardAccountRef.fromJson(Map<String, dynamic> json) {
     return ShardAccountRef(
-        depthBalanceInfo: DepthBalanceInfo.fromJson(json["depth_balance_info"]),
-        shardAccount: ShardAccount.fromJson(json["shard_account"]));
+        depthBalanceInfo: DepthBalanceInfo.fromJson(json['depth_balance_info']),
+        shardAccount: ShardAccount.fromJson(json['shard_account']));
   }
 
   @override
@@ -49,8 +49,8 @@ class ShardAccountRef extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "depth_balance_info": depthBalanceInfo.toJson(),
-      "shard_account": shardAccount.toJson()
+      'depth_balance_info': depthBalanceInfo.toJson(),
+      'shard_account': shardAccount.toJson()
     };
   }
 }
@@ -67,7 +67,7 @@ class ShardAccounts extends TonSerialization {
     return ShardAccounts(dict.asMap);
   }
   factory ShardAccounts.fromJson(Map<String, dynamic> json) {
-    return ShardAccounts((json["accounts"] as Map<String, dynamic>).map(
+    return ShardAccounts((json['accounts'] as Map<String, dynamic>).map(
         (key, value) =>
             MapEntry(BigintUtils.parse(key), ShardAccountRef.fromJson(value))));
   }
@@ -81,7 +81,7 @@ class ShardAccounts extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "accounts":
+      'accounts':
           accounts.map((key, value) => MapEntry(key.toString(), value.toJson()))
     };
   }

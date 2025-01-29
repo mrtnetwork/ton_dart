@@ -22,9 +22,9 @@ class BitReader {
   void skip(int bits) {
     if (bits < 0 || _offset + bits > _bits.length) {
       throw BocException('Index out of bounds', details: {
-        "length": bits,
-        "offset": _offset,
-        "index": _offset + bits
+        'length': bits,
+        'offset': _offset,
+        'index': _offset + bits
       });
     }
     _offset += bits;
@@ -229,7 +229,7 @@ class BitReader {
   /// Loads bits, taking into account padding (ensures byte-aligned).
   BitString loadPaddedBits(int bits) {
     if (bits % 8 != 0) {
-      throw BocException("Invalid number of bits", details: {"bits": bits});
+      throw BocException('Invalid number of bits', details: {'bits': bits});
     }
 
     int length = bits;
@@ -298,11 +298,11 @@ class BitReader {
   TonAddress _loadInternalAddress() {
     final int type = preloadUint(2);
     if (type != 2) {
-      throw BocException("Invalid address.");
+      throw BocException('Invalid address.');
     }
 
     if (_preloadUint(1, _offset + 2) != BigInt.zero) {
-      throw BocException("Invalid address.");
+      throw BocException('Invalid address.');
     }
 
     final int wc = _preloadInt(8, _offset + 3).toInt();

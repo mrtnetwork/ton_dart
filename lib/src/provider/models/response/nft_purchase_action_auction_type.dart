@@ -6,13 +6,13 @@ class NftPurchaseActionAuctionTypeResponse {
   const NftPurchaseActionAuctionTypeResponse._(this._value);
 
   static const NftPurchaseActionAuctionTypeResponse dnsTon =
-      NftPurchaseActionAuctionTypeResponse._("DNS.ton");
+      NftPurchaseActionAuctionTypeResponse._('DNS.ton');
   static const NftPurchaseActionAuctionTypeResponse dnsTg =
-      NftPurchaseActionAuctionTypeResponse._("DNS.tg");
+      NftPurchaseActionAuctionTypeResponse._('DNS.tg');
   static const NftPurchaseActionAuctionTypeResponse numberTg =
-      NftPurchaseActionAuctionTypeResponse._("NUMBER.tg");
+      NftPurchaseActionAuctionTypeResponse._('NUMBER.tg');
   static const NftPurchaseActionAuctionTypeResponse getgems =
-      NftPurchaseActionAuctionTypeResponse._("getgems");
+      NftPurchaseActionAuctionTypeResponse._('getgems');
 
   static const List<NftPurchaseActionAuctionTypeResponse> values = [
     dnsTon,
@@ -27,7 +27,7 @@ class NftPurchaseActionAuctionTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No NftPurchaseActionAuctionTypeResponse found with the provided name: $name"),
+          'No NftPurchaseActionAuctionTypeResponse found with the provided name: $name'),
     );
   }
 }

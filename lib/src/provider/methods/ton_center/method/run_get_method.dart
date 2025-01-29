@@ -4,7 +4,7 @@ import 'package:ton_dart/src/provider/models/response/run_method_response.dart';
 
 /// Run get method on smart contract.
 /// https://toncenter.com/api/v2/#/run%20method/run_get_method_runGetMethod_post
-class TonCenterRunGetMethod extends TonCenterPostRequestParam<
+class TonCenterRunGetMethod extends TonCenterPostRequest<
     TonCenterRunMethodResponse, Map<String, dynamic>> {
   final String address;
   final String methodName;
@@ -17,11 +17,11 @@ class TonCenterRunGetMethod extends TonCenterPostRequestParam<
 
   @override
   Map<String, dynamic> params() {
-    return {"address": address, "method": methodName, "stack": stack};
+    return {'address': address, 'method': methodName, 'stack': stack};
   }
 
   @override
-  TonCenterRunMethodResponse onResonse(Map<String, dynamic> json) {
-    return TonCenterRunMethodResponse.fromJson(json);
+  TonCenterRunMethodResponse onResonse(Map<String, dynamic> result) {
+    return TonCenterRunMethodResponse.fromJson(result);
   }
 }

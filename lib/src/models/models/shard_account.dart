@@ -32,10 +32,10 @@ class ShardAccount extends TonSerialization {
   }
   factory ShardAccount.fromJson(Map<String, dynamic> json) {
     return ShardAccount(
-      account: (json["account"] as Object?)?.convertTo<TonAccount, Map>(
+      account: (json['account'] as Object?)?.convertTo<TonAccount, Map>(
           (result) => TonAccount.fromJson(result.cast())),
-      lastTransactionHash: BigintUtils.parse(json["last_transaction_hash"]),
-      lastTransactionLt: BigintUtils.parse(json["last_transaction_lt"]),
+      lastTransactionHash: BigintUtils.parse(json['last_transaction_hash']),
+      lastTransactionLt: BigintUtils.parse(json['last_transaction_lt']),
     );
   }
 
@@ -56,9 +56,9 @@ class ShardAccount extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "account": account?.toJson(),
-      "last_transaction_hash": lastTransactionHash.toString(),
-      "last_transaction_lt": lastTransactionLt.toString()
+      'account': account?.toJson(),
+      'last_transaction_hash': lastTransactionHash.toString(),
+      'last_transaction_lt': lastTransactionLt.toString()
     };
   }
 }

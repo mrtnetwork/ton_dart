@@ -20,7 +20,7 @@ Builder storeBits(Builder builder, String src) {
 }
 
 void main() async {
-  group("dict", () => _test());
+  group('dict', () => _test());
 }
 
 void _test() {
@@ -125,12 +125,12 @@ void _test() {
   });
 
   test('should correctly serialize BitString keys and values', () {
-    const keyLen = 9; // Not 8 bit aligned
+    const int keyLen = 9; // Not 8 bit aligned
     final DictionaryKey<BitString> keys = DictionaryKey.bitStringCodec(keyLen);
     final DictionaryValue<BitString> values =
         DictionaryValue.bitStringCodec(72);
-    final testKey = BitString("Test".codeUnits, 0, keyLen);
-    final testVal = BitString("BitString".codeUnits, 0, 72);
+    final testKey = BitString('Test'.codeUnits, 0, keyLen);
+    final testVal = BitString('BitString'.codeUnits, 0, 72);
     final testDict = Dictionary.empty(key: keys, value: values);
 
     testDict[testKey] = testVal;
@@ -157,7 +157,7 @@ void _test() {
       expect(
           CellUtils.exoticMerkleProof(proof.bits, proof.refs).proofHash,
           BytesUtils.fromHexString(
-              "ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3"));
+              'ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3'));
     }
   });
 
@@ -176,13 +176,13 @@ void _test() {
       expect(
           CellUtils.exoticMerkleUpdate(update.bits, update.refs).proof1,
           BytesUtils.fromHexString(
-              "ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3"));
+              'ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3'));
       d[k] = (d[k]! / 2).floor();
     }
   });
   test('should parse dictionary with empty values', () {
     final cell = Cell.fromBoc(BytesUtils.fromHexString(
-        "b5ee9c72010101010024000043a0000000000000000000000000000000000000000000000000000000000000000f70"))[0];
+        'b5ee9c72010101010024000043a0000000000000000000000000000000000000000000000000000000000000000f70'))[0];
     final testDict = Dictionary.loadDirect(
         key: DictionaryKey.bigUintCodec(256),
         value: DictionaryValue.bitStringCodec(0),

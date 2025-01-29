@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/domain_bids.dart';
 /// Get domain bids.
 ///
 class TonApiGetDomainBids
-    extends TonApiRequestParam<DomainBidsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<DomainBidsResponse, Map<String, dynamic>> {
   /// domain name with .ton or .t.me
   final String domainName;
   TonApiGetDomainBids(this.domainName);
@@ -19,7 +19,7 @@ class TonApiGetDomainBids
   List<String> get pathParameters => [domainName];
 
   @override
-  DomainBidsResponse onResonse(Map<String, dynamic> json) {
-    return DomainBidsResponse.fromJson(json);
+  DomainBidsResponse onResonse(Map<String, dynamic> result) {
+    return DomainBidsResponse.fromJson(result);
   }
 }

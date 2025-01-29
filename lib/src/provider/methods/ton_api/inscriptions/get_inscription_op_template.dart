@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/get_inscription_op_templat
 /// Return comment for making operation with inscription. please don't use it if you don't know what
 /// you are doing.
 ///
-class TonApiGetInscriptionOpTemplate extends TonApiRequestParam<
+class TonApiGetInscriptionOpTemplate extends TonApiRequest<
     GetInscriptionOpTemplateResponse, Map<String, dynamic>> {
   /// Available values : ton20, gram20
   final String type;
@@ -39,16 +39,16 @@ class TonApiGetInscriptionOpTemplate extends TonApiRequestParam<
 
   @override
   Map<String, dynamic> get queryParameters => {
-        "type": type,
-        "destination": destination,
-        "comment": comment,
-        "operation": operation,
-        "amount": amount,
-        "ticker": ticker,
-        "who": who
+        'type': type,
+        'destination': destination,
+        'comment': comment,
+        'operation': operation,
+        'amount': amount,
+        'ticker': ticker,
+        'who': who
       };
   @override
-  GetInscriptionOpTemplateResponse onResonse(Map<String, dynamic> json) {
-    return GetInscriptionOpTemplateResponse.fromJson(json);
+  GetInscriptionOpTemplateResponse onResonse(Map<String, dynamic> result) {
+    return GetInscriptionOpTemplateResponse.fromJson(result);
   }
 }

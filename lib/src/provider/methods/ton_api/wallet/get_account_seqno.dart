@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/seqno.dart';
 /// Get account seqno.
 ///
 class TonApiGetAccountSeqno
-    extends TonApiRequestParam<SeqnoResponse, Map<String, dynamic>> {
+    extends TonApiRequest<SeqnoResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetAccountSeqno(this.accountId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetAccountSeqno
   List<String> get pathParameters => [accountId];
 
   @override
-  SeqnoResponse onResonse(Map<String, dynamic> json) {
-    return SeqnoResponse.fromJson(json);
+  SeqnoResponse onResonse(Map<String, dynamic> result) {
+    return SeqnoResponse.fromJson(result);
   }
 }

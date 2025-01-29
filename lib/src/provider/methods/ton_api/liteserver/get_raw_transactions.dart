@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/raw_transaction.dart';
 /// Get raw transactions.
 ///
 class TonApiGetRawTransactions
-    extends TonApiRequestParam<RawTransactionResponse, Map<String, dynamic>> {
+    extends TonApiRequest<RawTransactionResponse, Map<String, dynamic>> {
   final String accountId;
   final int count;
   final BigInt lt;
@@ -25,10 +25,10 @@ class TonApiGetRawTransactions
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"count": count, "lt": lt, "hash": hash};
+      {'count': count, 'lt': lt, 'hash': hash};
 
   @override
-  RawTransactionResponse onResonse(Map<String, dynamic> json) {
-    return RawTransactionResponse.fromJson(json);
+  RawTransactionResponse onResonse(Map<String, dynamic> result) {
+    return RawTransactionResponse.fromJson(result);
   }
 }

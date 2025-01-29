@@ -5,22 +5,19 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 ///
 /// Send message to blockchain.
 /// both a single boc and a batch of boc serialized in base64 are accepted
-class TonApiSendBlockchainMessage extends TonApiPostRequestParam<bool, Null> {
+class TonApiSendBlockchainMessage extends TonApiPostRequest<String, String> {
   final String? boc;
   final List<String> batch;
   TonApiSendBlockchainMessage({required this.batch, this.boc});
 
   @override
-  Object get body => {
-        "boc": boc,
-        "batch": batch,
-      };
+  Map<String, dynamic> get body => {'boc': boc, 'batch': batch};
 
   @override
   String get method => TonApiMethods.sendblockchainmessage.url;
 
   @override
-  bool onResonse(Null json) {
-    return json == null;
+  String onResonse(String result) {
+    return result;
   }
 }

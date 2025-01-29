@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/exception/rpc_error.dart';
+import 'package:blockchain_utils/exception/exceptions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
@@ -9,6 +9,7 @@ import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 
 mixin ContractProvider {
+  /// the address of contract
   TonAddress get address;
 
   /// call contract methods
@@ -36,14 +37,14 @@ mixin ContractProvider {
     }
     if (throwOnFail && response.exitCode != 0) {
       throw RPCError(
-          message: "Run method failed with exit code ${response.exitCode}",
+          message: 'Run method failed with exit code ${response.exitCode}',
           errorCode: response.exitCode,
           request: {
-            "method": method,
-            "address": address?.toString() ?? this.address.toString(),
+            'method': method,
+            'address': address?.toString() ?? this.address.toString(),
           },
           details: {
-            "error": response.items.map((e) => e.toJson()).toList()
+            'error': response.items.map((e) => e.toJson()).toList()
           });
     }
     return response;

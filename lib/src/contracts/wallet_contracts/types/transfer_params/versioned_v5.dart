@@ -9,9 +9,9 @@ class VersionedV5TransferParams
   final WalletV5AuthType type;
   VersionedV5TransferParams._({
     this.type = WalletV5AuthType.external,
-    List<OutActionWalletV5> messages = const [],
+    super.messages = const [],
     required this.signer,
-  }) : super(messages: messages);
+  });
   factory VersionedV5TransferParams.external(
       {required TonPrivateKey signer,
       List<OutActionWalletV5> messages = const []}) {

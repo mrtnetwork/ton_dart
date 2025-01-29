@@ -6,11 +6,11 @@ class MessageMsgTypeResponse {
   const MessageMsgTypeResponse._(this._value);
 
   static const MessageMsgTypeResponse intMsg =
-      MessageMsgTypeResponse._("int_msg");
+      MessageMsgTypeResponse._('int_msg');
   static const MessageMsgTypeResponse extInMsg =
-      MessageMsgTypeResponse._("ext_in_msg");
+      MessageMsgTypeResponse._('ext_in_msg');
   static const MessageMsgTypeResponse extOutMsg =
-      MessageMsgTypeResponse._("ext_out_msg");
+      MessageMsgTypeResponse._('ext_out_msg');
 
   static const List<MessageMsgTypeResponse> values = [
     intMsg,
@@ -24,7 +24,7 @@ class MessageMsgTypeResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No MessageMsgTypeResponse found with the provided name: $name"),
+          'No MessageMsgTypeResponse found with the provided name: $name'),
     );
   }
 }

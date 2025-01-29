@@ -13,7 +13,7 @@ class NFTRawMetadata extends NFTMetadata {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"content": content.toBase64()};
+    return {'content': content.toBase64()};
   }
 
   @override

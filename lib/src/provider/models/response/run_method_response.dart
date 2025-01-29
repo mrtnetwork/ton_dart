@@ -9,9 +9,9 @@ class TonCenterRunMethodResponse {
       {required this.gasUsed, required this.stack, required this.exitCode});
   factory TonCenterRunMethodResponse.fromJson(Map<String, dynamic> json) {
     return TonCenterRunMethodResponse(
-        gasUsed: IntUtils.tryParse(json["gas_used"]),
-        stack: (json["stack"] as List).cast(),
-        exitCode: json["exit_code"]);
+        gasUsed: IntUtils.tryParse(json['gas_used']),
+        stack: (json['stack'] as List).cast(),
+        exitCode: json['exit_code']);
   }
   List<TupleItem> get items => TupleUtils.parseStackItemAsList(stack);
 }

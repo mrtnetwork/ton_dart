@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/models/response/raw_list_block_transaction
 ///
 /// Get raw list block transactions.
 ///
-class TonApiGetRawListBlockTransactions extends TonApiRequestParam<
+class TonApiGetRawListBlockTransactions extends TonApiRequest<
     RawListBlockTransactionsResponse, Map<String, dynamic>> {
   /// block ID: (workchain,shard,seqno,root_hash,file_hash)
   final String blockId;
@@ -29,10 +29,10 @@ class TonApiGetRawListBlockTransactions extends TonApiRequestParam<
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"lt": lt, "account_id": accountId, "count": count, "mode": mode};
+      {'lt': lt, 'account_id': accountId, 'count': count, 'mode': mode};
 
   @override
-  RawListBlockTransactionsResponse onResonse(Map<String, dynamic> json) {
-    return RawListBlockTransactionsResponse.fromJson(json);
+  RawListBlockTransactionsResponse onResonse(Map<String, dynamic> result) {
+    return RawListBlockTransactionsResponse.fromJson(result);
   }
 }

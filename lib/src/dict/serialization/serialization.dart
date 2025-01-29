@@ -15,12 +15,12 @@ class _Node<T> {
 
   Map<String, dynamic> toJson() {
     if (isLeaf) {
-      return {"value": value, "type": "leaf"};
+      return {'value': value, 'type': 'leaf'};
     }
     return {
-      "left": left.toJson(),
-      "right": right.toJson(),
-      "type": "fork",
+      'left': left.toJson(),
+      'right': right.toJson(),
+      'type': 'fork',
     };
   }
 }
@@ -31,7 +31,7 @@ class _Edge<T> {
 
   _Edge(this.label, this.node);
   Map<String, dynamic> toJson() {
-    return {"label": label, "node": node.toJson()};
+    return {'label': label, 'node': node.toJson()};
   }
 }
 
@@ -46,7 +46,7 @@ class _DictSerializationUtils {
   static Tuple<Map<String, T>, Map<String, T>> forkMap<T>(
       Map<String, T> src, int prefixLen) {
     if (src.isEmpty) {
-      throw DictException("Internal inconsistency");
+      throw DictException('Internal inconsistency');
     }
     final left = <String, T>{};
     final right = <String, T>{};
@@ -60,17 +60,17 @@ class _DictSerializationUtils {
       }
     }
     if (left.isEmpty) {
-      throw DictException("Internal inconsistency. Left emtpy.");
+      throw DictException('Internal inconsistency. Left emtpy.');
     }
     if (right.isEmpty) {
-      throw DictException("Internal inconsistency. Right emtpy.");
+      throw DictException('Internal inconsistency. Right emtpy.');
     }
     return Tuple(left, right);
   }
 
   static _Node<T> buildNode<T>(Map<String, T> src, int prefixLen) {
     if (src.isEmpty) {
-      throw DictException("Internal inconsistency");
+      throw DictException('Internal inconsistency');
     }
     if (src.length == 1) {
       return _Node.leaf(src.values.first);
@@ -83,7 +83,7 @@ class _DictSerializationUtils {
 
   static _Edge<T> buildEdge<T>(Map<String, T> src, [int prefixLen = 0]) {
     if (src.isEmpty) {
-      throw DictException("Internal inconsistency");
+      throw DictException('Internal inconsistency');
     }
     final label =
         DictionaryUtils.findCommonPrefix(src.keys.toList(), prefixLen);

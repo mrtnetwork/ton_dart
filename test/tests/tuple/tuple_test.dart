@@ -7,36 +7,36 @@ import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 import 'package:ton_dart/src/tuple/utils/utils.dart';
 
 void main() {
-  group("tuple", () => _test());
+  group('tuple', () => _test());
 }
 
 void _test() {
   test('should serialize tuple with numbers', () {
     final serialized = TupleSerialization.serialize([
-      {"type": "num", "num": BigInt.parse("-1")},
-      {"type": "num", "num": BigInt.parse("-1")},
-      {"type": "num", "num": BigInt.parse("49800000000")},
-      {"type": "num", "num": BigInt.parse("100000000")},
-      {"type": "num", "num": BigInt.parse("100000000")},
-      {"type": "num", "num": BigInt.parse("2500")},
-      {"type": "num", "num": BigInt.parse("100000000")}
+      {'type': 'num', 'num': BigInt.parse('-1')},
+      {'type': 'num', 'num': BigInt.parse('-1')},
+      {'type': 'num', 'num': BigInt.parse('49800000000')},
+      {'type': 'num', 'num': BigInt.parse('100000000')},
+      {'type': 'num', 'num': BigInt.parse('100000000')},
+      {'type': 'num', 'num': BigInt.parse('2500')},
+      {'type': 'num', 'num': BigInt.parse('100000000')}
     ].map((e) => TupleItem.fromJson(e)).toList());
     expect(serialized.toBase64(idx: false, crc32: false),
-        "te6ccgEBCAEAWQABGAAABwEAAAAABfXhAAEBEgEAAAAAAAAJxAIBEgEAAAAABfXhAAMBEgEAAAAABfXhAAQBEgEAAAALmE+yAAUBEgH//////////wYBEgH//////////wcAAA==");
+        'te6ccgEBCAEAWQABGAAABwEAAAAABfXhAAEBEgEAAAAAAAAJxAIBEgEAAAAABfXhAAMBEgEAAAAABfXhAAQBEgEAAAALmE+yAAUBEgH//////////wYBEgH//////////wcAAA==');
   });
 
   test('should serialize tuple long numbers', () {
     const golden =
-        "te6ccgEBAgEAKgABSgAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqt4e0IsLXV0BAAA=";
+        'te6ccgEBAgEAKgABSgAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqt4e0IsLXV0BAAA=';
     final serialized = TupleSerialization.serialize(
-        [TupleItemInt(BigInt.parse("12312312312312323421"))]);
+        [TupleItemInt(BigInt.parse('12312312312312323421'))]);
     expect(serialized.toBase64(idx: false, crc32: false), golden);
   });
   test('should serialize slices', () {
     const golden = 'te6ccgEBAwEAHwACDwAAAQQAB0AgAQIAAAAd4GEghEZ4iF1r9AWzyJs4';
     final serialized = TupleSerialization.serialize([
       TupleItemSlice(beginCell()
-          .storeCoins(BigInt.parse("123123123123123234211234123123123"))
+          .storeCoins(BigInt.parse('123123123123123234211234123123123'))
           .endCell())
     ]);
     expect(serialized.toBase64(idx: false, crc32: false), golden);

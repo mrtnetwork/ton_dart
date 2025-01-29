@@ -3,8 +3,8 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get merkle proof of shardchain block.
 /// https://toncenter.com/api/v2/#/blocks/get_shard_block_proof_getShardBlockProof_get
-class TonCenterGetShardBlockProof extends TonCenterPostRequestParam<
-    Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterGetShardBlockProof
+    extends TonCenterPostRequest<Map<String, dynamic>, Map<String, dynamic>> {
   /// Block workchain id
   final int workchain;
 
@@ -29,10 +29,10 @@ class TonCenterGetShardBlockProof extends TonCenterPostRequestParam<
   @override
   Map<String, dynamic> params() {
     return {
-      "workchain": workchain,
-      "shard": shard,
-      "seqno": seqno,
-      "from_seqno": fromSeqno,
+      'workchain': workchain,
+      'shard': shard,
+      'seqno': seqno,
+      'from_seqno': fromSeqno,
     };
   }
 }

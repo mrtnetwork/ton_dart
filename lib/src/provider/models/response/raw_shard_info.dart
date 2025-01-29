@@ -14,10 +14,10 @@ class RawShardInfoResponse with JsonSerialization {
   });
   factory RawShardInfoResponse.fromJson(Map<String, dynamic> json) {
     return RawShardInfoResponse(
-      id: BlockRawResponse.fromJson(json["id"]),
-      shardblk: BlockRawResponse.fromJson(json["shardblk"]),
-      shardProof: json["shard_proof"],
-      shardDescr: json["shard_descr"],
+      id: BlockRawResponse.fromJson(json['id']),
+      shardblk: BlockRawResponse.fromJson(json['shardblk']),
+      shardProof: json['shard_proof'],
+      shardDescr: json['shard_descr'],
     );
   }
 
@@ -25,10 +25,10 @@ class RawShardInfoResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "id": id.toJson(),
-      "shardblk": shardblk.toJson(),
-      "shard_proof": shardProof,
-      "shard_descr": shardDescr
+      'id': id.toJson(),
+      'shardblk': shardblk.toJson(),
+      'shard_proof': shardProof,
+      'shard_descr': shardDescr
     };
   }
 }

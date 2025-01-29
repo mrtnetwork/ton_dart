@@ -6,17 +6,17 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 /// Get backup info.
 ///
 class TonApiGetWalletBackup
-    extends TonApiRequestParam<String, Map<String, dynamic>> {
+    extends TonApiRequest<String, Map<String, dynamic>> {
   final String xTonConnectAuth;
   TonApiGetWalletBackup(this.xTonConnectAuth);
   @override
   String get method => TonApiMethods.getwalletbackup.url;
 
   @override
-  Map<String, String?> get header => {"X-TonConnect-Auth": xTonConnectAuth};
+  Map<String, String?> get headers => {'X-TonConnect-Auth': xTonConnectAuth};
 
   @override
-  String onResonse(Map<String, dynamic> json) {
-    return json["dump"];
+  String onResonse(Map<String, dynamic> result) {
+    return result['dump'];
   }
 }

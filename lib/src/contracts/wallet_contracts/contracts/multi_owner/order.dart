@@ -114,17 +114,17 @@ class OrderContract<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active) {
       throw const TonContractException(
-          "canoot send approve before deploying contarct. please first use deply method for deploying.");
+          'canoot send approve before deploying contarct. please first use deply method for deploying.');
     }
     if (signerIdx == null) {
       if (state == null) {
         throw const TonContractException(
-            "cannot send approve without known signer index. please first use deply method for deploying.");
+            'cannot send approve without known signer index. please first use deply method for deploying.');
       }
       signerIdx = state!.signers.indexOf(owner.address);
     }
     if (signerIdx < 0) {
-      throw const TonContractException("cannot find signer.");
+      throw const TonContractException('cannot find signer.');
     }
     return _sendTransaction(
         params: params,
@@ -140,7 +140,7 @@ class OrderContract<E extends WalletContractTransferParams>
 
   Future<OrderContractState> getOrderData(TonProvider rpc) async {
     final state =
-        await getStateStack(rpc: rpc, method: "get_order_data", stack: []);
+        await getStateStack(rpc: rpc, method: 'get_order_data', stack: []);
     final stack = state.reader();
     final multisig = stack.readAddress();
     final orderSeqno = stack.readBigNumber();

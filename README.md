@@ -162,13 +162,13 @@ class HTTPProvider implements TonServiceProvider {
   final Duration defaultRequestTimeout;
 
   @override
-  Future<dynamic> get(TonRequestInfo params, [Duration? timeout]) async {
+  Future<dynamic> get(TonRequestDetails params, [Duration? timeout]) async {
     /// Check examples file
     /// ...
   }
 
   @override
-  Future<dynamic> post(TonRequestInfo params, [Duration? timeout]) async {
+  Future<dynamic> post(TonRequestDetails params, [Duration? timeout]) async {
     /// Check examples file
     /// ...
   }

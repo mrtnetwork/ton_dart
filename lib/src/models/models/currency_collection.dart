@@ -17,12 +17,12 @@ class CurrencyCollection extends TonSerialization {
   }
   factory CurrencyCollection.fromJson(Map<String, dynamic> json) {
     return CurrencyCollection(
-      other: (json["other"] as Object?)?.convertTo<Map<int, BigInt>, Map>((p0) {
+      other: (json['other'] as Object?)?.convertTo<Map<int, BigInt>, Map>((p0) {
         final Map<int, String> result = p0.cast();
         return result.map<int, BigInt>(
             (key, value) => MapEntry(key, BigintUtils.parse(value)));
       }),
-      coins: BigintUtils.parse(json["coins"]),
+      coins: BigintUtils.parse(json['coins']),
     );
   }
   @override
@@ -42,8 +42,8 @@ class CurrencyCollection extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "other": other?.map((key, value) => MapEntry(key, value.toString())),
-      "coins": coins.toString()
+      'other': other?.map((key, value) => MapEntry(key, value.toString())),
+      'coins': coins.toString()
     };
   }
 }

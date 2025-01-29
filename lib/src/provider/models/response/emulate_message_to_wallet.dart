@@ -8,7 +8,7 @@ class EmulateMessageToWalletReqParamsItemResponse with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"address": address, "balance": balance};
+    return {'address': address, 'balance': balance};
   }
 }
 
@@ -19,6 +19,6 @@ class EmulateMessageToWalletReqResponse with JsonSerialization {
       {required this.boc, required this.params});
   @override
   Map<String, dynamic> toJson() {
-    return {"boc": boc, "params": params.map((e) => e.toJson()).toList()};
+    return {'boc': boc, 'params': params.map((e) => e.toJson()).toList()};
   }
 }

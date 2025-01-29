@@ -6,7 +6,7 @@ import 'package:ton_dart/src/provider/models/response/blockchain_account_inspect
 ///
 /// Blockchain account inspect.
 ///
-class TonApiBlockchainAccountInspect extends TonApiRequestParam<
+class TonApiBlockchainAccountInspect extends TonApiRequest<
     BlockchainAccountInspectResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiBlockchainAccountInspect(this.accountId);
@@ -17,7 +17,7 @@ class TonApiBlockchainAccountInspect extends TonApiRequestParam<
   List<String> get pathParameters => [accountId];
 
   @override
-  BlockchainAccountInspectResponse onResonse(Map<String, dynamic> json) {
-    return BlockchainAccountInspectResponse.fromJson(json);
+  BlockchainAccountInspectResponse onResonse(Map<String, dynamic> result) {
+    return BlockchainAccountInspectResponse.fromJson(result);
   }
 }

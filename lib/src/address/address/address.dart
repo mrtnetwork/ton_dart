@@ -15,22 +15,22 @@ class TonAddressType {
   const TonAddressType._(this.name);
 
   /// A bounceable address, typically used in cases where the address can receive bounced messages.
-  static const TonAddressType bounceable = TonAddressType._("Bounceable");
+  static const TonAddressType bounceable = TonAddressType._('Bounceable');
 
   /// A non-bounceable address, used when bounced messages are not allowed.
   static const TonAddressType nonBounceable =
-      TonAddressType._("Non-Bounceable");
+      TonAddressType._('Non-Bounceable');
 
   /// A raw address type, typically used in low-level interactions without the friendly representation.
-  static const TonAddressType raw = TonAddressType._("Raw");
+  static const TonAddressType raw = TonAddressType._('Raw');
 
   /// A bounceable address used in test networks.
   static const TonAddressType testBounceable =
-      TonAddressType._("Test(Bounceable)");
+      TonAddressType._('Test(Bounceable)');
 
   /// A non-bounceable address used in test networks.
   static const TonAddressType testNonBounceable =
-      TonAddressType._("Test(Non-Bounceable)");
+      TonAddressType._('Test(Non-Bounceable)');
 
   /// Returns `true` if the address type is bounceable.
   bool get isBounceable => this == bounceable;
@@ -105,7 +105,7 @@ class TonAddress implements TonBaseAddress {
   /// Factory to create a TON address from a string.
   factory TonAddress(String address, {int? forceWorkchain, bool? bounceable}) {
     final decode =
-        _decoder.decodeWithResult(address, {"workchain": forceWorkchain});
+        _decoder.decodeWithResult(address, {'workchain': forceWorkchain});
     List<FriendlyAddressFlags> flags = List.from(decode.flags);
     if (bounceable != null) {
       flags = [
@@ -128,7 +128,7 @@ class TonAddress implements TonBaseAddress {
 
   /// Converts the address to a raw format.
   String toRawAddress() {
-    return BytesUtils.toHexString(hash, prefix: "$workChain:");
+    return BytesUtils.toHexString(hash, prefix: '$workChain:');
   }
 
   /// Converts the address to a byte array.
@@ -157,7 +157,7 @@ class TonAddress implements TonBaseAddress {
 
   /// Compares two addresses for equality.
   @override
-  operator ==(other) {
+  bool operator ==(other) {
     if (other is! TonAddress) return false;
     return BytesUtils.bytesEqual(other.hash, hash) &&
         other.workChain == workChain;

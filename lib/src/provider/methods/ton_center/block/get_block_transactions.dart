@@ -3,7 +3,7 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get transactions of the given block.
 /// https://toncenter.com/api/v2/#/blocks/get_block_transactions_getBlockTransactions_get
-class TonCenterGetBlockTransactions extends TonCenterPostRequestParam<
+class TonCenterGetBlockTransactions extends TonCenterPostRequest<
     List<Map<String, dynamic>>, List<Map<String, dynamic>>> {
   final int workchain;
   final int shard;
@@ -30,14 +30,14 @@ class TonCenterGetBlockTransactions extends TonCenterPostRequestParam<
   @override
   Map<String, dynamic> params() {
     return {
-      "workchain": workchain,
-      "shard": shard,
-      "seqno": seqno,
-      "root_hash": rootHash,
-      "file_hash": fileHash,
-      "after_lt": afterLt,
-      "after_hash": afterHash,
-      "count": count
+      'workchain': workchain,
+      'shard': shard,
+      'seqno': seqno,
+      'root_hash': rootHash,
+      'file_hash': fileHash,
+      'after_lt': afterLt,
+      'after_hash': afterHash,
+      'count': count
     };
   }
 }

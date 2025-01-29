@@ -20,9 +20,9 @@ class RoyaltyParams extends TonSerialization {
   }
   factory RoyaltyParams.fromJson(Map<String, dynamic> json) {
     return RoyaltyParams(
-        royaltyFactor: IntUtils.parse(json["royaltyFactor"]),
-        royaltyBase: IntUtils.parse(json["royaltyBase"]),
-        address: TonAddress(json["address"]));
+        royaltyFactor: IntUtils.parse(json['royaltyFactor']),
+        royaltyBase: IntUtils.parse(json['royaltyBase']),
+        address: TonAddress(json['address']));
   }
 
   @override
@@ -37,9 +37,9 @@ class RoyaltyParams extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "royaltyFactor": royaltyFactor,
-      "royaltyBase": royaltyBase,
-      "address": address.toRawAddress()
+      'royaltyFactor': royaltyFactor,
+      'royaltyBase': royaltyBase,
+      'address': address.toRawAddress()
     };
   }
 }

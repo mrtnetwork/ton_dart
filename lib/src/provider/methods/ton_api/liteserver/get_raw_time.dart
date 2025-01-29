@@ -6,13 +6,12 @@ import 'package:ton_dart/src/provider/core/methods.dart';
 ///
 /// Get raw time.
 ///
-class TonApiGetRawTime
-    extends TonApiRequestParam<BigInt, Map<String, dynamic>> {
+class TonApiGetRawTime extends TonApiRequest<BigInt, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.getrawtime.url;
 
   @override
-  BigInt onResonse(Map<String, dynamic> json) {
-    return BigintUtils.parse(json["time"]);
+  BigInt onResonse(Map<String, dynamic> result) {
+    return BigintUtils.parse(result['time']);
   }
 }

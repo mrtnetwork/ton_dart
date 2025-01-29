@@ -83,39 +83,39 @@ class TransactionActionPhase extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "success": success,
-      "valid": valid,
-      "no_funds": noFunds,
-      "status_change": statusChange.toJson(),
-      "total_fwd_fees": totalFwdFees?.toString(),
-      "total_action_fees": totalActionFees?.toString(),
-      "result_code": resultCode,
-      "result_arg": resultArg,
-      "total_actions": totalActions,
-      "spec_actions": specActions,
-      "skipped_actions": skippedActions,
-      "messages_created": messagesCreated,
-      "action_list_hash": actionListHash.toString(),
-      "total_message_size": totalMessageSize.toJson()
+      'success': success,
+      'valid': valid,
+      'no_funds': noFunds,
+      'status_change': statusChange.toJson(),
+      'total_fwd_fees': totalFwdFees?.toString(),
+      'total_action_fees': totalActionFees?.toString(),
+      'result_code': resultCode,
+      'result_arg': resultArg,
+      'total_actions': totalActions,
+      'spec_actions': specActions,
+      'skipped_actions': skippedActions,
+      'messages_created': messagesCreated,
+      'action_list_hash': actionListHash.toString(),
+      'total_message_size': totalMessageSize.toJson()
     };
   }
 
   factory TransactionActionPhase.fromJson(Map<String, dynamic> json) {
     return TransactionActionPhase(
-      success: json["success"],
-      valid: json["valid"],
-      noFunds: json["no_funds"],
-      statusChange: AccountStatusChange.fromJson(json["status_change"]),
-      totalFwdFees: BigintUtils.tryParse(json["total_fwd_fees"]),
-      totalActionFees: BigintUtils.tryParse(json["total_action_fees"]),
-      resultCode: json["result_code"],
-      resultArg: json["result_arg"],
-      totalActions: json["total_actions"],
-      specActions: json["spec_actions"],
-      skippedActions: json["skipped_actions"],
-      messagesCreated: json["messages_created"],
-      actionListHash: BigintUtils.parse(json["action_list_hash"]),
-      totalMessageSize: StorageUsedShort.fromJson(json["total_message_size"]),
+      success: json['success'],
+      valid: json['valid'],
+      noFunds: json['no_funds'],
+      statusChange: AccountStatusChange.fromJson(json['status_change']),
+      totalFwdFees: BigintUtils.tryParse(json['total_fwd_fees']),
+      totalActionFees: BigintUtils.tryParse(json['total_action_fees']),
+      resultCode: json['result_code'],
+      resultArg: json['result_arg'],
+      totalActions: json['total_actions'],
+      specActions: json['spec_actions'],
+      skippedActions: json['skipped_actions'],
+      messagesCreated: json['messages_created'],
+      actionListHash: BigintUtils.parse(json['action_list_hash']),
+      totalMessageSize: StorageUsedShort.fromJson(json['total_message_size']),
     );
   }
 }

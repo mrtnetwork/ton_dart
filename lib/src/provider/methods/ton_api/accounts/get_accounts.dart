@@ -7,11 +7,11 @@ import 'package:ton_dart/src/provider/models/response/accounts.dart';
 /// Get human-friendly information about several accounts without low-level details.
 ///
 class TonApiGetAccounts
-    extends TonApiPostRequestParam<AccountsResponse, Map<String, dynamic>> {
+    extends TonApiPostRequest<AccountsResponse, Map<String, dynamic>> {
   final List<String> accountIds;
   TonApiGetAccounts(this.accountIds);
   @override
-  Object get body => {"account_ids": accountIds};
+  Map<String, dynamic> get body => {'account_ids': accountIds};
 
   @override
   String get method => TonApiMethods.getaccounts.url;
@@ -19,7 +19,7 @@ class TonApiGetAccounts
   @override
   List<String> get pathParameters => [];
   @override
-  AccountsResponse onResonse(Map<String, dynamic> json) {
-    return AccountsResponse.fromJson(json);
+  AccountsResponse onResonse(Map<String, dynamic> result) {
+    return AccountsResponse.fromJson(result);
   }
 }

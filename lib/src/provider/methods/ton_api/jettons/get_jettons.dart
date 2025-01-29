@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/jettons.dart';
 /// Get a list of all indexed jetton masters in the blockchain.
 ///
 class TonApiGetJettons
-    extends TonApiRequestParam<JettonsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<JettonsResponse, Map<String, dynamic>> {
   /// Default: 1000
   final int? limit;
 
@@ -19,9 +19,9 @@ class TonApiGetJettons
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"offset": offset, "limit": limit};
+      {'offset': offset, 'limit': limit};
   @override
-  JettonsResponse onResonse(Map<String, dynamic> json) {
-    return JettonsResponse.fromJson(json);
+  JettonsResponse onResonse(Map<String, dynamic> result) {
+    return JettonsResponse.fromJson(result);
   }
 }

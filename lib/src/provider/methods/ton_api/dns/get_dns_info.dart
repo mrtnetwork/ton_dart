@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/domain_info.dart';
 /// Get full information about domain name.
 ///
 class TonApiGetDnsInfo
-    extends TonApiRequestParam<DomainInfoResponse, Map<String, dynamic>> {
+    extends TonApiRequest<DomainInfoResponse, Map<String, dynamic>> {
   /// domain name with .ton or .t.me
   final String domainName;
   TonApiGetDnsInfo(this.domainName);
@@ -18,7 +18,7 @@ class TonApiGetDnsInfo
   List<String> get pathParameters => [domainName];
 
   @override
-  DomainInfoResponse onResonse(Map<String, dynamic> json) {
-    return DomainInfoResponse.fromJson(json);
+  DomainInfoResponse onResonse(Map<String, dynamic> result) {
+    return DomainInfoResponse.fromJson(result);
   }
 }

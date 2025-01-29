@@ -7,7 +7,7 @@ class TonCenterV3Account extends TonCenterV3RequestParam<Map<String, dynamic>,
   TonCenterV3Account({required this.address});
 
   @override
-  Map<String, dynamic> get queryParameters => {"address": address};
+  Map<String, dynamic> get queryParameters => {'address': address};
 
   @override
   String get method => TonCenterV3Methods.account.uri;

@@ -22,9 +22,9 @@ class StorageInfo extends TonSerialization {
   }
   factory StorageInfo.fromJson(Map<String, dynamic> json) {
     return StorageInfo(
-        used: StorageUsed.fromJson(json["used"]),
-        lastPaid: json["lastPaid"],
-        duePayment: BigintUtils.tryParse(json["duePayment"]));
+        used: StorageUsed.fromJson(json['used']),
+        lastPaid: json['lastPaid'],
+        duePayment: BigintUtils.tryParse(json['duePayment']));
   }
 
   @override
@@ -37,9 +37,9 @@ class StorageInfo extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "used": used.toJson(),
-      "lastPaid": lastPaid,
-      "duePayment": duePayment?.toString()
+      'used': used.toJson(),
+      'lastPaid': lastPaid,
+      'duePayment': duePayment?.toString()
     };
   }
 }

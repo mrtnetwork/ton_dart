@@ -3,7 +3,7 @@ import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
 /// Get transaction history of a given address.
 /// https://toncenter.com/api/v2/#/accounts/get_transactions_getTransactions_get
-class TonCenterGetTransactions extends TonCenterPostRequestParam<
+class TonCenterGetTransactions extends TonCenterPostRequest<
     List<Map<String, dynamic>>, List<Map<String, dynamic>>> {
   /// Identifier of target TON account in any form.
   final String address;
@@ -36,12 +36,12 @@ class TonCenterGetTransactions extends TonCenterPostRequestParam<
   @override
   Map<String, dynamic> params() {
     return {
-      "address": address,
-      "limit": limit,
-      "lt": lt,
-      "hash": hash,
-      "to_lt": toLt,
-      "archival": archival
+      'address': address,
+      'limit': limit,
+      'lt': lt,
+      'hash': hash,
+      'to_lt': toLt,
+      'archival': archival
     };
   }
 }

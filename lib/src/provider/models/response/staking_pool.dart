@@ -13,9 +13,9 @@ class StakingPoolResponse with JsonSerialization {
 
   factory StakingPoolResponse.fromJson(Map<String, dynamic> json) {
     return StakingPoolResponse(
-      pool: PoolInfoResponse.fromJson(json["pool"]),
+      pool: PoolInfoResponse.fromJson(json['pool']),
       implementation:
-          PoolImplementationResponse.fromJson(json["implementation"]),
+          PoolImplementationResponse.fromJson(json['implementation']),
     );
   }
 

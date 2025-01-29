@@ -6,7 +6,7 @@ import 'package:ton_dart/src/boc/bit/bit_string.dart';
 import 'package:ton_dart/src/boc/exception/exception.dart';
 
 void main() {
-  group("bit string", () => _test());
+  group('bit string', () => _test());
 }
 
 void _test() {
@@ -20,7 +20,7 @@ void _test() {
     expect(bs.at(5), false);
     expect(bs.at(6), true);
     expect(bs.at(7), false);
-    expect(bs.toString(), "AA");
+    expect(bs.toString(), 'AA');
   });
   test('should equals', () {
     final a = BitString([0xaa], 0, 8);
@@ -30,17 +30,17 @@ void _test() {
     expect(b, a);
     expect(a, c);
     expect(c, a);
-    expect(a.toString(), "AA");
-    expect(b.toString(), "AA");
-    expect(c.toString(), "AA");
+    expect(a.toString(), 'AA');
+    expect(b.toString(), 'AA');
+    expect(c.toString(), 'AA');
   });
   test('should format strings', () {
-    expect(BitString([0x00], 0, 1).toString(), "4_"); // 00
-    expect(BitString([0x80], 0, 1).toString(), "C_"); // 80
-    expect(BitString([0xc0], 0, 2).toString(), "E_"); // c0
-    expect(BitString([0xe0], 0, 3).toString(), "F_"); // e0
-    expect(BitString([0xe0], 0, 4).toString(), "E"); // e0
-    expect(BitString([0xe8], 0, 5).toString(), "EC_"); // e8
+    expect(BitString([0x00], 0, 1).toString(), '4_'); // 00
+    expect(BitString([0x80], 0, 1).toString(), 'C_'); // 80
+    expect(BitString([0xc0], 0, 2).toString(), 'E_'); // c0
+    expect(BitString([0xe0], 0, 3).toString(), 'F_'); // e0
+    expect(BitString([0xe0], 0, 4).toString(), 'E'); // e0
+    expect(BitString([0xe8], 0, 5).toString(), 'EC_'); // e8
   });
   test('should do subbuffers', () {
     final bs = new BitString([1, 2, 3, 4, 5, 6, 7, 8], 0, 64);

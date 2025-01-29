@@ -40,9 +40,9 @@ class Message extends TonSerialization {
   }
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-        info: CommonMessageInfo.fromJson(json["info"]),
-        body: json["body"],
-        init: (json["init"] as Object?)?.convertTo<StateInit, Map>(
+        info: CommonMessageInfo.fromJson(json['info']),
+        body: json['body'],
+        init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
             (result) => StateInit.fromJson(result.cast())));
   }
 
@@ -97,6 +97,6 @@ class Message extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"info": info.toJson(), "init": init?.toJson(), "body": body};
+    return {'info': info.toJson(), 'init': init?.toJson(), 'body': body};
   }
 }

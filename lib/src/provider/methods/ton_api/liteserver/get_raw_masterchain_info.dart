@@ -6,13 +6,13 @@ import 'package:ton_dart/src/provider/models/response/raw_master_chain_info.dart
 ///
 /// Get raw masterchain info.
 ///
-class TonApiGetRawMasterchainInfo extends TonApiRequestParam<
-    RawMasterchainInfoResponse, Map<String, dynamic>> {
+class TonApiGetRawMasterchainInfo
+    extends TonApiRequest<RawMasterchainInfoResponse, Map<String, dynamic>> {
   @override
   String get method => TonApiMethods.getrawmasterchaininfo.url;
 
   @override
-  RawMasterchainInfoResponse onResonse(Map<String, dynamic> json) {
-    return RawMasterchainInfoResponse.fromJson(json);
+  RawMasterchainInfoResponse onResonse(Map<String, dynamic> result) {
+    return RawMasterchainInfoResponse.fromJson(result);
   }
 }

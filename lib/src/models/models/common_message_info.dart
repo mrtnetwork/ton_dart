@@ -10,11 +10,11 @@ class CommonMessageInfoType {
   final String name;
   const CommonMessageInfoType._(this.name);
   static const CommonMessageInfoType internal =
-      CommonMessageInfoType._("internal");
+      CommonMessageInfoType._('internal');
   static const CommonMessageInfoType externalIn =
-      CommonMessageInfoType._("external-in");
+      CommonMessageInfoType._('external-in');
   static const CommonMessageInfoType externalOut =
-      CommonMessageInfoType._("external-out");
+      CommonMessageInfoType._('external-out');
   static const List<CommonMessageInfoType> values = [
     internal,
     externalIn,
@@ -24,13 +24,13 @@ class CommonMessageInfoType {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw TonDartPluginException(
-          "Cannot find CommonMessageInfoType from provided name",
-          details: {"name": name}),
+          'Cannot find CommonMessageInfoType from provided name',
+          details: {'name': name}),
     );
   }
   @override
   String toString() {
-    return "CommonMessageInfoType.$name";
+    return 'CommonMessageInfoType.$name';
   }
 }
 
@@ -47,7 +47,7 @@ abstract class CommonMessageInfo extends TonSerialization {
     return CommonMessageInfoExternalOut.deserialize(slice);
   }
   factory CommonMessageInfo.fromJson(Map<String, dynamic> json) {
-    final type = CommonMessageInfoType.fromValue(json["type"]);
+    final type = CommonMessageInfoType.fromValue(json['type']);
     switch (type) {
       case CommonMessageInfoType.externalIn:
         return CommonMessageInfoExternalIn.fromJson(json);
@@ -108,16 +108,16 @@ class CommonMessageInfoInternal extends CommonMessageInfo {
   }
   factory CommonMessageInfoInternal.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoInternal(
-        ihrDisabled: json["ihrDisabled"],
-        bounce: json["bounce"],
-        bounced: json["bounced"],
-        src: TonAddress(json["src"]),
-        dest: TonAddress(json["dest"]),
-        value: CurrencyCollection.fromJson(json["value"]),
-        ihrFee: BigintUtils.parse(json["ihrFee"]),
-        forwardFee: BigintUtils.parse(json["forwardFee"]),
-        createdLt: BigintUtils.parse(json["createdLt"]),
-        createdAt: json["createdAt"]);
+        ihrDisabled: json['ihrDisabled'],
+        bounce: json['bounce'],
+        bounced: json['bounced'],
+        src: TonAddress(json['src']),
+        dest: TonAddress(json['dest']),
+        value: CurrencyCollection.fromJson(json['value']),
+        ihrFee: BigintUtils.parse(json['ihrFee']),
+        forwardFee: BigintUtils.parse(json['forwardFee']),
+        createdLt: BigintUtils.parse(json['createdLt']),
+        createdAt: json['createdAt']);
   }
   @override
   void store(Builder builder) {
@@ -140,17 +140,17 @@ class CommonMessageInfoInternal extends CommonMessageInfo {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "bounce": bounce,
-      "ihrDisabled": ihrDisabled,
-      "bounced": bounced,
-      "src": src.toRawAddress(),
-      "dest": dest.toRawAddress(),
-      "value": value.toJson(),
-      "ihrFee": ihrFee.toString(),
-      "forwardFee": forwardFee.toString(),
-      "createdLt": createdLt.toString(),
-      "createdAt": createdAt,
-      "type": type.name
+      'bounce': bounce,
+      'ihrDisabled': ihrDisabled,
+      'bounced': bounced,
+      'src': src.toRawAddress(),
+      'dest': dest.toRawAddress(),
+      'value': value.toJson(),
+      'ihrFee': ihrFee.toString(),
+      'forwardFee': forwardFee.toString(),
+      'createdLt': createdLt.toString(),
+      'createdAt': createdAt,
+      'type': type.name
     };
   }
 }
@@ -172,9 +172,9 @@ class CommonMessageInfoExternalIn extends CommonMessageInfo {
   }
   factory CommonMessageInfoExternalIn.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoExternalIn(
-        dest: TonAddress(json["dest"]),
-        importFee: BigintUtils.parse(json["importFee"]),
-        src: (json["src"] as Object?)?.convertTo<ExternalAddress, Map>((p0) {
+        dest: TonAddress(json['dest']),
+        importFee: BigintUtils.parse(json['importFee']),
+        src: (json['src'] as Object?)?.convertTo<ExternalAddress, Map>((p0) {
           return ExternalAddress.fromJson(p0.cast());
         }));
   }
@@ -194,10 +194,10 @@ class CommonMessageInfoExternalIn extends CommonMessageInfo {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "dest": dest.toRawAddress(),
-      "src": src?.toJson(),
-      "importFee": importFee.toString(),
-      "type": type.name
+      'dest': dest.toRawAddress(),
+      'src': src?.toJson(),
+      'importFee': importFee.toString(),
+      'type': type.name
     };
   }
 }
@@ -223,10 +223,10 @@ class CommonMessageInfoExternalOut extends CommonMessageInfo {
   }
   factory CommonMessageInfoExternalOut.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoExternalOut(
-        src: TonAddress(json["src"]),
-        createdLt: BigintUtils.parse(json["createdLt"]),
-        createdAt: json["createdAt"],
-        dest: (json["dest"] as Object?)?.convertTo<ExternalAddress, Map>(
+        src: TonAddress(json['src']),
+        createdLt: BigintUtils.parse(json['createdLt']),
+        createdAt: json['createdAt'],
+        dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
             (p0) => ExternalAddress.fromJson(p0.cast())));
   }
 
@@ -246,11 +246,11 @@ class CommonMessageInfoExternalOut extends CommonMessageInfo {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "src": src.toRawAddress(),
-      "dest": dest?.toJson(),
-      "createdLt": createdLt.toString(),
-      "createdAt": createdAt,
-      "type": type.name
+      'src': src.toRawAddress(),
+      'dest': dest?.toJson(),
+      'createdLt': createdLt.toString(),
+      'createdAt': createdAt,
+      'type': type.name
     };
   }
 }

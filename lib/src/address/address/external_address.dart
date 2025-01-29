@@ -12,7 +12,7 @@ class ExternalAddress with JsonSerialization implements TonBaseAddress {
 
   /// Creates an [ExternalAddress] from a JSON object.
   factory ExternalAddress.fromJson(Map<String, dynamic> json) {
-    return ExternalAddress(BigintUtils.parse(json["value"]), json["bits"]);
+    return ExternalAddress(BigintUtils.parse(json['value']), json['bits']);
   }
 
   /// Returns a string representation of the external address.
@@ -24,6 +24,6 @@ class ExternalAddress with JsonSerialization implements TonBaseAddress {
   /// Converts the external address to a JSON object.
   @override
   Map<String, dynamic> toJson() {
-    return {"value": value.toString(), "bits": bits};
+    return {'value': value.toString(), 'bits': bits};
   }
 }

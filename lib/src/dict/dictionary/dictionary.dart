@@ -118,10 +118,10 @@ class Dictionary<K extends Object, V> {
       final resolvedKey = key ?? _key;
       final resolvedValue = value ?? _value;
       if (resolvedKey == null) {
-        throw DictException("Key serializer is not defined");
+        throw DictException('Key serializer is not defined');
       }
       if (resolvedValue == null) {
-        throw DictException("Value serializer is not defined");
+        throw DictException('Value serializer is not defined');
       }
 
       final prepared = Map<BigInt, V>.fromEntries(_map.entries.map((entry) =>
@@ -143,16 +143,16 @@ class Dictionary<K extends Object, V> {
   void storeDirect(Builder builder,
       {DictionaryKey<K>? key, DictionaryValue<V>? value}) {
     if (_map.isEmpty) {
-      throw DictException("Cannot store empty dictionary directly");
+      throw DictException('Cannot store empty dictionary directly');
     }
 
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {
-      throw DictException("Key serializer is not defined");
+      throw DictException('Key serializer is not defined');
     }
     if (resolvedValue == null) {
-      throw DictException("Value serializer is not defined");
+      throw DictException('Value serializer is not defined');
     }
     final prepared = Map<BigInt, V>.fromEntries(_map.entries.map((entry) =>
         MapEntry(
@@ -178,10 +178,10 @@ class Dictionary<K extends Object, V> {
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {
-      throw DictException("Key serializer is not defined");
+      throw DictException('Key serializer is not defined');
     }
     if (resolvedValue == null) {
-      throw DictException("Value serializer is not defined");
+      throw DictException('Value serializer is not defined');
     }
     final load = slice.loadDict(resolvedKey, resolvedValue);
     for (final i in load.entries) {

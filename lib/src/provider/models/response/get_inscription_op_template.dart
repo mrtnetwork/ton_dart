@@ -7,12 +7,12 @@ class GetInscriptionOpTemplateResponse with JsonSerialization {
       {required this.comment, required this.destination});
   factory GetInscriptionOpTemplateResponse.fromJson(Map<String, dynamic> json) {
     return GetInscriptionOpTemplateResponse(
-        comment: json["comment"], destination: json["destination"]);
+        comment: json['comment'], destination: json['destination']);
   }
 
   @override
   @override
   Map<String, dynamic> toJson() {
-    return {"comment": comment, "destination": destination};
+    return {'comment': comment, 'destination': destination};
   }
 }

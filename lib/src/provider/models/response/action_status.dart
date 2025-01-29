@@ -5,8 +5,8 @@ class ActionStatusResponse {
 
   const ActionStatusResponse._(this._value);
 
-  static const ActionStatusResponse ok = ActionStatusResponse._("ok");
-  static const ActionStatusResponse failed = ActionStatusResponse._("failed");
+  static const ActionStatusResponse ok = ActionStatusResponse._('ok');
+  static const ActionStatusResponse failed = ActionStatusResponse._('failed');
 
   static const List<ActionStatusResponse> values = [
     ok,
@@ -19,7 +19,7 @@ class ActionStatusResponse {
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No ActionStatusResponse found with the provided name: $name"),
+          'No ActionStatusResponse found with the provided name: $name'),
     );
   }
 }

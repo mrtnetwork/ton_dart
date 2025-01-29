@@ -97,7 +97,7 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (src.isNegative) {
-          throw DictException("Key is negative.", details: {"key": src});
+          throw DictException('Key is negative.', details: {'key': src});
         }
         return beginCell()
             .storeUint(src, bits)
@@ -125,10 +125,10 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (!src.isFinite) {
-          throw DictException("Key is not a safe integer.");
+          throw DictException('Key is not a safe integer.');
         }
         if (src.isNegative) {
-          throw DictException("Key is negative.", details: {"key": src});
+          throw DictException('Key is negative.', details: {'key': src});
         }
         return beginCell()
             .storeUint(src, bits)
@@ -370,8 +370,8 @@ class DictionaryCodecs {
     return DictionaryValue<List<int>>(
       serialize: (src, builder) {
         if (src.length != size) {
-          throw DictException("Invalid buffer size.",
-              details: {"size": size, "source_length": src.length});
+          throw DictException('Invalid buffer size.',
+              details: {'size': size, 'source_length': src.length});
         }
         builder.storeBuffer(src);
       },
@@ -389,8 +389,8 @@ class DictionaryCodecs {
     return DictionaryValue<BitString>(
       serialize: (src, builder) {
         if (src.length != bits) {
-          throw DictException("Invalid BitString size.",
-              details: {"size": bits, "source_length": src.length});
+          throw DictException('Invalid BitString size.',
+              details: {'size': bits, 'source_length': src.length});
         }
         builder.storeBits(src);
       },

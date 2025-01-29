@@ -1,4 +1,4 @@
-library ton_dart;
+library;
 
 export 'src/address/address.dart';
 export 'src/boc/boc.dart';

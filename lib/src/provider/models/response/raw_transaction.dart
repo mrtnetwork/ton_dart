@@ -7,18 +7,18 @@ class RawTransactionResponse with JsonSerialization {
   const RawTransactionResponse({required this.ids, required this.transactions});
   factory RawTransactionResponse.fromJson(Map<String, dynamic> json) {
     return RawTransactionResponse(
-        ids: (json["ids"] as List)
+        ids: (json['ids'] as List)
             .map((e) => BlockRawResponse.fromJson(e))
             .toList(),
-        transactions: json["transactions"]);
+        transactions: json['transactions']);
   }
 
   @override
   @override
   Map<String, dynamic> toJson() {
     return {
-      "transactions": transactions,
-      "ids": ids.map((e) => e.toJson()).toList()
+      'transactions': transactions,
+      'ids': ids.map((e) => e.toJson()).toList()
     };
   }
 }

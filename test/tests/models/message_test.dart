@@ -2,7 +2,7 @@ import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
 
 void main() {
-  group("Message", () => _test());
+  group('Message', () => _test());
 }
 
 void _test() {
@@ -17,15 +17,15 @@ void _test() {
     expect(stored.endCell(), cell);
     final decodeJson = Message.fromJson(message.toJson());
     expect(decodeJson.body.toBase64(),
-        "te6cckEBAQEAQgAAgP////////////////////////////////////////////////////////////////////////////////////4S1gKN");
+        'te6cckEBAQEAQgAAgP////////////////////////////////////////////////////////////////////////////////////4S1gKN');
     expect(decodeJson.info.type, CommonMessageInfoType.internal);
     final msg = decodeJson.info as CommonMessageInfoInternal;
     expect(msg.bounce, true);
     expect(msg.bounced, false);
     expect(msg.src.toFriendlyAddress(),
-        "EQD3Fj4sHCg7nmKcE_1DMzsHnhteKba21eoBXe3CvVVVMOGu");
+        'EQD3Fj4sHCg7nmKcE_1DMzsHnhteKba21eoBXe3CvVVVMOGu');
     expect(msg.dest.toFriendlyAddress(),
-        "EQDKbjIcfM6ezt8KjKJJLshZJJSqX7XOA4ff-W72r5gqPrHF");
+        'EQDKbjIcfM6ezt8KjKJJLshZJJSqX7XOA4ff-W72r5gqPrHF');
     expect(msg.value.coins, BigInt.from(99986675000));
     expect(msg.ihrFee, BigInt.zero);
     expect(msg.forwardFee, BigInt.from(1646680));

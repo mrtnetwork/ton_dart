@@ -7,9 +7,9 @@ class AccountStatusChange extends TonSerialization {
   final String status;
   const AccountStatusChange._(this.status);
   static const AccountStatusChange unchanged =
-      AccountStatusChange._("unchanged");
-  static const AccountStatusChange deleted = AccountStatusChange._("deleted");
-  static const AccountStatusChange frozen = AccountStatusChange._("frozen");
+      AccountStatusChange._('unchanged');
+  static const AccountStatusChange deleted = AccountStatusChange._('deleted');
+  static const AccountStatusChange frozen = AccountStatusChange._('frozen');
 
   factory AccountStatusChange.deserialize(Slice slice) {
     if (!slice.loadBit()) return unchanged;
@@ -17,7 +17,7 @@ class AccountStatusChange extends TonSerialization {
     return frozen;
   }
   factory AccountStatusChange.fromJson(Map<String, dynamic> json) {
-    return AccountStatusChange.fromValue(json["status"]);
+    return AccountStatusChange.fromValue(json['status']);
   }
 
   static const List<AccountStatusChange> values = [unchanged, deleted, frozen];
@@ -25,14 +25,14 @@ class AccountStatusChange extends TonSerialization {
     return values.firstWhere(
       (element) => element.status == status,
       orElse: () => throw TonDartPluginException(
-          "Cannot find AccountStatusChange from provided status",
-          details: {"status": status}),
+          'Cannot find AccountStatusChange from provided status',
+          details: {'status': status}),
     );
   }
 
   @override
   String toString() {
-    return "AccountStatusChange.$status";
+    return 'AccountStatusChange.$status';
   }
 
   @override
@@ -54,6 +54,6 @@ class AccountStatusChange extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {"status": status};
+    return {'status': status};
   }
 }

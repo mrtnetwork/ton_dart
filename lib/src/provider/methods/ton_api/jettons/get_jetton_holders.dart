@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/jetton_holders.dart';
 /// Get jetton's holders.
 ///
 class TonApiGetJettonHolders
-    extends TonApiRequestParam<JettonHoldersResponse, Map<String, dynamic>> {
+    extends TonApiRequest<JettonHoldersResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// Default: 1000
@@ -23,10 +23,10 @@ class TonApiGetJettonHolders
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"limit": limit, "offset": offset};
+      {'limit': limit, 'offset': offset};
 
   @override
-  JettonHoldersResponse onResonse(Map<String, dynamic> json) {
-    return JettonHoldersResponse.fromJson(json);
+  JettonHoldersResponse onResonse(Map<String, dynamic> result) {
+    return JettonHoldersResponse.fromJson(result);
   }
 }

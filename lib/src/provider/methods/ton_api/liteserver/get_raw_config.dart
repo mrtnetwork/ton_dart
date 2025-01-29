@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/raw_config.dart';
 /// Get raw config.
 ///
 class TonApiGetRawConfig
-    extends TonApiRequestParam<RawConfigResponse, Map<String, dynamic>> {
+    extends TonApiRequest<RawConfigResponse, Map<String, dynamic>> {
   /// (-1,8000000000000000,4234234,3E575DAB1D25...90D8,47192E5C46C...BB29)
   final String blockId;
   final int mode;
@@ -20,10 +20,10 @@ class TonApiGetRawConfig
   List<String> get pathParameters => [blockId];
 
   @override
-  Map<String, dynamic> get queryParameters => {"mode": mode};
+  Map<String, dynamic> get queryParameters => {'mode': mode};
 
   @override
-  RawConfigResponse onResonse(Map<String, dynamic> json) {
-    return RawConfigResponse.fromJson(json);
+  RawConfigResponse onResonse(Map<String, dynamic> result) {
+    return RawConfigResponse.fromJson(result);
   }
 }

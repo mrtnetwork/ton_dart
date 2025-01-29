@@ -15,17 +15,17 @@ class SendMode {
   const SendMode._(this.mode, this.name);
 
   static const SendMode carryAllRemainingBalance = SendMode._(
-      SendModeConst.carryAllRemainingBalance, "carryAllRemainingBalance");
+      SendModeConst.carryAllRemainingBalance, 'carryAllRemainingBalance');
   static const SendMode carryAllRemainingIncomingValue = SendMode._(
       SendModeConst.carryAllRemainingIncomingValue,
-      "carryAllRemainingIncomingValue");
+      'carryAllRemainingIncomingValue');
   static const SendMode destroyAccountIfZero =
-      SendMode._(SendModeConst.destroyAccountIfZero, "destroyAccountIfZero");
+      SendMode._(SendModeConst.destroyAccountIfZero, 'destroyAccountIfZero');
   static const SendMode payGasSeparately =
-      SendMode._(SendModeConst.payGasSeparately, "payGasSeparately");
+      SendMode._(SendModeConst.payGasSeparately, 'payGasSeparately');
   static const SendMode ignoreErrors =
-      SendMode._(SendModeConst.ignoreErrors, "ignoreErrors");
-  static const SendMode none = SendMode._(SendModeConst.none, "none");
+      SendMode._(SendModeConst.ignoreErrors, 'ignoreErrors');
+  static const SendMode none = SendMode._(SendModeConst.none, 'none');
   static const List<SendMode> values = [
     carryAllRemainingBalance,
     carryAllRemainingIncomingValue,
@@ -38,20 +38,20 @@ class SendMode {
     return values.firstWhere(
       (element) => element.name == name,
       orElse: () => throw TonDartPluginException(
-          "Cannot find SendMode from provided name",
-          details: {"name": name}),
+          'Cannot find SendMode from provided name',
+          details: {'name': name}),
     );
   }
   factory SendMode.fromMode(int? mode) {
     return values.firstWhere(
       (element) => element.mode == mode,
       orElse: () => throw TonDartPluginException(
-          "Cannot find SendMode from provided mode",
-          details: {"mode": mode}),
+          'Cannot find SendMode from provided mode',
+          details: {'mode': mode}),
     );
   }
   @override
   String toString() {
-    return "SendMode.$name";
+    return 'SendMode.$name';
   }
 }

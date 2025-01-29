@@ -9,20 +9,28 @@ import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
+/// jetton wallet operations
 class JettonWalletOperationType extends ContractOperationType {
   const JettonWalletOperationType._(
-      {required String name, required int operation})
-      : super(name: name, operation: operation);
+      {required super.name, required super.operation});
+
+  /// transfer
   static const JettonWalletOperationType transfer = JettonWalletOperationType._(
-      name: "Transfer", operation: JettonWalletConst.transfer);
+      name: 'Transfer', operation: JettonWalletConst.transfer);
+
+  /// burn
   static const JettonWalletOperationType burn = JettonWalletOperationType._(
-      name: "Burn", operation: JettonWalletConst.burn);
+      name: 'Burn', operation: JettonWalletConst.burn);
+
+  /// withdraw ton
   static const JettonWalletOperationType withdrawTon =
       JettonWalletOperationType._(
-          name: "WithdrawTon", operation: JettonWalletConst.withdrawTon);
+          name: 'WithdrawTon', operation: JettonWalletConst.withdrawTon);
+
+  /// withdraw jetton
   static const JettonWalletOperationType withdrawJetton =
       JettonWalletOperationType._(
-          name: "WithdrawJetton", operation: JettonWalletConst.withdrawJetton);
+          name: 'WithdrawJetton', operation: JettonWalletConst.withdrawJetton);
 
   static const List<JettonWalletOperationType> values = [
     transfer,
@@ -62,7 +70,7 @@ class JettonWalletOperationType extends ContractOperationType {
 abstract class JettonWalletOperation extends TonSerialization
     implements ContractOperation {
   @override
-  String get contractName => "Jetton Wallet";
+  String get contractName => 'Jetton Wallet';
   @override
   final JettonWalletOperationType type;
   final BigInt queryId;
@@ -87,11 +95,11 @@ abstract class JettonWalletOperation extends TonSerialization
       case JettonWalletOperationType.withdrawJetton:
         return JettonWalletWithdrawJetton.deserialize(slice);
       default:
-        throw const TonContractException("unsuported jetton wallet operation.");
+        throw const TonContractException('unsuported jetton wallet operation.');
     }
   }
   factory JettonWalletOperation.fromJson(Map<String, dynamic>? json) {
-    final type = JettonWalletOperationType.fromName(json?["type"]);
+    final type = JettonWalletOperationType.fromName(json?['type']);
     switch (type) {
       case JettonWalletOperationType.transfer:
         return JettonWalletTransfer.fromJson(json!);
@@ -102,34 +110,44 @@ abstract class JettonWalletOperation extends TonSerialization
       case JettonWalletOperationType.withdrawJetton:
         return JettonWalletWithdrawJetton.fromJson(json!);
       default:
-        throw const TonContractException("unsuported jetton wallet operation.");
+        throw const TonContractException('unsuported jetton wallet operation.');
     }
   }
   T cast<T extends JettonWalletOperation>() {
     if (this is! T) {
       throw TonContractException(
-          "Incorrect Jetton wallet casting. excepted: $runtimeType got: $T");
+          'Incorrect Jetton wallet casting. excepted: $runtimeType got: $T');
     }
     return this as T;
   }
 }
 
+/// jetton wallet transfer params
 class JettonWalletTransfer extends JettonWalletOperation {
+  /// destination
   final TonAddress destination;
   final TonAddress? responseDestination;
+
+  /// forward ton amount
   final BigInt forwardTonAmount;
+
+  /// jetton amount
   final BigInt amount;
+
+  /// payload
   final Cell? customPayload;
+
+  /// forward payload
   final Cell? forwardPayload;
   JettonWalletTransfer(
       {required this.amount,
       required this.destination,
       required this.forwardTonAmount,
       this.responseDestination,
-      BigInt? queryId,
+      super.queryId,
       this.customPayload,
       this.forwardPayload})
-      : super(type: JettonWalletOperationType.transfer, queryId: queryId);
+      : super(type: JettonWalletOperationType.transfer);
 
   factory JettonWalletTransfer.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
@@ -151,22 +169,22 @@ class JettonWalletTransfer extends JettonWalletOperation {
   factory JettonWalletTransfer.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
-          JettonWalletOperationType.fromName(json["type"],
+          JettonWalletOperationType.fromName(json['type'],
               excepted: JettonWalletOperationType.transfer);
           return JettonWalletTransfer(
-              queryId: BigintUtils.tryParse(json["queryId"]),
-              amount: BigintUtils.parse(json["amount"]),
-              destination: TonAddress(json["destination"]),
-              forwardTonAmount: BigintUtils.parse(json["forwardTonAmount"]),
-              responseDestination: json["responseDestination"] == null
+              queryId: BigintUtils.tryParse(json['queryId']),
+              amount: BigintUtils.parse(json['amount']),
+              destination: TonAddress(json['destination']),
+              forwardTonAmount: BigintUtils.parse(json['forwardTonAmount']),
+              responseDestination: json['responseDestination'] == null
                   ? null
-                  : TonAddress(json["responseDestination"]),
-              customPayload: json["customPayload"] == null
+                  : TonAddress(json['responseDestination']),
+              customPayload: json['customPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["customPayload"]),
-              forwardPayload: json["forwardPayload"] == null
+                  : Cell.fromBase64(json['customPayload']),
+              forwardPayload: json['forwardPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["forwardPayload"]));
+                  : Cell.fromBase64(json['forwardPayload']));
         },
         name: JettonWalletOperationType.transfer.name,
         data: json);
@@ -187,28 +205,29 @@ class JettonWalletTransfer extends JettonWalletOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "amount": amount.toString(),
-      "destination": destination.toRawAddress(),
-      "responseDestination": responseDestination?.toRawAddress(),
-      "customPayload": customPayload?.toBase64(),
-      "forwardTonAmount": forwardTonAmount.toString(),
-      "forwardPayload": forwardPayload?.toBase64(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'amount': amount.toString(),
+      'destination': destination.toRawAddress(),
+      'responseDestination': responseDestination?.toRawAddress(),
+      'customPayload': customPayload?.toBase64(),
+      'forwardTonAmount': forwardTonAmount.toString(),
+      'forwardPayload': forwardPayload?.toBase64(),
+      'type': type.name
     };
   }
 }
 
+/// jetton burn params
 class JettonWalletBurn extends JettonWalletOperation {
   final TonAddress? from;
   final BigInt burnAmount;
   final Cell? customPayload;
   JettonWalletBurn({
-    BigInt? queryId,
+    super.queryId,
     this.from,
     required this.burnAmount,
     this.customPayload,
-  }) : super(type: JettonWalletOperationType.burn, queryId: queryId);
+  }) : super(type: JettonWalletOperationType.burn);
 
   factory JettonWalletBurn.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
@@ -227,15 +246,15 @@ class JettonWalletBurn extends JettonWalletOperation {
   factory JettonWalletBurn.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
-          JettonWalletOperationType.fromName(json["type"],
+          JettonWalletOperationType.fromName(json['type'],
               excepted: JettonWalletOperationType.burn);
           return JettonWalletBurn(
-              queryId: BigintUtils.tryParse(json["queryId"]),
-              burnAmount: BigintUtils.parse(json["burnAmount"]),
-              from: json["from"] == null ? null : TonAddress(json["from"]),
-              customPayload: json["customPayload"] == null
+              queryId: BigintUtils.tryParse(json['queryId']),
+              burnAmount: BigintUtils.parse(json['burnAmount']),
+              from: json['from'] == null ? null : TonAddress(json['from']),
+              customPayload: json['customPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["customPayload"]));
+                  : Cell.fromBase64(json['customPayload']));
         },
         name: JettonWalletOperationType.burn.name,
         data: json);
@@ -253,21 +272,22 @@ class JettonWalletBurn extends JettonWalletOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "burnAmount": burnAmount.toString(),
-      "from": from?.toRawAddress(),
-      "customPayload": customPayload?.toBase64(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'burnAmount': burnAmount.toString(),
+      'from': from?.toRawAddress(),
+      'customPayload': customPayload?.toBase64(),
+      'type': type.name
     };
   }
 }
 
+/// widthraw ton params
 class JettonWalletWithdrawTon extends JettonWalletOperation {
   final Cell? customPayload;
   JettonWalletWithdrawTon({
-    BigInt? queryId,
+    super.queryId,
     this.customPayload,
-  }) : super(type: JettonWalletOperationType.withdrawTon, queryId: queryId);
+  }) : super(type: JettonWalletOperationType.withdrawTon);
 
   factory JettonWalletWithdrawTon.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
@@ -284,13 +304,13 @@ class JettonWalletWithdrawTon extends JettonWalletOperation {
   factory JettonWalletWithdrawTon.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
-          JettonWalletOperationType.fromName(json["type"],
+          JettonWalletOperationType.fromName(json['type'],
               excepted: JettonWalletOperationType.withdrawTon);
           return JettonWalletWithdrawTon(
-              queryId: BigintUtils.tryParse(json["queryId"]),
-              customPayload: json["customPayload"] == null
+              queryId: BigintUtils.tryParse(json['queryId']),
+              customPayload: json['customPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["customPayload"]));
+                  : Cell.fromBase64(json['customPayload']));
         },
         name: JettonWalletOperationType.withdrawTon.name,
         data: json);
@@ -306,23 +326,24 @@ class JettonWalletWithdrawTon extends JettonWalletOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "customPayload": customPayload?.toBase64(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'customPayload': customPayload?.toBase64(),
+      'type': type.name
     };
   }
 }
 
+/// withdraw jetton params
 class JettonWalletWithdrawJetton extends JettonWalletOperation {
   final Cell? customPayload;
   final TonAddress from;
   final BigInt amount;
   JettonWalletWithdrawJetton({
-    BigInt? queryId,
+    super.queryId,
     required this.from,
     required this.amount,
     this.customPayload,
-  }) : super(type: JettonWalletOperationType.withdrawJetton, queryId: queryId);
+  }) : super(type: JettonWalletOperationType.withdrawJetton);
 
   factory JettonWalletWithdrawJetton.deserialize(Slice slice) {
     return TonModelParser.parseBoc(
@@ -340,15 +361,15 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
   factory JettonWalletWithdrawJetton.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
-          JettonWalletOperationType.fromName(json["type"],
+          JettonWalletOperationType.fromName(json['type'],
               excepted: JettonWalletOperationType.withdrawJetton);
           return JettonWalletWithdrawJetton(
-              queryId: BigintUtils.tryParse(json["queryId"]),
-              from: TonAddress(json["from"]),
-              amount: BigintUtils.parse(json["amount"]),
-              customPayload: json["customPayload"] == null
+              queryId: BigintUtils.tryParse(json['queryId']),
+              from: TonAddress(json['from']),
+              amount: BigintUtils.parse(json['amount']),
+              customPayload: json['customPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["customPayload"]));
+                  : Cell.fromBase64(json['customPayload']));
         },
         name: JettonWalletOperationType.withdrawJetton.name,
         data: json);
@@ -366,36 +387,46 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "queryId": queryId.toString(),
-      "from": from.toRawAddress(),
-      "amount": amount.toString(),
-      "customPayload": customPayload?.toBase64(),
-      "type": type.name
+      'queryId': queryId.toString(),
+      'from': from.toRawAddress(),
+      'amount': amount.toString(),
+      'customPayload': customPayload?.toBase64(),
+      'type': type.name
     };
   }
 }
 
+/// jetton minter operations
 class JettonMinterOperationType extends ContractOperationType {
   const JettonMinterOperationType._(
-      {required String name, required int operation})
-      : super(name: name, operation: operation);
+      {required super.name, required super.operation});
+
+  /// mint
   static const JettonMinterOperationType mint = JettonMinterOperationType._(
-      name: "Mint", operation: JettonMinterConst.mintOperation);
+      name: 'Mint', operation: JettonMinterConst.mintOperation);
+
+  /// discovery
   static const JettonMinterOperationType discovery =
       JettonMinterOperationType._(
-          name: "Discovery",
+          name: 'Discovery',
           operation: JettonMinterConst.discoverMessageOperation);
+
+  ///  change admin
   static const JettonMinterOperationType changeAdmin =
       JettonMinterOperationType._(
-          name: "ChangeAdmin",
+          name: 'ChangeAdmin',
           operation: JettonMinterConst.changeAdminOperation);
+
+  /// change content
   static const JettonMinterOperationType changeContent =
       JettonMinterOperationType._(
-          name: "ChangeContent",
+          name: 'ChangeContent',
           operation: JettonMinterConst.changeContentOperation);
+
+  /// internal transfer
   static const JettonMinterOperationType internalTransfer =
       JettonMinterOperationType._(
-          name: "InternalTransfer",
+          name: 'InternalTransfer',
           operation: JettonMinterConst.internalTransferOperation);
   static List<JettonMinterOperationType> values = [
     discovery,
@@ -434,7 +465,7 @@ class JettonMinterOperationType extends ContractOperationType {
 
   @override
   String toString() {
-    return "JettonMinterOperationType.$name";
+    return 'JettonMinterOperationType.$name';
   }
 }
 
@@ -443,7 +474,7 @@ abstract class JettonMinterOperation extends TonSerialization
   @override
   final JettonMinterOperationType type;
   @override
-  String get contractName => "Jetton Minter";
+  String get contractName => 'Jetton Minter';
   final BigInt queryId;
   @override
   Cell contractCode(TonChain chain) {
@@ -471,16 +502,16 @@ abstract class JettonMinterOperation extends TonSerialization
               return JettonMinterInternalTransfer.deserialize(slice);
 
             default:
-              throw TonContractException("Invalid Minter operation type.",
-                  details: {"type": type.name});
+              throw TonContractException('Invalid Minter operation type.',
+                  details: {'type': type.name});
           }
         },
-        name: "Minter");
+        name: 'Minter');
   }
   factory JettonMinterOperation.fromJson(Map<String, dynamic>? json) {
     return TonModelParser.parseJson(
         parse: () {
-          final type = JettonMinterOperationType.fromName(json?["type"]);
+          final type = JettonMinterOperationType.fromName(json?['type']);
           switch (type) {
             case JettonMinterOperationType.mint:
               return JettonMinterMint.fromJson(json!);
@@ -493,21 +524,22 @@ abstract class JettonMinterOperation extends TonSerialization
             case JettonMinterOperationType.internalTransfer:
               return JettonMinterInternalTransfer.fromJson(json!);
             default:
-              throw TonContractException("Invalid Minter operation type.",
-                  details: {"type": type.name});
+              throw TonContractException('Invalid Minter operation type.',
+                  details: {'type': type.name});
           }
         },
-        name: "Minter");
+        name: 'Minter');
   }
   T cast<T extends JettonMinterOperation>() {
     if (this is! T) {
-      throw TonContractException("Incorrect JettonMinterOperation casting.",
-          details: {"excepted": "$runtimeType", "got": "$T"});
+      throw TonContractException('Incorrect JettonMinterOperation casting.',
+          details: {'excepted': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
 }
 
+/// jetton mint params
 class JettonMinterMint extends JettonMinterOperation {
   final BigInt totalTonAmount;
   final BigInt jettonAmount;
@@ -519,18 +551,18 @@ class JettonMinterMint extends JettonMinterOperation {
     required this.to,
     required this.transfer,
     required this.jettonAmount,
-    BigInt? queryId,
-  }) : super(type: JettonMinterOperationType.mint, queryId: queryId);
+    super.queryId,
+  }) : super(type: JettonMinterOperationType.mint);
   factory JettonMinterMint.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
           return JettonMinterMint(
-              queryId: BigintUtils.parse(json["queryId"]),
-              totalTonAmount: BigintUtils.parse(json["totalTonAmount"]),
-              to: TonAddress(json["to"]),
-              jettonAmount: BigintUtils.parse(json["jettonAmount"]),
+              queryId: BigintUtils.parse(json['queryId']),
+              totalTonAmount: BigintUtils.parse(json['totalTonAmount']),
+              to: TonAddress(json['to']),
+              jettonAmount: BigintUtils.parse(json['jettonAmount']),
               transfer:
-                  JettonMinterInternalTransfer.fromJson(json["transfer"]));
+                  JettonMinterInternalTransfer.fromJson(json['transfer']));
         },
         name: JettonMinterOperationType.mint.name);
   }
@@ -563,16 +595,17 @@ class JettonMinterMint extends JettonMinterOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "queryId": queryId.toString(),
-      "to": to.toRawAddress(),
-      "totalTonAmount": totalTonAmount.toString(),
-      "jettonAmount": jettonAmount.toString(),
-      "transfer": transfer.toJson(),
+      'type': type.name,
+      'queryId': queryId.toString(),
+      'to': to.toRawAddress(),
+      'totalTonAmount': totalTonAmount.toString(),
+      'jettonAmount': jettonAmount.toString(),
+      'transfer': transfer.toJson(),
     };
   }
 }
 
+/// jetton internal transfer params
 class JettonMinterInternalTransfer extends JettonMinterOperation {
   final BigInt jettonAmount;
   final TonAddress? from;
@@ -586,23 +619,22 @@ class JettonMinterInternalTransfer extends JettonMinterOperation {
     this.responseAddress,
     this.customPayload,
     required this.forwardTonAmount,
-    BigInt? queryId,
-  }) : super(
-            type: JettonMinterOperationType.internalTransfer, queryId: queryId);
+    super.queryId,
+  }) : super(type: JettonMinterOperationType.internalTransfer);
   factory JettonMinterInternalTransfer.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
           return JettonMinterInternalTransfer(
-              queryId: BigintUtils.parse(json["queryId"]),
-              forwardTonAmount: BigintUtils.parse(json["forwardTonAmount"]),
-              jettonAmount: BigintUtils.parse(json["jettonAmount"]),
-              customPayload: json["customPayload"] == null
+              queryId: BigintUtils.parse(json['queryId']),
+              forwardTonAmount: BigintUtils.parse(json['forwardTonAmount']),
+              jettonAmount: BigintUtils.parse(json['jettonAmount']),
+              customPayload: json['customPayload'] == null
                   ? null
-                  : Cell.fromBase64(json["customPayload"]),
-              from: json["from"] == null ? null : TonAddress(json["from"]),
-              responseAddress: json["responseAddress"] == null
+                  : Cell.fromBase64(json['customPayload']),
+              from: json['from'] == null ? null : TonAddress(json['from']),
+              responseAddress: json['responseAddress'] == null
                   ? null
-                  : TonAddress(json["responseAddress"]));
+                  : TonAddress(json['responseAddress']));
         },
         name: JettonMinterOperationType.internalTransfer.name);
   }
@@ -637,29 +669,30 @@ class JettonMinterInternalTransfer extends JettonMinterOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "queryId": queryId.toString(),
-      "jettonAmount": jettonAmount.toString(),
-      "responseAddress": responseAddress?.toRawAddress(),
-      "customPayload": customPayload?.toBase64(),
-      "forwardTonAmount": forwardTonAmount.toString(),
+      'type': type.name,
+      'queryId': queryId.toString(),
+      'jettonAmount': jettonAmount.toString(),
+      'responseAddress': responseAddress?.toRawAddress(),
+      'customPayload': customPayload?.toBase64(),
+      'forwardTonAmount': forwardTonAmount.toString(),
     };
   }
 }
 
+/// jetton discovery params
 class JettonMinterDiscovery extends JettonMinterOperation {
   final TonAddress owner;
   final bool includeAddress;
   JettonMinterDiscovery(
-      {required this.owner, required this.includeAddress, BigInt? queryId})
-      : super(type: JettonMinterOperationType.discovery, queryId: queryId);
+      {required this.owner, required this.includeAddress, super.queryId})
+      : super(type: JettonMinterOperationType.discovery);
   factory JettonMinterDiscovery.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
           return JettonMinterDiscovery(
-              owner: TonAddress(json["owner"]),
-              includeAddress: json["includeAddress"],
-              queryId: BigintUtils.parse(json["queryId"]));
+              owner: TonAddress(json['owner']),
+              includeAddress: json['includeAddress'],
+              queryId: BigintUtils.parse(json['queryId']));
         },
         name: JettonMinterOperationType.discovery.name);
   }
@@ -687,24 +720,25 @@ class JettonMinterDiscovery extends JettonMinterOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "owner": owner.toRawAddress(),
-      "includeAddress": includeAddress,
-      "queryId": queryId.toString()
+      'type': type.name,
+      'owner': owner.toRawAddress(),
+      'includeAddress': includeAddress,
+      'queryId': queryId.toString()
     };
   }
 }
 
+/// jetton change admin params
 class JettonMinterChangeAdmin extends JettonMinterOperation {
   final TonAddress newOwner;
-  JettonMinterChangeAdmin({required this.newOwner, BigInt? queryId})
-      : super(type: JettonMinterOperationType.changeAdmin, queryId: queryId);
+  JettonMinterChangeAdmin({required this.newOwner, super.queryId})
+      : super(type: JettonMinterOperationType.changeAdmin);
   factory JettonMinterChangeAdmin.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
           return JettonMinterChangeAdmin(
-              newOwner: TonAddress(json["newOwner"]),
-              queryId: BigintUtils.parse(json["queryId"]));
+              newOwner: TonAddress(json['newOwner']),
+              queryId: BigintUtils.parse(json['queryId']));
         },
         name: JettonMinterOperationType.changeAdmin.name);
   }
@@ -729,23 +763,24 @@ class JettonMinterChangeAdmin extends JettonMinterOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "newOwner": newOwner.toRawAddress(),
-      "queryId": queryId.toString()
+      'type': type.name,
+      'newOwner': newOwner.toRawAddress(),
+      'queryId': queryId.toString()
     };
   }
 }
 
+/// jetton change content params
 class JettonMinterChangeContent extends JettonMinterOperation {
   final Cell content;
-  JettonMinterChangeContent({required this.content, BigInt? queryId})
-      : super(type: JettonMinterOperationType.changeContent, queryId: queryId);
+  JettonMinterChangeContent({required this.content, super.queryId})
+      : super(type: JettonMinterOperationType.changeContent);
   factory JettonMinterChangeContent.fromJson(Map<String, dynamic> json) {
     return TonModelParser.parseJson(
         parse: () {
           return JettonMinterChangeContent(
-              content: Cell.fromBase64(json["content"]),
-              queryId: BigintUtils.parse(json["queryId"]));
+              content: Cell.fromBase64(json['content']),
+              queryId: BigintUtils.parse(json['queryId']));
         },
         name: JettonMinterOperationType.changeContent.name);
   }
@@ -770,9 +805,9 @@ class JettonMinterChangeContent extends JettonMinterOperation {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "type": type.name,
-      "content": content.toBase64(),
-      "queryId": queryId.toString()
+      'type': type.name,
+      'content': content.toBase64(),
+      'queryId': queryId.toString()
     };
   }
 

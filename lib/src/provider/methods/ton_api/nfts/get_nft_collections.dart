@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/nft_collections.dart';
 /// Get NFT collections.
 ///
 class TonApiGetNftCollections
-    extends TonApiRequestParam<NftCollectionsResponse, Map<String, dynamic>> {
+    extends TonApiRequest<NftCollectionsResponse, Map<String, dynamic>> {
   /// Default: 100
   final int? limit;
 
@@ -19,10 +19,10 @@ class TonApiGetNftCollections
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"limit": limit, "offset": offset};
+      {'limit': limit, 'offset': offset};
 
   @override
-  NftCollectionsResponse onResonse(Map<String, dynamic> json) {
-    return NftCollectionsResponse.fromJson(json);
+  NftCollectionsResponse onResonse(Map<String, dynamic> result) {
+    return NftCollectionsResponse.fromJson(result);
   }
 }

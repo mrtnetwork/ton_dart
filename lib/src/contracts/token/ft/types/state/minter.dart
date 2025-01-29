@@ -14,11 +14,11 @@ class MinterWalletState extends ContractState {
   final Cell? walletCode;
   Map<String, dynamic> toJson() {
     return {
-      "owner": owner?.toFriendlyAddress(),
-      "content": content.toBase64(),
-      "totalSupply": totalSupply,
-      "walletCode": walletCode?.toBase64(),
-      "metadata": metadata.toJson()
+      'owner': owner?.toFriendlyAddress(),
+      'content': content.toBase64(),
+      'totalSupply': totalSupply,
+      'walletCode': walletCode?.toBase64(),
+      'metadata': metadata.toJson()
     };
   }
 
@@ -55,7 +55,7 @@ class MinterWalletState extends ContractState {
       BigInt? totalSupply}) {
     if (metadata != null && contect != null) {
       throw const TonContractException(
-          "Use only content or metadata for jetton content");
+          'Use only content or metadata for jetton content');
     }
     return MinterWalletState._(
         owner: owner,

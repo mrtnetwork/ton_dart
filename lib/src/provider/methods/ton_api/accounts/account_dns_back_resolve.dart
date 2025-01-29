@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/domain_names.dart';
 /// Get account's domains.
 ///
 class TonApiAccountDnsBackResolve
-    extends TonApiRequestParam<DomainNamesResponse, Map<String, dynamic>> {
+    extends TonApiRequest<DomainNamesResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiAccountDnsBackResolve(this.accountId);
   @override
@@ -16,7 +16,7 @@ class TonApiAccountDnsBackResolve
   @override
   List<String> get pathParameters => [accountId];
   @override
-  DomainNamesResponse onResonse(Map<String, dynamic> json) {
-    return DomainNamesResponse.fromJson(json);
+  DomainNamesResponse onResonse(Map<String, dynamic> result) {
+    return DomainNamesResponse.fromJson(result);
   }
 }

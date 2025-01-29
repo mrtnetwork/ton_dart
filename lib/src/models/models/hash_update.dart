@@ -19,16 +19,16 @@ class HashUpdate extends TonSerialization {
   factory HashUpdate.deserialize(Slice slice) {
     final prefix = slice.loadUint(8);
     if (prefix != _HashUpdateConst.prefix) {
-      throw TonDartPluginException("Invalid HashUpdate prefix.",
-          details: {"excepted": _HashUpdateConst.prefix, "prefix": prefix});
+      throw TonDartPluginException('Invalid HashUpdate prefix.',
+          details: {'excepted': _HashUpdateConst.prefix, 'prefix': prefix});
     }
     return HashUpdate(
         oldHash: slice.loadBuffer(32), newHash: slice.loadBuffer(32));
   }
   factory HashUpdate.fromJson(Map<String, dynamic> json) {
     return HashUpdate(
-      oldHash: BytesUtils.fromHexString(json["old_hash"]),
-      newHash: BytesUtils.fromHexString(json["new_hash"]),
+      oldHash: BytesUtils.fromHexString(json['old_hash']),
+      newHash: BytesUtils.fromHexString(json['new_hash']),
     );
   }
 
@@ -42,8 +42,8 @@ class HashUpdate extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "old_hash": BytesUtils.toHexString(oldHash),
-      "new_hash": BytesUtils.toHexString(newHash)
+      'old_hash': BytesUtils.toHexString(oldHash),
+      'new_hash': BytesUtils.toHexString(newHash)
     };
   }
 }

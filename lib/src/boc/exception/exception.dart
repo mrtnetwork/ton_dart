@@ -9,6 +9,5 @@ class BocException extends TonDartPluginException {
   ///
   /// [message] is the error message describing the exception.
   /// [details] is an optional map of additional details to include with the exception.
-  BocException(String message, {Map<String, dynamic>? details})
-      : super(message, details: details);
+  BocException(super.message, {super.details});
 }

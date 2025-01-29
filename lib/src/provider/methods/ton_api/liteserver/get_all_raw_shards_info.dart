@@ -6,8 +6,8 @@ import 'package:ton_dart/src/provider/models/response/all_raw_shards_info.dart';
 ///
 /// Get all raw shards info.
 ///
-class TonApiGetAllRawShardsInfo extends TonApiRequestParam<
-    GetAllRawShardsInfoResponse, Map<String, dynamic>> {
+class TonApiGetAllRawShardsInfo
+    extends TonApiRequest<GetAllRawShardsInfoResponse, Map<String, dynamic>> {
   /// block ID: (workchain,shard,seqno,root_hash,file_hash)
   /// (-1,8000000000000000,4234234,3E575DAB1D25...90D8,47192E5C46C...BB29)
   final String blockId;
@@ -19,7 +19,7 @@ class TonApiGetAllRawShardsInfo extends TonApiRequestParam<
   List<String> get pathParameters => [blockId];
 
   @override
-  GetAllRawShardsInfoResponse onResonse(Map<String, dynamic> json) {
-    return GetAllRawShardsInfoResponse.fromJson(json);
+  GetAllRawShardsInfoResponse onResonse(Map<String, dynamic> result) {
+    return GetAllRawShardsInfoResponse.fromJson(result);
   }
 }

@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/account_staking.dart';
 /// All pools where account participates.
 ///
 class TonApiGetAccountNominatorsPools
-    extends TonApiRequestParam<AccountStakingResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AccountStakingResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiGetAccountNominatorsPools(this.accountId);
   @override
@@ -17,7 +17,7 @@ class TonApiGetAccountNominatorsPools
   List<String> get pathParameters => [accountId];
 
   @override
-  AccountStakingResponse onResonse(Map<String, dynamic> json) {
-    return AccountStakingResponse.fromJson(json);
+  AccountStakingResponse onResonse(Map<String, dynamic> result) {
+    return AccountStakingResponse.fromJson(result);
   }
 }

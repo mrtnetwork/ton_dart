@@ -14,9 +14,9 @@ class NFTCollectionData with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      "next_item_index": nexItemIndex.toString(),
-      "content": content.toJson(),
-      "owner_address": ownerAddress.toString()
+      'next_item_index': nexItemIndex.toString(),
+      'content': content.toJson(),
+      'owner_address': ownerAddress.toString()
     };
   }
 }

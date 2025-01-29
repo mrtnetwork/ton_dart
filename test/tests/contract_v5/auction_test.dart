@@ -40,7 +40,7 @@ void _v5R1Actions() {
         .endCell();
 
     expect(expected, actual);
-    expect(expected.toBase64(), "te6cckEBAQEABAAAAwTAorSwPA==");
+    expect(expected.toBase64(), 'te6cckEBAQEABAAAAwTAorSwPA==');
   });
   test('Should serialise setIsPublicKeyEnabled action with false flag', () {
     const action = OutActionSetIsPublicKeyEnabled(false);
@@ -53,7 +53,7 @@ void _v5R1Actions() {
         .endCell();
 
     expect(expected, actual);
-    expect(expected.toBase64(), "te6cckEBAQEABAAAAwRA2o9Gvg==");
+    expect(expected.toBase64(), 'te6cckEBAQEABAAAAwRA2o9Gvg==');
   });
   test('Should serialise add extension action', () {
     final action = OutActionAddExtension(mockAddress);
@@ -66,7 +66,7 @@ void _v5R1Actions() {
         .endCell();
     expect(expected, actual);
     expect(expected.toBase64(),
-        "te6cckEBAQEAJQAARQKAAiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIwCCDtAg==");
+        'te6cckEBAQEAJQAARQKAAiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIwCCDtAg==');
   });
   test('Should serialise remove extension action', () {
     final action = OutActionRemoveExtension(mockAddress);
@@ -79,10 +79,10 @@ void _v5R1Actions() {
         .endCell();
     expect(expected, actual);
     expect(expected.toBase64(),
-        "te6cckEBAQEAJQAARQOAAiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIwK7YrIw==");
+        'te6cckEBAQEAJQAARQOAAiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIwK7YrIw==');
   });
 
-  test("Should serialize extended out list", () {
+  test('Should serialize extended out list', () {
     final List<OutActionWalletV5> v5Actions = [
       OutActionAddExtension(mockAddress),
       const OutActionSetIsPublicKeyEnabled(false),
@@ -93,9 +93,9 @@ void _v5R1Actions() {
     final actions = OutActionsV5(actions: v5Actions);
     final actual = beginCell().store(actions).endCell();
     expect(actual.toBase64(),
-        "te6cckEBBQEARgACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQQCCg7DyG0BAgMAAAAcwAAAAAAAAAAAAAAAAAAAAwRAppFI0w==");
+        'te6cckEBBQEARgACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQQCCg7DyG0BAgMAAAAcwAAAAAAAAAAAAAAAAAAAAwRAppFI0w==');
   });
-  test("Should serialize extended out list and produce the expected boc", () {
+  test('Should serialize extended out list and produce the expected boc', () {
     final List<OutActionWalletV5> v5Actions = [
       OutActionAddExtension(mockAddress),
       const OutActionSetIsPublicKeyEnabled(false),
@@ -106,10 +106,10 @@ void _v5R1Actions() {
     final actions = OutActionsV5(actions: v5Actions);
     final actual = beginCell().store(actions).endCell();
     expect(actual.toBase64(),
-        "te6cckEBBQEARgACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQQCCg7DyG0DAgMAAAAcwAAAAAAAAAAAAAAAAAAAAwRAnAYhjw==");
+        'te6cckEBBQEARgACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQQCCg7DyG0DAgMAAAAcwAAAAAAAAAAAAAAAAAAAAwRAnAYhjw==');
   });
   test(
-      "Should serialize extended out list and produce the expected boc for complex structures",
+      'Should serialize extended out list and produce the expected boc for complex structures',
       () {
     final List<OutActionWalletV5> v5Actions = [
       OutActionAddExtension(mockAddress),
@@ -124,9 +124,9 @@ void _v5R1Actions() {
     final actions = OutActionsV5(actions: v5Actions);
     final actual = beginCell().store(actions).endCell();
     expect(actual.toBase64(),
-        "te6cckEBCAEAqwACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQYCCg7DyG0DAgUCCg7DyG0AAwQAAABoQgAREREREREREREREREREREREREREREREREREREREREREQgIQEQEAAAAAAAAwOQAB4kAAAAcwAAAAAAAAAAAAAAAAAABAwRABwBFA4ACIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIjA3zHHW");
+        'te6cckEBCAEAqwACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQYCCg7DyG0DAgUCCg7DyG0AAwQAAABoQgAREREREREREREREREREREREREREREREREREREREREREQgIQEQEAAAAAAAAwOQAB4kAAAAcwAAAAAAAAAAAAAAAAAABAwRABwBFA4ACIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIjA3zHHW');
   });
-  test("Should deserialize extended out list", () {
+  test('Should deserialize extended out list', () {
     final List<OutActionWalletV5> v5Actions = [
       OutActionSendMsg(
           mode: SendMode.payGasSeparately.mode,
@@ -137,7 +137,7 @@ void _v5R1Actions() {
     final actions = OutActionsV5(actions: v5Actions);
     final actual = beginCell().store(actions).endCell();
     final boc = Cell.fromBase64(
-        "te6cckEBBQEARgACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQQCCg7DyG0BAgMAAAAcwAAAAAAAAAAAAAAAAAAAAwTA3qq+UQ==");
+        'te6cckEBBQEARgACRcCgAIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiMAQQCCg7DyG0BAgMAAAAcwAAAAAAAAAAAAAAAAAAAAwTA3qq+UQ==');
     expect(actual.toBase64(), boc.toBase64());
     final deserialize = OutActionsV5.deserialize(boc.beginParse());
     expect(deserialize.serialize().toBase64(), boc.toBase64());

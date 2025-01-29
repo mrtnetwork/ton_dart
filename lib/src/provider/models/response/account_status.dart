@@ -6,10 +6,10 @@ class AccountStatusResponse {
   const AccountStatusResponse._(this._value);
 
   static const AccountStatusResponse nonexist =
-      AccountStatusResponse._("nonexist");
-  static const AccountStatusResponse uninit = AccountStatusResponse._("uninit");
-  static const AccountStatusResponse active = AccountStatusResponse._("active");
-  static const AccountStatusResponse frozen = AccountStatusResponse._("frozen");
+      AccountStatusResponse._('nonexist');
+  static const AccountStatusResponse uninit = AccountStatusResponse._('uninit');
+  static const AccountStatusResponse active = AccountStatusResponse._('active');
+  static const AccountStatusResponse frozen = AccountStatusResponse._('frozen');
 
   static const List<AccountStatusResponse> values = [
     nonexist,
@@ -23,11 +23,11 @@ class AccountStatusResponse {
   bool get isActive => this == active || this == frozen;
 
   static AccountStatusResponse fromName(String? name) {
-    if (name == "uninitialized") return AccountStatusResponse.uninit;
+    if (name == 'uninitialized') return AccountStatusResponse.uninit;
     return values.firstWhere(
       (element) => element.value == name,
       orElse: () => throw TonDartPluginException(
-          "No AccountStatusResponse found with the provided name: $name"),
+          'No AccountStatusResponse found with the provided name: $name'),
     );
   }
 }

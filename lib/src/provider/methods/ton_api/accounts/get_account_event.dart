@@ -7,7 +7,7 @@ import 'package:ton_dart/src/provider/models/response/account_event.dart';
 /// Get event for an account by event_id.
 ///
 class TonApiGetAccountEvent
-    extends TonApiRequestParam<AccountEventResponse, Map<String, dynamic>> {
+    extends TonApiRequest<AccountEventResponse, Map<String, dynamic>> {
   final String accountId;
 
   /// event ID or transaction hash in hex (without 0x) or base64url format
@@ -30,13 +30,13 @@ class TonApiGetAccountEvent
 
   @override
   Map<String, dynamic> get queryParameters =>
-      {"subject_only": subjectOnly?.toString()};
+      {'subject_only': subjectOnly?.toString()};
 
   @override
-  Map<String, String?> get header => {"Accept-Language": acceptLanguage};
+  Map<String, String?> get headers => {'Accept-Language': acceptLanguage};
 
   @override
-  AccountEventResponse onResonse(Map<String, dynamic> json) {
-    return AccountEventResponse.fromJson(json);
+  AccountEventResponse onResonse(Map<String, dynamic> result) {
+    return AccountEventResponse.fromJson(result);
   }
 }
