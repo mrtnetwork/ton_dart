@@ -22,5 +22,6 @@ abstract class WalletContract<C extends ContractState,
       required TonProvider rpc,
       int sendMode = SendModeConst.payGasSeparately,
       int? timeout,
-      OnEstimateFee? onEstimateFee});
+      OnEstimateFee? onEstimateFee,
+      bool sendToBlockchain = true});
 }
