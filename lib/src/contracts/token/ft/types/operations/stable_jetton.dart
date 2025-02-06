@@ -61,28 +61,28 @@ class StableJettonMinterOperationType extends ContractOperationType {
     internalTransfer
   ];
   static StableJettonMinterOperationType fromTag(int? operation,
-      {StableJettonMinterOperationType? excepted}) {
+      {StableJettonMinterOperationType? expected}) {
     final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: operation));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
   }
 
   static StableJettonMinterOperationType fromName(String? name,
-      {StableJettonMinterOperationType? excepted}) {
+      {StableJettonMinterOperationType? expected}) {
     final type = values.firstWhere((e) => e.name == name,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: name));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
@@ -126,28 +126,28 @@ class StableJettonWalletOperationType extends ContractOperationType {
     withdrawJetton
   ];
   static StableJettonWalletOperationType fromTag(int? operation,
-      {StableJettonWalletOperationType? excepted}) {
+      {StableJettonWalletOperationType? expected}) {
     final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: operation));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
   }
 
   static StableJettonWalletOperationType fromName(String? name,
-      {StableJettonWalletOperationType? excepted}) {
+      {StableJettonWalletOperationType? expected}) {
     final type = values.firstWhere((e) => e.name == name,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: name));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
@@ -160,7 +160,7 @@ abstract class StableJettonMinterCallToOperations extends TonSerialization {
   T cast<T extends StableJettonWalletOperation>() {
     if (this is! T) {
       throw TonContractException(
-          'Incorrect stable jetton minter casting. excepted: $runtimeType got: $T');
+          'Incorrect stable jetton minter casting. expected: $runtimeType got: $T');
     }
     return this as T;
   }
@@ -282,7 +282,7 @@ abstract class StableJettonMinterOperation extends TonSerialization
   T cast<T extends StableJettonMinterOperation>() {
     if (this is! T) {
       throw TonContractException(
-          'Incorrect stable jetton minter casting. excepted: $runtimeType got: $T');
+          'Incorrect stable jetton minter casting. expected: $runtimeType got: $T');
     }
     return this as T;
   }
@@ -316,7 +316,7 @@ class StableJettonMinterMint extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.mint);
+              expected: StableJettonMinterOperationType.mint);
           return StableJettonMinterMint(
               queryId: slice.loadUint64(),
               to: slice.loadAddress(),
@@ -385,7 +385,7 @@ class StableJettonMinterInternalTransfer extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.internalTransfer);
+              expected: StableJettonMinterOperationType.internalTransfer);
           return StableJettonMinterInternalTransfer(
             queryId: slice.loadUint64(),
             jettonAmount: slice.loadCoins(),
@@ -442,7 +442,7 @@ class StableJettonMinterDiscovery extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.discovery);
+              expected: StableJettonMinterOperationType.discovery);
           return StableJettonMinterDiscovery(
               queryId: slice.loadUint64(),
               owner: slice.loadAddress(),
@@ -486,7 +486,7 @@ class StableJettonMinterTopUp extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.topUp);
+              expected: StableJettonMinterOperationType.topUp);
           return StableJettonMinterTopUp(queryId: slice.loadUint64());
         },
         name: StableJettonMinterOperationType.topUp.name);
@@ -522,7 +522,7 @@ class StableJettonMinterChangeAdmin extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.changeAdmin);
+              expected: StableJettonMinterOperationType.changeAdmin);
           return StableJettonMinterChangeAdmin(
               queryId: slice.loadUint64(), newOwner: slice.loadAddress());
         },
@@ -562,7 +562,7 @@ class StableJettonMinterClaimAdmin extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.claimAdmin);
+              expected: StableJettonMinterOperationType.claimAdmin);
           return StableJettonMinterClaimAdmin(queryId: slice.loadUint64());
         },
         name: StableJettonMinterOperationType.claimAdmin.name);
@@ -597,7 +597,7 @@ class StableJettonMinterChangeContent extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.changeContent);
+              expected: StableJettonMinterOperationType.changeContent);
           return StableJettonMinterChangeContent(
               queryId: slice.loadUint64(), url: slice.loadStringTail());
         },
@@ -646,7 +646,7 @@ class StableJettonMinterCallTo extends StableJettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonMinterOperationType.callTo);
+              expected: StableJettonMinterOperationType.callTo);
           return StableJettonMinterCallTo(
               queryId: slice.loadUint64(),
               address: slice.loadAddress(),
@@ -696,7 +696,7 @@ abstract class StableJettonWalletOperation extends TonSerialization
   T cast<T extends StableJettonWalletOperation>() {
     if (this is! T) {
       throw TonContractException(
-          'Incorrect stable jetton wallet casting. excepted: $runtimeType got: $T');
+          'Incorrect stable jetton wallet casting. expected: $runtimeType got: $T');
     }
     return this as T;
   }
@@ -762,7 +762,7 @@ class StableJettonWalletSetStatus extends StableJettonWalletOperation
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonWalletOperationType.setStatus);
+              expected: StableJettonWalletOperationType.setStatus);
           return StableJettonWalletSetStatus(
               queryId: slice.loadUint64(),
               status: StableTokenWalletStatus.fromTag(slice.loadUint4()));
@@ -831,7 +831,7 @@ class StableJettonWalletTransfer extends StableJettonWalletOperation
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonWalletOperationType.transfer);
+              expected: StableJettonWalletOperationType.transfer);
           return StableJettonWalletTransfer(
               queryId: slice.loadUint64(),
               jettonAmount: slice.loadCoins(),
@@ -904,7 +904,7 @@ class StableJettonWalletBurn extends StableJettonWalletOperation
     return TonModelParser.parseBoc(
         parse: () {
           StableJettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: StableJettonWalletOperationType.burn);
+              expected: StableJettonWalletOperationType.burn);
           return StableJettonWalletBurn(
               queryId: slice.loadUint64(),
               jettonAmount: slice.loadCoins(),

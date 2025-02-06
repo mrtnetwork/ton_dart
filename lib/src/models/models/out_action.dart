@@ -203,7 +203,7 @@ abstract class OutAction extends TonSerialization {
         return OutActionMultiSigSendMsg.deserialize(slice);
       default:
         throw TonDartPluginException('Invalid OutAction tag.', details: {
-          'excepted': OutActionType.values.map((e) => e.tag).join(', '),
+          'expected': OutActionType.values.map((e) => e.tag).join(', '),
           'tag': tag
         });
     }

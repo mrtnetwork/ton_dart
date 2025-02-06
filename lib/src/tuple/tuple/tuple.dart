@@ -25,7 +25,7 @@ class TupleItemTypes {
     builderItem
   ];
 
-  static TupleItemTypes fromName(String? name, {TupleItemTypes? excepted}) {
+  static TupleItemTypes fromName(String? name, {TupleItemTypes? expected}) {
     final n = name?.replaceAll('tvm.', '').toLowerCase();
     final type = values.firstWhere(
       (element) => element.name == n,
@@ -33,8 +33,8 @@ class TupleItemTypes {
           'Cannot find tuple type from provided type.',
           details: {'value': name}),
     );
-    if (excepted != null && excepted != type) {
-      throw TupleException('Incorrect tuple type excepted $excepted got $type');
+    if (expected != null && expected != type) {
+      throw TupleException('Incorrect tuple type expected $expected got $type');
     }
     return type;
   }
@@ -105,12 +105,12 @@ class TupleItemTuple extends TupleItem {
   final List<TupleItem> items;
   const TupleItemTuple(this.items);
   factory TupleItemTuple.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.tupleItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.tupleItem);
     return TupleItemTuple(
         (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList());
   }
   factory TupleItemTuple.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'], excepted: TupleItemTypes.tupleItem);
+    TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.tupleItem);
     return TupleItemTuple(
         (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList());
   }
@@ -138,11 +138,11 @@ class TupleItemTuple extends TupleItem {
 class TupleItemNull extends TupleItem {
   const TupleItemNull();
   factory TupleItemNull.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.nullItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.nullItem);
     return const TupleItemNull();
   }
   factory TupleItemNull.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'], excepted: TupleItemTypes.nullItem);
+    TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.nullItem);
     return const TupleItemNull();
   }
   @override
@@ -159,11 +159,11 @@ class TupleItemInt extends TupleItem {
   final BigInt value;
   const TupleItemInt(this.value);
   factory TupleItemInt.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.intItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.intItem);
     return TupleItemInt(BigintUtils.parse(json['num']));
   }
   factory TupleItemInt.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'], excepted: TupleItemTypes.intItem);
+    TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.intItem);
     return TupleItemInt(BigintUtils.parse(json['int']));
   }
   @override
@@ -195,11 +195,11 @@ class TupleItemInt extends TupleItem {
 class TupleItemNaN extends TupleItem {
   const TupleItemNaN();
   factory TupleItemNaN.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.nanItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.nanItem);
     return const TupleItemNaN();
   }
   factory TupleItemNaN.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'], excepted: TupleItemTypes.nanItem);
+    TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.nanItem);
     return const TupleItemNaN();
   }
   @override
@@ -216,7 +216,7 @@ class TupleItemCell extends TupleItem {
   final Cell cell;
   const TupleItemCell(this.cell);
   factory TupleItemCell.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.cellItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.cellItem);
     final cell = TonHelper.tryToCell(json['cell']);
     if (cell == null) {
       throw TupleException('Invalid Slice string hex or base64');
@@ -224,7 +224,7 @@ class TupleItemCell extends TupleItem {
     return TupleItemCell(cell);
   }
   factory TupleItemCell.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'], excepted: TupleItemTypes.cellItem);
+    TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.cellItem);
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
       throw TupleException('Invalid Slice string hex or base64');
@@ -256,7 +256,7 @@ class TupleItemCell extends TupleItem {
 class TupleItemSlice extends TupleItemCell {
   const TupleItemSlice(super.cell);
   factory TupleItemSlice.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.sliceItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.sliceItem);
     final cell = TonHelper.tryToCell(json['cell']);
     if (cell == null) {
       throw TupleException('Invalid Slice string hex or base64');
@@ -264,7 +264,7 @@ class TupleItemSlice extends TupleItemCell {
     return TupleItemSlice(cell);
   }
   factory TupleItemSlice.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'], excepted: TupleItemTypes.sliceItem);
+    TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.sliceItem);
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
       throw TupleException('Invalid Slice string hex or base64');
@@ -290,7 +290,7 @@ class TupleItemSlice extends TupleItemCell {
 class TupleItemBuilder extends TupleItemCell {
   const TupleItemBuilder(super.cell);
   factory TupleItemBuilder.fromJson(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['type'], excepted: TupleItemTypes.builderItem);
+    TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.builderItem);
     final cell = TonHelper.tryToCell(json['cell']);
     if (cell == null) {
       throw TupleException('Invalid builder string hex or base64');
@@ -299,7 +299,7 @@ class TupleItemBuilder extends TupleItemCell {
   }
   factory TupleItemBuilder.fromTvm(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json['@type'],
-        excepted: TupleItemTypes.builderItem);
+        expected: TupleItemTypes.builderItem);
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
       throw TupleException('Invalid builder string hex or base64');

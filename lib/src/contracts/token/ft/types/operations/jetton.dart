@@ -39,28 +39,28 @@ class JettonWalletOperationType extends ContractOperationType {
     withdrawJetton
   ];
   static JettonWalletOperationType fromTag(int? operation,
-      {JettonWalletOperationType? excepted}) {
+      {JettonWalletOperationType? expected}) {
     final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: operation));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
   }
 
   static JettonWalletOperationType fromName(String? name,
-      {JettonWalletOperationType? excepted}) {
+      {JettonWalletOperationType? expected}) {
     final type = values.firstWhere((e) => e.name == name,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: name));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
@@ -116,7 +116,7 @@ abstract class JettonWalletOperation extends TonSerialization
   T cast<T extends JettonWalletOperation>() {
     if (this is! T) {
       throw TonContractException(
-          'Incorrect Jetton wallet casting. excepted: $runtimeType got: $T');
+          'Incorrect Jetton wallet casting. expected: $runtimeType got: $T');
     }
     return this as T;
   }
@@ -153,7 +153,7 @@ class JettonWalletTransfer extends JettonWalletOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonWalletOperationType.transfer);
+              expected: JettonWalletOperationType.transfer);
           return JettonWalletTransfer(
             queryId: slice.loadUint64(),
             amount: slice.loadCoins(),
@@ -170,7 +170,7 @@ class JettonWalletTransfer extends JettonWalletOperation {
     return TonModelParser.parseJson(
         parse: () {
           JettonWalletOperationType.fromName(json['type'],
-              excepted: JettonWalletOperationType.transfer);
+              expected: JettonWalletOperationType.transfer);
           return JettonWalletTransfer(
               queryId: BigintUtils.tryParse(json['queryId']),
               amount: BigintUtils.parse(json['amount']),
@@ -233,7 +233,7 @@ class JettonWalletBurn extends JettonWalletOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonWalletOperationType.burn);
+              expected: JettonWalletOperationType.burn);
           return JettonWalletBurn(
             queryId: slice.loadUint64(),
             burnAmount: slice.loadCoins(),
@@ -247,7 +247,7 @@ class JettonWalletBurn extends JettonWalletOperation {
     return TonModelParser.parseJson(
         parse: () {
           JettonWalletOperationType.fromName(json['type'],
-              excepted: JettonWalletOperationType.burn);
+              expected: JettonWalletOperationType.burn);
           return JettonWalletBurn(
               queryId: BigintUtils.tryParse(json['queryId']),
               burnAmount: BigintUtils.parse(json['burnAmount']),
@@ -293,7 +293,7 @@ class JettonWalletWithdrawTon extends JettonWalletOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonWalletOperationType.withdrawTon);
+              expected: JettonWalletOperationType.withdrawTon);
           return JettonWalletWithdrawTon(
             queryId: slice.loadUint64(),
             customPayload: slice.loadMaybeRef(),
@@ -305,7 +305,7 @@ class JettonWalletWithdrawTon extends JettonWalletOperation {
     return TonModelParser.parseJson(
         parse: () {
           JettonWalletOperationType.fromName(json['type'],
-              excepted: JettonWalletOperationType.withdrawTon);
+              expected: JettonWalletOperationType.withdrawTon);
           return JettonWalletWithdrawTon(
               queryId: BigintUtils.tryParse(json['queryId']),
               customPayload: json['customPayload'] == null
@@ -349,7 +349,7 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonWalletOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonWalletOperationType.withdrawJetton);
+              expected: JettonWalletOperationType.withdrawJetton);
           return JettonWalletWithdrawJetton(
               queryId: slice.loadUint64(),
               from: slice.loadAddress(),
@@ -362,7 +362,7 @@ class JettonWalletWithdrawJetton extends JettonWalletOperation {
     return TonModelParser.parseJson(
         parse: () {
           JettonWalletOperationType.fromName(json['type'],
-              excepted: JettonWalletOperationType.withdrawJetton);
+              expected: JettonWalletOperationType.withdrawJetton);
           return JettonWalletWithdrawJetton(
               queryId: BigintUtils.tryParse(json['queryId']),
               from: TonAddress(json['from']),
@@ -436,28 +436,28 @@ class JettonMinterOperationType extends ContractOperationType {
     mint
   ];
   static JettonMinterOperationType fromTag(int? operation,
-      {JettonMinterOperationType? excepted}) {
+      {JettonMinterOperationType? expected}) {
     final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: operation));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
   }
 
   static JettonMinterOperationType fromName(String? name,
-      {JettonMinterOperationType? excepted}) {
+      {JettonMinterOperationType? expected}) {
     final type = values.firstWhere((e) => e.name == name,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: name));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
@@ -533,7 +533,7 @@ abstract class JettonMinterOperation extends TonSerialization
   T cast<T extends JettonMinterOperation>() {
     if (this is! T) {
       throw TonContractException('Incorrect JettonMinterOperation casting.',
-          details: {'excepted': '$runtimeType', 'got': '$T'});
+          details: {'expected': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
@@ -570,7 +570,7 @@ class JettonMinterMint extends JettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonMinterOperationType.mint);
+              expected: JettonMinterOperationType.mint);
           return JettonMinterMint(
             queryId: slice.loadUint64(),
             to: slice.loadAddress(),
@@ -642,7 +642,7 @@ class JettonMinterInternalTransfer extends JettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonMinterOperationType.internalTransfer);
+              expected: JettonMinterOperationType.internalTransfer);
           return JettonMinterInternalTransfer(
             queryId: slice.loadUint64(),
             jettonAmount: slice.loadCoins(),
@@ -700,7 +700,7 @@ class JettonMinterDiscovery extends JettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonMinterOperationType.discovery);
+              expected: JettonMinterOperationType.discovery);
           return JettonMinterDiscovery(
               queryId: slice.loadUint64(),
               owner: slice.loadAddress(),
@@ -746,7 +746,7 @@ class JettonMinterChangeAdmin extends JettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonMinterOperationType.changeAdmin);
+              expected: JettonMinterOperationType.changeAdmin);
           return JettonMinterChangeAdmin(
               queryId: slice.loadUint64(), newOwner: slice.loadAddress());
         },
@@ -788,7 +788,7 @@ class JettonMinterChangeContent extends JettonMinterOperation {
     return TonModelParser.parseBoc(
         parse: () {
           JettonMinterOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: JettonMinterOperationType.changeContent);
+              expected: JettonMinterOperationType.changeContent);
           return JettonMinterChangeContent(
               queryId: slice.loadUint64(), content: slice.loadRef());
         },

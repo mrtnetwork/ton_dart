@@ -140,13 +140,13 @@ class CellUtils {
 
     if (bits.length != size) {
       throw BocException('Invalid Library cell bits length',
-          details: {'excepted': '8 + 256', 'length': bits.length});
+          details: {'expected': '8 + 256', 'length': bits.length});
     }
 
     final type = reader.loadUint(8);
     if (type != 2) {
       throw BocException('Invalid Library cell type.', details: {
-        'excepted': CellType.library,
+        'expected': CellType.library,
         'type': CellType.fromValue(type) ?? '$type'
       });
     }
@@ -160,18 +160,18 @@ class CellUtils {
 
     if (bits.length != size) {
       throw BocException('Invalid Merkle Proof cell bits length.',
-          details: {'excepted': size, 'length': bits.length});
+          details: {'expected': size, 'length': bits.length});
     }
 
     if (refs.length != 1) {
       throw BocException('Invalid Merkle Proof cell reference length.',
-          details: {'excepted': 1, 'length': refs.length});
+          details: {'expected': 1, 'length': refs.length});
     }
 
     final int type = reader.loadUint(8);
     if (type != 3) {
       throw BocException('Merkle Proof cell type.', details: {
-        'excepted': CellType.merkleProof,
+        'expected': CellType.merkleProof,
         'type': CellType.fromValue(type) ?? '$type'
       });
     }
@@ -195,18 +195,18 @@ class CellUtils {
 
     if (bits.length != bitLengthSize) {
       throw BocException('Invalid Merkle Update cell bits length.',
-          details: {'excepted': bitLengthSize, 'length': bits.length});
+          details: {'expected': bitLengthSize, 'length': bits.length});
     }
 
     if (refs.length != 2) {
       throw BocException('Invalid Merkle Update cell refs length.',
-          details: {'excepted': 2, 'length': refs.length});
+          details: {'expected': 2, 'length': refs.length});
     }
 
     final int type = reader.loadUint(8);
     if (type != 4) {
       throw BocException('Invalid Merkle Update cell type.', details: {
-        'excepted': CellType.merkleUpdate,
+        'expected': CellType.merkleUpdate,
         'type': CellType.fromValue(type) ?? '$type'
       });
     }
@@ -242,7 +242,7 @@ class CellUtils {
     final int type = reader.loadUint(8);
     if (type != 1) {
       throw BocException('Invalid Pruned branch cell type.', details: {
-        'excepted': CellType.prunedBranch,
+        'expected': CellType.prunedBranch,
         'type': CellType.fromValue(type) ?? '$type'
       });
     }
@@ -261,7 +261,7 @@ class CellUtils {
       if (mask.level < 1 || mask.level > 3) {
         throw BocException('Invalid Pruned Branch cell level', details: {
           'level': mask.level,
-          'excepted': [1, 2, 3].join(', ')
+          'expected': [1, 2, 3].join(', ')
         });
       }
 
@@ -269,7 +269,7 @@ class CellUtils {
           8 + 8 + (mask.apply(mask.level - 1).hashCount * (256 + 16));
       if (bits.length != size) {
         throw BocException('Invalid Pruned branch cell bits length.',
-            details: {'excepted': size, 'length': bits.length});
+            details: {'expected': size, 'length': bits.length});
       }
     }
 

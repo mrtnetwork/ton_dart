@@ -20,7 +20,7 @@ class HashUpdate extends TonSerialization {
     final prefix = slice.loadUint(8);
     if (prefix != _HashUpdateConst.prefix) {
       throw TonDartPluginException('Invalid HashUpdate prefix.',
-          details: {'excepted': _HashUpdateConst.prefix, 'prefix': prefix});
+          details: {'expected': _HashUpdateConst.prefix, 'prefix': prefix});
     }
     return HashUpdate(
         oldHash: slice.loadBuffer(32), newHash: slice.loadBuffer(32));

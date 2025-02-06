@@ -94,7 +94,7 @@ class VersionedWalletUtils {
       final subwalletNumber = slice.loadUint(15);
       if (chain.workchain != workchain) {
         throw TonContractException('Incorrect workchain.',
-            details: {'excepted': workchain, 'got': chain.workchain});
+            details: {'expected': workchain, 'got': chain.workchain});
       }
       return V5R1ClientContext(chain: chain, subwalletNumber: subwalletNumber);
     }
@@ -118,13 +118,13 @@ class VersionedWalletUtils {
       throw TonContractException(
           'Invalid wallet address. state gives a different address',
           details: {
-            'excepted': currentAddress.toRawAddress(),
+            'expected': currentAddress.toRawAddress(),
             'address': address.toRawAddress()
           });
     }
     if (state is! T) {
       throw TonContractException('Incurrect state casting.',
-          details: {'excepted': state.toString(), 'got': '$T'});
+          details: {'expected': state.toString(), 'got': '$T'});
     }
     return state;
   }

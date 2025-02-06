@@ -47,7 +47,7 @@ abstract class TonApiRequest<RESULT, RESPONSE>
     if (pathParams.length != pathParameters.length) {
       throw TonDartPluginException('Invalid Path Parameters.', details: {
         'pathParams': pathParameters,
-        'excepted': pathParams.length,
+        'expected': pathParams.length,
         'method': method
       });
     }

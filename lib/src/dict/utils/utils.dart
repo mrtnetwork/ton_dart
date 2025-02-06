@@ -54,7 +54,7 @@ class DictionaryUtils {
     if (decode is! T) {
       throw DictException('Invalid key type.', details: {
         'value': decode,
-        'excepted': '$T',
+        'expected': '$T',
         'key': decode.runtimeType.toString()
       });
     }

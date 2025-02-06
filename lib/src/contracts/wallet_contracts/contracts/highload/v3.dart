@@ -38,7 +38,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
         state: state.initialState(), workChain: address.workChain);
     if (walletAddress != address) {
       throw TonContractException('Incorrect state address.', details: {
-        'excepted': walletAddress.toRawAddress(),
+        'expected': walletAddress.toRawAddress(),
         'address': address.toRawAddress(),
         'workChain': address.workChain
       });

@@ -25,7 +25,7 @@ class _ConfigParserUtils {
         final header = slice.loadUint(8);
         if (header != _ConfigConst.header18) {
           throw TonDartPluginException('Invalid header for config 18.',
-              details: {'excepted': _ConfigConst.header18, 'header': header});
+              details: {'expected': _ConfigConst.header18, 'header': header});
         }
 
         return BlockchainConfig18StoragePricesItem.fromCell(slice);
