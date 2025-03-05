@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/service/const/constant.dart';
 import 'package:blockchain_utils/service/models/params.dart';
 import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/exception/exception.dart';
@@ -47,7 +48,7 @@ abstract class TonApiRequest<RESULT, RESPONSE>
     if (pathParams.length != pathParameters.length) {
       throw TonDartPluginException('Invalid Path Parameters.', details: {
         'pathParams': pathParameters,
-        'excepted': pathParams.length,
+        'expected': pathParams.length,
         'method': method
       });
     }
@@ -89,7 +90,10 @@ abstract class TonApiPostRequest<RESULT, RESPONSE>
   @override
   TonRequestDetails buildRequest(int v) {
     final request = super.buildRequest(v);
-    return request.copyWith(jsonBody: body, type: requestType);
+    return request.copyWith(
+        jsonBody: body,
+        type: requestType,
+        headers: ServiceConst.defaultPostHeaders);
   }
 }
 

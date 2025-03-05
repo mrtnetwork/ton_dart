@@ -1,8 +1,7 @@
+import 'package:blockchain_utils/signer/ed25519/ed25519.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/keys/ed25519_keys.dart';
 import 'package:ton_dart/src/crypto/exception/exception.dart';
-
-import 'signer_verifier.dart';
 
 /// The TonPublicKey class encapsulates the functionality for handling Ed25519 public keys
 /// specific to TON (The Open Network). It provides methods to create, serialize, and verify signatures with the public key.
@@ -45,7 +44,7 @@ class TonPublicKey {
 
   /// Verifies a message's signature using the public key.
   bool verify(List<int> message, List<int> signature) {
-    final verifier = TonVerifier.fromKeyBytes(_publickKey.compressed);
+    final verifier = Ed25519Verifier.fromKeyBytes(_publickKey.compressed);
     return verifier.verify(message, signature);
   }
 }

@@ -48,7 +48,7 @@ class TestWallet<T extends VersionedWalletContract> {
       bool log = true}) {
     final rpc = TonProvider(HTTPProvider(
         tonApiUrl: tonApiUrl, tonCenterUrl: tonCenterUrl, api: rpcApiUse));
-    final hdWallet = Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 25))
+    final hdWallet = Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 99))
         .childKey(Bip32KeyIndex.hardenIndex(index));
     // final hdWallet = Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 56))
     //     .childKey(Bip32KeyIndex.hardenIndex(index));

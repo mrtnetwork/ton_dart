@@ -109,7 +109,6 @@ mixin ContractProvider {
       await rpc
           .request(TonApiSendBlockchainMessage(batch: [], boc: boc.toBase64()));
     }
-    // throw Exception("wait please");
     return StringUtils.decode(boc.hash(), type: StringEncoding.base64);
   }
 

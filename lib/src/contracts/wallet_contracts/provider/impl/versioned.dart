@@ -41,7 +41,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
         stateData: state.data, type: type, chain: chain);
     if (stateData is! C) {
       throw TonContractException('Incorrect state data.',
-          details: {'excepted': '$C', 'got': '${stateData.runtimeType}'});
+          details: {'expected': '$C', 'got': '${stateData.runtimeType}'});
     }
     return stateData;
   }
@@ -53,7 +53,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
         stateData: state.data, type: type, chain: chain);
     if (stateData is! C) {
       throw TonContractException('Incorrect state data.',
-          details: {'excepted': '$C', 'got': '${stateData.runtimeType}'});
+          details: {'expected': '$C', 'got': '${stateData.runtimeType}'});
     }
     return stateData;
   }
@@ -68,7 +68,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
       OnEstimateFee? onEstimateFee, bool sendToBlockchain = true}) async {
     if (params is! VersionedTransferParams) {
       throw TonContractException('Invalid transaction params', details: {
-        'excepted': 'VersionedTransferParams',
+        'expected': 'VersionedTransferParams',
         'got': '${params.runtimeType}'
       });
     }

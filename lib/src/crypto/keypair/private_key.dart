@@ -1,9 +1,8 @@
+import 'package:blockchain_utils/signer/ed25519/ed25519.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:blockchain_utils/bip/ecc/bip_ecc.dart';
 import 'package:ton_dart/src/crypto/exception/exception.dart';
-
 import 'public_key.dart';
-import 'signer_verifier.dart';
 
 /// The TonPrivateKey class encapsulates the functionality for handling Ed25519 private keys
 /// specific to TON (The Open Network). It provides methods to create, serialize, and sign data with the private key.
@@ -52,7 +51,7 @@ class TonPrivateKey {
 
   /// Signs a digest (message hash) using the private key and returns the signature.
   List<int> sign(List<int> digest) {
-    final signer = TonSigner.fromKeyBytes(toBytes());
+    final signer = Ed25519Signer.fromKeyBytes(toBytes());
     return signer.sign(digest);
   }
 }

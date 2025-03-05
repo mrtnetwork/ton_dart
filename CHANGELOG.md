@@ -1,6 +1,12 @@
-## 1.1.0
+## 1.3.0
 
 - Update dependencies.
+
+
+## 1.2.0
+
+- Update dependencies.
+
 
 ## 1.0.0
 

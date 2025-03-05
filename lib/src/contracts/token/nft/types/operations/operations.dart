@@ -18,28 +18,28 @@ class NFTItemOperationType extends ContractOperationType {
       name: 'GetStaticData', operation: TonNftConst.getStaticDataOperationId);
   static const List<NFTItemOperationType> values = [transfer, getStaticData];
   static NFTItemOperationType fromTag(int? operation,
-      {NFTItemOperationType? excepted}) {
+      {NFTItemOperationType? expected}) {
     final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: operation));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
   }
 
   static NFTItemOperationType fromName(String? name,
-      {NFTItemOperationType? excepted}) {
+      {NFTItemOperationType? expected}) {
     final type = values.firstWhere((e) => e.name == name,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: name));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
@@ -100,7 +100,7 @@ abstract class NFTItemOperation extends TonSerialization
   T cast<T extends NFTItemOperation>() {
     if (this is! T) {
       throw TonContractException('Incorrect NFTItemOperation casting.',
-          details: {'excepted': '$runtimeType', 'got': '$T'});
+          details: {'expected': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
@@ -241,28 +241,28 @@ class NFTCollectionOperationType extends ContractOperationType {
     changeContent
   ];
   static NFTCollectionOperationType fromTag(int? operation,
-      {NFTCollectionOperationType? excepted}) {
+      {NFTCollectionOperationType? expected}) {
     final type = values.firstWhere((e) => e.operation == operation,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: operation));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
   }
 
   static NFTCollectionOperationType fromName(String? name,
-      {NFTCollectionOperationType? excepted}) {
+      {NFTCollectionOperationType? expected}) {
     final type = values.firstWhere((e) => e.name == name,
         orElse: () =>
             throw TonContractExceptionConst.invalidOperationId(tag: name));
-    if (excepted != null) {
-      if (type != excepted) {
+    if (expected != null) {
+      if (type != expected) {
         throw TonContractExceptionConst.incorrectOperation(
-            excepted: excepted.name, got: type.name);
+            expected: expected.name, got: type.name);
       }
     }
     return type;
@@ -336,7 +336,7 @@ abstract class NFTCollectionOperation extends TonSerialization
   T cast<T extends NFTCollectionOperation>() {
     if (this is! T) {
       throw TonContractException('Incorrect NFTCollectionOperation casting.',
-          details: {'excepted': '$runtimeType', 'got': '$T'});
+          details: {'expected': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
@@ -511,7 +511,7 @@ class NFTEditableCollectionChangeContent extends NFTCollectionOperation {
     return TonModelParser.parseBoc(
         parse: () {
           NFTCollectionOperationType.fromTag(slice.tryLoadUint32(),
-              excepted: NFTCollectionOperationType.changeContent);
+              expected: NFTCollectionOperationType.changeContent);
           return NFTEditableCollectionChangeContent(
               queryId: slice.loadUint64(),
               content: slice.loadRef(),

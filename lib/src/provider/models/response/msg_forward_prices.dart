@@ -38,7 +38,7 @@ class MsgForwardPricesResponse with JsonSerialization {
     final tag = slice.loadUint8();
     if (tag != _MsgForwardPricesResponseConst.tag) {
       throw TonDartPluginException('Invalid msg forward prices tag.', details: {
-        'excepted': _MsgForwardPricesResponseConst.tag,
+        'expected': _MsgForwardPricesResponseConst.tag,
         'tag': tag
       });
     }

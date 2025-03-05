@@ -27,9 +27,9 @@ class TonContractExceptionConst {
 
   /// operation is not valid
   static TonContractException incorrectOperation(
-          {required String excepted, required String got}) =>
+          {required String expected, required String got}) =>
       TonContractException('Incorrect operation.',
-          details: {'excepted': excepted, 'got': got});
+          details: {'expected': expected, 'got': got});
 }
 
 /// exception related to ton contracts.

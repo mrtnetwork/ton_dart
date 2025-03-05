@@ -65,7 +65,7 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
   T cast<T extends CommonMessageInfoRelaxed>() {
     if (this is! T) {
       throw TonDartPluginException('Incorrect message relaxed casting.',
-          details: {'excepted': '$runtimeType', 'got': '$T'});
+          details: {'expected': '$runtimeType', 'got': '$T'});
     }
     return this as T;
   }
