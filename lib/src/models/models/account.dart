@@ -9,8 +9,13 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 /// account_none$0 = Account;
 /// account$1 addr:MsgAddressInt storage_stat:StorageInfo storage:AccountStorage = Account;
 class TonAccount extends TonSerialization {
+  /// The address of the Ton account.
   final TonAddress addr;
+
+  /// The storage of the account.
   final StorageInfo storageStats;
+
+  /// The storage details of the account,  balance, and state.
   final AccountStorage storage;
   const TonAccount(
       {required this.addr, required this.storageStats, required this.storage});

@@ -7,12 +7,18 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 import 'currency_collection.dart';
 
 class CommonMessageInfoType {
+  /// The name of the message type
   final String name;
   const CommonMessageInfoType._(this.name);
+  // Predefined constant for 'internal' message type.
   static const CommonMessageInfoType internal =
       CommonMessageInfoType._('internal');
+
+  // Predefined constant for 'external-in' message type.
   static const CommonMessageInfoType externalIn =
       CommonMessageInfoType._('external-in');
+
+  // Predefined constant for 'external-out' message type.
   static const CommonMessageInfoType externalOut =
       CommonMessageInfoType._('external-out');
   static const List<CommonMessageInfoType> values = [

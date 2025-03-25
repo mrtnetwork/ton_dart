@@ -5,6 +5,7 @@ import 'package:ton_dart/src/tuple/exception/exception.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 
 class TupleUtils {
+  /// Parses a stack item from a [Slice] and returns the corresponding [TupleItem].
   static TupleItem parseStackItem(Slice cs) {
     final int kind = cs.loadUint(8);
     if (kind == 0) {
@@ -69,6 +70,7 @@ class TupleUtils {
     }
   }
 
+  /// Parses a [Cell] into a list of [TupleItem]s.
   static List<TupleItem> parse(Cell src) {
     final List<TupleItem> res = [];
     Slice cs = src.beginParse();
@@ -110,52 +112,8 @@ class TupleUtils {
     }
   }
 
+  /// Parses a list of stack items into a list of [TupleItem]s.
   static List<TupleItem> parseStackItemAsList(List<List> stacks) {
     return stacks.map((e) => _parseStackItemAsList(e)).toList();
   }
-
-//   TupleItem parseStackEntry(s: any){
-//     switch (s["@type"]) {
-//         case "tvm.stackEntryNumber":
-//             return { type: 'int', value: BigInt(s.number.number) };
-//         case "tvm.stackEntryCell":
-//             return { type: 'cell', cell: Cell.fromBase64(s.cell) };
-//         case 'tvm.stackEntryTuple':
-//             return { type: 'tuple', items: s.tuple.elements.map(parseStackEntry) };
-//         case 'tvm.stackEntryList':
-//             return { type: 'list', items: s.list.elements.map(parseStackEntry) };
-//         default:
-//             throw Error("Unsupported item type: " + s["@type"]);
-//     }
-// }
-
-// function parseStackItem(s: any): TupleItem {
-//     if (s[0] === 'num') {
-//         let val = s[1] as string;
-//         if (val.startsWith('-')) {
-//             return { type: 'int', value: -BigInt(val.slice(1)) };
-//         } else {
-//             return { type: 'int', value: BigInt(val) };
-//         }
-//     } else if (s[0] === 'null') {
-//         return { type: 'null' };
-//     } else if (s[0] === 'cell') {
-//         return { type: 'cell', cell: Cell.fromBoc(Buffer.from(s[1].bytes, 'base64'))[0] };
-//     } else if (s[0] === 'slice') {
-//         return { type: 'slice', cell: Cell.fromBoc(Buffer.from(s[1].bytes, 'base64'))[0] };
-//     } else if (s[0] === 'builder') {
-//         return { type: 'builder', cell: Cell.fromBoc(Buffer.from(s[1].bytes, 'base64'))[0] };
-//     } else if (s[0] === 'tuple' || s[0] === 'list') {
-//         // toncenter.com missbehaviour
-//         if (s[1].elements.length === 0) {
-//             return { type: 'null' };
-//         }
-//         return {
-//             type: s[0],
-//             items: s[1].elements.map(parseStackEntry)
-//         };
-//     } else {
-//         throw Error('Unsupported stack item type: ' + s[0])
-//     }
-// }
 }

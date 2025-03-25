@@ -21,8 +21,13 @@ class MessageCodec {
 ///  init:(Maybe (Either StateInit ^StateInit))
 ///  body:(Either X ^X) = Message X;
 class Message extends TonSerialization {
+  /// The information related to the message, including type (internal or external).
   final CommonMessageInfo info;
+
+  /// Optional state initialization data, if present.
   final StateInit? init;
+
+  /// The body of the message, encapsulated in a `Cell` object.
   final Cell body;
   const Message({required this.info, this.init, required this.body});
   factory Message.deserialize(Slice slice) {

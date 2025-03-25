@@ -8,8 +8,11 @@ class TransactionComputePhaseType {
   final String name;
   const TransactionComputePhaseType._(this.name);
 
+  /// Predefined constant for the skipped phase of transaction computation.
   static const TransactionComputePhaseType skipped =
       TransactionComputePhaseType._('skipped');
+
+  /// Predefined constant for the virtual machine (VM) phase of transaction computation.
   static const TransactionComputePhaseType vm =
       TransactionComputePhaseType._('vm');
   static const List<TransactionComputePhaseType> values = [skipped, vm];

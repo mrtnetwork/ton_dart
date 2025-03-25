@@ -8,10 +8,15 @@ class TransactionBouncePhaseType {
   final String name;
   const TransactionBouncePhaseType._(this.name);
 
+  /// Predefined constant for the negative funds phase of the transaction bounce.
   static const TransactionBouncePhaseType negativeFounds =
       TransactionBouncePhaseType._('negativeFounds');
+
+  /// Predefined constant for the no funds phase of the transaction bounce.
   static const TransactionBouncePhaseType noFounds =
       TransactionBouncePhaseType._('noFounds');
+
+  /// Predefined constant for the successful phase of the transaction bounce.
   static const TransactionBouncePhaseType ok =
       TransactionBouncePhaseType._('ok');
   static const List<TransactionBouncePhaseType> values = [

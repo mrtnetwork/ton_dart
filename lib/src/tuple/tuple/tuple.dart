@@ -6,14 +6,31 @@ import 'package:ton_dart/src/tuple/exception/exception.dart';
 
 /// Represents the types of tuple items with associated string names.
 class TupleItemTypes {
+  /// The name of the tuple item type.
   final String name;
+
+  /// Private constructor to enforce predefined instances.
   const TupleItemTypes._(this.name);
+
+  /// Represents a tuple item.
   static const TupleItemTypes tupleItem = TupleItemTypes._('tuple');
+
+  /// Represents a null item.
   static const TupleItemTypes nullItem = TupleItemTypes._('null');
+
+  /// Represents a numeric item.
   static const TupleItemTypes intItem = TupleItemTypes._('num');
+
+  /// Represents a NaN (Not-a-Number) item.
   static const TupleItemTypes nanItem = TupleItemTypes._('nan');
+
+  /// Represents a cell item.
   static const TupleItemTypes cellItem = TupleItemTypes._('cell');
+
+  /// Represents a slice item.
   static const TupleItemTypes sliceItem = TupleItemTypes._('slice');
+
+  /// Represents a builder item.
   static const TupleItemTypes builderItem = TupleItemTypes._('builder');
   static const List<TupleItemTypes> values = [
     tupleItem,
