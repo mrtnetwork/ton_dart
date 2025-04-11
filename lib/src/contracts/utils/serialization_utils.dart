@@ -168,7 +168,7 @@ class TonSerializationUtils {
       {required List<OutActionSendMsg> actions,
       required VersionedWalletState state,
       required int seqno,
-      int? timeOut}) {
+      int? timeout}) {
     if (actions.length > state.version.maxMessageLength) {
       throw TonContractException(
           'Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}');
@@ -179,11 +179,11 @@ class TonSerializationUtils {
       case WalletVersion.v3R2:
         state as SubWalletVersionedWalletState;
         return TonSerializationUtils.serializeV4(
-            subWalletId: state.subwallet,
-            messages: actions,
-            accountSeqno: seqno,
-            type: state.version,
-            timeout: timeOut,
+          subWalletId: state.subwallet,
+          messages: actions,
+          accountSeqno: seqno,
+          type: state.version,
+          timeout: timeout,
         );
       case WalletVersion.v1R1:
       case WalletVersion.v1R2:
@@ -197,7 +197,7 @@ class TonSerializationUtils {
         return TonSerializationUtils.serializeV2(
           messages: actions,
           accountSeqno: seqno,
-          timeout: timeOut,
+          timeout: timeout,
         );
       default:
         throw UnimplementedError();

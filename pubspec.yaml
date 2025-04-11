@@ -16,7 +16,7 @@ environment:
 
 
 dependencies:
-  blockchain_utils: ^4.3.0
+  blockchain_utils: ^4.4.0
   # blockchain_utils:
   #   path: ../../blockchain_utils
 
