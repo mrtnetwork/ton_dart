@@ -182,7 +182,9 @@ class TonSerializationUtils {
             subWalletId: state.subwallet,
             messages: actions,
             accountSeqno: seqno,
-            type: state.version);
+            type: state.version,
+            timeout: timeOut,
+        );
       case WalletVersion.v1R1:
       case WalletVersion.v1R2:
       case WalletVersion.v1R3:
