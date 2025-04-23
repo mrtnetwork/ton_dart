@@ -86,7 +86,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
         actions: actions,
         state: state ?? this.state!,
         seqno: state?.seqno ?? 0,
-        timeOut: timeout);
+        timeout: timeout);
     final body = beginCell()
         .storeBuffer(params.privateKey.sign(message.hash()))
         .storeSlice(message.beginParse())

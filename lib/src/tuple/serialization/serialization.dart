@@ -4,6 +4,8 @@ import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 class TupleSerialization {
   static final _int64Min = BigInt.parse('-9223372036854775808');
   static final _int64Max = BigInt.parse('9223372036854775807');
+
+  /// Serializes a [TupleItem] into a [Builder].
   static void serializeItem(TupleItem src, Builder builder) {
     switch (src.type) {
       case TupleItemTypes.nullItem:
@@ -68,6 +70,7 @@ class TupleSerialization {
     }
   }
 
+  /// Serializes a list of tuple items recursively, storing references.
   static void serializeTail(List<TupleItem> src, Builder builder) {
     if (src.isNotEmpty) {
       final tail = Builder();
@@ -78,6 +81,7 @@ class TupleSerialization {
     }
   }
 
+  /// Serializes a list of [TupleItem]s into a [Cell].
   static Cell serialize(List<TupleItem> src) {
     final builder = Builder();
     builder.storeUint(src.length, 24);

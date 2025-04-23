@@ -7,10 +7,17 @@ class AccountStatus extends TonSerialization {
   final int tag;
   final String status;
   const AccountStatus._(this.tag, this.status);
+  // Predefined constant for 'uninitialized' account status.
   static const AccountStatus uninitialized =
       AccountStatus._(0x00, 'uninitialized');
+
+  // Predefined constant for 'frozen' account status.
   static const AccountStatus frozen = AccountStatus._(0x01, 'frozen');
+
+  // Predefined constant for 'active' account status.
   static const AccountStatus active = AccountStatus._(0x02, 'active');
+
+  // Predefined constant for 'non-existing' account status.
   static const AccountStatus nonExisting =
       AccountStatus._(0x03, 'non-existing');
 

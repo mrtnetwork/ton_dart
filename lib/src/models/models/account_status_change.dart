@@ -6,9 +6,15 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 class AccountStatusChange extends TonSerialization {
   final String status;
   const AccountStatusChange._(this.status);
+
+  // Predefined constant for 'unchanged' account status change.
   static const AccountStatusChange unchanged =
       AccountStatusChange._('unchanged');
+
+  // Predefined constant for 'deleted' account status change.
   static const AccountStatusChange deleted = AccountStatusChange._('deleted');
+
+  // Predefined constant for 'frozen' account status change.
   static const AccountStatusChange frozen = AccountStatusChange._('frozen');
 
   factory AccountStatusChange.deserialize(Slice slice) {

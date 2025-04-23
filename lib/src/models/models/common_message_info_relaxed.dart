@@ -14,12 +14,17 @@ import 'currency_collection.dart';
 /// ext_out_msg_info$11 src:MsgAddress dest:MsgAddressExt
 ///   created_lt:uint64 created_at:uint32 = CommonMsgInfoRelaxed;
 class CommonMessageInfoRelaxedType {
+  /// The name of the message type
   final String name;
   const CommonMessageInfoRelaxedType._(this.name);
+  // Predefined constant for 'internal' message type.
   static const CommonMessageInfoRelaxedType internal =
       CommonMessageInfoRelaxedType._('internal');
+
+  // Predefined constant for 'external-out' message type.
   static const CommonMessageInfoRelaxedType externalOut =
       CommonMessageInfoRelaxedType._('external-out');
+
   static const List<CommonMessageInfoRelaxedType> values = [
     internal,
     externalOut

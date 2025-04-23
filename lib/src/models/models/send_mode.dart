@@ -14,17 +14,28 @@ class SendMode {
   final int mode;
   const SendMode._(this.mode, this.name);
 
+  /// Predefined constant for the mode that carries all the remaining balance.
   static const SendMode carryAllRemainingBalance = SendMode._(
       SendModeConst.carryAllRemainingBalance, 'carryAllRemainingBalance');
+
+  /// Predefined constant for the mode that carries all remaining incoming value.
   static const SendMode carryAllRemainingIncomingValue = SendMode._(
       SendModeConst.carryAllRemainingIncomingValue,
       'carryAllRemainingIncomingValue');
+
+  /// Predefined constant for the mode that destroys the account if balance reaches zero.
   static const SendMode destroyAccountIfZero =
       SendMode._(SendModeConst.destroyAccountIfZero, 'destroyAccountIfZero');
+
+  /// Predefined constant for the mode that pays gas separately.
   static const SendMode payGasSeparately =
       SendMode._(SendModeConst.payGasSeparately, 'payGasSeparately');
+
+  /// Predefined constant for the mode that ignores errors during transaction.
   static const SendMode ignoreErrors =
       SendMode._(SendModeConst.ignoreErrors, 'ignoreErrors');
+
+  /// Predefined constant for the mode with no special send behavior.
   static const SendMode none = SendMode._(SendModeConst.none, 'none');
   static const List<SendMode> values = [
     carryAllRemainingBalance,

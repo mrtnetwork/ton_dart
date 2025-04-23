@@ -8,8 +8,13 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 /// account_descr$_ account:^Account last_trans_hash:bits256
 /// last_trans_lt:uint64 = ShardAccount;
 class ShardAccount extends TonSerialization {
+  /// The TonAccount associated with the shard account. It may be `null`.
   final TonAccount? account;
+
+  /// The hash of the last transaction in this shard account.
   final BigInt lastTransactionHash;
+
+  /// The logical time (LT) of the last transaction in this shard account.
   final BigInt lastTransactionLt;
   const ShardAccount(
       {this.account,

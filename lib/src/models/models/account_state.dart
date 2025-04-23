@@ -8,8 +8,14 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 class AccountStateType {
   final String name;
   const AccountStateType._(this.name);
+
+  // Predefined constant for 'uninitialized' account state.
   static const AccountStateType uninit = AccountStateType._('uninit');
+
+  // Predefined constant for 'active' account state.
   static const AccountStateType active = AccountStateType._('active');
+
+  // Predefined constant for 'frozen' account state.
   static const AccountStateType frozen = AccountStateType._('frozen');
   static const List<AccountStateType> values = [uninit, active, frozen];
   factory AccountStateType.fromValue(String? name) {

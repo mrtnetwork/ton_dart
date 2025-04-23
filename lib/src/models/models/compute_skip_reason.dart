@@ -8,14 +8,24 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 //  cskip_bad_state$01 = ComputeSkipReason;
 //  cskip_no_gas$10 = ComputeSkipReason;
 class ComputeSkipReason extends TonSerialization {
-  final int tag;
+  /// The code representing the reason.
+  final int code;
+
+  /// The name/description of the reason.
   final String reason;
-  const ComputeSkipReason._(this.tag, this.reason);
+
+  // Private constructor to enforce the use of predefined skip reasons.
+  const ComputeSkipReason._(this.code, this.reason);
+
+  // Predefined constant for 'noState' skip reason.
   static const ComputeSkipReason noState = ComputeSkipReason._(0x00, 'noState');
+
+  // Predefined constant for 'badState' skip reason.
   static const ComputeSkipReason badState =
       ComputeSkipReason._(0x01, 'badState');
-  static const ComputeSkipReason noGas = ComputeSkipReason._(0x02, 'noGas');
 
+  // Predefined constant for 'noGas' skip reason.
+  static const ComputeSkipReason noGas = ComputeSkipReason._(0x02, 'noGas');
   factory ComputeSkipReason.deserialize(Slice slice) {
     return ComputeSkipReason.fromTag(slice.loadUint(2));
   }
@@ -34,7 +44,7 @@ class ComputeSkipReason extends TonSerialization {
   }
   factory ComputeSkipReason.fromTag(int? tag) {
     return values.firstWhere(
-      (element) => element.tag == tag,
+      (element) => element.code == tag,
       orElse: () => throw TonDartPluginException(
           'Cannot find ComputeSkipReason from provided tag',
           details: {'tag': tag}),
@@ -47,7 +57,7 @@ class ComputeSkipReason extends TonSerialization {
 
   @override
   void store(Builder builder) {
-    builder.storeUint(tag, 2);
+    builder.storeUint(code, 2);
   }
 
   @override

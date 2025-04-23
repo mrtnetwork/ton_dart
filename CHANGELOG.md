@@ -1,3 +1,12 @@
+## 1.5.0
+
+- Update dependencies.
+- Fix Wallet Contract V4 timeout.
+
+## 1.4.0
+
+- Update dependencies.
+
 ## 1.3.0
 
 - Update dependencies.

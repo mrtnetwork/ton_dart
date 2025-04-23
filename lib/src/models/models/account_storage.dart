@@ -10,8 +10,13 @@ import 'currency_collection.dart';
 /// account_storage$_ last_trans_lt:uint64 balance:CurrencyCollection state:AccountState
 ///   = AccountStorage;
 class AccountStorage extends TonSerialization {
+  /// The last transaction's logical time (LT).
   final BigInt lastTransLt;
+
+  /// The balance of the account, represented by a collection of currencies.
   final CurrencyCollection balance;
+
+  /// The state of the account, which could be uninitialized, active, etc.
   final AccountState state;
   const AccountStorage(
       {required this.lastTransLt, required this.balance, required this.state});

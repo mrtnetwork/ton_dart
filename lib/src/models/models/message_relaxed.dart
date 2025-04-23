@@ -11,9 +11,15 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 ///  init:(Maybe (Either StateInit ^StateInit))
 ///  body:(Either X ^X) = MessageRelaxed X;
 class MessageRelaxed extends TonSerialization {
+  /// The information related to the message, including type (internal or external).
   final CommonMessageInfoRelaxed info;
+
+  /// Optional state initialization data, if present.
   final StateInit? init;
+
+  /// The body of the message, encapsulated in a `Cell` object.
   final Cell body;
+
   const MessageRelaxed({required this.info, this.init, required this.body});
   factory MessageRelaxed.deserialize(Slice slice) {
     final info = CommonMessageInfoRelaxed.deserialize(slice);
