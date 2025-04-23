@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/service/const/constant.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
@@ -71,7 +72,7 @@ mixin ContractProvider {
           data: TonHelper.tryToCell(state.data),
           state: state.status);
     } on RPCError catch (e) {
-      if (e.message == ApiProviderConst.tonApiNotiFoundError) {
+      if (e.message == ServiceConst.httpErrorMessages[404]) {
         return AccountStateResponse(
             balance: BigInt.zero,
             code: null,
