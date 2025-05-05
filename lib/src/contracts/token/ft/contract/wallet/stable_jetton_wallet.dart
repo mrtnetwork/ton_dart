@@ -46,7 +46,9 @@ class StableJettonWallet<E extends WalletContractTransferParams>
       bool bounced = false,
       Cell? body,
       StateInit? state,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee,
+      bool sendToBlockchain = true,
+      }) async {
     final message = TonHelper.internal(
         destination: address,
         amount: amount,
@@ -60,7 +62,9 @@ class StableJettonWallet<E extends WalletContractTransferParams>
         rpc: rpc,
         timeout: timeout,
         sendMode: sendMode,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee,
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 
   /// Sends a transaction operation.
@@ -82,7 +86,7 @@ class StableJettonWallet<E extends WalletContractTransferParams>
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee, bool sendToBlockchain = true}) async {
     return _sendTransaction(
         params: signerParams,
         rpc: rpc,
@@ -92,7 +96,9 @@ class StableJettonWallet<E extends WalletContractTransferParams>
         bounce: bounce,
         bounced: bounced,
         timeout: timeout,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee,
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 
   /// get contract balance

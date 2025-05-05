@@ -49,7 +49,9 @@ class OrderContract<E extends WalletContractTransferParams>
       bool bounced = false,
       Cell? body,
       StateInit? state,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee,
+      bool sendToBlockchain = true,
+      }) async {
     return await owner.sendTransfer(
         params: params,
         messages: [
@@ -65,7 +67,9 @@ class OrderContract<E extends WalletContractTransferParams>
         rpc: rpc,
         timeout: timeout,
         sendMode: sendMode,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee,
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 
   Cell initMessageBody(
@@ -110,7 +114,9 @@ class OrderContract<E extends WalletContractTransferParams>
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee,
+      bool sendToBlockchain = true,
+      }) async {
     final active = await isActive(rpc);
     if (!active) {
       throw const TonContractException(
@@ -135,7 +141,9 @@ class OrderContract<E extends WalletContractTransferParams>
         bounce: bounce,
         bounced: bounced,
         timeout: timeout,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee,
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 
   Future<OrderContractState> getOrderData(TonProvider rpc) async {

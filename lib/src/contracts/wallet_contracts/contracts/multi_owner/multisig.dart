@@ -74,7 +74,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       bool bounced = false,
       Cell? body,
       StateInit? state,
-      OnEstimateFee? onEstimateFee}) async {
+      OnEstimateFee? onEstimateFee, 
+      bool sendToBlockchain = true,
+  }) async {
     return await owner.sendTransfer(
         params: params,
         messages: [
@@ -90,7 +92,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
         rpc: rpc,
         timeout: timeout,
         sendMode: sendMode,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee, 
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 
   Future<String> deploy(
@@ -239,7 +243,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       required BigInt amount,
       required List<OutActionMultiSig> messages,
       BigInt? orderId,
-      BigInt? queryId}) async {
+      BigInt? queryId,
+      bool sendToBlockchain = true,
+      }) async {
     final active = await isActive(rpc);
     if (state == null) {
       throw const TonContractException(
@@ -280,7 +286,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
         rpc: rpc,
         amount: amount,
         body: body,
-        state: active ? null : state!.initialState(chain: owner.chain));
+        state: active ? null : state!.initialState(chain: owner.chain), 
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 
   Future<MultiOwnerWalletState> getStateData(TonProvider rpc) async {
@@ -328,7 +336,9 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       required TonProvider rpc,
       int sendMode = SendModeConst.payGasSeparately,
       int? timeout,
-      OnEstimateFee? onEstimateFee}) {
+      OnEstimateFee? onEstimateFee, 
+      bool sendToBlockchain = true,
+    }) {
     final actions = messages
         .map((e) => OutActionMultiSigSendMsg(outMessage: e, mode: sendMode))
         .toList();
@@ -339,6 +349,8 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
         expirationDate: params.expirationDate,
         messages: [...params.messages, ...actions],
         orderId: params.orderId,
-        queryId: params.queryId);
+        queryId: params.queryId,
+        sendToBlockchain: sendToBlockchain,
+        );
   }
 }
