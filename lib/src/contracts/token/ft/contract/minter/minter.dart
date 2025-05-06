@@ -47,16 +47,18 @@ class JettonMinter<E extends WalletContractTransferParams>
     return JettonMinter(owner: owner, address: address, state: state);
   }
 
-  Future<String> _sendTransaction(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      Cell? body,
-      OnEstimateFee? onEstimateFee}) async {
+  Future<String> _sendTransaction({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    Cell? body,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
@@ -77,7 +79,8 @@ class JettonMinter<E extends WalletContractTransferParams>
         rpc: rpc,
         timeout: timeout,
         sendMode: sendMode,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee,
+        action: action);
   }
 
   /// deploy contract

@@ -46,6 +46,8 @@ class NFTItemContract<E extends WalletContractTransferParams>
     bool? bounce,
     bool bounced = false,
     Cell? body,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     final active = await isActive(rpc);
     if (!active && state == null) {
@@ -67,7 +69,9 @@ class NFTItemContract<E extends WalletContractTransferParams>
         ],
         rpc: rpc,
         timeout: timeout,
-        sendMode: sendMode);
+        sendMode: sendMode,
+        action: action,
+        onEstimateFee: onEstimateFee);
   }
 
   Future<String> deploy(

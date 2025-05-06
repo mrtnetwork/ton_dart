@@ -5,6 +5,8 @@ class TonContractExceptionConst {
   /// contract state is not active (freez or inActive)
   static const TonContractException stateIsInactive = TonContractException(
       'Unable to read contract data. The contract is not active.');
+  static const TonContractException stateIsFrozen = TonContractException(
+      'Unable to read contract data. The contract is frozen.');
 
   /// operation body deserialization failed.
   static TonContractException unknownBody(String name,

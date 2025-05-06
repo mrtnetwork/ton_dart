@@ -172,8 +172,9 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
       required BigInt queryId,
       required TonProvider rpc,
       required BigInt value,
+      required OnEstimateFee? onEstimateFee,
       SendMode mode = SendMode.carryAllRemainingBalance,
-      bool sendToBlockchain = true,
+      TonTransactionAction action = TonTransactionAction.broadcast,
       int? createAt}) async {
     final active = await isActive(rpc);
     if (!active && state == null) {
@@ -188,7 +189,10 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
         createAt: createAt,
         mode: mode,
         initState: active ? null : state!.initialState());
-    if (sendToBlockchain) return sendMessage(rpc: rpc, exMessage: extMessage);
+    if (onEstimateFee != null) {
+      await onEstimateFee(extMessage);
+    }
+    if (action.isBroadcast) return sendMessage(rpc: rpc, exMessage: extMessage);
     return extMessage.serialize().toBase64();
   }
 
@@ -198,7 +202,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
       List<MessageRelaxed> messages = const [],
       required TonProvider rpc,
       int sendMode = SendModeConst.payGasSeparately,
-      bool sendToBlockchain = true,
+      TonTransactionAction action = TonTransactionAction.broadcast,
       int? timeout,
       OnEstimateFee? onEstimateFee}) {
     final actions = messages
@@ -206,11 +210,12 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
         .toList();
     return sendBatchTransaction(
       signer: params.signer,
+      onEstimateFee: onEstimateFee,
       messages: [...params.messages, ...actions],
       queryId: params.queryId,
       rpc: rpc,
       value: params.value ?? BigInt.zero,
-      sendToBlockchain: sendToBlockchain,
+      action: action,
     );
   }
 }

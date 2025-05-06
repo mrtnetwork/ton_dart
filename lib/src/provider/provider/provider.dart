@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:blockchain_utils/exception/exception/rpc_error.dart';
-import 'package:blockchain_utils/service/const/constant.dart';
-import 'package:blockchain_utils/service/models/params.dart';
+import 'package:blockchain_utils/service/service.dart';
+import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/service/service.dart';
 
@@ -20,6 +20,13 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
   static SERVICERESPONSE _findError<SERVICERESPONSE>(
       BaseServiceResponse<SERVICERESPONSE> response,
       TonRequestDetails request) {
+    if (response.type == ServiceResponseType.error) {
+      final error = StringUtils.tryToJson<Map<String, dynamic>>(
+          response.cast<ServiceErrorResponse>().error);
+      if (error != null) {
+        _error(error, request);
+      }
+    }
     final SERVICERESPONSE val = response.getResult(request);
     if (val is Map) {
       final error = val['error'] ?? val['Error'];
@@ -41,6 +48,21 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
       }
     }
     return val;
+  }
+
+  static _error(Map val, TonRequestDetails request) {
+    final error = val['error'] ?? val['Error'];
+    if (error != null) {
+      final code = val['code'] ?? val['error_code'];
+      _throw(request, error.toString(), code?.toString());
+    }
+    if (request.apiType.isTonCenter) {
+      final ok = val['ok'];
+      if (ok is bool && !ok) {
+        _throw(request, val['result']?.toString() ?? ServiceConst.defaultError,
+            val['code']?.toString());
+      }
+    }
   }
 
   static void _throw(TonRequestDetails request, String message, String? code) {

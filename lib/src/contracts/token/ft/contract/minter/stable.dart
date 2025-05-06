@@ -52,17 +52,19 @@ class StableJettonMinter<E extends WalletContractTransferParams>
     return StableJettonMinter(owner: owner, address: address, state: state);
   }
 
-  Future<String> _sendTransaction(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      Cell? body,
-      StateInit? state,
-      OnEstimateFee? onEstimateFee}) async {
+  Future<String> _sendTransaction({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    Cell? body,
+    StateInit? state,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     return await owner.sendTransfer(
         params: params,
         messages: [
@@ -78,7 +80,8 @@ class StableJettonMinter<E extends WalletContractTransferParams>
         rpc: rpc,
         timeout: timeout,
         sendMode: sendMode,
-        onEstimateFee: onEstimateFee);
+        onEstimateFee: onEstimateFee,
+        action: action);
   }
 
   Future<String> deploy(

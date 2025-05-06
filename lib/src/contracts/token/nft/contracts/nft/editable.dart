@@ -48,6 +48,8 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
     bool? bounce,
     bool bounced = false,
     Cell? body,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     final active = await isActive(rpc);
     if (!active && state == null) {
@@ -67,7 +69,9 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
         params: params,
         rpc: rpc,
         timeout: timeout,
-        sendMode: sendMode);
+        sendMode: sendMode,
+        action: action,
+        onEstimateFee: onEstimateFee);
   }
 
   @override

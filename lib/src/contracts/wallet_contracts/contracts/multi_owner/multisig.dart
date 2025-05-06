@@ -64,37 +64,37 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     return beginCell().storeUint32(0).storeUint64(0).endCell();
   }
 
-  Future<String> _sendTransaction(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      Cell? body,
-      StateInit? state,
-      OnEstimateFee? onEstimateFee, 
-      bool sendToBlockchain = true,
+  Future<String> _sendTransaction({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    Cell? body,
+    StateInit? state,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     return await owner.sendTransfer(
-        params: params,
-        messages: [
-          TonHelper.internal(
-            destination: address,
-            amount: amount,
-            initState: state,
-            bounced: bounced,
-            body: body,
-            bounce: bounce ?? address.isBounceable,
-          )
-        ],
-        rpc: rpc,
-        timeout: timeout,
-        sendMode: sendMode,
-        onEstimateFee: onEstimateFee, 
-        sendToBlockchain: sendToBlockchain,
-        );
+      params: params,
+      messages: [
+        TonHelper.internal(
+          destination: address,
+          amount: amount,
+          initState: state,
+          bounced: bounced,
+          body: body,
+          bounce: bounce ?? address.isBounceable,
+        )
+      ],
+      rpc: rpc,
+      timeout: timeout,
+      sendMode: sendMode,
+      onEstimateFee: onEstimateFee,
+      action: action,
+    );
   }
 
   Future<String> deploy(
@@ -236,16 +236,16 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     return msgBody.storeRef(actions).endCell();
   }
 
-  Future<String> sendNewOrder(
-      {required TonProvider rpc,
-      required E params,
-      required BigInt expirationDate,
-      required BigInt amount,
-      required List<OutActionMultiSig> messages,
-      BigInt? orderId,
-      BigInt? queryId,
-      bool sendToBlockchain = true,
-      }) async {
+  Future<String> sendNewOrder({
+    required TonProvider rpc,
+    required E params,
+    required BigInt expirationDate,
+    required BigInt amount,
+    required List<OutActionMultiSig> messages,
+    BigInt? orderId,
+    BigInt? queryId,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     final active = await isActive(rpc);
     if (state == null) {
       throw const TonContractException(
@@ -282,13 +282,13 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     );
 
     return _sendTransaction(
-        params: params,
-        rpc: rpc,
-        amount: amount,
-        body: body,
-        state: active ? null : state!.initialState(chain: owner.chain), 
-        sendToBlockchain: sendToBlockchain,
-        );
+      params: params,
+      rpc: rpc,
+      amount: amount,
+      body: body,
+      state: active ? null : state!.initialState(chain: owner.chain),
+      action: action,
+    );
   }
 
   Future<MultiOwnerWalletState> getStateData(TonProvider rpc) async {
@@ -330,27 +330,27 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   }
 
   @override
-  Future<String> sendTransfer(
-      {required MultiOwnerTransferParams<E> params,
-      List<MessageRelaxed> messages = const [],
-      required TonProvider rpc,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      OnEstimateFee? onEstimateFee, 
-      bool sendToBlockchain = true,
-    }) {
+  Future<String> sendTransfer({
+    required MultiOwnerTransferParams<E> params,
+    List<MessageRelaxed> messages = const [],
+    required TonProvider rpc,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) {
     final actions = messages
         .map((e) => OutActionMultiSigSendMsg(outMessage: e, mode: sendMode))
         .toList();
     return sendNewOrder(
-        rpc: rpc,
-        params: params.params,
-        amount: params.amount,
-        expirationDate: params.expirationDate,
-        messages: [...params.messages, ...actions],
-        orderId: params.orderId,
-        queryId: params.queryId,
-        sendToBlockchain: sendToBlockchain,
-        );
+      rpc: rpc,
+      params: params.params,
+      amount: params.amount,
+      expirationDate: params.expirationDate,
+      messages: [...params.messages, ...actions],
+      orderId: params.orderId,
+      queryId: params.queryId,
+      action: action,
+    );
   }
 }

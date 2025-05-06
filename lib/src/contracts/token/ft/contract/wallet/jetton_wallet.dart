@@ -45,7 +45,8 @@ class JettonWallet<E extends WalletContractTransferParams>
       bool bounced = false,
       Cell? body,
       StateInit? state,
-      OnEstimateFee? onEstimateFee, bool sendToBlockchain = true}) async {
+      OnEstimateFee? onEstimateFee,
+      TonTransactionAction action = TonTransactionAction.broadcast}) async {
     final message = TonHelper.internal(
         destination: address,
         amount: amount,
@@ -54,13 +55,13 @@ class JettonWallet<E extends WalletContractTransferParams>
         body: body,
         bounce: bounce ?? address.isBounceable);
     return await owner.sendTransfer(
-        messages: [message],
-        params: params,
-        rpc: rpc,
-        timeout: timeout,
-        sendMode: sendMode,
-        onEstimateFee: onEstimateFee,
-        sendToBlockchain: sendToBlockchain,
+      messages: [message],
+      params: params,
+      rpc: rpc,
+      timeout: timeout,
+      sendMode: sendMode,
+      onEstimateFee: onEstimateFee,
+      action: action,
     );
   }
 
@@ -83,19 +84,20 @@ class JettonWallet<E extends WalletContractTransferParams>
       int? timeout,
       bool? bounce,
       bool bounced = false,
-      OnEstimateFee? onEstimateFee, bool sendToBlockchain = true}) async {
+      OnEstimateFee? onEstimateFee,
+      TonTransactionAction action = TonTransactionAction.broadcast}) async {
     return _sendTransaction(
-        params: signerParams,
-        rpc: rpc,
-        amount: amount,
-        sendMode: sendMode,
-        body: operation.toBody(),
-        bounce: bounce,
-        bounced: bounced,
-        timeout: timeout,
-        onEstimateFee: onEstimateFee,
-        sendToBlockchain: sendToBlockchain,
-        );
+      params: signerParams,
+      rpc: rpc,
+      amount: amount,
+      sendMode: sendMode,
+      body: operation.toBody(),
+      bounce: bounce,
+      bounced: bounced,
+      timeout: timeout,
+      onEstimateFee: onEstimateFee,
+      action: action,
+    );
   }
 
   /// get contract balance

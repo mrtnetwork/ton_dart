@@ -32,12 +32,12 @@ class HTTPProvider implements TonServiceProvider {
       final response = await client
           .post(uri, headers: headers, body: params.body())
           .timeout(timeout ?? defaultRequestTimeout);
-      return params.toResponse(response.bodyBytes, response.statusCode);
+      return params.parseResponse(response.bodyBytes, response.statusCode);
     }
     final response = await client
         .get(uri, headers: headers)
         .timeout(timeout ?? defaultRequestTimeout);
-    return params.toResponse(response.bodyBytes, response.statusCode);
+    return params.parseResponse(response.bodyBytes, response.statusCode);
   }
 
   @override

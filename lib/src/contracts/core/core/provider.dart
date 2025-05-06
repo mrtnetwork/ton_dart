@@ -90,6 +90,9 @@ mixin ContractProvider {
     if (!state.state.isActive) {
       throw TonContractExceptionConst.stateIsInactive;
     }
+    if (state.state.isFrozen && (state.code == null || state.data == null)) {
+      throw TonContractExceptionConst.stateIsFrozen;
+    }
     return state;
   }
 

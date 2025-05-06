@@ -5,6 +5,16 @@ import 'package:ton_dart/src/provider/provider/provider.dart';
 
 typedef OnEstimateFee = Future<void> Function(Message message);
 
+enum TonTransactionAction {
+  /// Broadcasts the transaction to the network and returns the transaction hash.
+  broadcast,
+
+  /// Returns the serialized BOC as a base58 string without broadcasting.
+  boc;
+
+  bool get isBroadcast => this == broadcast;
+}
+
 abstract class WalletContract<C extends ContractState,
     T extends WalletContractTransferParams> extends TonContract<C> {
   const WalletContract(
@@ -22,6 +32,6 @@ abstract class WalletContract<C extends ContractState,
       required TonProvider rpc,
       int sendMode = SendModeConst.payGasSeparately,
       int? timeout,
-      OnEstimateFee? onEstimateFee,
-      bool sendToBlockchain = true});
+      required OnEstimateFee? onEstimateFee,
+      required TonTransactionAction action});
 }

@@ -130,16 +130,16 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
   }
 
   @override
-  Future<String> sendTransfer(
-      {required VersionedV5TransferParams params,
-      required TonProvider rpc,
-      List<MessageRelaxed> messages = const [],
-      List<OutActionWalletV5> v5Messages = const [],
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      OnEstimateFee? onEstimateFee, 
-      bool sendToBlockchain = true,
-      }) async {
+  Future<String> sendTransfer({
+    required VersionedV5TransferParams params,
+    required TonProvider rpc,
+    List<MessageRelaxed> messages = const [],
+    List<OutActionWalletV5> v5Messages = const [],
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     final VersionedWalletState? state = await getContractState(rpc);
     if (state == null && this.state == null) {
       throw const TonContractException(
@@ -174,40 +174,40 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
     if (onEstimateFee != null) {
       await onEstimateFee(ext);
     }
-    if (sendToBlockchain) return sendMessage(rpc: rpc, exMessage: ext);
+    if (action.isBroadcast) return sendMessage(rpc: rpc, exMessage: ext);
     return ext.serialize().toBase64();
   }
 
-  Future<String> sendRemoveExtension(
-      {required VersionedV5TransferParams params,
-      required TonPrivateKey privateKey,
-      required TonProvider rpc,
-      int sendMode = SendModeConst.payGasSeparately,
-      WalletV5AuthType type = WalletV5AuthType.external,
-      int? timeout,
-      OnEstimateFee? onEstimateFee,
-      bool sendToBlockchain = true,
-      }) async {
+  Future<String> sendRemoveExtension({
+    required VersionedV5TransferParams params,
+    required TonPrivateKey privateKey,
+    required TonProvider rpc,
+    int sendMode = SendModeConst.payGasSeparately,
+    WalletV5AuthType type = WalletV5AuthType.external,
+    int? timeout,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     return sendActionRequest(
-        actions: [OutActionRemoveExtension(address)],
-        params: params,
-        rpc: rpc,
-        sendMode: sendMode,
-        timeout: timeout,
-        onEstimateFee: onEstimateFee,
-        sendToBlockchain: sendToBlockchain,
-        );
+      actions: [OutActionRemoveExtension(address)],
+      params: params,
+      rpc: rpc,
+      sendMode: sendMode,
+      timeout: timeout,
+      onEstimateFee: onEstimateFee,
+      action: action,
+    );
   }
 
-  Future<String> sendActionRequest(
-      {required VersionedV5TransferParams params,
-      required TonProvider rpc,
-      List<OutActionWalletV5> actions = const [],
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      OnEstimateFee? onEstimateFee,
-      bool sendToBlockchain = true,
-      }) async {
+  Future<String> sendActionRequest({
+    required VersionedV5TransferParams params,
+    required TonProvider rpc,
+    List<OutActionWalletV5> actions = const [],
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     if (params.type == WalletV5AuthType.extension) {
       throw const TonContractException(
           'use create request instead sendActionRequest for build message body.');
@@ -217,15 +217,15 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
           'cannot create request with watch only wallet.');
     }
     return sendTransfer(
-        params: params,
-        rpc: rpc,
-        messages: const [],
-        v5Messages: actions,
-        onEstimateFee: onEstimateFee,
-        timeout: timeout,
-        sendMode: sendMode,
-        sendToBlockchain: sendToBlockchain,
-        );
+      params: params,
+      rpc: rpc,
+      messages: const [],
+      v5Messages: actions,
+      onEstimateFee: onEstimateFee,
+      timeout: timeout,
+      sendMode: sendMode,
+      action: action,
+    );
   }
 
   Future<List<TonAddress>> getExtensions(TonProvider rpc) async {

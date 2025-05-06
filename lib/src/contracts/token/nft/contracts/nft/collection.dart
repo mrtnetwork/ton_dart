@@ -43,15 +43,18 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
     return NFTCollectionContract(owner: owner, address: address, state: state);
   }
 
-  Future<String> _sendTransaction(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      Cell? body}) async {
+  Future<String> _sendTransaction({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    Cell? body,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     final active = await isActive(rpc);
     if (!active && state == null) {
       throw const TonContractException(
@@ -67,12 +70,13 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
       bounce: bounce ?? address.isBounceable,
     );
     return await owner.sendTransfer(
-      messages: [message],
-      params: params,
-      rpc: rpc,
-      timeout: timeout,
-      sendMode: sendMode,
-    );
+        messages: [message],
+        params: params,
+        rpc: rpc,
+        timeout: timeout,
+        sendMode: sendMode,
+        action: action,
+        onEstimateFee: onEstimateFee);
   }
 
   Future<String> deploy(

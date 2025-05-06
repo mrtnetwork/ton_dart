@@ -39,37 +39,37 @@ class OrderContract<E extends WalletContractTransferParams>
     return OrderContract<T>(address: address, owner: wallet, state: state);
   }
 
-  Future<String> _sendTransaction(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      Cell? body,
-      StateInit? state,
-      OnEstimateFee? onEstimateFee,
-      bool sendToBlockchain = true,
-      }) async {
+  Future<String> _sendTransaction({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    Cell? body,
+    StateInit? state,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     return await owner.sendTransfer(
-        params: params,
-        messages: [
-          TonHelper.internal(
-            destination: address,
-            amount: amount,
-            initState: state,
-            bounced: bounced,
-            body: body,
-            bounce: bounce ?? address.isBounceable,
-          )
-        ],
-        rpc: rpc,
-        timeout: timeout,
-        sendMode: sendMode,
-        onEstimateFee: onEstimateFee,
-        sendToBlockchain: sendToBlockchain,
-        );
+      params: params,
+      messages: [
+        TonHelper.internal(
+          destination: address,
+          amount: amount,
+          initState: state,
+          bounced: bounced,
+          body: body,
+          bounce: bounce ?? address.isBounceable,
+        )
+      ],
+      rpc: rpc,
+      timeout: timeout,
+      sendMode: sendMode,
+      onEstimateFee: onEstimateFee,
+      action: action,
+    );
   }
 
   Cell initMessageBody(
@@ -104,19 +104,19 @@ class OrderContract<E extends WalletContractTransferParams>
         .endCell();
   }
 
-  Future<String> sendApprove(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int? signerIdx,
-      BigInt? queryId,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      OnEstimateFee? onEstimateFee,
-      bool sendToBlockchain = true,
-      }) async {
+  Future<String> sendApprove({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int? signerIdx,
+    BigInt? queryId,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     final active = await isActive(rpc);
     if (!active) {
       throw const TonContractException(
@@ -133,17 +133,17 @@ class OrderContract<E extends WalletContractTransferParams>
       throw const TonContractException('cannot find signer.');
     }
     return _sendTransaction(
-        params: params,
-        rpc: rpc,
-        amount: amount,
-        sendMode: sendMode,
-        body: approveMessageBody(signerIdx: signerIdx, queryId: queryId),
-        bounce: bounce,
-        bounced: bounced,
-        timeout: timeout,
-        onEstimateFee: onEstimateFee,
-        sendToBlockchain: sendToBlockchain,
-        );
+      params: params,
+      rpc: rpc,
+      amount: amount,
+      sendMode: sendMode,
+      body: approveMessageBody(signerIdx: signerIdx, queryId: queryId),
+      bounce: bounce,
+      bounced: bounced,
+      timeout: timeout,
+      onEstimateFee: onEstimateFee,
+      action: action,
+    );
   }
 
   Future<OrderContractState> getOrderData(TonProvider rpc) async {

@@ -149,6 +149,7 @@ class TonRequestDetails extends BaseServiceRequestParams {
       required super.type,
       required this.pathParams,
       required this.apiType,
+      super.errorStatusCodes = const [404],
       this.jsonBody,
       this.isJsonRpc = false});
 
