@@ -18,8 +18,7 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
   bool get isTonCenter => rpc.api.isTonCenter;
 
   static SERVICERESPONSE _findError<SERVICERESPONSE>(
-      BaseServiceResponse<SERVICERESPONSE> response,
-      TonRequestDetails request) {
+      BaseServiceResponse response, TonRequestDetails request) {
     if (response.type == ServiceResponseType.error) {
       final error = StringUtils.tryToJson<Map<String, dynamic>>(
           response.cast<ServiceErrorResponse>().error);
@@ -27,41 +26,33 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
         _error(error, request);
       }
     }
-    final SERVICERESPONSE val = response.getResult(request);
+    final val = response.getResult(request);
     if (val is Map) {
-      final error = val['error'] ?? val['Error'];
-      if (error != null) {
-        final code = val['code'] ?? val['error_code'];
-        _throw(request, error.toString(), code?.toString());
-      }
-      if (request.apiType.isTonCenter) {
-        final ok = val['ok'];
-        if (ok is bool && !ok) {
-          _throw(
-              request,
-              val['result']?.toString() ?? ServiceConst.defaultError,
-              val['code']?.toString());
-        }
-        if (request.isJsonRpc) {
-          return val['result'];
-        }
+      _error(val, request);
+      if (request.apiType.isTonCenter && request.isJsonRpc) {
+        return ServiceProviderUtils.parseResponse(
+            object: val['result'], params: request);
       }
     }
-    return val;
+    return ServiceProviderUtils.parseResponse(object: val, params: request);
   }
 
   static _error(Map val, TonRequestDetails request) {
-    final error = val['error'] ?? val['Error'];
-    if (error != null) {
-      final code = val['code'] ?? val['error_code'];
-      _throw(request, error.toString(), code?.toString());
-    }
     if (request.apiType.isTonCenter) {
-      final ok = val['ok'];
-      if (ok is bool && !ok) {
-        _throw(request, val['result']?.toString() ?? ServiceConst.defaultError,
-            val['code']?.toString());
+      if (request.isJsonRpc) {
+        final ok = val["ok"];
+        if (ok is bool && ok == false) {
+          _throw(request, val["error"].toString(), val["code"]?.toString());
+        }
+        return;
       }
+      if (val.containsKey("error")) {
+        _throw(request, val["error"].toString(), val["code"]?.toString());
+      }
+      return;
+    }
+    if (val.containsKey("error")) {
+      _throw(request, val["error"].toString(), val["error_code"]?.toString());
     }
   }
 
@@ -92,6 +83,11 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
       BaseServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request,
       {Duration? timeout}) async {
     final params = request.buildRequest(_id++);
+    if (params.isJsonRpc) {
+      final response =
+          await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
+      return _findError<SERVICERESPONSE>(response, params);
+    }
     final response =
         await rpc.doRequest<SERVICERESPONSE>(params, timeout: timeout);
 

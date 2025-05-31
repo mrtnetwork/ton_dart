@@ -15,4 +15,7 @@ class TonCenterV3Methods {
       TonCenterV3Methods._(name: 'estimateFee');
   static const TonCenterV3Methods account =
       TonCenterV3Methods._(name: 'account');
+  static const TonCenterV3Methods transactions =
+      TonCenterV3Methods._(name: 'transactions');
+  static const TonCenterV3Methods traces = TonCenterV3Methods._(name: 'traces');
 }

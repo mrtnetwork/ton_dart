@@ -39,6 +39,7 @@ mixin VerionedProviderImpl<C extends VersionedWalletState,
     final state = await getState(rpc: rpc);
     final stateData = VersionedWalletUtils.readState(
         stateData: state.data, type: type, chain: chain);
+
     if (stateData is! C) {
       throw TonContractException('Incorrect state data.',
           details: {'expected': '$C', 'got': '${stateData.runtimeType}'});
