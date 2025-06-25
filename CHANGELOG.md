@@ -1,3 +1,8 @@
+## 1.8.0
+
+- Update dependencies.
+
+
 ## 1.7.0
 
 - Implemented partial support for Toncenter v3 API methods
