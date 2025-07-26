@@ -44,6 +44,8 @@ class TonCenterMethods {
       TonCenterMethods._('tryLocateSourceTx');
   static const TonCenterMethods getConfigParam =
       TonCenterMethods._('getConfigParam');
+  static const TonCenterMethods getConfigAll =
+      TonCenterMethods._('getConfigAll');
   static const TonCenterMethods runGetMethod =
       TonCenterMethods._('runGetMethod');
   static const TonCenterMethods sendBoc = TonCenterMethods._('sendBoc');

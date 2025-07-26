@@ -14,7 +14,7 @@ void main() async {
       owner: wallet.wallet,
       state: MinterWalletState(
         owner: wallet.address,
-        chain: TonChain.testnet,
+        chain: TonChainId.testnet,
         metadata: metadata,
       ));
   await jetton.sendOperation(

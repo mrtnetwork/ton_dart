@@ -24,7 +24,7 @@ class TestWallet<T extends VersionedWalletContract> {
   String toString() {
     final toJson = {
       "address": address.toFriendlyAddress(
-          testOnly: wallet.chain == TonChain.testnet ? true : false,
+          testOnly: wallet.chain == TonChainId.testnet ? true : false,
           bounceable: true),
       "privateKey": signer.toHex(),
       "publickKey": signer.toPublicKey().toHex(),
@@ -38,7 +38,7 @@ class TestWallet<T extends VersionedWalletContract> {
 
   factory TestWallet(
       {required WalletVersion version,
-      TonChain chain = TonChain.testnet,
+      TonChainId chain = TonChainId.testnet,
       int index = 0,
       bool bounceableAddress = false,
       String tonApiUrl = "https://testnet.tonapi.io",
@@ -146,7 +146,7 @@ class TestWalletHighLoadWallet {
   String toString() {
     final toJson = {
       "address": address.toFriendlyAddress(
-          testOnly: wallet.chain == TonChain.testnet ? true : false,
+          testOnly: wallet.chain == TonChainId.testnet ? true : false,
           bounceable: true),
       "rawAddress": address.toRawAddress(),
       "privateKey": signer.toHex(),
@@ -159,7 +159,7 @@ class TestWalletHighLoadWallet {
   }
 
   factory TestWalletHighLoadWallet(
-      {TonChain chain = TonChain.testnet,
+      {TonChainId chain = TonChainId.testnet,
       int index = 0,
       bool bounceableAddress = false,
       String tonApiUrl = "https://testnet.tonapi.io",
@@ -214,7 +214,7 @@ class TestWalletMultiOwner {
   String toString() {
     final toJson = {
       "address": address.toFriendlyAddress(
-          testOnly: wallet.chain == TonChain.testnet ? true : false,
+          testOnly: wallet.chain == TonChainId.testnet ? true : false,
           bounceable: true),
       "rawAddress": address.toRawAddress(),
       "signerWallets": signerWalletes.map((e) => e.address).toList(),
@@ -227,7 +227,7 @@ class TestWalletMultiOwner {
   }
 
   factory TestWalletMultiOwner(
-      {TonChain chain = TonChain.testnet,
+      {TonChainId chain = TonChainId.testnet,
       int startIndex = 0,
       int proposIndex = 144,
       int threshHold = 2,

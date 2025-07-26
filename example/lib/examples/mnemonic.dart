@@ -22,8 +22,8 @@ void main() async {
   final publicKey = privateKey.toPublicKey();
 
   /// Create WalletV4 instance with derived public key
-  final wallet =
-      WalletV4.create(chain: TonChain.testnet, publicKey: publicKey.toBytes());
+  final wallet = WalletV4.create(
+      chain: TonChainId.testnet, publicKey: publicKey.toBytes());
 
   /// Get address from wallet
   final address = wallet.address;

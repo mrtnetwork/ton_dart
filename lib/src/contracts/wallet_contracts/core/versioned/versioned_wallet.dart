@@ -95,10 +95,10 @@ abstract class VersionedWalletContract<STATE extends VersionedWalletState,
 
   VersionedWalletContract(
       {required STATE? stateInit,
-      required TonChain? chain,
+      required TonChainId? chain,
       required super.address,
       required this.type})
       : super(
             state: stateInit,
-            chain: chain ?? TonChain.fromWorkchain(address.workChain));
+            chain: chain ?? TonChainId.fromWorkchain(address.workChain));
 }

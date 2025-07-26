@@ -3,7 +3,7 @@ import 'package:ton_dart/ton_dart.dart';
 
 void main() async {
   final wallet = TestWallet<WalletV5R1>(
-      version: WalletVersion.v5R1, chain: TonChain.mainnet);
+      version: WalletVersion.v5R1, chain: TonChainId.mainnet);
   final stableJetton = StableJettonMinter.create(
       owner: wallet.wallet,
       state: StableTokenMinterState(

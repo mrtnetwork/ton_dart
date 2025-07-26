@@ -23,5 +23,5 @@ abstract class ContractOperation extends TonSerialization {
   abstract final ContractOperationType type;
 
   /// contract code
-  Cell contractCode(TonChain chain);
+  Cell contractCode(TonChainId chain);
 }

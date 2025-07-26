@@ -48,9 +48,9 @@ class MultiOwnerWalletState extends ContractState {
         signersNum = signersNum ?? signers.length;
 
   @override
-  StateInit initialState({TonChain? chain}) {
+  StateInit initialState({TonChainId? chain}) {
     Cell? code;
-    if (chain == TonChain.testnet) {
+    if (chain == TonChainId.testnet) {
       code = Cell.fromHex(MultiOwnerContractConst.multiSigCodeTestNet);
     }
     code ??= Cell.fromHex(MultiOwnerContractConst.multisigCode);

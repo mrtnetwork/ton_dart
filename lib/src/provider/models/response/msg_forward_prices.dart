@@ -1,11 +1,6 @@
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-
-class _MsgForwardPricesResponseConst {
-  static const int tag = 0xea;
-}
 
 class MsgForwardPricesResponse with JsonSerialization {
   final BigInt lumpPrice;
@@ -35,13 +30,7 @@ class MsgForwardPricesResponse with JsonSerialization {
     );
   }
   factory MsgForwardPricesResponse.deserialize(Slice slice) {
-    final tag = slice.loadUint8();
-    if (tag != _MsgForwardPricesResponseConst.tag) {
-      throw TonDartPluginException('Invalid msg forward prices tag.', details: {
-        'expected': _MsgForwardPricesResponseConst.tag,
-        'tag': tag
-      });
-    }
+    slice.loadUint8();
     return MsgForwardPricesResponse(
         lumpPrice: slice.loadUint64(),
         bitPrice: slice.loadUint64(),

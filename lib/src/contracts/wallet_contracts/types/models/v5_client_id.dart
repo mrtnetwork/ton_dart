@@ -4,7 +4,7 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 
 abstract class V5R1Context extends TonSerialization {
   const V5R1Context({required this.chain});
-  final TonChain chain;
+  final TonChainId chain;
   abstract final int contextID;
   @override
   void store(Builder builder) {

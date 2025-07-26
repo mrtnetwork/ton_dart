@@ -21,6 +21,7 @@ export 'block/shards.dart';
 
 /// config
 export 'config/get_config_param.dart';
+export 'config/get_conig_all.dart';
 
 /// method
 export 'method/run_get_method.dart';

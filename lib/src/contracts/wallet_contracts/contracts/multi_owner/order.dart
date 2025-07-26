@@ -21,7 +21,7 @@ class OrderContract<E extends WalletContractTransferParams>
   const OrderContract({required this.address, required this.owner, this.state});
 
   factory OrderContract.create(
-      {TonChain? chain,
+      {TonChainId? chain,
       required TonAddress multisig,
       required BigInt orderSeqno,
       required WalletContract<ContractState, E> owner}) {

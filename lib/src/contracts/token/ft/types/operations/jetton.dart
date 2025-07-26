@@ -77,7 +77,7 @@ abstract class JettonWalletOperation extends TonSerialization
   Cell toBody() => beginCell().store(this).endCell();
 
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return JettonWalletConst.code(chain.workchain);
   }
 
@@ -477,7 +477,7 @@ abstract class JettonMinterOperation extends TonSerialization
   String get contractName => 'Jetton Minter';
   final BigInt queryId;
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return JettonMinterConst.code(chain.workchain);
   }
 

@@ -17,7 +17,7 @@ class WalletV2R1 extends VersionedWalletContract<
       : super(type: WalletVersion.v2R1);
 
   factory WalletV2R1.create(
-      {required TonChain chain,
+      {required TonChainId chain,
       required List<int> publicKey,
       bool bounceableAddress = false}) {
     final state = NoneSubWalletVersionedWalletState(
@@ -33,7 +33,7 @@ class WalletV2R1 extends VersionedWalletContract<
   static Future<WalletV2R1> fromAddress(
       {required TonAddress address,
       required TonProvider rpc,
-      TonChain? chain}) async {
+      TonChainId? chain}) async {
     final data =
         await ContractProvider.getActiveState(rpc: rpc, address: address);
     final state = VersionedWalletUtils.buildFromAddress<

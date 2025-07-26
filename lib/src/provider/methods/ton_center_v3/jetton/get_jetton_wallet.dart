@@ -5,7 +5,7 @@ import 'package:ton_dart/src/provider/models/response/jetton_wallets_response.da
 /// Get Jetton wallets by specified filters.
 /// https://toncenter.com/api/v3/#/default/get_jetton_wallets_api_v3_jetton_wallets_get
 class TonCenterV3GetJettonWallets extends TonCenterV3RequestParam<
-    List<JettonWalletsResponse>, Map<String, dynamic>> {
+    GetJettonWalletResponse, Map<String, dynamic>> {
   static const int maximumLimit = 256;
 
   /// Jetton wallet address. Must be sent in hex, base64 and base64url forms.
@@ -44,10 +44,7 @@ class TonCenterV3GetJettonWallets extends TonCenterV3RequestParam<
   String get method => TonCenterV3Methods.jettonWallets.uri;
 
   @override
-  List<JettonWalletsResponse> onResonse(Map<String, dynamic> result) {
-    return (result['jetton_wallets'] as List?)
-            ?.map((e) => JettonWalletsResponse.fromJson(e))
-            .toList() ??
-        [];
+  GetJettonWalletResponse onResonse(Map<String, dynamic> result) {
+    return GetJettonWalletResponse.fromJson(result);
   }
 }

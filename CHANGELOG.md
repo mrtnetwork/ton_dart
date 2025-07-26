@@ -1,3 +1,8 @@
+## 1.9.0
+
+- Update dependencies.
+- Rename `TonChain` enum to `TonChainId` 
+
 ## 1.8.0
 
 - Update dependencies.

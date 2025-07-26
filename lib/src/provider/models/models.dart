@@ -173,3 +173,4 @@ export 'response/estimate_fee_response.dart';
 export 'response/msg_forward_prices.dart';
 export 'response/run_method_response.dart';
 export 'response/toncenter_v3_transactions.dart';
+export 'response/jetton_wallets_response.dart';

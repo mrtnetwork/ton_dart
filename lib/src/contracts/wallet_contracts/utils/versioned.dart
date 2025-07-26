@@ -12,7 +12,7 @@ class VersionedWalletUtils {
   static VersionedWalletState readState(
       {required Cell? stateData,
       required WalletVersion type,
-      required TonChain chain}) {
+      required TonChainId chain}) {
     if (stateData == null) {
       throw TonContractExceptionConst.stateIsInactive;
     }
@@ -80,7 +80,7 @@ class VersionedWalletUtils {
   }
 
   static V5R1Context loadV5Context(
-      {required List<int> contextBytes, required TonChain chain}) {
+      {required List<int> contextBytes, required TonChainId chain}) {
     final contextId = BitReader(BitString(contextBytes, 0, 32)).loadInt(32);
     final context = BigInt.from(contextId) ^ BigInt.from(chain.id);
     final slice = beginCell().storeInt(context, 32).endCell().beginParse();
@@ -105,12 +105,12 @@ class VersionedWalletUtils {
     required Cell? stateData,
     required WalletVersion type,
     required TonAddress address,
-    required TonChain? chain,
+    required TonChainId? chain,
   }) {
     final state = readState(
         stateData: stateData,
         type: type,
-        chain: chain ?? TonChain.fromWorkchain(address.workChain));
+        chain: chain ?? TonChainId.fromWorkchain(address.workChain));
     final StateInit currentState = state.initialState();
     final currentAddress =
         TonAddress.fromState(state: currentState, workChain: address.workChain);

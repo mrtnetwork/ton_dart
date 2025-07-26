@@ -217,7 +217,7 @@ abstract class StableJettonMinterOperation extends TonSerialization
   String get contractName => 'Stable Jetton Minter';
 
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return JettonMinterConst.stableCode(chain.workchain);
   }
 
@@ -686,7 +686,7 @@ abstract class StableJettonWalletOperation extends TonSerialization
   Cell toBody() => beginCell().store(this).endCell();
 
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return JettonWalletConst.stableCode(chain.workchain);
   }
 

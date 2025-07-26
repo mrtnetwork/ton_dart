@@ -59,7 +59,7 @@ abstract class NFTItemOperation extends TonSerialization
       : queryId = queryId ?? BigInt.zero;
 
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return TonNftConst.nftItemCode(chain.workchain);
   }
 
@@ -283,7 +283,7 @@ abstract class NFTCollectionOperation extends TonSerialization
   String get contractName => 'NFT Collection';
 
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return TonNftConst.nftCollectionCode(chain.workchain);
   }
 

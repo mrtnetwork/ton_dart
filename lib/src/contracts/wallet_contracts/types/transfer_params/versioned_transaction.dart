@@ -151,7 +151,7 @@ class VersionedWalletTransactionV5Internal
       required this.context})
       : outActions = outActions.immutable;
   factory VersionedWalletTransactionV5Internal.deserialize(
-      {required Slice slice, required TonChain chain}) {
+      {required Slice slice, required TonChainId chain}) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.internal.tag) {
       throw const TonContractException(
@@ -186,7 +186,7 @@ class VersionedWalletTransactionV5External
       required this.context})
       : outActions = outActions.immutable;
   factory VersionedWalletTransactionV5External.deserialize(
-      {required Slice slice, required TonChain chain}) {
+      {required Slice slice, required TonChainId chain}) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
       throw const TonContractException(

@@ -21,7 +21,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
   factory WalletV5R1.create(
       {required V5R1Context context,
       required List<int> publicKey,
-      TonChain? chain,
+      TonChainId? chain,
       bool bounceableAddress = false}) {
     if (context is V5R1ClientContext) {
       chain = context.chain;
@@ -40,7 +40,7 @@ class WalletV5R1 extends VersionedWalletContract<V5VersionedWalletState,
   static Future<WalletV5R1> fromAddress(
       {required TonAddress address,
       required TonProvider rpc,
-      TonChain? chain}) async {
+      TonChainId? chain}) async {
     final data =
         await ContractProvider.getActiveState(rpc: rpc, address: address);
     final state = VersionedWalletUtils.buildFromAddress<V5VersionedWalletState>(

@@ -8,5 +8,6 @@ abstract class HighloadWallets<T extends ContractState>
     required T? stateInit,
     required super.address,
   }) : super(
-            chain: TonChain.fromWorkchain(address.workChain), state: stateInit);
+            chain: TonChainId.fromWorkchain(address.workChain),
+            state: stateInit);
 }

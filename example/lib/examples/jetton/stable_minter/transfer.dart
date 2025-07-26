@@ -4,9 +4,9 @@ import 'package:ton_dart/ton_dart.dart';
 /// index: 96, v5
 void main() async {
   final wallet = TestWallet<WalletV5R1>(
-      version: WalletVersion.v5R1, chain: TonChain.mainnet);
+      version: WalletVersion.v5R1, chain: TonChainId.mainnet);
   final receiver = TestWallet<WalletV5R1>(
-      version: WalletVersion.v5R1, chain: TonChain.mainnet, index: 2);
+      version: WalletVersion.v5R1, chain: TonChainId.mainnet, index: 2);
   final stableJetton = StableJettonMinter.create(
       owner: wallet.wallet,
       state: StableTokenMinterState(

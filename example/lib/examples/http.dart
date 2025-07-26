@@ -24,9 +24,9 @@ class HTTPProvider implements TonServiceProvider {
         : params.toUri(tonCenterUrl!);
     final Map<String, String> headers = {
       ...params.headers,
-      if (params.apiType.isTonCenter)
-        "X-API-Key":
-            "d3800f756738ac7b39599914b8a84465960ff869f555c2317664c9a62529baf3",
+      // if (params.apiType.isTonCenter)
+      //   "X-API-Key":
+      //       "d88f7f9fcc8a0a49c3da8fcea5b5dd0f4ea41db2a684fa226ff13a1d18193703",
     };
     if (params.type.isPostRequest) {
       final response = await client

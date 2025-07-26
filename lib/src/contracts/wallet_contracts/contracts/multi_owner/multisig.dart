@@ -21,7 +21,8 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     required this.owner,
     MultiOwnerWalletState? stateInit,
   }) : super(
-            state: stateInit, chain: TonChain.fromWorkchain(address.workChain));
+            state: stateInit,
+            chain: TonChainId.fromWorkchain(address.workChain));
   MultiOwnerContract<T>
       changeOwnerWallet<T extends WalletContractTransferParams>(
           WalletContract<ContractState, T> owner) {
@@ -29,7 +30,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   }
 
   factory MultiOwnerContract.create(
-      {required TonChain chain,
+      {required TonChainId chain,
       required WalletContract<ContractState, E> owner,
       required int threshold,
       required List<TonAddress> signers,
@@ -48,7 +49,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
         owner: owner);
   }
   static Future<MultiOwnerContract> fromAddress({
-    required TonChain chain,
+    required TonChainId chain,
     required WalletContract<ContractState, MultiOwnerTransferParams> owner,
     required TonAddress address,
     required TonProvider provider,

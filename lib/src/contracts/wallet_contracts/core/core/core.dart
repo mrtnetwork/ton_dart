@@ -24,7 +24,7 @@ abstract class WalletContract<C extends ContractState,
 
   @override
   final TonAddress address;
-  final TonChain chain;
+  final TonChainId chain;
 
   Future<String> sendTransfer(
       {required T params,

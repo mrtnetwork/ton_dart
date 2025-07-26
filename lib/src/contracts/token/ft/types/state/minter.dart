@@ -48,7 +48,7 @@ class MinterWalletState extends ContractState {
   });
   factory MinterWalletState(
       {required TonAddress owner,
-      required TonChain chain,
+      required TonChainId chain,
       TokenMetadata? metadata,
       Cell? contect,
       Cell? walletCode,

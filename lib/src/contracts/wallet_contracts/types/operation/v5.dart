@@ -28,7 +28,7 @@ class VersionedWalletV5OperaionType extends ContractOperationType {
 abstract class VersionedWalletV5Operaion extends TonSerialization
     implements ContractOperation {
   @override
-  Cell contractCode(TonChain chain) {
+  Cell contractCode(TonChainId chain) {
     return WalletVersion.v5R1.getCode();
   }
 
@@ -39,7 +39,7 @@ abstract class VersionedWalletV5Operaion extends TonSerialization
   @override
   String get contractName => 'Wallet V5R1';
   factory VersionedWalletV5Operaion.deserialize(
-      {required Slice slice, required TonChain chain}) {
+      {required Slice slice, required TonChainId chain}) {
     final type =
         VersionedWalletV5OperaionType.fromOperation(slice.tryPreloadUint32());
     switch (type) {
@@ -98,7 +98,7 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
       required this.timeout})
       : actions = actions.immutable;
   factory VersionedWalletV5InternalMessage.deserialize(
-      {required Slice slice, required TonChain chain}) {
+      {required Slice slice, required TonChainId chain}) {
     return TonModelParser.parseBoc(
         parse: () {
           slice.loadUint32();
@@ -147,7 +147,7 @@ class VersionedWalletV5Internal extends VersionedWalletV5Operaion {
       : signature = BytesUtils.toBytes(signature, unmodifiable: true),
         super(type: VersionedWalletV5OperaionType.internal);
   factory VersionedWalletV5Internal.deserialize(
-      {required Slice slice, required TonChain chain}) {
+      {required Slice slice, required TonChainId chain}) {
     return TonModelParser.parseBoc(
         parse: () {
           return VersionedWalletV5Internal(

@@ -16,7 +16,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
   HighloadWalletV3({required super.address, super.stateInit});
 
   factory HighloadWalletV3.create(
-      {required TonChain chain,
+      {required TonChainId chain,
       required List<int> publicKey,
       int? subWalletId,
       int timeout = HighloadWalletConst.defaultTimeout}) {

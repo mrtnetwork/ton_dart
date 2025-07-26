@@ -13,7 +13,7 @@ void main() {
 void _walletV5ClientContext() {
   test('client context', () {
     final walletContext =
-        V5R1ClientContext(chain: TonChain.mainnet, subwalletNumber: 0);
+        V5R1ClientContext(chain: TonChainId.mainnet, subwalletNumber: 0);
 
     final actual = beginCell().store(walletContext).endCell();
 
@@ -37,7 +37,7 @@ void _walletV5ClientContext() {
 void _walletV5ClientContextDeserialize() {
   test('deserialize client wallet context', () {
     final walletContext =
-        V5R1ClientContext(chain: TonChain.mainnet, subwalletNumber: 0);
+        V5R1ClientContext(chain: TonChainId.mainnet, subwalletNumber: 0);
     final context = beginCell()
         .storeUint(1, 1)
         .storeInt(walletContext.chain.workchain, 8)
@@ -61,7 +61,7 @@ void _serializeWalletCustomWalletContext() {
   test('serialize custom wallet context', () {
     const walletContext = V5R1CustomContext(
       context: 239239239,
-      chain: TonChain.testnet,
+      chain: TonChainId.testnet,
     );
     final context = beginCell()
         .storeUint(0, 1)
@@ -82,7 +82,7 @@ void _serializeWalletCustomWalletContext() {
 void _deserializeWalletCustomWalletContext() {
   test('deserialize custom wallet context', () {
     const walletContext =
-        V5R1CustomContext(context: 239239239, chain: TonChain.testnet);
+        V5R1CustomContext(context: 239239239, chain: TonChainId.testnet);
     final context = beginCell()
         .storeUint(0, 1)
         .storeUint(walletContext.context, 31)

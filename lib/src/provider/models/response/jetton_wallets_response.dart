@@ -2,6 +2,29 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
+class GetJettonWalletResponse {
+  final List<JettonWalletsResponse> jettonWallets;
+  final List<JetonWalletTokenData> metadata;
+  const GetJettonWalletResponse(
+      {required this.jettonWallets, required this.metadata});
+  factory GetJettonWalletResponse.fromJson(Map<String, dynamic> json) {
+    final metadata = Map<String, dynamic>.from(json["metadata"]);
+    return GetJettonWalletResponse(
+        jettonWallets: (json['jetton_wallets'] as List?)
+                ?.map((e) => JettonWalletsResponse.fromJson(e))
+                .toList() ??
+            [],
+        metadata: metadata.entries
+            .map((e) => JetonWalletTokenData(
+                tokens: (e.value["token_info"] as List?)
+                        ?.map((e) => JetonWalletTokenInfo.fromJson(e))
+                        .toList() ??
+                    [],
+                address: TonAddress(e.key)))
+            .toList());
+  }
+}
+
 class JettonWalletsResponse with JsonSerialization {
   final TonAddress address;
   final BigInt balance;
@@ -45,4 +68,93 @@ class JettonWalletsResponse with JsonSerialization {
       'data_hash': dataHash,
     };
   }
+}
+
+enum JettonWalletTokenInfoType {
+  wallet("jetton_wallets"),
+  master("jetton_masters"),
+  unknown("");
+
+  final String name;
+  const JettonWalletTokenInfoType(this.name);
+  static JettonWalletTokenInfoType fromName(String? name) {
+    return values.firstWhere((e) => e.name == name,
+        orElse: () => JettonWalletTokenInfoType.unknown);
+  }
+}
+
+class JetonWalletTokenData {
+  final TonAddress address;
+  final List<JetonWalletTokenInfo> tokens;
+  const JetonWalletTokenData({required this.tokens, required this.address});
+}
+
+abstract class JetonWalletTokenInfo {
+  final JettonWalletTokenInfoType type;
+  final Map<String, dynamic> json;
+  const JetonWalletTokenInfo({required this.json, required this.type});
+
+  factory JetonWalletTokenInfo.fromJson(Map<String, dynamic> json) {
+    final type = JettonWalletTokenInfoType.fromName(json["type"]);
+    final bool valid = json["valid"];
+    if (!valid) {
+      return JettonWalletTokenInfoUnknow(json: json);
+    }
+    // print(type);
+    // print(json);
+    switch (type) {
+      case JettonWalletTokenInfoType.unknown:
+        return JettonWalletTokenInfoUnknow(json: json);
+      case JettonWalletTokenInfoType.wallet:
+        return JettonWalletTokenInfoWallet.fromJson(json);
+      case JettonWalletTokenInfoType.master:
+        return JettonWalletTokenInfoMaster.fromJson(json);
+    }
+  }
+}
+
+class JettonWalletTokenInfoUnknow extends JetonWalletTokenInfo {
+  const JettonWalletTokenInfoUnknow({required super.json})
+      : super(type: JettonWalletTokenInfoType.unknown);
+}
+
+class JettonWalletTokenInfoMaster extends JetonWalletTokenInfo {
+  final String name;
+  final String symbol;
+  final String? image;
+  final int? decimals;
+  const JettonWalletTokenInfoMaster(
+      {required this.name,
+      required this.symbol,
+      required this.image,
+      required this.decimals,
+      required super.json})
+      : super(type: JettonWalletTokenInfoType.master);
+  factory JettonWalletTokenInfoMaster.fromJson(Map<String, dynamic> json) {
+    return JettonWalletTokenInfoMaster(
+        name: json["name"],
+        symbol: json["symbol"],
+        image: json["image"],
+        decimals: IntUtils.tryParse(json["extra"]["decimals"]),
+        json: json);
+  }
+}
+
+class JettonWalletTokenInfoWallet extends JetonWalletTokenInfo {
+  final BigInt balance;
+  final TonAddress jetton;
+  final TonAddress owner;
+  factory JettonWalletTokenInfoWallet.fromJson(Map<String, dynamic> json) {
+    return JettonWalletTokenInfoWallet(
+        balance: BigintUtils.parse(json["extra"]["balance"]),
+        jetton: TonAddress(json["extra"]["jetton"]),
+        owner: TonAddress(json["extra"]["owner"]),
+        json: json);
+  }
+  const JettonWalletTokenInfoWallet(
+      {required this.balance,
+      required this.jetton,
+      required this.owner,
+      required super.json})
+      : super(type: JettonWalletTokenInfoType.wallet);
 }
