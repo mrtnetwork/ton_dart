@@ -37,7 +37,7 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
     return ServiceProviderUtils.parseResponse(object: val, params: request);
   }
 
-  static _error(Map val, TonRequestDetails request) {
+  static void _error(Map val, TonRequestDetails request) {
     if (request.apiType.isTonCenter) {
       if (request.isJsonRpc) {
         final ok = val["ok"];
