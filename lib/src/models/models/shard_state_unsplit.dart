@@ -1,11 +1,11 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
-
+import 'package:ton_dart/src/models/models/shard_accounts.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/utils/utils/extensions.dart';
+
 import 'master_chain_state_extra.dart';
-import 'shard_accounts.dart';
 import 'shard_ident.dart';
 
 class _ShardStateUnsplitConst {

@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 
 /// Mixin to enforce JSON serialization on implementing classes.
@@ -9,8 +10,7 @@ mixin JsonSerialization {
   /// including its runtime type and JSON serialization.
   @override
   String toString() {
-    final js = toJson();
-    return '$runtimeType${js.toString()}';
+    return "$runtimeType${StringUtils.fromJson(toJson(), toStringEncodable: true)}";
   }
 }
 

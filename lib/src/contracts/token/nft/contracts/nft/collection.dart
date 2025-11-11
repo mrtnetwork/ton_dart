@@ -10,6 +10,7 @@ import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/provider/provider/provider.dart';
+
 import 'item.dart';
 
 class NFTCollectionContract<E extends WalletContractTransferParams>
@@ -64,7 +65,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
     final message = TonHelper.internal(
       destination: address,
       amount: amount,
-      initState: active ? null : this.state!.initialState(),
+      initState: active ? null : state!.initialState(),
       bounced: bounced,
       body: body,
       bounce: bounce ?? address.isBounceable,

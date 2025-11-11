@@ -1,9 +1,10 @@
 import 'package:ton_dart/src/provider/models/response/block_configs/block_configs.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
+
 import 'validators_set.dart';
 
 class BlockchainConfigResponse with JsonSerialization {
-  final String raw;
+  final String? raw;
   final String r0;
   final String r1;
   final String r2;

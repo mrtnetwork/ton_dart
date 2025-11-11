@@ -2,7 +2,6 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/exception/exception.dart';
-import 'package:ton_dart/src/provider/models/response/workchain_descr.dart';
 import 'package:ton_dart/src/provider/models/response/block_limits.dart';
 import 'package:ton_dart/src/provider/models/response/config_proposal_setup.dart';
 import 'package:ton_dart/src/provider/models/response/gas_limit_prices.dart';
@@ -11,6 +10,7 @@ import 'package:ton_dart/src/provider/models/response/misbehaviour_punishment_co
 import 'package:ton_dart/src/provider/models/response/msg_forward_prices.dart';
 import 'package:ton_dart/src/provider/models/response/oracle_bridge_params.dart';
 import 'package:ton_dart/src/provider/models/response/size_limits_config.dart';
+import 'package:ton_dart/src/provider/models/response/workchain_descr.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 class _ConfigConst {
@@ -705,9 +705,7 @@ class BlockchainConfig10 with JsonSerialization {
   }
 
   @override
-  Map<String, dynamic> toJson() => {
-        'critical_params': criticalParams,
-      };
+  Map<String, dynamic> toJson() => {'critical_params': criticalParams};
 }
 
 class BlockchainConfig9 with JsonSerialization {
