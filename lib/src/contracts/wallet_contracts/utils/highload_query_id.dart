@@ -17,15 +17,19 @@ class HighloadQueryId {
   HighloadQueryId._(this._shift, this._bitNumber);
 
   factory HighloadQueryId.fromShiftAndBitNumber(
-      BigInt shift, BigInt bitNumber) {
+    BigInt shift,
+    BigInt bitNumber,
+  ) {
     if (shift < BigInt.zero ||
         shift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
       throw TonContractException('Invalid shift', details: {'shift': shift});
     }
     if (bitNumber < BigInt.zero ||
         bitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
-      throw TonContractException('Invalid bitNumber',
-          details: {'bitNumber': bitNumber});
+      throw TonContractException(
+        'Invalid bitNumber',
+        details: {'bitNumber': bitNumber},
+      );
     }
     return HighloadQueryId._(shift, bitNumber);
   }
@@ -65,7 +69,7 @@ class HighloadQueryId {
   bool hasNext() {
     final bool isEnd =
         _bitNumber >= BigInt.from(_HighloadQueryIdConst.maxBitNumber - 1) &&
-            _shift == BigInt.from(_HighloadQueryIdConst.maxShift);
+        _shift == BigInt.from(_HighloadQueryIdConst.maxShift);
     return !isEnd;
   }
 

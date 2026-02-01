@@ -11,12 +11,13 @@ class TonCenterGetBlockHeader
   final String? rootHash;
   final String? fileHash;
 
-  TonCenterGetBlockHeader(
-      {required this.workchain,
-      required this.shard,
-      required this.seqno,
-      this.rootHash,
-      this.fileHash});
+  TonCenterGetBlockHeader({
+    required this.workchain,
+    required this.shard,
+    required this.seqno,
+    this.rootHash,
+    this.fileHash,
+  });
 
   @override
   String get method => TonCenterMethods.getBlockHeader.name;
@@ -28,7 +29,7 @@ class TonCenterGetBlockHeader
       'shard': shard,
       'seqno': seqno,
       'root_hash': rootHash,
-      'file_hash': fileHash
+      'file_hash': fileHash,
     };
   }
 }

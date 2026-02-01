@@ -13,8 +13,10 @@ void _test() {
     final contetCell = Cell.fromBase64(cotent);
     final decode = TokneMetadataUtils.loadContent(contetCell);
     expect(decode, isA<JettonOffChainMetadata>());
-    expect((decode as JettonOffChainMetadata).uri,
-        'https://ton.cx/address/EQD0vdSA_NedR9uvbgN9EikRX-suesDxGeFg69XQMavfLqIw');
+    expect(
+      (decode as JettonOffChainMetadata).uri,
+      'https://ton.cx/address/EQD0vdSA_NedR9uvbgN9EikRX-suesDxGeFg69XQMavfLqIw',
+    );
     expect(decode.toContent().toBase64(), cotent);
   });
   test('onChain', () {
@@ -36,7 +38,9 @@ void _test() {
     final contetCell = Cell.fromBase64(cotent);
     final decode = TokneMetadataUtils.loadContent(contetCell);
     expect(decode, isA<JettonOffChainMetadata>());
-    expect((decode as JettonOffChainMetadata).uri,
-        'ipfs://bafkreiast4fqlkp4upyu2cvo7fn7aabjusx765yzvqitsr4rpwfvhjguhy');
+    expect(
+      (decode as JettonOffChainMetadata).uri,
+      'ipfs://bafkreiast4fqlkp4upyu2cvo7fn7aabjusx765yzvqitsr4rpwfvhjguhy',
+    );
   });
 }

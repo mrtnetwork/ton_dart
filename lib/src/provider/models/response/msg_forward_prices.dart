@@ -32,12 +32,13 @@ class MsgForwardPricesResponse with JsonSerialization {
   factory MsgForwardPricesResponse.deserialize(Slice slice) {
     slice.loadUint8();
     return MsgForwardPricesResponse(
-        lumpPrice: slice.loadUint64(),
-        bitPrice: slice.loadUint64(),
-        cellPrice: slice.loadUint64(),
-        ihrPriceFactor: slice.loadUint32(),
-        firstFrac: slice.loadUint16(),
-        nextFrac: slice.loadUint16());
+      lumpPrice: slice.loadUint64(),
+      bitPrice: slice.loadUint64(),
+      cellPrice: slice.loadUint64(),
+      ihrPriceFactor: slice.loadUint32(),
+      firstFrac: slice.loadUint16(),
+      nextFrac: slice.loadUint16(),
+    );
   }
 
   @override

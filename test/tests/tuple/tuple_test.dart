@@ -12,32 +12,39 @@ void main() {
 
 void _test() {
   test('should serialize tuple with numbers', () {
-    final serialized = TupleSerialization.serialize([
-      {'type': 'num', 'num': BigInt.parse('-1')},
-      {'type': 'num', 'num': BigInt.parse('-1')},
-      {'type': 'num', 'num': BigInt.parse('49800000000')},
-      {'type': 'num', 'num': BigInt.parse('100000000')},
-      {'type': 'num', 'num': BigInt.parse('100000000')},
-      {'type': 'num', 'num': BigInt.parse('2500')},
-      {'type': 'num', 'num': BigInt.parse('100000000')}
-    ].map((e) => TupleItem.fromJson(e)).toList());
-    expect(serialized.toBase64(idx: false, crc32: false),
-        'te6ccgEBCAEAWQABGAAABwEAAAAABfXhAAEBEgEAAAAAAAAJxAIBEgEAAAAABfXhAAMBEgEAAAAABfXhAAQBEgEAAAALmE+yAAUBEgH//////////wYBEgH//////////wcAAA==');
+    final serialized = TupleSerialization.serialize(
+      [
+        {'type': 'num', 'num': BigInt.parse('-1')},
+        {'type': 'num', 'num': BigInt.parse('-1')},
+        {'type': 'num', 'num': BigInt.parse('49800000000')},
+        {'type': 'num', 'num': BigInt.parse('100000000')},
+        {'type': 'num', 'num': BigInt.parse('100000000')},
+        {'type': 'num', 'num': BigInt.parse('2500')},
+        {'type': 'num', 'num': BigInt.parse('100000000')},
+      ].map((e) => TupleItem.fromJson(e)).toList(),
+    );
+    expect(
+      serialized.toBase64(idx: false, crc32: false),
+      'te6ccgEBCAEAWQABGAAABwEAAAAABfXhAAEBEgEAAAAAAAAJxAIBEgEAAAAABfXhAAMBEgEAAAAABfXhAAQBEgEAAAALmE+yAAUBEgH//////////wYBEgH//////////wcAAA==',
+    );
   });
 
   test('should serialize tuple long numbers', () {
     const golden =
         'te6ccgEBAgEAKgABSgAAAQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAqt4e0IsLXV0BAAA=';
-    final serialized = TupleSerialization.serialize(
-        [TupleItemInt(BigInt.parse('12312312312312323421'))]);
+    final serialized = TupleSerialization.serialize([
+      TupleItemInt(BigInt.parse('12312312312312323421')),
+    ]);
     expect(serialized.toBase64(idx: false, crc32: false), golden);
   });
   test('should serialize slices', () {
     const golden = 'te6ccgEBAwEAHwACDwAAAQQAB0AgAQIAAAAd4GEghEZ4iF1r9AWzyJs4';
     final serialized = TupleSerialization.serialize([
-      TupleItemSlice(beginCell()
-          .storeCoins(BigInt.parse('123123123123123234211234123123123'))
-          .endCell())
+      TupleItemSlice(
+        beginCell()
+            .storeCoins(BigInt.parse('123123123123123234211234123123123'))
+            .endCell(),
+      ),
     ]);
     expect(serialized.toBase64(idx: false, crc32: false), golden);
   });
@@ -46,20 +53,28 @@ void _test() {
     const golden =
         'te6ccgEBAwEAMgACDwAAAQQAELAgAQIAAABDn_k3QjSzAxvCFAxl2WAXIYvKOdG_BD9NlNG8vx1vw1C00A==';
     final serialized = TupleSerialization.serialize([
-      TupleItemSlice(beginCell()
-          .storeAddress(
-              TonAddress('kf_JuhGlmBjeEKBjLssAuQxeUc6N-CH6bKaN5fjrfhqFpqVQ'))
-          .endCell())
+      TupleItemSlice(
+        beginCell()
+            .storeAddress(
+              TonAddress('kf_JuhGlmBjeEKBjLssAuQxeUc6N-CH6bKaN5fjrfhqFpqVQ'),
+            )
+            .endCell(),
+      ),
     ]);
     expect(
-        serialized.toBase64(idx: false, crc32: false, urlsafe: true), golden);
+      serialized.toBase64(idx: false, crc32: false, urlsafe: true),
+      golden,
+    );
   });
   test('should serialize int', () {
     const golden =
         'te6ccgEBAgEAKgABSgAAAQIAyboRpZgY3hCgYy7LALkMXlHOjfgh+mymjeX4634ahaYBAAA=';
     final serialized = TupleSerialization.serialize([
-      TupleItemInt(BigInt.parse(
-          '91243637913382117273357363328745502088904016167292989471764554225637796775334'))
+      TupleItemInt(
+        BigInt.parse(
+          '91243637913382117273357363328745502088904016167292989471764554225637796775334',
+        ),
+      ),
     ]);
     expect(serialized.toBase64(idx: false, crc32: false), golden);
   });

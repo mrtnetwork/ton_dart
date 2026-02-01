@@ -45,7 +45,7 @@ class RawMasterchainInfoExtResponse with JsonSerialization {
       'mode': mode,
       'last': last.toJson(),
       'state_root_hash': stateRootHash,
-      'init': init.toJson()
+      'init': init.toJson(),
     };
   }
 }

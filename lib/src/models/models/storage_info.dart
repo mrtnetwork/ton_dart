@@ -12,19 +12,24 @@ class StorageInfo extends TonSerialization {
   final StorageUsed used;
   final int lastPaid;
   final BigInt? duePayment;
-  const StorageInfo(
-      {required this.used, required this.lastPaid, this.duePayment});
+  const StorageInfo({
+    required this.used,
+    required this.lastPaid,
+    this.duePayment,
+  });
   factory StorageInfo.deserialize(Slice slice) {
     return StorageInfo(
-        used: StorageUsed.deserialize(slice),
-        lastPaid: slice.loadUint(32),
-        duePayment: slice.loadMaybeCoins());
+      used: StorageUsed.deserialize(slice),
+      lastPaid: slice.loadUint(32),
+      duePayment: slice.loadMaybeCoins(),
+    );
   }
   factory StorageInfo.fromJson(Map<String, dynamic> json) {
     return StorageInfo(
-        used: StorageUsed.fromJson(json['used']),
-        lastPaid: json['lastPaid'],
-        duePayment: BigintUtils.tryParse(json['duePayment']));
+      used: StorageUsed.fromJson(json['used']),
+      lastPaid: json['lastPaid'],
+      duePayment: BigintUtils.tryParse(json['duePayment']),
+    );
   }
 
   @override
@@ -39,7 +44,7 @@ class StorageInfo extends TonSerialization {
     return {
       'used': used.toJson(),
       'lastPaid': lastPaid,
-      'duePayment': duePayment?.toString()
+      'duePayment': duePayment?.toString(),
     };
   }
 }

@@ -6,8 +6,9 @@ import 'package:ton_dart/src/provider/models/response/blockchain_account_inspect
 ///
 /// Blockchain account inspect.
 ///
-class TonApiBlockchainAccountInspect extends TonApiRequest<
-    BlockchainAccountInspectResponse, Map<String, dynamic>> {
+class TonApiBlockchainAccountInspect
+    extends
+        TonApiRequest<BlockchainAccountInspectResponse, Map<String, dynamic>> {
   final String accountId;
   TonApiBlockchainAccountInspect(this.accountId);
   @override

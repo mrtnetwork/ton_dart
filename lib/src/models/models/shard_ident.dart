@@ -47,7 +47,7 @@ class ShardIdent extends TonSerialization {
     return {
       'shard_prefix_bits': shardPrefixBits,
       'workchain_id': workchainId,
-      'shard_prefix': shardPrefix.toString()
+      'shard_prefix': shardPrefix.toString(),
     };
   }
 }

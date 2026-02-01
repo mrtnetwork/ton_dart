@@ -14,22 +14,27 @@ class TvmStackRecordResponse with JsonSerialization {
   final String? num;
   final List<TvmStackRecordResponse> tuple;
 
-  const TvmStackRecordResponse(
-      {required this.type,
-      this.cell,
-      this.slice,
-      this.num,
-      required this.tuple});
+  const TvmStackRecordResponse({
+    required this.type,
+    this.cell,
+    this.slice,
+    this.num,
+    required this.tuple,
+  });
 
   factory TvmStackRecordResponse.fromJson(Map<String, dynamic> json) {
     return TvmStackRecordResponse(
-        type: TvmStackRecordTypeResponse.fromName(json['type']),
-        cell: json['cell'],
-        slice: json['slice'],
-        num: json['num'],
-        tuple: List<TvmStackRecordResponse>.from((json['tuple'] as List?)
-                ?.map((x) => TvmStackRecordResponse.fromJson(x)) ??
-            []));
+      type: TvmStackRecordTypeResponse.fromName(json['type']),
+      cell: json['cell'],
+      slice: json['slice'],
+      num: json['num'],
+      tuple: List<TvmStackRecordResponse>.from(
+        (json['tuple'] as List?)?.map(
+              (x) => TvmStackRecordResponse.fromJson(x),
+            ) ??
+            [],
+      ),
+    );
   }
 
   @override
@@ -46,9 +51,10 @@ class TvmStackRecordResponse with JsonSerialization {
   TupleItem toTuple() {
     switch (type) {
       case TvmStackRecordTypeResponse.cell:
-        final toCell = StringUtils.isHexBytes(cell!)
-            ? Cell.fromBytes(BytesUtils.fromHexString(cell!))
-            : Cell.fromBase64(cell!);
+        final toCell =
+            StringUtils.isHexBytes(cell!)
+                ? Cell.fromBytes(BytesUtils.fromHexString(cell!))
+                : Cell.fromBase64(cell!);
         return TupleItemCell(toCell);
       case TvmStackRecordTypeResponse.nan:
         return const TupleItemNaN();

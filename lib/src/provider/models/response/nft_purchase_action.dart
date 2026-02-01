@@ -21,8 +21,9 @@ class NftPurchaseActionResponse with JsonSerialization {
 
   factory NftPurchaseActionResponse.fromJson(Map<String, dynamic> json) {
     return NftPurchaseActionResponse(
-      auctionType:
-          NftPurchaseActionAuctionTypeResponse.fromName(json['auction_type']),
+      auctionType: NftPurchaseActionAuctionTypeResponse.fromName(
+        json['auction_type'],
+      ),
       amount: PriceResponse.fromJson(json['amount']),
       nft: NftItemResponse.fromJson(json['nft']),
       seller: AccountAddressResponse.fromJson(json['seller']),

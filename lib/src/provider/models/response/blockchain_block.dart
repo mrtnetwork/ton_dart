@@ -93,8 +93,9 @@ class BlockchainBlockResponse with JsonSerialization {
       minRefMcSeqno: json['min_ref_mc_seqno'],
       prevKeyBlockSeqno: json['prev_key_block_seqno'],
       genSoftwareVersion: json['gen_software_version'],
-      genSoftwareCapabilities:
-          BigintUtils.tryParse(json['gen_software_capabilities']),
+      genSoftwareCapabilities: BigintUtils.tryParse(
+        json['gen_software_capabilities'],
+      ),
       masterRef: json['master_ref'],
       prevRefs: List<String>.from(json['prev_refs']),
       inMsgDescrLength: BigintUtils.parse(json['in_msg_descr_length']),

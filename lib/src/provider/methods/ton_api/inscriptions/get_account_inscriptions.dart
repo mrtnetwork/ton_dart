@@ -16,8 +16,11 @@ class TonApiGetAccountInscriptions
   /// default: 0
   final int? offset;
 
-  TonApiGetAccountInscriptions(
-      {required this.accountId, this.limit, this.offset});
+  TonApiGetAccountInscriptions({
+    required this.accountId,
+    this.limit,
+    this.offset,
+  });
 
   @override
   String get method => TonApiMethods.getaccountinscriptions.url;
@@ -26,8 +29,10 @@ class TonApiGetAccountInscriptions
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'limit': limit, 'offset': offset};
+  Map<String, dynamic> get queryParameters => {
+    'limit': limit,
+    'offset': offset,
+  };
 
   @override
   InscriptionBalancesResponse onResonse(Map<String, dynamic> result) {

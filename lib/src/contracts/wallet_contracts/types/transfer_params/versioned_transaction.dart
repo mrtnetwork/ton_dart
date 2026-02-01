@@ -8,20 +8,24 @@ abstract class VersionedWalletTransaction {}
 class VersionedWalletTransactionV1 implements VersionedWalletTransaction {
   final int accountSeqno;
   final List<OutActionSendMsg> outActions;
-  VersionedWalletTransactionV1(
-      {required this.accountSeqno, required List<OutActionSendMsg> outActions})
-      : outActions = outActions.immutable;
+  VersionedWalletTransactionV1({
+    required this.accountSeqno,
+    required List<OutActionSendMsg> outActions,
+  }) : outActions = outActions.immutable;
   factory VersionedWalletTransactionV1.deserialize(Slice slice) {
     final int accountSeqno = slice.loadUint32();
     final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
-          mode: slice.loadUint8(),
-          outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()));
+        mode: slice.loadUint8(),
+        outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()),
+      );
       outActions.add(outAction);
     }
     return VersionedWalletTransactionV1(
-        accountSeqno: accountSeqno, outActions: outActions);
+      accountSeqno: accountSeqno,
+      outActions: outActions,
+    );
   }
 }
 
@@ -40,12 +44,16 @@ class VersionedWalletTransactionV2 implements VersionedWalletTransaction {
     final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
-          mode: slice.loadUint8(),
-          outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()));
+        mode: slice.loadUint8(),
+        outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()),
+      );
       outActions.add(outAction);
     }
     return VersionedWalletTransactionV2(
-        accountSeqno: accountSeqno, timeout: timeout, outActions: outActions);
+      accountSeqno: accountSeqno,
+      timeout: timeout,
+      outActions: outActions,
+    );
   }
 }
 
@@ -67,15 +75,17 @@ class VersionedWalletTransactionV3 implements VersionedWalletTransaction {
     final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
-          mode: slice.loadUint8(),
-          outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()));
+        mode: slice.loadUint8(),
+        outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()),
+      );
       outActions.add(outAction);
     }
     return VersionedWalletTransactionV3(
-        accountSeqno: accountSeqno,
-        timeout: timeout,
-        outActions: outActions,
-        subWalletId: subwalletId);
+      accountSeqno: accountSeqno,
+      timeout: timeout,
+      outActions: outActions,
+      subWalletId: subwalletId,
+    );
   }
 }
 
@@ -98,15 +108,17 @@ class VersionedWalletTransactionV4 implements VersionedWalletTransaction {
     final List<OutActionSendMsg> outActions = [];
     while (slice.tryPreLoadUint8() != null) {
       final outAction = OutActionSendMsg(
-          mode: slice.loadUint8(),
-          outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()));
+        mode: slice.loadUint8(),
+        outMessage: MessageRelaxed.deserialize(slice.loadRef().beginParse()),
+      );
       outActions.add(outAction);
     }
     return VersionedWalletTransactionV4(
-        accountSeqno: accountSeqno,
-        timeout: timeout,
-        outActions: outActions,
-        subWalletId: subwalletId);
+      accountSeqno: accountSeqno,
+      timeout: timeout,
+      outActions: outActions,
+      subWalletId: subwalletId,
+    );
   }
 }
 
@@ -119,19 +131,23 @@ class VersionedWalletTransactionV5Extension
     implements VersionedWalletTransactionV5 {
   final BigInt queryId;
   final List<OutActionWalletV5> outActions;
-  VersionedWalletTransactionV5Extension(
-      {required this.queryId, required List<OutActionWalletV5> outActions})
-      : outActions = outActions.immutable;
+  VersionedWalletTransactionV5Extension({
+    required this.queryId,
+    required List<OutActionWalletV5> outActions,
+  }) : outActions = outActions.immutable;
   factory VersionedWalletTransactionV5Extension.deserialize(Slice slice) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
       throw const TonContractException(
-          'Incorrect Wallet Version V5 Extension body');
+        'Incorrect Wallet Version V5 Extension body',
+      );
     }
     final queryId = slice.loadUint64();
     final outActions = OutActionsV5.deserialize(slice);
     return VersionedWalletTransactionV5Extension(
-        queryId: queryId, outActions: outActions.actions);
+      queryId: queryId,
+      outActions: outActions.actions,
+    );
   }
 
   @override
@@ -144,29 +160,35 @@ class VersionedWalletTransactionV5Internal
   final int accountSeqno;
   final List<OutActionWalletV5> outActions;
   final V5R1Context context;
-  VersionedWalletTransactionV5Internal(
-      {required this.timeout,
-      required this.accountSeqno,
-      required List<OutActionWalletV5> outActions,
-      required this.context})
-      : outActions = outActions.immutable;
-  factory VersionedWalletTransactionV5Internal.deserialize(
-      {required Slice slice, required TonChainId chain}) {
+  VersionedWalletTransactionV5Internal({
+    required this.timeout,
+    required this.accountSeqno,
+    required List<OutActionWalletV5> outActions,
+    required this.context,
+  }) : outActions = outActions.immutable;
+  factory VersionedWalletTransactionV5Internal.deserialize({
+    required Slice slice,
+    required TonChainId chain,
+  }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.internal.tag) {
       throw const TonContractException(
-          'Incorrect Wallet Version V5 Internal body');
+        'Incorrect Wallet Version V5 Internal body',
+      );
     }
     final context = VersionedWalletUtils.loadV5Context(
-        contextBytes: slice.loadBuffer(4), chain: chain);
+      contextBytes: slice.loadBuffer(4),
+      chain: chain,
+    );
     final int timeOut = slice.loadUint32();
     final int accountSeqno = slice.loadUint32();
     final outActions = OutActionsV5.deserialize(slice);
     return VersionedWalletTransactionV5Internal(
-        timeout: timeOut,
-        accountSeqno: accountSeqno,
-        outActions: outActions.actions,
-        context: context);
+      timeout: timeOut,
+      accountSeqno: accountSeqno,
+      outActions: outActions.actions,
+      context: context,
+    );
   }
 
   @override
@@ -179,29 +201,35 @@ class VersionedWalletTransactionV5External
   final int accountSeqno;
   final List<OutActionWalletV5> outActions;
   final V5R1Context context;
-  VersionedWalletTransactionV5External(
-      {required this.timeout,
-      required this.accountSeqno,
-      required List<OutActionWalletV5> outActions,
-      required this.context})
-      : outActions = outActions.immutable;
-  factory VersionedWalletTransactionV5External.deserialize(
-      {required Slice slice, required TonChainId chain}) {
+  VersionedWalletTransactionV5External({
+    required this.timeout,
+    required this.accountSeqno,
+    required List<OutActionWalletV5> outActions,
+    required this.context,
+  }) : outActions = outActions.immutable;
+  factory VersionedWalletTransactionV5External.deserialize({
+    required Slice slice,
+    required TonChainId chain,
+  }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
       throw const TonContractException(
-          'Incorrect Wallet Version V5 External body');
+        'Incorrect Wallet Version V5 External body',
+      );
     }
     final context = VersionedWalletUtils.loadV5Context(
-        contextBytes: slice.loadBuffer(4), chain: chain);
+      contextBytes: slice.loadBuffer(4),
+      chain: chain,
+    );
     final int timeOut = slice.loadUint32();
     final int accountSeqno = slice.loadUint32();
     final outActions = OutActionsV5.deserialize(slice);
     return VersionedWalletTransactionV5External(
-        timeout: timeOut,
-        accountSeqno: accountSeqno,
-        outActions: outActions.actions,
-        context: context);
+      timeout: timeOut,
+      accountSeqno: accountSeqno,
+      outActions: outActions.actions,
+      context: context,
+    );
   }
 
   @override

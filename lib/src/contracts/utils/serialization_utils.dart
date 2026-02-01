@@ -4,10 +4,11 @@ import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/models/models.dart';
 
 class TonSerializationUtils {
-  static Dictionary<BigInt, V> arrayToDict<V>(
-      {required List<V> obj,
-      required DictionaryKey<BigInt> key,
-      required DictionaryValue<V> value}) {
+  static Dictionary<BigInt, V> arrayToDict<V>({
+    required List<V> obj,
+    required DictionaryKey<BigInt> key,
+    required DictionaryValue<V> value,
+  }) {
     final dict = Dictionary.empty<BigInt, V>(key: key, value: value);
     for (int i = 0; i < obj.length; i++) {
       dict[BigInt.from(i)] = obj[i];
@@ -24,7 +25,8 @@ class TonSerializationUtils {
   }) {
     if (type == WalletV5AuthType.extension) {
       throw const TonContractException(
-          'Please use `createExtensionMessage` for create extension message body.');
+        'Please use `createExtensionMessage` for create extension message body.',
+      );
     }
     if (type == WalletV5AuthType.external) {
       final List<OutActionWalletV5> fixedMode = [];
@@ -33,8 +35,9 @@ class TonSerializationUtils {
           fixedMode.add(i);
           continue;
         }
-        final sendMessage = (i as OutActionSendMsg)
-            .copyWith(mode: i.mode | SendMode.ignoreErrors.mode);
+        final sendMessage = (i as OutActionSendMsg).copyWith(
+          mode: i.mode | SendMode.ignoreErrors.mode,
+        );
         fixedMode.add(sendMessage);
       }
       actions = OutActionsV5(actions: fixedMode);
@@ -66,7 +69,8 @@ class TonSerializationUtils {
     if (type != WalletV5AuthType.extension) {
       if (accountSeqno == null || context == null) {
         throw const TonContractException(
-            'accountSeqno and context required for build wallet message v5.');
+          'accountSeqno and context required for build wallet message v5.',
+        );
       }
     }
     if (type == WalletV5AuthType.extension) {
@@ -83,8 +87,9 @@ class TonSerializationUtils {
           fixedMode.add(i);
           continue;
         }
-        final sendMessage = (i as OutActionSendMsg)
-            .copyWith(mode: i.mode | SendMode.ignoreErrors.mode);
+        final sendMessage = (i as OutActionSendMsg).copyWith(
+          mode: i.mode | SendMode.ignoreErrors.mode,
+        );
         fixedMode.add(sendMessage);
       }
       actions = OutActionsV5(actions: fixedMode);
@@ -102,10 +107,11 @@ class TonSerializationUtils {
     return signingMessage.endCell();
   }
 
-  static Cell serializeV2(
-      {required List<OutActionSendMsg> messages,
-      required int accountSeqno,
-      int? timeout}) {
+  static Cell serializeV2({
+    required List<OutActionSendMsg> messages,
+    required int accountSeqno,
+    int? timeout,
+  }) {
     final transaction = beginCell();
     transaction.storeUint(accountSeqno, 32);
     if (accountSeqno == 0) {
@@ -123,12 +129,13 @@ class TonSerializationUtils {
     return transaction.endCell();
   }
 
-  static Cell serializeV4(
-      {required int subWalletId,
-      required List<OutActionSendMsg> messages,
-      required int accountSeqno,
-      required WalletVersion type,
-      int? timeout}) {
+  static Cell serializeV4({
+    required int subWalletId,
+    required List<OutActionSendMsg> messages,
+    required int accountSeqno,
+    required WalletVersion type,
+    int? timeout,
+  }) {
     final transaction = beginCell();
     transaction.storeUint(subWalletId, 32);
     if (accountSeqno == 0) {
@@ -164,14 +171,16 @@ class TonSerializationUtils {
     return transaction.endCell();
   }
 
-  static Cell serializeMessage(
-      {required List<OutActionSendMsg> actions,
-      required VersionedWalletState state,
-      required int seqno,
-      int? timeout}) {
+  static Cell serializeMessage({
+    required List<OutActionSendMsg> actions,
+    required VersionedWalletState state,
+    required int seqno,
+    int? timeout,
+  }) {
     if (actions.length > state.version.maxMessageLength) {
       throw TonContractException(
-          'Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}');
+        'Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}',
+      );
     }
     switch (state.version) {
       case WalletVersion.v4:

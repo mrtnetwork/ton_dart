@@ -9,10 +9,11 @@ class TonCenterTryLocateSourceTx
   final String destination;
   final int createdLt;
 
-  TonCenterTryLocateSourceTx(
-      {required this.source,
-      required this.destination,
-      required this.createdLt});
+  TonCenterTryLocateSourceTx({
+    required this.source,
+    required this.destination,
+    required this.createdLt,
+  });
 
   @override
   String get method => TonCenterMethods.tryLocateSourceTx.name;
@@ -22,7 +23,7 @@ class TonCenterTryLocateSourceTx
     return {
       'source': source,
       'destination': destination,
-      'created_lt': createdLt
+      'created_lt': createdLt,
     };
   }
 }

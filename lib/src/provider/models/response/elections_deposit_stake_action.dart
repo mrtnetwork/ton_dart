@@ -7,11 +7,14 @@ class ElectionsDepositStakeActionResponse with JsonSerialization {
   final BigInt amount;
   final AccountAddressResponse staker;
 
-  const ElectionsDepositStakeActionResponse(
-      {required this.amount, required this.staker});
+  const ElectionsDepositStakeActionResponse({
+    required this.amount,
+    required this.staker,
+  });
 
   factory ElectionsDepositStakeActionResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return ElectionsDepositStakeActionResponse(
       amount: BigintUtils.parse(json['amount']),
       staker: AccountAddressResponse.fromJson(json['staker']),

@@ -22,8 +22,10 @@ class TonApiGetJettonHolders
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'limit': limit, 'offset': offset};
+  Map<String, dynamic> get queryParameters => {
+    'limit': limit,
+    'offset': offset,
+  };
 
   @override
   JettonHoldersResponse onResonse(Map<String, dynamic> result) {

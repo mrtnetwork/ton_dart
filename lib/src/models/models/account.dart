@@ -17,8 +17,11 @@ class TonAccount extends TonSerialization {
 
   /// The storage details of the account,  balance, and state.
   final AccountStorage storage;
-  const TonAccount(
-      {required this.addr, required this.storageStats, required this.storage});
+  const TonAccount({
+    required this.addr,
+    required this.storageStats,
+    required this.storage,
+  });
 
   factory TonAccount.deserialize(Slice slice) {
     return TonAccount(
@@ -47,7 +50,7 @@ class TonAccount extends TonSerialization {
     return {
       'storage_stats': storageStats.toJson(),
       'addr': addr.toRawAddress(),
-      'storage': storage.toJson()
+      'storage': storage.toJson(),
     };
   }
 }

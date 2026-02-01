@@ -18,9 +18,12 @@ class TonApiType {
   factory TonApiType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find TonApiType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find TonApiType from provided name',
+                details: {'name': name},
+              ),
     );
   }
 }
@@ -46,20 +49,23 @@ abstract class TonApiRequest<RESULT, RESPONSE>
   TonRequestDetails buildRequest(int v) {
     final pathParams = TonApiUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw TonDartPluginException('Invalid Path Parameters.', details: {
-        'pathParams': pathParameters,
-        'expected': pathParams.length,
-        'method': method
-      });
+      throw TonDartPluginException(
+        'Invalid Path Parameters.',
+        details: {
+          'pathParams': pathParameters,
+          'expected': pathParams.length,
+          'method': method,
+        },
+      );
     }
     String params = method;
     for (int i = 0; i < pathParams.length; i++) {
       params = params.replaceFirst(pathParams[i], pathParameters[i]);
     }
     if (queryParameters.isNotEmpty) {
-      final Map<String, dynamic> queries =
-          Map<String, dynamic>.from(queryParameters)
-            ..removeWhere((key, value) => value == null);
+      final Map<String, dynamic> queries = Map<String, dynamic>.from(
+        queryParameters,
+      )..removeWhere((key, value) => value == null);
       for (final i in queries.entries) {
         if (i.value is List) continue;
         queries[i.key] = i.value.toString();
@@ -91,9 +97,10 @@ abstract class TonApiPostRequest<RESULT, RESPONSE>
   TonRequestDetails buildRequest(int v) {
     final request = super.buildRequest(v);
     return request.copyWith(
-        jsonBody: body,
-        type: requestType,
-        headers: ServiceConst.defaultPostHeaders);
+      jsonBody: body,
+      type: requestType,
+      headers: ServiceConst.defaultPostHeaders,
+    );
   }
 }
 
@@ -108,17 +115,18 @@ abstract class TonCenterPostRequest<RESULT, RESPONSE>
       'method': method,
       'params': params()..removeWhere((key, value) => value == null),
       'id': '$v',
-      'jsonrpc': '2.0'
+      'jsonrpc': '2.0',
     };
     final headers = Map.from(this.headers)..removeWhere((k, v) => v == null);
     return TonRequestDetails(
-        requestID: v,
-        pathParams: TonCenterMethods.tonCenterV2BaseUrl,
-        apiType: TonApiType.tonCenter,
-        jsonBody: jsonBody,
-        headers: headers.cast<String, String>(),
-        type: RequestServiceType.post,
-        isJsonRpc: true);
+      requestID: v,
+      pathParams: TonCenterMethods.tonCenterV2BaseUrl,
+      apiType: TonApiType.tonCenter,
+      jsonBody: jsonBody,
+      headers: headers.cast<String, String>(),
+      type: RequestServiceType.post,
+      isJsonRpc: true,
+    );
   }
 }
 
@@ -143,24 +151,26 @@ abstract class TonCenterV3PostRequestParam<RESULT, RESPONSE>
 /// Represents the details of a TonApi request.
 class TonRequestDetails extends BaseServiceRequestParams {
   /// Constructs a new [TonRequestDetails] instance with the specified parameters.
-  const TonRequestDetails(
-      {required super.requestID,
-      required super.headers,
-      required super.type,
-      required this.pathParams,
-      required this.apiType,
-      super.errorStatusCodes = const [404],
-      this.jsonBody,
-      this.isJsonRpc = false});
+  const TonRequestDetails({
+    required super.requestID,
+    required super.headers,
+    required super.type,
+    required this.pathParams,
+    required this.apiType,
+    super.errorStatusCodes = const [404],
+    this.jsonBody,
+    this.isJsonRpc = false,
+  });
 
-  TonRequestDetails copyWith(
-      {int? requestID,
-      String? pathParams,
-      RequestServiceType? type,
-      Map<String, String>? headers,
-      Map<String, dynamic>? jsonBody,
-      TonApiType? apiType,
-      bool? isJsonRpc}) {
+  TonRequestDetails copyWith({
+    int? requestID,
+    String? pathParams,
+    RequestServiceType? type,
+    Map<String, String>? headers,
+    Map<String, dynamic>? jsonBody,
+    TonApiType? apiType,
+    bool? isJsonRpc,
+  }) {
     return TonRequestDetails(
       requestID: requestID ?? this.requestID,
       pathParams: pathParams ?? this.pathParams,
@@ -203,7 +213,7 @@ class TonRequestDetails extends BaseServiceRequestParams {
       'api': apiType.name,
       'body': jsonBody,
       'pathParameters': pathParams,
-      'type': type.name
+      'type': type.name,
     };
   }
 }

@@ -17,19 +17,23 @@ class TransactionBouncePhaseType {
       TransactionBouncePhaseType._('noFounds');
 
   /// Predefined constant for the successful phase of the transaction bounce.
-  static const TransactionBouncePhaseType ok =
-      TransactionBouncePhaseType._('ok');
+  static const TransactionBouncePhaseType ok = TransactionBouncePhaseType._(
+    'ok',
+  );
   static const List<TransactionBouncePhaseType> values = [
     negativeFounds,
     noFounds,
-    ok
+    ok,
   ];
   factory TransactionBouncePhaseType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find TransactionBouncePhaseType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find TransactionBouncePhaseType from provided name',
+                details: {'name': name},
+              ),
     );
   }
   @override
@@ -89,21 +93,24 @@ class TransactionBounceOk extends TransactionBouncePhase {
   final BigInt messageFees;
   final BigInt forwardFees;
 
-  const TransactionBounceOk(
-      {required this.messageSize,
-      required this.messageFees,
-      required this.forwardFees});
+  const TransactionBounceOk({
+    required this.messageSize,
+    required this.messageFees,
+    required this.forwardFees,
+  });
   factory TransactionBounceOk.deserialize(Slice slice) {
     return TransactionBounceOk(
-        messageSize: StorageUsedShort.deserialize(slice),
-        messageFees: slice.loadCoins(),
-        forwardFees: slice.loadCoins());
+      messageSize: StorageUsedShort.deserialize(slice),
+      messageFees: slice.loadCoins(),
+      forwardFees: slice.loadCoins(),
+    );
   }
   factory TransactionBounceOk.fromJson(Map<String, dynamic> json) {
     return TransactionBounceOk(
-        messageSize: StorageUsedShort.fromJson(json['message_size']),
-        messageFees: BigintUtils.parse(json['message_fee']),
-        forwardFees: BigintUtils.parse(json['forward_fees']));
+      messageSize: StorageUsedShort.fromJson(json['message_size']),
+      messageFees: BigintUtils.parse(json['message_fee']),
+      forwardFees: BigintUtils.parse(json['forward_fees']),
+    );
   }
   @override
   void store(Builder builder) {
@@ -122,7 +129,7 @@ class TransactionBounceOk extends TransactionBouncePhase {
       'type': type.name,
       'message_size': messageSize.toJson(),
       'message_fee': messageFees.toString(),
-      'forward_fees': forwardFees.toString()
+      'forward_fees': forwardFees.toString(),
     };
   }
 }
@@ -131,17 +138,21 @@ class TransactionBounceNoFunds extends TransactionBouncePhase {
   final StorageUsedShort messageSize;
   final BigInt requiredForwardFees;
 
-  const TransactionBounceNoFunds(
-      {required this.messageSize, required this.requiredForwardFees});
+  const TransactionBounceNoFunds({
+    required this.messageSize,
+    required this.requiredForwardFees,
+  });
   factory TransactionBounceNoFunds.deserialize(Slice slice) {
     return TransactionBounceNoFunds(
-        messageSize: StorageUsedShort.deserialize(slice),
-        requiredForwardFees: slice.loadCoins());
+      messageSize: StorageUsedShort.deserialize(slice),
+      requiredForwardFees: slice.loadCoins(),
+    );
   }
   factory TransactionBounceNoFunds.fromJson(Map<String, dynamic> json) {
     return TransactionBounceNoFunds(
-        messageSize: StorageUsedShort.fromJson(json['message_size']),
-        requiredForwardFees: BigintUtils.parse(json['required_forward_fees']));
+      messageSize: StorageUsedShort.fromJson(json['message_size']),
+      requiredForwardFees: BigintUtils.parse(json['required_forward_fees']),
+    );
   }
   @override
   void store(Builder builder) {
@@ -159,7 +170,7 @@ class TransactionBounceNoFunds extends TransactionBouncePhase {
     return {
       'type': type.name,
       'message_size': messageSize.toJson(),
-      'required_forward_fees': requiredForwardFees.toString()
+      'required_forward_fees': requiredForwardFees.toString(),
     };
   }
 }

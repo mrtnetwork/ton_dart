@@ -11,42 +11,56 @@ class StableTokenWalletStatus {
   final int id;
   final String name;
   const StableTokenWalletStatus._({required this.id, required this.name});
-  static const StableTokenWalletStatus statusUnlock =
-      StableTokenWalletStatus._(id: 0, name: 'Unlock');
-  static const StableTokenWalletStatus statusOut =
-      StableTokenWalletStatus._(id: 1, name: 'Out');
-  static const StableTokenWalletStatus statusIn =
-      StableTokenWalletStatus._(id: 2, name: 'In');
-  static const StableTokenWalletStatus statusFull =
-      StableTokenWalletStatus._(id: 3, name: 'Full');
+  static const StableTokenWalletStatus statusUnlock = StableTokenWalletStatus._(
+    id: 0,
+    name: 'Unlock',
+  );
+  static const StableTokenWalletStatus statusOut = StableTokenWalletStatus._(
+    id: 1,
+    name: 'Out',
+  );
+  static const StableTokenWalletStatus statusIn = StableTokenWalletStatus._(
+    id: 2,
+    name: 'In',
+  );
+  static const StableTokenWalletStatus statusFull = StableTokenWalletStatus._(
+    id: 3,
+    name: 'Full',
+  );
 
   static const List<StableTokenWalletStatus> values = [
     statusUnlock,
     statusOut,
     statusIn,
-    statusFull
+    statusFull,
   ];
   static StableTokenWalletStatus fromTag(int? tag) {
     return values.firstWhere(
       (e) => e.id == tag,
-      orElse: () => throw TonContractException(
-          'Invalid stable token wallet status.',
-          details: {
-            'tag': tag,
-            'availableTags': values.map((e) => e.id).join(', ')
-          }),
+      orElse:
+          () =>
+              throw TonContractException(
+                'Invalid stable token wallet status.',
+                details: {
+                  'tag': tag,
+                  'availableTags': values.map((e) => e.id).join(', '),
+                },
+              ),
     );
   }
 
   static StableTokenWalletStatus fromName(String? name) {
     return values.firstWhere(
       (e) => e.name == name,
-      orElse: () => throw TonContractException(
-          'Invalid stable token wallet status.',
-          details: {
-            'name': name,
-            'availableName': values.map((e) => e.name).join(', ')
-          }),
+      orElse:
+          () =>
+              throw TonContractException(
+                'Invalid stable token wallet status.',
+                details: {
+                  'name': name,
+                  'availableName': values.map((e) => e.name).join(', '),
+                },
+              ),
     );
   }
 
@@ -62,49 +76,55 @@ class StableJettonWalletState extends ContractState {
   final TonAddress ownerAddress;
   final TonAddress jettonMasterAddress;
   final Cell? walletCode;
-  const StableJettonWalletState(
-      {required this.balance,
-      required this.ownerAddress,
-      required this.jettonMasterAddress,
-      this.status,
-      this.walletCode});
+  const StableJettonWalletState({
+    required this.balance,
+    required this.ownerAddress,
+    required this.jettonMasterAddress,
+    this.status,
+    this.walletCode,
+  });
   Map<String, dynamic> toJson() {
     return {
       'status': status?.name,
       'balance': balance.toString(),
       'ownerAddress': ownerAddress.toRawAddress(),
       'jettonMasterAddress': jettonMasterAddress.toRawAddress(),
-      'walletCode': walletCode?.toBase64()
+      'walletCode': walletCode?.toBase64(),
     };
   }
 
   factory StableJettonWalletState.fromJson(Map<String, dynamic> json) {
     return StableJettonWalletState(
-        balance: BigintUtils.parse(json['balance']),
-        ownerAddress: TonAddress(json['ownerAddress']),
-        jettonMasterAddress: TonAddress(json['jettonMasterAddress']),
-        walletCode: json['walletCode'] == null
-            ? null
-            : Cell.fromBase64(json['walletCode']),
-        status: json['status'] == null
-            ? null
-            : StableTokenWalletStatus.fromName(json['status']));
+      balance: BigintUtils.parse(json['balance']),
+      ownerAddress: TonAddress(json['ownerAddress']),
+      jettonMasterAddress: TonAddress(json['jettonMasterAddress']),
+      walletCode:
+          json['walletCode'] == null
+              ? null
+              : Cell.fromBase64(json['walletCode']),
+      status:
+          json['status'] == null
+              ? null
+              : StableTokenWalletStatus.fromName(json['status']),
+    );
   }
 
   factory StableJettonWalletState.fromTuple(TupleReader reader) {
     final balance = reader.readBigNumber();
     return StableJettonWalletState(
-        balance: balance,
-        ownerAddress: reader.readAddress(),
-        jettonMasterAddress: reader.readAddress(),
-        walletCode: reader.readCell());
+      balance: balance,
+      ownerAddress: reader.readAddress(),
+      jettonMasterAddress: reader.readAddress(),
+      walletCode: reader.readCell(),
+    );
   }
   factory StableJettonWalletState.deserialize(Slice slice) {
     return StableJettonWalletState(
-        status: StableTokenWalletStatus.fromTag(slice.loadUint4()),
-        balance: slice.loadCoins(),
-        ownerAddress: slice.loadAddress(),
-        jettonMasterAddress: slice.loadAddress());
+      status: StableTokenWalletStatus.fromTag(slice.loadUint4()),
+      balance: slice.loadCoins(),
+      ownerAddress: slice.loadAddress(),
+      jettonMasterAddress: slice.loadAddress(),
+    );
   }
 
   @override

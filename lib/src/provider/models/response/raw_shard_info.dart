@@ -28,7 +28,7 @@ class RawShardInfoResponse with JsonSerialization {
       'id': id.toJson(),
       'shardblk': shardblk.toJson(),
       'shard_proof': shardProof,
-      'shard_descr': shardDescr
+      'shard_descr': shardDescr,
     };
   }
 }

@@ -21,8 +21,10 @@ class ComputeSkipReason extends TonSerialization {
   static const ComputeSkipReason noState = ComputeSkipReason._(0x00, 'noState');
 
   // Predefined constant for 'badState' skip reason.
-  static const ComputeSkipReason badState =
-      ComputeSkipReason._(0x01, 'badState');
+  static const ComputeSkipReason badState = ComputeSkipReason._(
+    0x01,
+    'badState',
+  );
 
   // Predefined constant for 'noGas' skip reason.
   static const ComputeSkipReason noGas = ComputeSkipReason._(0x02, 'noGas');
@@ -37,17 +39,23 @@ class ComputeSkipReason extends TonSerialization {
   factory ComputeSkipReason.fromValue(String? status) {
     return values.firstWhere(
       (element) => element.reason == status,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find ComputeSkipReason from provided status',
-          details: {'status': status}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find ComputeSkipReason from provided status',
+                details: {'status': status},
+              ),
     );
   }
   factory ComputeSkipReason.fromTag(int? tag) {
     return values.firstWhere(
       (element) => element.code == tag,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find ComputeSkipReason from provided tag',
-          details: {'tag': tag}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find ComputeSkipReason from provided tag',
+                details: {'tag': tag},
+              ),
     );
   }
   @override

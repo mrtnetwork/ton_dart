@@ -17,11 +17,12 @@ class TonCenterGetShardBlockProof
   /// Seqno of masterchain block starting from which proof is required. If not specified latest masterchain block is used.
   final int? fromSeqno;
 
-  TonCenterGetShardBlockProof(
-      {required this.workchain,
-      required this.shard,
-      required this.seqno,
-      this.fromSeqno});
+  TonCenterGetShardBlockProof({
+    required this.workchain,
+    required this.shard,
+    required this.seqno,
+    this.fromSeqno,
+  });
 
   @override
   String get method => TonCenterMethods.getShardBlockProof.name;

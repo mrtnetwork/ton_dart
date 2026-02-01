@@ -18,14 +18,13 @@ class SimpleLibrary extends TonSerialization {
   final Cell root;
   const SimpleLibrary({required this.public, required this.root});
   factory SimpleLibrary.deserialize(Slice slice) {
-    return SimpleLibrary(
-      public: slice.loadBit(),
-      root: slice.loadRef(),
-    );
+    return SimpleLibrary(public: slice.loadBit(), root: slice.loadRef());
   }
   factory SimpleLibrary.fromJson(Map<String, dynamic> json) {
     return SimpleLibrary(
-        public: json['public'], root: Cell.fromBase64(json['root']));
+      public: json['public'],
+      root: Cell.fromBase64(json['root']),
+    );
   }
 
   @override

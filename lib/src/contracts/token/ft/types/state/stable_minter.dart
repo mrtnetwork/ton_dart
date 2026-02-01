@@ -20,19 +20,21 @@ class StableTokenMinterState extends ContractState {
       'totalSupply': totalSupply.toString(),
       'walletCode': walletCode?.toBase64(),
       'nextAdminAddress': nextAdminAddress?.toRawAddress(),
-      'metadata': metadata.toJson()
+      'metadata': metadata.toJson(),
     };
   }
 
   factory StableTokenMinterState.fromJson(Map<String, dynamic> json) {
     return StableTokenMinterState._(
-        adminAddress: TonAddress(json['adminAddress']),
-        totalSupply: BigintUtils.parse(json['totalSupply']),
-        walletCode: Cell.fromBase64(json['walletCode']),
-        content: Cell.fromBase64(json['content']),
-        nextAdminAddress: json['nextAdminAddress'] == null
-            ? null
-            : TonAddress(json['nextAdminAddress']));
+      adminAddress: TonAddress(json['adminAddress']),
+      totalSupply: BigintUtils.parse(json['totalSupply']),
+      walletCode: Cell.fromBase64(json['walletCode']),
+      content: Cell.fromBase64(json['content']),
+      nextAdminAddress:
+          json['nextAdminAddress'] == null
+              ? null
+              : TonAddress(json['nextAdminAddress']),
+    );
   }
 
   const StableTokenMinterState._({
@@ -42,23 +44,26 @@ class StableTokenMinterState extends ContractState {
     required this.content,
     required this.nextAdminAddress,
   });
-  factory StableTokenMinterState(
-      {required TonAddress adminAddress,
-      TonAddress? transferAdminAddress,
-      TokenMetadata? metadata,
-      Cell? contect,
-      Cell? walletCode,
-      BigInt? totalSupply}) {
+  factory StableTokenMinterState({
+    required TonAddress adminAddress,
+    TonAddress? transferAdminAddress,
+    TokenMetadata? metadata,
+    Cell? contect,
+    Cell? walletCode,
+    BigInt? totalSupply,
+  }) {
     if (metadata != null && contect != null) {
       throw const TonContractException(
-          'Use only content or metadata for jetton content');
+        'Use only content or metadata for jetton content',
+      );
     }
     return StableTokenMinterState._(
-        adminAddress: adminAddress,
-        nextAdminAddress: transferAdminAddress,
-        totalSupply: totalSupply ?? BigInt.zero,
-        walletCode: walletCode,
-        content: contect ?? TokneMetadataUtils.encodeMetadata(metadata));
+      adminAddress: adminAddress,
+      nextAdminAddress: transferAdminAddress,
+      totalSupply: totalSupply ?? BigInt.zero,
+      walletCode: walletCode,
+      content: contect ?? TokneMetadataUtils.encodeMetadata(metadata),
+    );
   }
   factory StableTokenMinterState.deserialize(Slice slice) {
     final BigInt totalSupply = slice.loadCoins();
@@ -67,11 +72,12 @@ class StableTokenMinterState extends ContractState {
     final Cell walletCode = slice.loadRef();
     final Cell content = slice.loadRef();
     return StableTokenMinterState._(
-        adminAddress: adminAddress,
-        nextAdminAddress: nextAdminAddress,
-        totalSupply: totalSupply,
-        walletCode: walletCode,
-        content: content);
+      adminAddress: adminAddress,
+      nextAdminAddress: nextAdminAddress,
+      totalSupply: totalSupply,
+      walletCode: walletCode,
+      content: content,
+    );
   }
 
   TokenMetadata get metadata =>
@@ -80,8 +86,9 @@ class StableTokenMinterState extends ContractState {
   @override
   StateInit initialState({int? workchain}) {
     return StateInit(
-        data: initialData(),
-        code: JettonMinterConst.stableCode(adminAddress.workChain));
+      data: initialData(),
+      code: JettonMinterConst.stableCode(adminAddress.workChain),
+    );
   }
 
   @override

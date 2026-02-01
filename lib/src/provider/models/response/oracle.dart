@@ -4,10 +4,7 @@ class OracleResponse with JsonSerialization {
   final String address;
   final String secpPubkey;
 
-  OracleResponse({
-    required this.address,
-    required this.secpPubkey,
-  });
+  OracleResponse({required this.address, required this.secpPubkey});
 
   factory OracleResponse.fromJson(Map<String, dynamic> json) {
     return OracleResponse(
@@ -18,9 +15,6 @@ class OracleResponse with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'address': address,
-      'secp_pubkey': secpPubkey,
-    };
+    return {'address': address, 'secp_pubkey': secpPubkey};
   }
 }

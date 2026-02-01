@@ -9,7 +9,9 @@ class JettonBalanceLockResponse with JsonSerialization {
 
   factory JettonBalanceLockResponse.fromJson(Map<String, dynamic> json) {
     return JettonBalanceLockResponse(
-        amount: json['amount'], till: BigintUtils.parse(json['till']));
+      amount: json['amount'],
+      till: BigintUtils.parse(json['till']),
+    );
   }
 
   @override

@@ -127,24 +127,30 @@ class BlockchainConfigResponse with JsonSerialization {
       r28: json['28'] != null ? BlockchainConfig28.fromJson(json['28']) : null,
       r29: json['29'] != null ? BlockchainConfig29.fromJson(json['29']) : null,
       r31: json['31'] != null ? BlockchainConfig31.fromJson(json['31']) : null,
-      r32: json['32'] != null
-          ? ValidatorsSetResponse.fromJson(json['32'])
-          : null,
-      r33: json['33'] != null
-          ? ValidatorsSetResponse.fromJson(json['33'])
-          : null,
-      r34: json['34'] != null
-          ? ValidatorsSetResponse.fromJson(json['34'])
-          : null,
-      r35: json['35'] != null
-          ? ValidatorsSetResponse.fromJson(json['35'])
-          : null,
-      r36: json['36'] != null
-          ? ValidatorsSetResponse.fromJson(json['36'])
-          : null,
-      r37: json['37'] != null
-          ? ValidatorsSetResponse.fromJson(json['37'])
-          : null,
+      r32:
+          json['32'] != null
+              ? ValidatorsSetResponse.fromJson(json['32'])
+              : null,
+      r33:
+          json['33'] != null
+              ? ValidatorsSetResponse.fromJson(json['33'])
+              : null,
+      r34:
+          json['34'] != null
+              ? ValidatorsSetResponse.fromJson(json['34'])
+              : null,
+      r35:
+          json['35'] != null
+              ? ValidatorsSetResponse.fromJson(json['35'])
+              : null,
+      r36:
+          json['36'] != null
+              ? ValidatorsSetResponse.fromJson(json['36'])
+              : null,
+      r37:
+          json['37'] != null
+              ? ValidatorsSetResponse.fromJson(json['37'])
+              : null,
       r40: json['40'] != null ? BlockchainConfig40.fromJson(json['40']) : null,
       r43: json['43'] != null ? BlockchainConfig43.fromJson(json['43']) : null,
       r44: BlockchainConfig44.fromJson(json['44']),

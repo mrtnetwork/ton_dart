@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/models/models/message_relaxed.dart';
 import 'package:ton_dart/src/provider/models/models.dart';
@@ -21,7 +20,9 @@ class TonFeeUtils {
   }
 
   static BigInt computeGasPrices(
-      BigInt gasUsed, GasLimitPricesResponse prices) {
+    BigInt gasUsed,
+    GasLimitPricesResponse prices,
+  ) {
     if (gasUsed <= prices.flatGasLimit) {
       return prices.flatGasPrice;
     } else {
@@ -42,22 +43,32 @@ class TonFeeUtils {
   }
 
   static BigInt computeFwdFees(
-      MsgForwardPricesResponse msgPrices, BigInt cells, BigInt bits) {
+    MsgForwardPricesResponse msgPrices,
+    BigInt cells,
+    BigInt bits,
+  ) {
     return msgPrices.lumpPrice +
         shr16ceil(msgPrices.bitPrice * bits + msgPrices.cellPrice * cells);
   }
 
   static BigInt computeExternalMessageFees(
-      MsgForwardPricesResponse msgPrices, Cell cell) {
+    MsgForwardPricesResponse msgPrices,
+    Cell cell,
+  ) {
     final StorageStat storageStats = collectCellStats(cell);
     storageStats.bits -= cell.bits.length;
     storageStats.cells -= 1;
-    return computeFwdFees(msgPrices, BigInt.from(storageStats.cells),
-        BigInt.from(storageStats.bits));
+    return computeFwdFees(
+      msgPrices,
+      BigInt.from(storageStats.cells),
+      BigInt.from(storageStats.bits),
+    );
   }
 
-  static Tuple<BigInt, BigInt> computeMessageForwardFees(
-      MsgForwardPricesResponse msgPrices, MessageRelaxed msg) {
+  static (BigInt, BigInt) computeMessageForwardFees(
+    MsgForwardPricesResponse msgPrices,
+    MessageRelaxed msg,
+  ) {
     final StorageStat storageStats = StorageStat(bits: 0, cells: 0);
     if (msg.init != null) {
       final Cell raw = beginCell().store(msg.init!).endCell();
@@ -74,11 +85,14 @@ class TonFeeUtils {
     storageStats.bits += bc.bits;
     storageStats.cells += bc.cells;
 
-    final BigInt fees = computeFwdFees(msgPrices,
-        BigInt.from(storageStats.cells), BigInt.from(storageStats.bits));
+    final BigInt fees = computeFwdFees(
+      msgPrices,
+      BigInt.from(storageStats.cells),
+      BigInt.from(storageStats.bits),
+    );
     final BigInt res = (fees * BigInt.from(msgPrices.firstFrac)) >> 16;
     final BigInt remaining = fees - res;
-    return Tuple(res, remaining);
+    return (res, remaining);
   }
 
   static BigInt computeStorageFees({
@@ -94,27 +108,31 @@ class TonFeeUtils {
         special) {
       return BigInt.zero;
     }
-    int upto = storageStats.lastPaid > storagePrices[0].utimeSince
-        ? storageStats.lastPaid
-        : storagePrices[0].utimeSince;
+    int upto =
+        storageStats.lastPaid > storagePrices[0].utimeSince
+            ? storageStats.lastPaid
+            : storagePrices[0].utimeSince;
     BigInt total = BigInt.zero;
     for (int i = 0; i < storagePrices.length && upto < now; i++) {
-      final int validUntil = (i < storagePrices.length - 1
-          ? (now < storagePrices[i + 1].utimeSince
-              ? now
-              : storagePrices[i + 1].utimeSince)
-          : now);
+      final int validUntil =
+          (i < storagePrices.length - 1
+              ? (now < storagePrices[i + 1].utimeSince
+                  ? now
+                  : storagePrices[i + 1].utimeSince)
+              : now);
       BigInt payment = BigInt.zero;
       if (upto < validUntil) {
         final int delta = validUntil - upto;
-        payment += (storageStats.usedCells *
-            (masterchain
-                ? storagePrices[i].mcCellPricePs
-                : storagePrices[i].cellPricePs));
-        payment += (storageStats.usedBits *
-            (masterchain
-                ? storagePrices[i].mcBitPricePs
-                : storagePrices[i].bitPricePs));
+        payment +=
+            (storageStats.usedCells *
+                (masterchain
+                    ? storagePrices[i].mcCellPricePs
+                    : storagePrices[i].cellPricePs));
+        payment +=
+            (storageStats.usedBits *
+                (masterchain
+                    ? storagePrices[i].mcBitPricePs
+                    : storagePrices[i].bitPricePs));
         payment *= BigInt.from(delta);
       }
       upto = validUntil;

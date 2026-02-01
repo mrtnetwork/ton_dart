@@ -11,27 +11,33 @@ class CommonMessageInfoType {
   final String name;
   const CommonMessageInfoType._(this.name);
   // Predefined constant for 'internal' message type.
-  static const CommonMessageInfoType internal =
-      CommonMessageInfoType._('internal');
+  static const CommonMessageInfoType internal = CommonMessageInfoType._(
+    'internal',
+  );
 
   // Predefined constant for 'external-in' message type.
-  static const CommonMessageInfoType externalIn =
-      CommonMessageInfoType._('external-in');
+  static const CommonMessageInfoType externalIn = CommonMessageInfoType._(
+    'external-in',
+  );
 
   // Predefined constant for 'external-out' message type.
-  static const CommonMessageInfoType externalOut =
-      CommonMessageInfoType._('external-out');
+  static const CommonMessageInfoType externalOut = CommonMessageInfoType._(
+    'external-out',
+  );
   static const List<CommonMessageInfoType> values = [
     internal,
     externalIn,
-    externalOut
+    externalOut,
   ];
   factory CommonMessageInfoType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find CommonMessageInfoType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find CommonMessageInfoType from provided name',
+                details: {'name': name},
+              ),
     );
   }
   @override
@@ -77,18 +83,18 @@ class CommonMessageInfoInternal extends CommonMessageInfo {
   final BigInt createdLt;
   final int createdAt;
 
-  const CommonMessageInfoInternal(
-      {required this.ihrDisabled,
-      required this.bounce,
-      required this.bounced,
-      required this.src,
-      required this.dest,
-      required this.value,
-      required this.ihrFee,
-      required this.forwardFee,
-      required this.createdLt,
-      required this.createdAt})
-      : super._();
+  const CommonMessageInfoInternal({
+    required this.ihrDisabled,
+    required this.bounce,
+    required this.bounced,
+    required this.src,
+    required this.dest,
+    required this.value,
+    required this.ihrFee,
+    required this.forwardFee,
+    required this.createdLt,
+    required this.createdAt,
+  }) : super._();
   factory CommonMessageInfoInternal.deserialize(Slice slice) {
     final ihrDisabled = slice.loadBit();
     final bounce = slice.loadBit();
@@ -101,29 +107,31 @@ class CommonMessageInfoInternal extends CommonMessageInfo {
     final createdLt = slice.loadUintBig(64);
     final createdAt = slice.loadUint(32);
     return CommonMessageInfoInternal(
-        ihrDisabled: ihrDisabled,
-        bounce: bounce,
-        bounced: bounced,
-        src: src,
-        dest: dest,
-        value: value,
-        ihrFee: ihrFee,
-        forwardFee: forwardFee,
-        createdLt: createdLt,
-        createdAt: createdAt);
+      ihrDisabled: ihrDisabled,
+      bounce: bounce,
+      bounced: bounced,
+      src: src,
+      dest: dest,
+      value: value,
+      ihrFee: ihrFee,
+      forwardFee: forwardFee,
+      createdLt: createdLt,
+      createdAt: createdAt,
+    );
   }
   factory CommonMessageInfoInternal.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoInternal(
-        ihrDisabled: json['ihrDisabled'],
-        bounce: json['bounce'],
-        bounced: json['bounced'],
-        src: TonAddress(json['src']),
-        dest: TonAddress(json['dest']),
-        value: CurrencyCollection.fromJson(json['value']),
-        ihrFee: BigintUtils.parse(json['ihrFee']),
-        forwardFee: BigintUtils.parse(json['forwardFee']),
-        createdLt: BigintUtils.parse(json['createdLt']),
-        createdAt: json['createdAt']);
+      ihrDisabled: json['ihrDisabled'],
+      bounce: json['bounce'],
+      bounced: json['bounced'],
+      src: TonAddress(json['src']),
+      dest: TonAddress(json['dest']),
+      value: CurrencyCollection.fromJson(json['value']),
+      ihrFee: BigintUtils.parse(json['ihrFee']),
+      forwardFee: BigintUtils.parse(json['forwardFee']),
+      createdLt: BigintUtils.parse(json['createdLt']),
+      createdAt: json['createdAt'],
+    );
   }
   @override
   void store(Builder builder) {
@@ -156,7 +164,7 @@ class CommonMessageInfoInternal extends CommonMessageInfo {
       'forwardFee': forwardFee.toString(),
       'createdLt': createdLt.toString(),
       'createdAt': createdAt,
-      'type': type.name
+      'type': type.name,
     };
   }
 }
@@ -165,24 +173,30 @@ class CommonMessageInfoExternalIn extends CommonMessageInfo {
   final ExternalAddress? src;
   final TonAddress dest;
   final BigInt importFee;
-  const CommonMessageInfoExternalIn(
-      {this.src, required this.dest, required this.importFee})
-      : super._();
+  const CommonMessageInfoExternalIn({
+    this.src,
+    required this.dest,
+    required this.importFee,
+  }) : super._();
 
   factory CommonMessageInfoExternalIn.deserialize(Slice slice) {
     final src = slice.loadMaybeExternalAddress();
     final dest = slice.loadAddress();
     final importFee = slice.loadCoins();
     return CommonMessageInfoExternalIn(
-        dest: dest, importFee: importFee, src: src);
+      dest: dest,
+      importFee: importFee,
+      src: src,
+    );
   }
   factory CommonMessageInfoExternalIn.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoExternalIn(
-        dest: TonAddress(json['dest']),
-        importFee: BigintUtils.parse(json['importFee']),
-        src: (json['src'] as Object?)?.convertTo<ExternalAddress, Map>((p0) {
-          return ExternalAddress.fromJson(p0.cast());
-        }));
+      dest: TonAddress(json['dest']),
+      importFee: BigintUtils.parse(json['importFee']),
+      src: (json['src'] as Object?)?.convertTo<ExternalAddress, Map>((p0) {
+        return ExternalAddress.fromJson(p0.cast());
+      }),
+    );
   }
 
   @override
@@ -203,7 +217,7 @@ class CommonMessageInfoExternalIn extends CommonMessageInfo {
       'dest': dest.toRawAddress(),
       'src': src?.toJson(),
       'importFee': importFee.toString(),
-      'type': type.name
+      'type': type.name,
     };
   }
 }
@@ -213,27 +227,33 @@ class CommonMessageInfoExternalOut extends CommonMessageInfo {
   final ExternalAddress? dest;
   final BigInt createdLt;
   final int createdAt;
-  const CommonMessageInfoExternalOut(
-      {required this.src,
-      this.dest,
-      required this.createdLt,
-      required this.createdAt})
-      : super._();
+  const CommonMessageInfoExternalOut({
+    required this.src,
+    this.dest,
+    required this.createdLt,
+    required this.createdAt,
+  }) : super._();
   factory CommonMessageInfoExternalOut.deserialize(Slice slice) {
     final src = slice.loadAddress();
     final dest = slice.loadMaybeExternalAddress();
     final createdLt = slice.loadUintBig(64);
     final createdAt = slice.loadUint(32);
     return CommonMessageInfoExternalOut(
-        src: src, createdLt: createdLt, createdAt: createdAt, dest: dest);
+      src: src,
+      createdLt: createdLt,
+      createdAt: createdAt,
+      dest: dest,
+    );
   }
   factory CommonMessageInfoExternalOut.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoExternalOut(
-        src: TonAddress(json['src']),
-        createdLt: BigintUtils.parse(json['createdLt']),
-        createdAt: json['createdAt'],
-        dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
-            (p0) => ExternalAddress.fromJson(p0.cast())));
+      src: TonAddress(json['src']),
+      createdLt: BigintUtils.parse(json['createdLt']),
+      createdAt: json['createdAt'],
+      dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
+        (p0) => ExternalAddress.fromJson(p0.cast()),
+      ),
+    );
   }
 
   @override
@@ -256,7 +276,7 @@ class CommonMessageInfoExternalOut extends CommonMessageInfo {
       'dest': dest?.toJson(),
       'createdLt': createdLt.toString(),
       'createdAt': createdAt,
-      'type': type.name
+      'type': type.name,
     };
   }
 }

@@ -19,8 +19,10 @@ class Dictionary<K extends Object, V> {
   Dictionary(this._map, this._key, this._value);
 
   /// Creates an empty dictionary with optional key and value codecs.
-  static Dictionary<K, V> empty<K extends Object, V>(
-      {DictionaryKey<K>? key, DictionaryValue<V>? value}) {
+  static Dictionary<K, V> empty<K extends Object, V>({
+    DictionaryKey<K>? key,
+    DictionaryValue<V>? value,
+  }) {
     if (key != null && value != null) {
       return Dictionary<K, V>(<String, V>{}, key, value);
     } else {
@@ -29,10 +31,11 @@ class Dictionary<K extends Object, V> {
   }
 
   /// Creates a dictionary from the given key, value codecs, and map of entries.
-  static Dictionary<K, V> fromEnteries<K extends Object, V>(
-      {required DictionaryKey<K> key,
-      required DictionaryValue<V> value,
-      required Map<K, V> map}) {
+  static Dictionary<K, V> fromEnteries<K extends Object, V>({
+    required DictionaryKey<K> key,
+    required DictionaryValue<V> value,
+    required Map<K, V> map,
+  }) {
     final dict = empty<K, V>(key: key, value: value);
     for (final i in map.entries) {
       dict[i.key] = i.value;
@@ -43,7 +46,10 @@ class Dictionary<K extends Object, V> {
   /// Loads a dictionary from the given `Slice`. Returns an empty dictionary if no
   /// reference is found or if the cell is exotic.
   static Dictionary<K, V> load<K extends Object, V>(
-      DictionaryKey<K> key, DictionaryValue<V> value, Slice slice) {
+    DictionaryKey<K> key,
+    DictionaryValue<V> value,
+    Slice slice,
+  ) {
     final cell = slice.loadMaybeRef();
     if (cell != null && !cell.isExotic) {
       return loadDirect<K, V>(key: key, value: value, slice: cell.beginParse());
@@ -54,10 +60,11 @@ class Dictionary<K extends Object, V> {
 
   /// Loads a dictionary directly from the given `Slice`. If the `Slice` is null,
   /// returns an empty dictionary.
-  static Dictionary<K, V> loadDirect<K extends Object, V>(
-      {required DictionaryKey<K> key,
-      required DictionaryValue<V> value,
-      required Slice? slice}) {
+  static Dictionary<K, V> loadDirect<K extends Object, V>({
+    required DictionaryKey<K> key,
+    required DictionaryValue<V> value,
+    required Slice? slice,
+  }) {
     if (slice == null) {
       return empty<K, V>(key: key, value: value);
     }
@@ -97,7 +104,9 @@ class Dictionary<K extends Object, V> {
   Iterable<MapEntry<K, V>> get entries sync* {
     for (final entry in _map.entries) {
       yield MapEntry(
-          DictionaryUtils.deserializeInternalKey(entry.key), entry.value);
+        DictionaryUtils.deserializeInternalKey(entry.key),
+        entry.value,
+      );
     }
   }
 
@@ -110,8 +119,11 @@ class Dictionary<K extends Object, V> {
 
   /// Serializes the dictionary and stores it in the given `Builder`.
   /// Throws `DictException` if the key or value serializers are not defined.
-  void store(Builder builder,
-      {DictionaryKey<K>? key, DictionaryValue<V>? value}) {
+  void store(
+    Builder builder, {
+    DictionaryKey<K>? key,
+    DictionaryValue<V>? value,
+  }) {
     if (_map.isEmpty) {
       builder.storeBit(0);
     } else {
@@ -124,24 +136,36 @@ class Dictionary<K extends Object, V> {
         throw DictException('Value serializer is not defined');
       }
 
-      final prepared = Map<BigInt, V>.fromEntries(_map.entries.map((entry) =>
-          MapEntry(
-              resolvedKey
-                  .serialize(DictionaryUtils.deserializeInternalKey(entry.key)),
-              entry.value)));
+      final prepared = Map<BigInt, V>.fromEntries(
+        _map.entries.map(
+          (entry) => MapEntry(
+            resolvedKey.serialize(
+              DictionaryUtils.deserializeInternalKey(entry.key),
+            ),
+            entry.value,
+          ),
+        ),
+      );
 
       builder.storeBit(1);
       final dd = beginCell();
       DictSerialization.serialize(
-          prepared, resolvedKey.bits, resolvedValue.serialize, dd);
+        prepared,
+        resolvedKey.bits,
+        resolvedValue.serialize,
+        dd,
+      );
       builder.storeRef(dd.endCell());
     }
   }
 
   /// Serializes the dictionary directly into the `Builder`.
   /// Throws `DictException` if the dictionary is empty or if key/value serializers are not defined.
-  void storeDirect(Builder builder,
-      {DictionaryKey<K>? key, DictionaryValue<V>? value}) {
+  void storeDirect(
+    Builder builder, {
+    DictionaryKey<K>? key,
+    DictionaryValue<V>? value,
+  }) {
     if (_map.isEmpty) {
       throw DictException('Cannot store empty dictionary directly');
     }
@@ -154,13 +178,22 @@ class Dictionary<K extends Object, V> {
     if (resolvedValue == null) {
       throw DictException('Value serializer is not defined');
     }
-    final prepared = Map<BigInt, V>.fromEntries(_map.entries.map((entry) =>
-        MapEntry(
-            resolvedKey
-                .serialize(DictionaryUtils.deserializeInternalKey(entry.key)),
-            entry.value)));
+    final prepared = Map<BigInt, V>.fromEntries(
+      _map.entries.map(
+        (entry) => MapEntry(
+          resolvedKey.serialize(
+            DictionaryUtils.deserializeInternalKey(entry.key),
+          ),
+          entry.value,
+        ),
+      ),
+    );
     DictSerialization.serialize(
-        prepared, resolvedKey.bits, resolvedValue.serialize, builder);
+      prepared,
+      resolvedKey.bits,
+      resolvedValue.serialize,
+      builder,
+    );
   }
 
   /// Generates a Merkle proof for the given key.
@@ -173,8 +206,11 @@ class Dictionary<K extends Object, V> {
 
   /// Loads dictionary entries from a `Slice` and updates the dictionary.
   /// Throws `DictException` if key or value serializers are not defined.
-  void loadFromClice(Slice slice,
-      {DictionaryKey<K>? key, DictionaryValue<V>? value}) {
+  void loadFromClice(
+    Slice slice, {
+    DictionaryKey<K>? key,
+    DictionaryValue<V>? value,
+  }) {
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {

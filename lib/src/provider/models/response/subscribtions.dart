@@ -8,10 +8,14 @@ class SubscriptionsResponse with JsonSerialization {
 
   factory SubscriptionsResponse.fromJson(Map<String, dynamic> json) {
     return SubscriptionsResponse(
-        subscriptions: (json['subscriptions'] as List)
-            .map((subscriptionJson) =>
-                SubscriptionResponse.fromJson(subscriptionJson))
-            .toList());
+      subscriptions:
+          (json['subscriptions'] as List)
+              .map(
+                (subscriptionJson) =>
+                    SubscriptionResponse.fromJson(subscriptionJson),
+              )
+              .toList(),
+    );
   }
 
   @override
@@ -19,7 +23,7 @@ class SubscriptionsResponse with JsonSerialization {
   Map<String, dynamic> toJson() {
     return {
       'subscriptions':
-          subscriptions.map((subscription) => subscription.toJson()).toList()
+          subscriptions.map((subscription) => subscription.toJson()).toList(),
     };
   }
 }

@@ -10,20 +10,26 @@ class RiskResponse with JsonSerialization {
   final List<JettonQuantityResponse> jettons;
   final List<NftItemResponse> nfts;
 
-  const RiskResponse(
-      {required this.transferAllRemainingBalance,
-      required this.ton,
-      required this.jettons,
-      required this.nfts});
+  const RiskResponse({
+    required this.transferAllRemainingBalance,
+    required this.ton,
+    required this.jettons,
+    required this.nfts,
+  });
 
   factory RiskResponse.fromJson(Map<String, dynamic> json) {
     return RiskResponse(
-        transferAllRemainingBalance: json['transfer_all_remaining_balance'],
-        ton: BigintUtils.parse(json['ton']),
-        jettons: List<JettonQuantityResponse>.from((json['jettons'] as List)
-            .map((x) => JettonQuantityResponse.fromJson(x))),
-        nfts: List<NftItemResponse>.from(
-            (json['nfts'] as List).map((x) => NftItemResponse.fromJson(x))));
+      transferAllRemainingBalance: json['transfer_all_remaining_balance'],
+      ton: BigintUtils.parse(json['ton']),
+      jettons: List<JettonQuantityResponse>.from(
+        (json['jettons'] as List).map(
+          (x) => JettonQuantityResponse.fromJson(x),
+        ),
+      ),
+      nfts: List<NftItemResponse>.from(
+        (json['nfts'] as List).map((x) => NftItemResponse.fromJson(x)),
+      ),
+    );
   }
 
   @override

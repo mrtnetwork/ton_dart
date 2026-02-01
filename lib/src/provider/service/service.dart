@@ -32,6 +32,8 @@ mixin TonServiceProvider implements BaseServiceProvider<TonRequestDetails> {
   ///   return params.toResponse(response.bodyBytes, response.statusCode);
   /// }
   @override
-  Future<TonServiceResponse<T>> doRequest<T>(TonRequestDetails params,
-      {Duration? timeout});
+  Future<TonServiceResponse<T>> doRequest<T>(
+    TonRequestDetails params, {
+    Duration? timeout,
+  });
 }

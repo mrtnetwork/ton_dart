@@ -10,23 +10,26 @@ class DecodedMessageExtInMsgDecodedWalletV4Response with JsonSerialization {
   final int op;
   final List<DecodedRawMessageResponse> rawMessages;
 
-  const DecodedMessageExtInMsgDecodedWalletV4Response(
-      {required this.subwalletId,
-      required this.validUntil,
-      required this.seqno,
-      required this.op,
-      required this.rawMessages});
+  const DecodedMessageExtInMsgDecodedWalletV4Response({
+    required this.subwalletId,
+    required this.validUntil,
+    required this.seqno,
+    required this.op,
+    required this.rawMessages,
+  });
 
   factory DecodedMessageExtInMsgDecodedWalletV4Response.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return DecodedMessageExtInMsgDecodedWalletV4Response(
       subwalletId: BigintUtils.parse(json['subwallet_id']),
       validUntil: BigintUtils.parse(json['valid_until']),
       seqno: BigintUtils.parse(json['seqno']),
       op: json['op'],
-      rawMessages: (json['raw_messages'] as List<dynamic>)
-          .map((item) => DecodedRawMessageResponse.fromJson(item))
-          .toList(),
+      rawMessages:
+          (json['raw_messages'] as List<dynamic>)
+              .map((item) => DecodedRawMessageResponse.fromJson(item))
+              .toList(),
     );
   }
 

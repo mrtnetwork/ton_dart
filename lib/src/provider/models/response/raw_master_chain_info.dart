@@ -24,7 +24,7 @@ class RawMasterchainInfoResponse with JsonSerialization {
     return {
       'last': last.toJson(),
       'state_root_hash': stateRootHash,
-      'init': init.toJson()
+      'init': init.toJson(),
     };
   }
 }

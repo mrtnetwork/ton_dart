@@ -10,10 +10,11 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class MessageCodec {
   static final DictionaryValue<Message> codec = DictionaryValue(
-      serialize: (source, builder) {
-        builder.storeRef(beginCell().store(source).endCell());
-      },
-      parse: (slice) => Message.deserialize(slice.loadRef().beginParse()));
+    serialize: (source, builder) {
+      builder.storeRef(beginCell().store(source).endCell());
+    },
+    parse: (slice) => Message.deserialize(slice.loadRef().beginParse()),
+  );
 }
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L147
@@ -45,10 +46,12 @@ class Message extends TonSerialization {
   }
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-        info: CommonMessageInfo.fromJson(json['info']),
-        body: json['body'],
-        init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
-            (result) => StateInit.fromJson(result.cast())));
+      info: CommonMessageInfo.fromJson(json['info']),
+      body: json['body'],
+      init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
+        (result) => StateInit.fromJson(result.cast()),
+      ),
+    );
   }
 
   @override
@@ -85,7 +88,8 @@ class Message extends TonSerialization {
     if (forceRef) {
       needRef = true;
     } else {
-      needRef = builder.availableBits - 1 < body.bits.length ||
+      needRef =
+          builder.availableBits - 1 < body.bits.length ||
           builder.refs + body.refs.length > 4;
     }
     if (needRef) {

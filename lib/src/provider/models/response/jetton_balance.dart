@@ -12,24 +12,27 @@ class JettonBalanceResponse with JsonSerialization {
   final JettonPreviewResponse jetton;
   final JettonBalanceLockResponse? lock;
 
-  const JettonBalanceResponse(
-      {required this.balance,
-      required this.walletAddress,
-      required this.jetton,
-      this.price,
-      this.lock});
+  const JettonBalanceResponse({
+    required this.balance,
+    required this.walletAddress,
+    required this.jetton,
+    this.price,
+    this.lock,
+  });
 
   factory JettonBalanceResponse.fromJson(Map<String, dynamic> json) {
     return JettonBalanceResponse(
       balance: BigintUtils.parse(json['balance']),
-      price: json['price'] != null
-          ? TokenRatesResponse.fromJson(json['price'])
-          : null,
+      price:
+          json['price'] != null
+              ? TokenRatesResponse.fromJson(json['price'])
+              : null,
       walletAddress: AccountAddressResponse.fromJson(json['wallet_address']),
       jetton: JettonPreviewResponse.fromJson(json['jetton']),
-      lock: json['lock'] != null
-          ? JettonBalanceLockResponse.fromJson(json['lock'])
-          : null,
+      lock:
+          json['lock'] != null
+              ? JettonBalanceLockResponse.fromJson(json['lock'])
+              : null,
     );
   }
 

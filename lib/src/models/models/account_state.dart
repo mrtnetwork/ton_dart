@@ -21,9 +21,12 @@ class AccountStateType {
   factory AccountStateType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find AccountStateType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find AccountStateType from provided name',
+                details: {'name': name},
+              ),
     );
   }
   @override

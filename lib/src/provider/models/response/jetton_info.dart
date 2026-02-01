@@ -22,15 +22,18 @@ class JettonInfoResponse with JsonSerialization {
 
   factory JettonInfoResponse.fromJson(Map<String, dynamic> json) {
     return JettonInfoResponse(
-        mintable: json['mintable'],
-        totalSupply: json['total_supply'],
-        admin: json['admin'] != null
-            ? AccountAddressResponse.fromJson(json['admin'])
-            : null,
-        metadata: JettonMetadataResponse.fromJson(json['metadata']),
-        verification:
-            JettonVerificationTypeResponse.fromName(json['verification']),
-        holdersCount: json['holders_count']);
+      mintable: json['mintable'],
+      totalSupply: json['total_supply'],
+      admin:
+          json['admin'] != null
+              ? AccountAddressResponse.fromJson(json['admin'])
+              : null,
+      metadata: JettonMetadataResponse.fromJson(json['metadata']),
+      verification: JettonVerificationTypeResponse.fromName(
+        json['verification'],
+      ),
+      holdersCount: json['holders_count'],
+    );
   }
 
   @override
@@ -41,7 +44,7 @@ class JettonInfoResponse with JsonSerialization {
       'metadata': metadata.toJson(),
       'verification': verification.value,
       'holders_count': holdersCount,
-      'admin': admin?.toJson()
+      'admin': admin?.toJson(),
     };
   }
 }

@@ -27,7 +27,7 @@ class MessageConsequencesResponse with JsonSerialization {
     return {
       'trace': trace.toJson(),
       'risk': risk.toJson(),
-      'event': event.toJson()
+      'event': event.toJson(),
     };
   }
 }

@@ -13,7 +13,8 @@ abstract class TokenMetadata with JsonSerialization {
   T cast<T extends TokenMetadata>() {
     if (this is! T) {
       throw TonDartPluginException(
-          'Invalid token metadata casting. expected: $runtimeType got: $T');
+        'Invalid token metadata casting. expected: $runtimeType got: $T',
+      );
     }
     return this as T;
   }
@@ -36,7 +37,8 @@ abstract class NFTMetadata extends TonSerialization {
   T cast<T extends NFTMetadata>() {
     if (this is! T) {
       throw TonContractException(
-          'Invalid metadata casting. expected: $runtimeType got: $T');
+        'Invalid metadata casting. expected: $runtimeType got: $T',
+      );
     }
     return this as T;
   }

@@ -7,13 +7,15 @@ class RawListBlockTransactionsIdsItemResponse with JsonSerialization {
   final String? account;
   final BigInt? lt;
   final String? hash;
-  const RawListBlockTransactionsIdsItemResponse(
-      {required this.mode,
-      required this.account,
-      required this.lt,
-      required this.hash});
+  const RawListBlockTransactionsIdsItemResponse({
+    required this.mode,
+    required this.account,
+    required this.lt,
+    required this.hash,
+  });
   factory RawListBlockTransactionsIdsItemResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RawListBlockTransactionsIdsItemResponse(
       mode: json['mode'],
       account: json['versaccountion'],
@@ -28,7 +30,7 @@ class RawListBlockTransactionsIdsItemResponse with JsonSerialization {
       'hash': hash,
       'lt': lt?.toString(),
       'account': account,
-      'mode': mode
+      'mode': mode,
     };
   }
 }
@@ -49,13 +51,15 @@ class RawListBlockTransactionsResponse with JsonSerialization {
 
   factory RawListBlockTransactionsResponse.fromJson(Map<String, dynamic> json) {
     return RawListBlockTransactionsResponse(
-        id: BlockRawResponse.fromJson(json['id']),
-        reqCount: json['req_count'],
-        incomplete: json['incomplete'],
-        ids: (json['ids'] as List)
-            .map((e) => RawListBlockTransactionsIdsItemResponse.fromJson(e))
-            .toList(),
-        proof: json['proof']);
+      id: BlockRawResponse.fromJson(json['id']),
+      reqCount: json['req_count'],
+      incomplete: json['incomplete'],
+      ids:
+          (json['ids'] as List)
+              .map((e) => RawListBlockTransactionsIdsItemResponse.fromJson(e))
+              .toList(),
+      proof: json['proof'],
+    );
   }
 
   @override
@@ -65,7 +69,7 @@ class RawListBlockTransactionsResponse with JsonSerialization {
       'req_count': reqCount,
       'incomplete': incomplete,
       'ids': ids.map((e) => e.toJson()).toList(),
-      'proof': proof
+      'proof': proof,
     };
   }
 }

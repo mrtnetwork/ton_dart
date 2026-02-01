@@ -9,7 +9,8 @@ class DnsExpiringResponse with JsonSerialization {
   factory DnsExpiringResponse.fromJson(Map<String, dynamic> json) {
     return DnsExpiringResponse(
       items: List<DnsExpiringItemsItemResponse>.from(
-          json['items'].map((x) => DnsExpiringItemsItemResponse.fromJson(x))),
+        json['items'].map((x) => DnsExpiringItemsItemResponse.fromJson(x)),
+      ),
     );
   }
 

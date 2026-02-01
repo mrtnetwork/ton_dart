@@ -16,23 +16,24 @@ class TonApiGetChartRates extends TonApiRequest<String, Map<String, dynamic>> {
 
   /// Default: 200
   final int? pointsCount;
-  TonApiGetChartRates(
-      {required this.token,
-      this.currency,
-      this.startDate,
-      this.endDate,
-      this.pointsCount});
+  TonApiGetChartRates({
+    required this.token,
+    this.currency,
+    this.startDate,
+    this.endDate,
+    this.pointsCount,
+  });
   @override
   String get method => TonApiMethods.getchartrates.url;
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'currency': currency,
-        'token': token,
-        'start_date': startDate,
-        'end_date': endDate,
-        'points_count': pointsCount
-      };
+    'currency': currency,
+    'token': token,
+    'start_date': startDate,
+    'end_date': endDate,
+    'points_count': pointsCount,
+  };
 
   @override
   String onResonse(Map<String, dynamic> result) {

@@ -7,8 +7,9 @@ import 'package:ton_dart/src/provider/models/response/get_inscription_op_templat
 /// Return comment for making operation with inscription. please don't use it if you don't know what
 /// you are doing.
 ///
-class TonApiGetInscriptionOpTemplate extends TonApiRequest<
-    GetInscriptionOpTemplateResponse, Map<String, dynamic>> {
+class TonApiGetInscriptionOpTemplate
+    extends
+        TonApiRequest<GetInscriptionOpTemplateResponse, Map<String, dynamic>> {
   /// Available values : ton20, gram20
   final String type;
   final String? destination;
@@ -23,14 +24,15 @@ class TonApiGetInscriptionOpTemplate extends TonApiRequest<
 
   /// UQAs87W4yJHlF8mt29ocA4agnMrLsOP69jC1HPyBUjJay7Mg
   final String who;
-  TonApiGetInscriptionOpTemplate(
-      {required this.type,
-      this.destination,
-      this.comment,
-      required this.operation,
-      required this.amount,
-      required this.ticker,
-      required this.who});
+  TonApiGetInscriptionOpTemplate({
+    required this.type,
+    this.destination,
+    this.comment,
+    required this.operation,
+    required this.amount,
+    required this.ticker,
+    required this.who,
+  });
   @override
   String get method => TonApiMethods.getinscriptionoptemplate.url;
 
@@ -39,14 +41,14 @@ class TonApiGetInscriptionOpTemplate extends TonApiRequest<
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'type': type,
-        'destination': destination,
-        'comment': comment,
-        'operation': operation,
-        'amount': amount,
-        'ticker': ticker,
-        'who': who
-      };
+    'type': type,
+    'destination': destination,
+    'comment': comment,
+    'operation': operation,
+    'amount': amount,
+    'ticker': ticker,
+    'who': who,
+  };
   @override
   GetInscriptionOpTemplateResponse onResonse(Map<String, dynamic> result) {
     return GetInscriptionOpTemplateResponse.fromJson(result);

@@ -37,12 +37,14 @@ class JettonSwapActionResponse with JsonSerialization {
       tonOut: BigintUtils.tryParse(json['ton_out']),
       userWallet: AccountAddressResponse.fromJson(json['user_wallet']),
       router: AccountAddressResponse.fromJson(json['router']),
-      jettonMasterIn: json['jetton_master_in'] == null
-          ? null
-          : JettonPreviewResponse.fromJson(json['jetton_master_in']),
-      jettonMasterOut: json['jetton_master_out'] == null
-          ? null
-          : JettonPreviewResponse.fromJson(json['jetton_master_out']),
+      jettonMasterIn:
+          json['jetton_master_in'] == null
+              ? null
+              : JettonPreviewResponse.fromJson(json['jetton_master_in']),
+      jettonMasterOut:
+          json['jetton_master_out'] == null
+              ? null
+              : JettonPreviewResponse.fromJson(json['jetton_master_out']),
     );
   }
 
@@ -58,7 +60,7 @@ class JettonSwapActionResponse with JsonSerialization {
       'ton_in': tonIn?.toString(),
       'ton_out': tonOut?.toString(),
       'jetton_master_in': jettonMasterIn?.toJson(),
-      'jetton_master_out': jettonMasterOut?.toJson()
+      'jetton_master_out': jettonMasterOut?.toJson(),
     };
   }
 }

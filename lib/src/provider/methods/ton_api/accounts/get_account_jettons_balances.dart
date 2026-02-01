@@ -20,8 +20,9 @@ class TonApiGetAccountJettonsBalances
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'currencies': currencies?.join(',')};
+  Map<String, dynamic> get queryParameters => {
+    'currencies': currencies?.join(','),
+  };
   @override
   JettonsBalancesResponse onResonse(Map<String, dynamic> result) {
     return JettonsBalancesResponse.fromJson(result);

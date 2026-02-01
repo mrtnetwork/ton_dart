@@ -12,11 +12,12 @@ class TonApiEmulateMessageToAccountEvent
   final String accountId;
   final bool ignoreSignatureCheck;
   final String boc;
-  TonApiEmulateMessageToAccountEvent(
-      {required this.accountId,
-      required this.ignoreSignatureCheck,
-      required this.boc,
-      this.appLanguage});
+  TonApiEmulateMessageToAccountEvent({
+    required this.accountId,
+    required this.ignoreSignatureCheck,
+    required this.boc,
+    this.appLanguage,
+  });
   @override
   Map<String, dynamic> get body => {'boc': boc};
 
@@ -27,8 +28,9 @@ class TonApiEmulateMessageToAccountEvent
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'ignore_signature_check': ignoreSignatureCheck.toString()};
+  Map<String, dynamic> get queryParameters => {
+    'ignore_signature_check': ignoreSignatureCheck.toString(),
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': appLanguage};

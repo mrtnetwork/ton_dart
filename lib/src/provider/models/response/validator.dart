@@ -7,18 +7,20 @@ class ValidatorResponse with JsonSerialization {
   final BigInt stake;
   final BigInt maxFactor;
 
-  const ValidatorResponse(
-      {required this.address,
-      required this.adnlAddress,
-      required this.stake,
-      required this.maxFactor});
+  const ValidatorResponse({
+    required this.address,
+    required this.adnlAddress,
+    required this.stake,
+    required this.maxFactor,
+  });
 
   factory ValidatorResponse.fromJson(Map<String, dynamic> json) {
     return ValidatorResponse(
-        address: json['address'],
-        adnlAddress: json['adnl_address'],
-        stake: BigintUtils.parse(json['stake']),
-        maxFactor: BigintUtils.parse(json['max_factor']));
+      address: json['address'],
+      adnlAddress: json['adnl_address'],
+      stake: BigintUtils.parse(json['stake']),
+      maxFactor: BigintUtils.parse(json['max_factor']),
+    );
   }
 
   @override
@@ -27,7 +29,7 @@ class ValidatorResponse with JsonSerialization {
       'address': address,
       'adnl_address': adnlAddress,
       'stake': stake.toString(),
-      'max_factor': maxFactor.toString()
+      'max_factor': maxFactor.toString(),
     };
   }
 }

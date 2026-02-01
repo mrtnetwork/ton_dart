@@ -16,11 +16,13 @@ class DnsExpiringItemsItemResponse with JsonSerialization {
 
   factory DnsExpiringItemsItemResponse.fromJson(Map<String, dynamic> json) {
     return DnsExpiringItemsItemResponse(
-        expiringAt: BigintUtils.parse(json['expiring_at']),
-        name: json['name'],
-        dnsItem: json['dns_item'] != null
-            ? NftItemResponse.fromJson(json['dns_item'])
-            : null);
+      expiringAt: BigintUtils.parse(json['expiring_at']),
+      name: json['name'],
+      dnsItem:
+          json['dns_item'] != null
+              ? NftItemResponse.fromJson(json['dns_item'])
+              : null,
+    );
   }
 
   @override
@@ -28,7 +30,7 @@ class DnsExpiringItemsItemResponse with JsonSerialization {
     return {
       'expiring_at': expiringAt.toString(),
       'name': name,
-      'dns_item': dnsItem?.toJson()
+      'dns_item': dnsItem?.toJson(),
     };
   }
 }

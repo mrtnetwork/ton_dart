@@ -22,13 +22,16 @@ class JettonBridgePricesResponse with JsonSerialization {
     return JettonBridgePricesResponse(
       bridgeBurnFee: BigintUtils.parse(json['bridge_burn_fee']),
       bridgeMintFee: BigintUtils.parse(json['bridge_mint_fee']),
-      walletMinTonsForStorage:
-          BigintUtils.parse(json['wallet_min_tons_for_storage']),
+      walletMinTonsForStorage: BigintUtils.parse(
+        json['wallet_min_tons_for_storage'],
+      ),
       walletGasConsumption: BigintUtils.parse(json['wallet_gas_consumption']),
-      minterMinTonsForStorage:
-          BigintUtils.parse(json['minter_min_tons_for_storage']),
-      discoverGasConsumption:
-          BigintUtils.parse(json['discover_gas_consumption']),
+      minterMinTonsForStorage: BigintUtils.parse(
+        json['minter_min_tons_for_storage'],
+      ),
+      discoverGasConsumption: BigintUtils.parse(
+        json['discover_gas_consumption'],
+      ),
     );
   }
 

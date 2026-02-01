@@ -27,14 +27,17 @@ class CommonMessageInfoRelaxedType {
 
   static const List<CommonMessageInfoRelaxedType> values = [
     internal,
-    externalOut
+    externalOut,
   ];
   factory CommonMessageInfoRelaxedType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find CommonMessageInfoRelaxedType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find CommonMessageInfoRelaxedType from provided name',
+                details: {'name': name},
+              ),
     );
   }
   @override
@@ -53,7 +56,8 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
     }
     if (!slice.loadBit()) {
       throw const TonDartPluginException(
-          'Invalid CommonMessageInfoRelaxed Slice');
+        'Invalid CommonMessageInfoRelaxed Slice',
+      );
     }
     return CommonMessageInfoRelaxedExternalOut.deserialize(slice);
   }
@@ -69,8 +73,10 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
 
   T cast<T extends CommonMessageInfoRelaxed>() {
     if (this is! T) {
-      throw TonDartPluginException('Incorrect message relaxed casting.',
-          details: {'expected': '$runtimeType', 'got': '$T'});
+      throw TonDartPluginException(
+        'Incorrect message relaxed casting.',
+        details: {'expected': '$runtimeType', 'got': '$T'},
+      );
     }
     return this as T;
   }
@@ -89,18 +95,18 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
   final BigInt createdLt;
   final int createdAt;
 
-  const CommonMessageInfoRelaxedInternal(
-      {required this.ihrDisabled,
-      required this.bounce,
-      required this.bounced,
-      this.src,
-      required this.dest,
-      required this.value,
-      required this.ihrFee,
-      required this.forwardFee,
-      required this.createdLt,
-      required this.createdAt})
-      : super._();
+  const CommonMessageInfoRelaxedInternal({
+    required this.ihrDisabled,
+    required this.bounce,
+    required this.bounced,
+    this.src,
+    required this.dest,
+    required this.value,
+    required this.ihrFee,
+    required this.forwardFee,
+    required this.createdLt,
+    required this.createdAt,
+  }) : super._();
   factory CommonMessageInfoRelaxedInternal.deserialize(Slice slice) {
     final ihrDisabled = slice.loadBit();
     final bounce = slice.loadBit();
@@ -113,30 +119,33 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
     final createdLt = slice.loadUintBig(64);
     final createdAt = slice.loadUint(32);
     return CommonMessageInfoRelaxedInternal(
-        ihrDisabled: ihrDisabled,
-        bounce: bounce,
-        bounced: bounced,
-        src: src,
-        dest: dest,
-        value: value,
-        ihrFee: ihrFee,
-        forwardFee: forwardFee,
-        createdLt: createdLt,
-        createdAt: createdAt);
+      ihrDisabled: ihrDisabled,
+      bounce: bounce,
+      bounced: bounced,
+      src: src,
+      dest: dest,
+      value: value,
+      ihrFee: ihrFee,
+      forwardFee: forwardFee,
+      createdLt: createdLt,
+      createdAt: createdAt,
+    );
   }
   factory CommonMessageInfoRelaxedInternal.fromJson(Map<String, dynamic> json) {
     return CommonMessageInfoRelaxedInternal(
-        ihrDisabled: json['ihrDisabled'],
-        bounce: json['bounce'],
-        bounced: json['bounced'],
-        src: (json['src'] as Object?)
-            ?.convertTo<TonAddress, String>((result) => TonAddress(result)),
-        dest: TonAddress(json['dest']),
-        value: CurrencyCollection.fromJson(json['value']),
-        ihrFee: BigintUtils.parse(json['ihrFee']),
-        forwardFee: BigintUtils.parse(json['forwardFee']),
-        createdLt: BigintUtils.parse(json['createdLt']),
-        createdAt: json['createdAt']);
+      ihrDisabled: json['ihrDisabled'],
+      bounce: json['bounce'],
+      bounced: json['bounced'],
+      src: (json['src'] as Object?)?.convertTo<TonAddress, String>(
+        (result) => TonAddress(result),
+      ),
+      dest: TonAddress(json['dest']),
+      value: CurrencyCollection.fromJson(json['value']),
+      ihrFee: BigintUtils.parse(json['ihrFee']),
+      forwardFee: BigintUtils.parse(json['forwardFee']),
+      createdLt: BigintUtils.parse(json['createdLt']),
+      createdAt: json['createdAt'],
+    );
   }
   @override
   void store(Builder builder) {
@@ -170,7 +179,7 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
       'forwardFee': forwardFee.toString(),
       'createdLt': createdLt.toString(),
       'createdAt': createdAt,
-      'type': type.name
+      'type': type.name,
     };
   }
 }
@@ -182,26 +191,37 @@ class CommonMessageInfoRelaxedExternalOut extends CommonMessageInfoRelaxed {
   final BigInt createdLt;
   final int createdAt;
 
-  const CommonMessageInfoRelaxedExternalOut(
-      {this.src, this.dest, required this.createdLt, required this.createdAt})
-      : super._();
+  const CommonMessageInfoRelaxedExternalOut({
+    this.src,
+    this.dest,
+    required this.createdLt,
+    required this.createdAt,
+  }) : super._();
   factory CommonMessageInfoRelaxedExternalOut.deserialize(Slice slice) {
     final src = slice.loadMaybeAddress();
     final dest = slice.loadMaybeExternalAddress();
     final createdLt = slice.loadUintBig(64);
     final createdAt = slice.loadUint(32);
     return CommonMessageInfoRelaxedExternalOut(
-        src: src, createdLt: createdLt, createdAt: createdAt, dest: dest);
+      src: src,
+      createdLt: createdLt,
+      createdAt: createdAt,
+      dest: dest,
+    );
   }
   factory CommonMessageInfoRelaxedExternalOut.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return CommonMessageInfoRelaxedExternalOut(
-        src: (json['src'] as Object?)
-            ?.convertTo<TonAddress, String>((result) => TonAddress(result)),
-        createdLt: BigintUtils.parse(json['createdLt']),
-        createdAt: json['createdAt'],
-        dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
-            (p0) => ExternalAddress.fromJson(p0.cast())));
+      src: (json['src'] as Object?)?.convertTo<TonAddress, String>(
+        (result) => TonAddress(result),
+      ),
+      createdLt: BigintUtils.parse(json['createdLt']),
+      createdAt: json['createdAt'],
+      dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
+        (p0) => ExternalAddress.fromJson(p0.cast()),
+      ),
+    );
   }
 
   @override
@@ -225,7 +245,7 @@ class CommonMessageInfoRelaxedExternalOut extends CommonMessageInfoRelaxed {
       'dest': dest?.toJson(),
       'createdLt': createdLt.toString(),
       'createdAt': createdAt,
-      'type': type.name
+      'type': type.name,
     };
   }
 }

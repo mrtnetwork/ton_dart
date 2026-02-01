@@ -25,23 +25,36 @@ void main() async {
 
 void _test() {
   test('should parse and serialize dict from example', () {
-    final root = storeBits(beginCell(), '11001000')
-        .storeRef(storeBits(beginCell(), '011000')
+    final root =
+        storeBits(beginCell(), '11001000')
             .storeRef(
-                storeBits(beginCell(), '1010011010000000010101001').asCell())
+              storeBits(beginCell(), '011000')
+                  .storeRef(
+                    storeBits(
+                      beginCell(),
+                      '1010011010000000010101001',
+                    ).asCell(),
+                  )
+                  .storeRef(
+                    storeBits(
+                      beginCell(),
+                      '1010000010000000100100001',
+                    ).asCell(),
+                  )
+                  .asCell(),
+            )
             .storeRef(
-                storeBits(beginCell(), '1010000010000000100100001').asCell())
-            .asCell())
-        .storeRef(
-            storeBits(beginCell(), '1011111011111101111100100001').asCell())
-        .endCell();
+              storeBits(beginCell(), '1011111011111101111100100001').asCell(),
+            )
+            .endCell();
     final parse = root.beginParse();
 
     // Unpack
     final dict = Dictionary.loadDirect(
-        key: DictionaryKey.uintCodec(16),
-        value: DictionaryValue.uintCodec(16),
-        slice: parse);
+      key: DictionaryKey.uintCodec(16),
+      value: DictionaryValue.uintCodec(16),
+      slice: parse,
+    );
     // return;
     expect(dict[13], 169);
     expect(dict[17], 289);
@@ -56,11 +69,14 @@ void _test() {
     // Pack
     final packed = beginCell().storeDictDirect<int, int>(dict).endCell();
 
-    final packed2 = beginCell()
-        .storeDictDirect(fromEmpty,
-            key: DictionaryKey.uintCodec(16),
-            value: DictionaryValue.uintCodec(16))
-        .endCell();
+    final packed2 =
+        beginCell()
+            .storeDictDirect(
+              fromEmpty,
+              key: DictionaryKey.uintCodec(16),
+              value: DictionaryValue.uintCodec(16),
+            )
+            .endCell();
 
     // Compare
     expect(packed, root);
@@ -69,7 +85,9 @@ void _test() {
   test('should parse config', () {
     final cell = Cell.fromBoc(base64Decode(configTestVector))[0];
     final configs = cell.beginParse().loadDictDirect(
-        DictionaryKey.intCodec(32), DictionaryValue.cellCodec());
+      DictionaryKey.intCodec(32),
+      DictionaryValue.cellCodec(),
+    );
     final List<int> ids = [
       0,
       1,
@@ -100,7 +118,7 @@ void _test() {
       71,
       72,
       -999,
-      -71
+      -71,
     ];
     final keys = configs.keys;
     for (final i in ids) {
@@ -112,14 +130,18 @@ void _test() {
   test('should parse bridge config', () {
     final cell = Cell.fromBoc(base64Decode(configTestVector))[0];
     final configs = cell.beginParse().loadDictDirect(
-        DictionaryKey.intCodec(32), DictionaryValue.cellCodec());
+      DictionaryKey.intCodec(32),
+      DictionaryValue.cellCodec(),
+    );
     for (final i in [71, 72]) {
       final r = configs[i]!;
       final config = r.beginParse();
       config.loadBuffer(32);
       config.loadBuffer(32);
       config.loadDict(
-          DictionaryKey.bigUintCodec(256), DictionaryValue.bytesCodec(32));
+        DictionaryKey.bigUintCodec(256),
+        DictionaryValue.bytesCodec(32),
+      );
       config.loadBuffer(32);
     }
   });
@@ -127,8 +149,9 @@ void _test() {
   test('should correctly serialize BitString keys and values', () {
     const int keyLen = 9; // Not 8 bit aligned
     final DictionaryKey<BitString> keys = DictionaryKey.bitStringCodec(keyLen);
-    final DictionaryValue<BitString> values =
-        DictionaryValue.bitStringCodec(72);
+    final DictionaryValue<BitString> values = DictionaryValue.bitStringCodec(
+      72,
+    );
     final testKey = BitString('Test'.codeUnits, 0, keyLen);
     final testVal = BitString('BitString'.codeUnits, 0, 72);
     final testDict = Dictionary.empty(key: keys, value: values);
@@ -138,13 +161,18 @@ void _test() {
 
     final serialized = beginCell().storeDictDirect(testDict).endCell();
     final dictDs = Dictionary.loadDirect(
-        key: keys, value: values, slice: serialized.beginParse());
+      key: keys,
+      value: values,
+      slice: serialized.beginParse(),
+    );
     expect(dictDs[testKey], testVal);
   });
 
   test('should generate merkle proofs', () {
     final d = Dictionary.empty(
-        key: DictionaryKey.uintCodec(8), value: DictionaryValue.uintCodec(32));
+      key: DictionaryKey.uintCodec(8),
+      value: DictionaryValue.uintCodec(32),
+    );
     d[1] = 11;
     d[2] = 22;
     d[3] = 33;
@@ -155,15 +183,19 @@ void _test() {
       final proof = d.generateMerkleProof(k);
       Cell.fromBoc(proof.toBoc());
       expect(
-          CellUtils.exoticMerkleProof(proof.bits, proof.refs).proofHash,
-          BytesUtils.fromHexString(
-              'ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3'));
+        CellUtils.exoticMerkleProof(proof.bits, proof.refs).proofHash,
+        BytesUtils.fromHexString(
+          'ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3',
+        ),
+      );
     }
   });
 
   test('should generate merkle updates', () {
     final d = Dictionary.empty(
-        key: DictionaryKey.uintCodec(8), value: DictionaryValue.uintCodec(32));
+      key: DictionaryKey.uintCodec(8),
+      value: DictionaryValue.uintCodec(32),
+    );
     d[1] = 11;
     d[2] = 22;
     d[3] = 33;
@@ -174,19 +206,26 @@ void _test() {
       final update = d.generateMerkleUpdate(k, d[k]! * 2);
       Cell.fromBoc(update.toBoc());
       expect(
-          CellUtils.exoticMerkleUpdate(update.bits, update.refs).proof1,
-          BytesUtils.fromHexString(
-              'ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3'));
+        CellUtils.exoticMerkleUpdate(update.bits, update.refs).proof1,
+        BytesUtils.fromHexString(
+          'ee41b86bd71f8224ebd01848b4daf4cd46d3bfb3e119d8b865ce7c2802511de3',
+        ),
+      );
       d[k] = (d[k]! / 2).floor();
     }
   });
   test('should parse dictionary with empty values', () {
-    final cell = Cell.fromBoc(BytesUtils.fromHexString(
-        'b5ee9c72010101010024000043a0000000000000000000000000000000000000000000000000000000000000000f70'))[0];
+    final cell =
+        Cell.fromBoc(
+          BytesUtils.fromHexString(
+            'b5ee9c72010101010024000043a0000000000000000000000000000000000000000000000000000000000000000f70',
+          ),
+        )[0];
     final testDict = Dictionary.loadDirect(
-        key: DictionaryKey.bigUintCodec(256),
-        value: DictionaryValue.bitStringCodec(0),
-        slice: cell.beginParse());
+      key: DictionaryKey.bigUintCodec(256),
+      value: DictionaryValue.bitStringCodec(0),
+      slice: cell.beginParse(),
+    );
     expect(testDict.keys.first, BigInt.from(123));
     expect(testDict[BigInt.from(123)]?.length, 0);
   });

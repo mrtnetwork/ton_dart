@@ -43,8 +43,9 @@ class PoolInfoResponse with JsonSerialization {
       address: json['address'],
       name: json['name'],
       totalAmount: BigintUtils.parse(json['total_amount']),
-      implementation:
-          PoolImplementationTypeResponse.fromName(json['implementation']),
+      implementation: PoolImplementationTypeResponse.fromName(
+        json['implementation'],
+      ),
       apy: json['apy'],
       minStake: BigintUtils.parse(json['min_stake']),
       cycleStart: BigintUtils.parse(json['cycle_start']),
@@ -77,7 +78,7 @@ class PoolInfoResponse with JsonSerialization {
       'nominators_stake': nominatorsStake.toString(),
       'validator_stake': validatorStake.toString(),
       'cycle_length': cycleLength?.toString(),
-      'liquid_jetton_master': liquidJettonMaster
+      'liquid_jetton_master': liquidJettonMaster,
     };
   }
 }

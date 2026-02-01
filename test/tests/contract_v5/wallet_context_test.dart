@@ -12,8 +12,10 @@ void main() {
 
 void _walletV5ClientContext() {
   test('client context', () {
-    final walletContext =
-        V5R1ClientContext(chain: TonChainId.mainnet, subwalletNumber: 0);
+    final walletContext = V5R1ClientContext(
+      chain: TonChainId.mainnet,
+      subwalletNumber: 0,
+    );
 
     final actual = beginCell().store(walletContext).endCell();
 
@@ -26,9 +28,10 @@ void _walletV5ClientContext() {
         .beginParse()
         .loadInt(32);
 
-    final expected = beginCell()
-        .storeInt(BigInt.from(context) ^ BigInt.from(-239), 32)
-        .endCell();
+    final expected =
+        beginCell()
+            .storeInt(BigInt.from(context) ^ BigInt.from(-239), 32)
+            .endCell();
     expect(actual, expected);
     expect(actual.toBase64(), 'te6cckEBAQEABgAACH///xHZat+l');
   });
@@ -36,8 +39,10 @@ void _walletV5ClientContext() {
 
 void _walletV5ClientContextDeserialize() {
   test('deserialize client wallet context', () {
-    final walletContext =
-        V5R1ClientContext(chain: TonChainId.mainnet, subwalletNumber: 0);
+    final walletContext = V5R1ClientContext(
+      chain: TonChainId.mainnet,
+      subwalletNumber: 0,
+    );
     final context = beginCell()
         .storeUint(1, 1)
         .storeInt(walletContext.chain.workchain, 8)
@@ -46,13 +51,18 @@ void _walletV5ClientContextDeserialize() {
         .endCell()
         .beginParse()
         .loadInt(32);
-    final actual = beginCell()
-        .storeInt(
-            BigInt.from(context) ^ BigInt.from(walletContext.chain.id), 32)
-        .endCell()
-        .beginParse();
+    final actual =
+        beginCell()
+            .storeInt(
+              BigInt.from(context) ^ BigInt.from(walletContext.chain.id),
+              32,
+            )
+            .endCell()
+            .beginParse();
     final load = VersionedWalletUtils.loadV5Context(
-        contextBytes: actual.loadBuffer(4), chain: walletContext.chain);
+      contextBytes: actual.loadBuffer(4),
+      chain: walletContext.chain,
+    );
     expect(load, walletContext);
   });
 }
@@ -70,10 +80,13 @@ void _serializeWalletCustomWalletContext() {
         .beginParse()
         .loadInt(32);
     final actual = beginCell().store(walletContext).endCell();
-    final expected = beginCell()
-        .storeInt(
-            BigInt.from(context) ^ BigInt.from(walletContext.chain.id), 32)
-        .endCell();
+    final expected =
+        beginCell()
+            .storeInt(
+              BigInt.from(context) ^ BigInt.from(walletContext.chain.id),
+              32,
+            )
+            .endCell();
     expect(actual, expected);
     expect(expected.toBase64(), 'te6cckEBAQEABgAACPG9f7rC5HWN');
   });
@@ -81,8 +94,10 @@ void _serializeWalletCustomWalletContext() {
 
 void _deserializeWalletCustomWalletContext() {
   test('deserialize custom wallet context', () {
-    const walletContext =
-        V5R1CustomContext(context: 239239239, chain: TonChainId.testnet);
+    const walletContext = V5R1CustomContext(
+      context: 239239239,
+      chain: TonChainId.testnet,
+    );
     final context = beginCell()
         .storeUint(0, 1)
         .storeUint(walletContext.context, 31)
@@ -90,13 +105,18 @@ void _deserializeWalletCustomWalletContext() {
         .beginParse()
         .loadInt(32);
 
-    final actual = beginCell()
-        .storeInt(
-            BigInt.from(context) ^ BigInt.from(walletContext.chain.id), 32)
-        .endCell()
-        .beginParse();
+    final actual =
+        beginCell()
+            .storeInt(
+              BigInt.from(context) ^ BigInt.from(walletContext.chain.id),
+              32,
+            )
+            .endCell()
+            .beginParse();
     final load = VersionedWalletUtils.loadV5Context(
-        contextBytes: actual.loadBuffer(4), chain: walletContext.chain);
+      contextBytes: actual.loadBuffer(4),
+      chain: walletContext.chain,
+    );
     expect(walletContext, load);
   });
 }

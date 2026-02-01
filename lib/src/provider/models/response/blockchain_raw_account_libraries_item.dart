@@ -4,13 +4,18 @@ class BlockchainRawAccountLibrariesItemResponse with JsonSerialization {
   final bool isPublic;
   final String root;
 
-  const BlockchainRawAccountLibrariesItemResponse(
-      {required this.isPublic, required this.root});
+  const BlockchainRawAccountLibrariesItemResponse({
+    required this.isPublic,
+    required this.root,
+  });
 
   factory BlockchainRawAccountLibrariesItemResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return BlockchainRawAccountLibrariesItemResponse(
-        isPublic: json['public'], root: json['root']);
+      isPublic: json['public'],
+      root: json['root'],
+    );
   }
 
   @override

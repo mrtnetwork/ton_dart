@@ -41,25 +41,30 @@ class NftItemResponse with JsonSerialization {
     return NftItemResponse(
       address: json['address'],
       index: BigintUtils.parse(json['index']),
-      owner: json['owner'] != null
-          ? AccountAddressResponse.fromJson(json['owner'])
-          : null,
-      collection: json['collection'] != null
-          ? NftItemCollectionResponse.fromJson(json['collection'])
-          : null,
+      owner:
+          json['owner'] != null
+              ? AccountAddressResponse.fromJson(json['owner'])
+              : null,
+      collection:
+          json['collection'] != null
+              ? NftItemCollectionResponse.fromJson(json['collection'])
+              : null,
       verified: json['verified'],
       metadata: (json['metadata'] as Map).cast(),
       sale: json['sale'] != null ? SaleResponse.fromJson(json['sale']) : null,
-      previews: (json['previews'] as List)
-          .map((preview) => ImagePreviewResponse.fromJson(preview))
-          .toList(),
+      previews:
+          (json['previews'] as List)
+              .map((preview) => ImagePreviewResponse.fromJson(preview))
+              .toList(),
       dns: json['dns'],
-      approvedBy: (json['approved_by'] as List)
-          .map((item) => NftApprovedByItemResponse.fromName(item))
-          .toList(),
+      approvedBy:
+          (json['approved_by'] as List)
+              .map((item) => NftApprovedByItemResponse.fromName(item))
+              .toList(),
       includeCnft: json['include_cnft'],
       trust: TrustTypeResponse.values.firstWhere(
-          (e) => e.toString() == 'TrustTypeResponse.${json['trust']}'),
+        (e) => e.toString() == 'TrustTypeResponse.${json['trust']}',
+      ),
     );
   }
 
@@ -77,7 +82,7 @@ class NftItemResponse with JsonSerialization {
       'collection': collection?.toJson(),
       'sale': sale?.toJson(),
       'dns': dns,
-      'include_cnft': includeCnft
+      'include_cnft': includeCnft,
     };
   }
 }

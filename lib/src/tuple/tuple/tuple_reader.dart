@@ -53,8 +53,10 @@ class TupleReader {
   BigInt readBigNumber() {
     final TupleItem popped = pop();
     if (popped is! TupleItemInt) {
-      throw TupleException('Invalid integer tuple item.',
-          details: {'value': popped});
+      throw TupleException(
+        'Invalid integer tuple item.',
+        details: {'value': popped},
+      );
     }
     return popped.value;
   }
@@ -62,8 +64,10 @@ class TupleReader {
   /// Reads a BigInt from the next tuple item and returns it as a hexadecimal string.
   String readBigNumberAsHex() {
     final BigInt value = readBigNumber();
-    final List<int> toBytes =
-        BigintUtils.toBytes(value, length: BigintUtils.bitlengthInBytes(value));
+    final List<int> toBytes = BigintUtils.toBytes(
+      value,
+      length: BigintUtils.bitlengthInBytes(value),
+    );
     return BytesUtils.toHexString(toBytes);
   }
 
@@ -75,8 +79,10 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemInt) {
-      throw TupleException('Invalid integer tuple item.',
-          details: {'value': popped});
+      throw TupleException(
+        'Invalid integer tuple item.',
+        details: {'value': popped},
+      );
     }
     return popped.value;
   }
@@ -177,7 +183,8 @@ class TupleReader {
           (tail._items[0] is! TupleItemTuple &&
               tail._items[0] is! TupleItemNull)) {
         throw TupleException(
-            'Lisp list consists only from (any, tuple) elements and ends with null');
+          'Lisp list consists only from (any, tuple) elements and ends with null',
+        );
       }
       tail = tail.readTupleOpt();
       result.add(head);

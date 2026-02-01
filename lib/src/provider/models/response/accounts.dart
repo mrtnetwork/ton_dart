@@ -8,12 +8,17 @@ class AccountsResponse with JsonSerialization {
 
   factory AccountsResponse.fromJson(Map<String, dynamic> json) {
     return AccountsResponse(
-        accounts: List<AccountResponse>.from((json['accounts'] as List)
-            .map((account) => AccountResponse.fromJson(account))));
+      accounts: List<AccountResponse>.from(
+        (json['accounts'] as List).map(
+          (account) => AccountResponse.fromJson(account),
+        ),
+      ),
+    );
   }
 
   @override
   @override
-  Map<String, dynamic> toJson() =>
-      {'accounts': accounts.map((account) => account.toJson()).toList()};
+  Map<String, dynamic> toJson() => {
+    'accounts': accounts.map((account) => account.toJson()).toList(),
+  };
 }

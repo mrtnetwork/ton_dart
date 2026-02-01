@@ -22,38 +22,46 @@ class JettonWallet<E extends WalletContractTransferParams>
   @override
   final JettonWalletState? state;
 
-  const JettonWallet(
-      {required this.owner, required this.state, required this.address});
+  const JettonWallet({
+    required this.owner,
+    required this.state,
+    required this.address,
+  });
   static Future<JettonWallet<E>>
-      fromAddress<E extends WalletContractTransferParams>(
-          {required TonAddress address,
-          required WalletContract<ContractState, E> owner,
-          required TonProvider rpc}) async {
-    final stateData =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
+  fromAddress<E extends WalletContractTransferParams>({
+    required TonAddress address,
+    required WalletContract<ContractState, E> owner,
+    required TonProvider rpc,
+  }) async {
+    final stateData = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
     final state = JettonWalletState.deserialize(stateData.data!.beginParse());
     return JettonWallet(owner: owner, state: state, address: address);
   }
 
-  Future<String> _sendTransaction(
-      {required E params,
-      required TonProvider rpc,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      Cell? body,
-      StateInit? state,
-      OnEstimateFee? onEstimateFee,
-      TonTransactionAction action = TonTransactionAction.broadcast}) async {
+  Future<String> _sendTransaction({
+    required E params,
+    required TonProvider rpc,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    Cell? body,
+    StateInit? state,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     final message = TonHelper.internal(
-        destination: address,
-        amount: amount,
-        initState: state,
-        bounced: bounced,
-        body: body,
-        bounce: bounce ?? address.isBounceable);
+      destination: address,
+      amount: amount,
+      initState: state,
+      bounced: bounced,
+      body: body,
+      bounce: bounce ?? address.isBounceable,
+    );
     return await owner.sendTransfer(
       messages: [message],
       params: params,
@@ -75,17 +83,18 @@ class JettonWallet<E extends WalletContractTransferParams>
   /// - `amount`: The amount of cryptocurrency to be sent in the transaction.
   /// - `operation`: The operation to be executed as part of the transaction, encapsulated in a [JettonWalletOperation] object.
   /// - `sendMode`: Specifies how the transaction fees are handled. The default is [SendModeConst.payGasSeparately].
-  Future<String> sendOperation(
-      {required E signerParams,
-      required TonProvider rpc,
-      required JettonWalletOperation operation,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      OnEstimateFee? onEstimateFee,
-      TonTransactionAction action = TonTransactionAction.broadcast}) async {
+  Future<String> sendOperation({
+    required E signerParams,
+    required TonProvider rpc,
+    required JettonWalletOperation operation,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     return _sendTransaction(
       params: signerParams,
       rpc: rpc,
@@ -113,22 +122,29 @@ class JettonWallet<E extends WalletContractTransferParams>
   }
 
   /// get wallet address
-  Future<TonAddress> getWalletAddress(
-      {required TonProvider rpc, required TonAddress owner}) async {
-    final data =
-        await getStateStack(rpc: rpc, method: 'get_wallet_address', stack: [
-      if (rpc.isTonCenter)
-        ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
-      else
-        owner.toString()
-    ]);
+  Future<TonAddress> getWalletAddress({
+    required TonProvider rpc,
+    required TonAddress owner,
+  }) async {
+    final data = await getStateStack(
+      rpc: rpc,
+      method: 'get_wallet_address',
+      stack: [
+        if (rpc.isTonCenter)
+          ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
+        else
+          owner.toString(),
+      ],
+    );
     return data.reader().readAddress();
   }
 
   /// read current contract state
   Future<JettonWalletState> readState(TonProvider rpc) async {
-    final stateData =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
+    final stateData = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
     return JettonWalletState.deserialize(stateData.data!.beginParse());
   }
 }

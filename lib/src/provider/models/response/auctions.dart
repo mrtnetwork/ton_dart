@@ -11,9 +11,11 @@ class AuctionsResponse with JsonSerialization {
 
   factory AuctionsResponse.fromJson(Map<String, dynamic> json) {
     return AuctionsResponse(
-        data: List<AuctionResponse>.from(
-            json['data'].map((x) => AuctionResponse.fromJson(x))),
-        total: BigintUtils.parse(json['total']));
+      data: List<AuctionResponse>.from(
+        json['data'].map((x) => AuctionResponse.fromJson(x)),
+      ),
+      total: BigintUtils.parse(json['total']),
+    );
   }
 
   @override

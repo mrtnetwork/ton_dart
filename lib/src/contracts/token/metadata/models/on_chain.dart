@@ -6,8 +6,9 @@ import 'package:ton_dart/src/contracts/token/metadata/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 class _JettonOnChainMetadataUtils {
-  static Tuple<Map<String, dynamic>, OnChainMetadataFormat> validateContent(
-      Map<String, dynamic> content) {
+  static (Map<String, dynamic>, OnChainMetadataFormat) validateContent(
+    Map<String, dynamic> content,
+  ) {
     Map<String, dynamic> metadata;
     OnChainMetadataFormat format = OnChainMetadataFormat.snake;
     try {
@@ -15,17 +16,20 @@ class _JettonOnChainMetadataUtils {
         metadata = Map<String, String>.from(content);
       } catch (e) {
         metadata = content.map<String, Map<int, String>>(
-            (key, value) => MapEntry(key, Map<int, String>.from(value)));
+          (key, value) => MapEntry(key, Map<int, String>.from(value)),
+        );
         format = OnChainMetadataFormat.chunked;
       }
     } catch (e) {
       throw TokenMetadataException(
-          'Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>',
-          details: {'content': content});
+        'Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>',
+        details: {'content': content},
+      );
     }
-    final fixKeys =
-        metadata.map((key, value) => MapEntry(StringUtils.strip0x(key), value));
-    return Tuple(fixKeys, format);
+    final fixKeys = metadata.map(
+      (key, value) => MapEntry(StringUtils.strip0x(key), value),
+    );
+    return (fixKeys, format);
   }
 
   static String? key(String key, Map<String, dynamic> json) {
@@ -81,71 +85,80 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
   final Map<String, dynamic> content;
 
   final OnChainMetadataFormat dataFormat;
-  JettonOnChainMetadata._(
-      {this.uri,
-      this.name,
-      this.description,
-      this.image,
-      this.imageData,
-      this.symbol,
-      this.decimals,
-      this.amountStyle,
-      this.renderType,
-      required this.dataFormat,
-      Map<String, dynamic> content = const {}})
-      : content = Map.unmodifiable(content);
+  JettonOnChainMetadata._({
+    this.uri,
+    this.name,
+    this.description,
+    this.image,
+    this.imageData,
+    this.symbol,
+    this.decimals,
+    this.amountStyle,
+    this.renderType,
+    required this.dataFormat,
+    Map<String, dynamic> content = const {},
+  }) : content = Map.unmodifiable(content);
 
-  factory JettonOnChainMetadata.snakeFormat(
-      {String? uri,
-      String? name,
-      String? description,
-      String? image,
-      String? imageData,
-      String? symbol,
-      int? decimals,
-      String? amountStyle,
-      String? renderType,
-      Map<String, String> customContent = const {}}) {
+  factory JettonOnChainMetadata.snakeFormat({
+    String? uri,
+    String? name,
+    String? description,
+    String? image,
+    String? imageData,
+    String? symbol,
+    int? decimals,
+    String? amountStyle,
+    String? renderType,
+    Map<String, String> customContent = const {},
+  }) {
     return JettonOnChainMetadata._(
-        uri: uri,
-        amountStyle: amountStyle,
-        content: customContent,
-        decimals: decimals,
-        description: description,
-        image: image,
-        imageData: imageData,
-        name: name,
-        renderType: renderType,
-        symbol: symbol,
-        dataFormat: OnChainMetadataFormat.snake);
+      uri: uri,
+      amountStyle: amountStyle,
+      content: customContent,
+      decimals: decimals,
+      description: description,
+      image: image,
+      imageData: imageData,
+      name: name,
+      renderType: renderType,
+      symbol: symbol,
+      dataFormat: OnChainMetadataFormat.snake,
+    );
   }
   factory JettonOnChainMetadata.chunkFormat(
-      Map<String, Map<int, String>> content) {
+    Map<String, Map<int, String>> content,
+  ) {
     return JettonOnChainMetadata._(
-        content: content, dataFormat: OnChainMetadataFormat.chunked);
+      content: content,
+      dataFormat: OnChainMetadataFormat.chunked,
+    );
   }
 
   factory JettonOnChainMetadata.fromJson(Map<String, dynamic> json) {
     final content = _JettonOnChainMetadataUtils.validateContent(json);
-    final data = content.item1;
-    final format = content.item2;
+    final data = content.$1;
+    final format = content.$2;
     if (format == OnChainMetadataFormat.chunked) {
       return JettonOnChainMetadata._(
-          content: data, dataFormat: OnChainMetadataFormat.chunked);
+        content: data,
+        dataFormat: OnChainMetadataFormat.chunked,
+      );
     }
     return JettonOnChainMetadata._(
-        uri: _JettonOnChainMetadataUtils.key('uri', data),
-        name: _JettonOnChainMetadataUtils.key('name', data),
-        description: _JettonOnChainMetadataUtils.key('description', data),
-        image: _JettonOnChainMetadataUtils.key('image', data),
-        imageData: _JettonOnChainMetadataUtils.key('image_data', data),
-        symbol: _JettonOnChainMetadataUtils.key('symbol', data),
-        decimals: int.tryParse(
-            _JettonOnChainMetadataUtils.key('decimals', data) ?? ''),
-        amountStyle: _JettonOnChainMetadataUtils.key('amount_style', data),
-        renderType: _JettonOnChainMetadataUtils.key('render_type', data),
-        content: data,
-        dataFormat: OnChainMetadataFormat.snake);
+      uri: _JettonOnChainMetadataUtils.key('uri', data),
+      name: _JettonOnChainMetadataUtils.key('name', data),
+      description: _JettonOnChainMetadataUtils.key('description', data),
+      image: _JettonOnChainMetadataUtils.key('image', data),
+      imageData: _JettonOnChainMetadataUtils.key('image_data', data),
+      symbol: _JettonOnChainMetadataUtils.key('symbol', data),
+      decimals: int.tryParse(
+        _JettonOnChainMetadataUtils.key('decimals', data) ?? '',
+      ),
+      amountStyle: _JettonOnChainMetadataUtils.key('amount_style', data),
+      renderType: _JettonOnChainMetadataUtils.key('render_type', data),
+      content: data,
+      dataFormat: OnChainMetadataFormat.snake,
+    );
   }
 
   @override
@@ -160,7 +173,7 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
       'decimals': decimals,
       'amount_style': amountStyle,
       'render_type': renderType,
-      'content': content
+      'content': content,
     };
   }
 
@@ -171,19 +184,22 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
   Cell toContent() {
     if (dataFormat == OnChainMetadataFormat.chunked) {
       return TokneMetadataUtils.createOnChainContentChunckedFormat(
-          Map<String, Map<int, String>>.from(content));
+        Map<String, Map<int, String>>.from(content),
+      );
     }
     final contentData = content.entries
         .where((element) => element.value != null)
         .map((e) => MapEntry(e.key, e.value.toString()));
     final contentJson = Map<String, String>.fromEntries(contentData);
-    final inJson = toJson()
-      ..removeWhere((key, value) => value == null || key == 'content');
+    final inJson =
+        toJson()
+          ..removeWhere((key, value) => value == null || key == 'content');
     for (final i in contentJson.entries) {
       inJson.putIfAbsent(i.key, () => i.value);
     }
-    final Map<String, String> correctContent =
-        inJson.map((key, value) => MapEntry(key, value.toString()));
+    final Map<String, String> correctContent = inJson.map(
+      (key, value) => MapEntry(key, value.toString()),
+    );
     return TokneMetadataUtils.createOnChainContentStakeFormat(correctContent);
   }
 }

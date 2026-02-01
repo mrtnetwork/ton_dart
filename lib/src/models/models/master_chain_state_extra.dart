@@ -9,11 +9,12 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 class _MasterchainStateExtraUtils {
   static Dictionary<int, Cell> dict({Map<int, String>? config}) {
     return Dictionary.fromEnteries(
-        key: DictionaryKey.intCodec(32),
-        value: DictionaryValue.cellCodec(),
-        map: config
-                ?.map((key, value) => MapEntry(key, Cell.fromBase64(value))) ??
-            {});
+      key: DictionaryKey.intCodec(32),
+      value: DictionaryValue.cellCodec(),
+      map:
+          config?.map((key, value) => MapEntry(key, Cell.fromBase64(value))) ??
+          {},
+    );
   }
 }
 
@@ -40,16 +41,17 @@ class MasterchainStateExtra extends TonSerialization {
   final BigInt configAddress;
   final Map<int, Cell> config;
   final CurrencyCollection globalBalance;
-  MasterchainStateExtra(
-      {required this.configAddress,
-      required Map<int, Cell> config,
-      required this.globalBalance})
-      : config = config.mutabl;
+  MasterchainStateExtra({
+    required this.configAddress,
+    required Map<int, Cell> config,
+    required this.globalBalance,
+  }) : config = config.mutabl;
   factory MasterchainStateExtra.deserialize(Slice slice) {
     // Check magic
     if (slice.loadUint(16) != _MasterChainStateExtraConst.magic) {
       throw const TonDartPluginException(
-          'Invalid MasterchainStateExtra slice data');
+        'Invalid MasterchainStateExtra slice data',
+      );
     }
 
     // Skip shard_hashes
@@ -63,16 +65,19 @@ class MasterchainStateExtra extends TonSerialization {
     config.loadFromClice(slice);
 
     return MasterchainStateExtra(
-        configAddress: configAddress,
-        config: config.asMap,
-        globalBalance: CurrencyCollection.deserialize(slice));
+      configAddress: configAddress,
+      config: config.asMap,
+      globalBalance: CurrencyCollection.deserialize(slice),
+    );
   }
   factory MasterchainStateExtra.fromJson(Map<String, dynamic> json) {
     return MasterchainStateExtra(
-        configAddress: BigintUtils.parse(json['config_address']),
-        config: (json['config_address'] as Map)
-            .map((key, value) => MapEntry(key, Cell.fromBase64(value))),
-        globalBalance: CurrencyCollection.fromJson(json['global_balance']));
+      configAddress: BigintUtils.parse(json['config_address']),
+      config: (json['config_address'] as Map).map(
+        (key, value) => MapEntry(key, Cell.fromBase64(value)),
+      ),
+      globalBalance: CurrencyCollection.fromJson(json['global_balance']),
+    );
   }
 
   @override
@@ -85,7 +90,7 @@ class MasterchainStateExtra extends TonSerialization {
     return {
       'config_address': configAddress.toString(),
       'config': config.map((key, value) => MapEntry(key, value.toBase64())),
-      'global_balance': globalBalance.toJson()
+      'global_balance': globalBalance.toJson(),
     };
   }
 }

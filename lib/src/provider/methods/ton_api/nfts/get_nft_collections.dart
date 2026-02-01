@@ -18,8 +18,10 @@ class TonApiGetNftCollections
   String get method => TonApiMethods.getnftcollections.url;
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'limit': limit, 'offset': offset};
+  Map<String, dynamic> get queryParameters => {
+    'limit': limit,
+    'offset': offset,
+  };
 
   @override
   NftCollectionsResponse onResonse(Map<String, dynamic> result) {

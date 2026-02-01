@@ -67,7 +67,9 @@ class DictionaryValue<V> {
 
   /// Returns a `DictionaryValue` for a dictionary with the specified key and value codecs.
   static DictionaryValue<Dictionary<K, V>> dictionaryCodec<K extends Object, V>(
-      DictionaryKey<K> key, DictionaryValue<V> value) {
+    DictionaryKey<K> key,
+    DictionaryValue<V> value,
+  ) {
     return DictionaryCodecs.createDictionaryValue(key, value);
   }
 }

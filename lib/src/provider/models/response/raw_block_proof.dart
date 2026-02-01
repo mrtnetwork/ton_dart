@@ -21,26 +21,27 @@ class RawBlockProofResponse with JsonSerialization {
       complete: json['complete'],
       from: BlockRawResponse.fromJson(json['from']),
       to: BlockRawResponse.fromJson(json['to']),
-      steps: (json['steps'] as List<dynamic>)
-          .map((item) => RawBlockProofStepsItemResponse.fromJson(item))
-          .toList(),
+      steps:
+          (json['steps'] as List<dynamic>)
+              .map((item) => RawBlockProofStepsItemResponse.fromJson(item))
+              .toList(),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'complete': complete,
-        'from': from.toJson(),
-        'to': to.toJson(),
-        'steps': steps.map((item) => item.toJson()).toList(),
-      };
+    'complete': complete,
+    'from': from.toJson(),
+    'to': to.toJson(),
+    'steps': steps.map((item) => item.toJson()).toList(),
+  };
 }
 
 class RawBlockProofStepsItemResponse with JsonSerialization {
   final RawBlockProofStepsItemLiteServerBlockLinkBackResponse
-      liteServerBlockLinkBack;
+  liteServerBlockLinkBack;
   final RawBlockProofStepsItemLiteServerBlockLinkForwardResponse
-      liteServerBlockLinkForward;
+  liteServerBlockLinkForward;
 
   const RawBlockProofStepsItemResponse({
     required this.liteServerBlockLinkBack,
@@ -49,19 +50,22 @@ class RawBlockProofStepsItemResponse with JsonSerialization {
 
   factory RawBlockProofStepsItemResponse.fromJson(Map<String, dynamic> json) {
     return RawBlockProofStepsItemResponse(
-        liteServerBlockLinkBack:
-            RawBlockProofStepsItemLiteServerBlockLinkBackResponse.fromJson(
-                json['lite_server_block_link_back']),
-        liteServerBlockLinkForward:
-            RawBlockProofStepsItemLiteServerBlockLinkForwardResponse.fromJson(
-                json['lite_server_block_link_forward']));
+      liteServerBlockLinkBack:
+          RawBlockProofStepsItemLiteServerBlockLinkBackResponse.fromJson(
+            json['lite_server_block_link_back'],
+          ),
+      liteServerBlockLinkForward:
+          RawBlockProofStepsItemLiteServerBlockLinkForwardResponse.fromJson(
+            json['lite_server_block_link_forward'],
+          ),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'lite_server_block_link_back': liteServerBlockLinkBack.toJson(),
-        'lite_server_block_link_forward': liteServerBlockLinkForward.toJson(),
-      };
+    'lite_server_block_link_back': liteServerBlockLinkBack.toJson(),
+    'lite_server_block_link_forward': liteServerBlockLinkForward.toJson(),
+  };
 }
 
 class RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse
@@ -75,7 +79,8 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemRe
   });
 
   factory RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse(
       nodeIDShort: json['node_id_short'],
       signature: json['signature'],
@@ -84,9 +89,9 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemRe
 
   @override
   Map<String, dynamic> toJson() => {
-        'node_id_short': nodeIDShort,
-        'signature': signature,
-      };
+    'node_id_short': nodeIDShort,
+    'signature': signature,
+  };
 }
 
 class RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse
@@ -94,8 +99,9 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse
   final BigInt validatorSetHash;
   final int catchainSeqno;
   final List<
-          RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse>
-      signatures;
+    RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse
+  >
+  signatures;
 
   const RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse({
     required this.validatorSetHash,
@@ -104,24 +110,29 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse
   });
 
   factory RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse(
       validatorSetHash: BigintUtils.parse(json['validator_set_hash']),
       catchainSeqno: json['catchain_seqno'],
-      signatures: (json['signatures'] as List<dynamic>)
-          .map((item) =>
-              RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse
-                  .fromJson(item))
-          .toList(),
+      signatures:
+          (json['signatures'] as List<dynamic>)
+              .map(
+                (item) =>
+                    RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesSignaturesItemResponse.fromJson(
+                      item,
+                    ),
+              )
+              .toList(),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'validator_set_hash': validatorSetHash.toString(),
-        'catchain_seqno': catchainSeqno,
-        'signatures': signatures.map((item) => item.toJson()).toList(),
-      };
+    'validator_set_hash': validatorSetHash.toString(),
+    'catchain_seqno': catchainSeqno,
+    'signatures': signatures.map((item) => item.toJson()).toList(),
+  };
 }
 
 class RawBlockProofStepsItemLiteServerBlockLinkBackResponse
@@ -143,7 +154,8 @@ class RawBlockProofStepsItemLiteServerBlockLinkBackResponse
   });
 
   factory RawBlockProofStepsItemLiteServerBlockLinkBackResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RawBlockProofStepsItemLiteServerBlockLinkBackResponse(
       toKeyBlock: json['to_key_block'],
       from: BlockRawResponse.fromJson(json['from']),
@@ -156,13 +168,13 @@ class RawBlockProofStepsItemLiteServerBlockLinkBackResponse
 
   @override
   Map<String, dynamic> toJson() => {
-        'to_key_block': toKeyBlock,
-        'from': from.toJson(),
-        'to': to.toJson(),
-        'dest_proof': destProof,
-        'proof': proof,
-        'state_proof': stateProof,
-      };
+    'to_key_block': toKeyBlock,
+    'from': from.toJson(),
+    'to': to.toJson(),
+    'dest_proof': destProof,
+    'proof': proof,
+    'state_proof': stateProof,
+  };
 }
 
 class RawBlockProofStepsItemLiteServerBlockLinkForwardResponse
@@ -173,7 +185,7 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardResponse
   final String destProof;
   final String configProof;
   final RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse
-      signatures;
+  signatures;
 
   const RawBlockProofStepsItemLiteServerBlockLinkForwardResponse({
     required this.toKeyBlock,
@@ -185,7 +197,8 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardResponse
   });
 
   factory RawBlockProofStepsItemLiteServerBlockLinkForwardResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RawBlockProofStepsItemLiteServerBlockLinkForwardResponse(
       toKeyBlock: json['to_key_block'],
       from: BlockRawResponse.fromJson(json['from']),
@@ -193,18 +206,19 @@ class RawBlockProofStepsItemLiteServerBlockLinkForwardResponse
       destProof: json['dest_proof'],
       configProof: json['config_proof'],
       signatures:
-          RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse
-              .fromJson(json['signatures']),
+          RawBlockProofStepsItemLiteServerBlockLinkForwardSignaturesResponse.fromJson(
+            json['signatures'],
+          ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'to_key_block': toKeyBlock,
-        'from': from.toJson(),
-        'to': to.toJson(),
-        'dest_proof': destProof,
-        'config_proof': configProof,
-        'signatures': signatures.toJson(),
-      };
+    'to_key_block': toKeyBlock,
+    'from': from.toJson(),
+    'to': to.toJson(),
+    'dest_proof': destProof,
+    'config_proof': configProof,
+    'signatures': signatures.toJson(),
+  };
 }

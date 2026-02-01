@@ -44,19 +44,24 @@ class DictionaryUtils {
     } else if (value is BitString) {
       return 'B:${value.toString()}';
     } else {
-      throw DictException('Invalid key type.',
-          details: {'key': value, 'type': value.runtimeType.toString()});
+      throw DictException(
+        'Invalid key type.',
+        details: {'key': value, 'type': value.runtimeType.toString()},
+      );
     }
   }
 
   static T deserializeInternalKey<T>(String value) {
     final decode = _deserializeInternalKey(value);
     if (decode is! T) {
-      throw DictException('Invalid key type.', details: {
-        'value': decode,
-        'expected': '$T',
-        'key': decode.runtimeType.toString()
-      });
+      throw DictException(
+        'Invalid key type.',
+        details: {
+          'value': decode,
+          'expected': '$T',
+          'key': decode.runtimeType.toString(),
+        },
+      );
     }
     return decode;
   }
@@ -87,14 +92,17 @@ class DictionaryUtils {
               padded = padded.substring(0, padded.length - 1);
             }
             return BocUtils.paddedBufferToBits(
-                BytesUtils.fromHexString(padded));
+              BytesUtils.fromHexString(padded),
+            );
           }
         } else {
           return BitString(BytesUtils.fromHexString(v), 0, v.length << 2);
         }
       default:
-        throw DictException('Invalid key type.',
-            details: {'key': k, 'type': k.runtimeType.toString()});
+        throw DictException(
+          'Invalid key type.',
+          details: {'key': k, 'type': k.runtimeType.toString()},
+        );
     }
   }
 
@@ -125,7 +133,11 @@ class DictionaryUtils {
   }
 
   static Cell doGenerateMerkleProof(
-      String prefix, Slice slice, int n, String key) {
+    String prefix,
+    Slice slice,
+    int n,
+    String key,
+  ) {
     // Reading label
     final Cell originalCell = slice.asCell();
 
@@ -171,7 +183,11 @@ class DictionaryUtils {
       if (!left.isExotic) {
         if ('${pp}0' == key.substring(0, pp.length + 1)) {
           left = doGenerateMerkleProof(
-              '${pp}0', left.beginParse(), n - prefixLength - 1, key);
+            '${pp}0',
+            left.beginParse(),
+            n - prefixLength - 1,
+            key,
+          );
         } else {
           left = convertToPrunedBranch(left);
         }
@@ -179,7 +195,11 @@ class DictionaryUtils {
       if (!right.isExotic) {
         if ('${pp}1' == key.substring(0, pp.length + 1)) {
           right = doGenerateMerkleProof(
-              '${pp}1', right.beginParse(), n - prefixLength - 1, key);
+            '${pp}1',
+            right.beginParse(),
+            n - prefixLength - 1,
+            key,
+          );
         } else {
           right = convertToPrunedBranch(right);
         }
@@ -194,16 +214,19 @@ class DictionaryUtils {
   }
 
   static Cell generateMerkleProof<K extends Object, V>(
-      Dictionary<K, V> dict, K key, DictionaryKey<K> keyObject) {
+    Dictionary<K, V> dict,
+    K key,
+    DictionaryKey<K> keyObject,
+  ) {
     final s = beginCell().storeDictDirect(dict).endCell().beginParse();
-    return convertToMerkleProof(doGenerateMerkleProof(
+    return convertToMerkleProof(
+      doGenerateMerkleProof(
         '',
         s,
         keyObject.bits,
-        keyObject
-            .serialize(key)
-            .toRadixString(2)
-            .padLeft(keyObject.bits, '0')));
+        keyObject.serialize(key).toRadixString(2).padLeft(keyObject.bits, '0'),
+      ),
+    );
   }
 
   static Cell convertToMerkleUpdate(Cell c1, Cell c2) {
@@ -230,8 +253,13 @@ class DictionaryUtils {
     return convertToMerkleUpdate(oldProof, newProof);
   }
 
-  static void doParse<V>(String prefix, Slice slice, int n, Map<BigInt, V> res,
-      V Function(Slice) extractor) {
+  static void doParse<V>(
+    String prefix,
+    Slice slice,
+    int n,
+    Map<BigInt, V> res,
+    V Function(Slice) extractor,
+  ) {
     // Reading label
     final bool lb0 = slice.loadBit();
     int prefixLength = 0;
@@ -270,17 +298,30 @@ class DictionaryUtils {
       final Cell right = slice.loadRef();
       if (!left.isExotic) {
         doParse(
-            '${pp}0', left.beginParse(), n - prefixLength - 1, res, extractor);
+          '${pp}0',
+          left.beginParse(),
+          n - prefixLength - 1,
+          res,
+          extractor,
+        );
       }
       if (!right.isExotic) {
         doParse(
-            '${pp}1', right.beginParse(), n - prefixLength - 1, res, extractor);
+          '${pp}1',
+          right.beginParse(),
+          n - prefixLength - 1,
+          res,
+          extractor,
+        );
       }
     }
   }
 
   static Map<BigInt, V> parseDict<V>(
-      Slice? sc, int keySize, V Function(Slice) extractor) {
+    Slice? sc,
+    int keySize,
+    V Function(Slice) extractor,
+  ) {
     final Map<BigInt, V> res = {};
     if (sc != null) {
       doParse('', sc, keySize, res, extractor);

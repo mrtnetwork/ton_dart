@@ -36,14 +36,17 @@ class TransactionDescriptionType {
     splitPrepare,
     tickTock,
     storage,
-    generic
+    generic,
   ];
   factory TransactionDescriptionType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find TransactionDescriptionType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find TransactionDescriptionType from provided name',
+                details: {'name': name},
+              ),
     );
   }
   @override
@@ -126,58 +129,68 @@ class TransactionDescriptionGeneric extends TransactionDescription {
   final TransactionBouncePhase? bouncePhase;
   final bool aborted;
   final bool destroyed;
-  const TransactionDescriptionGeneric(
-      {required this.creditFirst,
-      required this.storagePhase,
-      required this.creditPhase,
-      required this.computePhase,
-      required this.actionPhase,
-      required this.bouncePhase,
-      required this.aborted,
-      required this.destroyed});
+  const TransactionDescriptionGeneric({
+    required this.creditFirst,
+    required this.storagePhase,
+    required this.creditPhase,
+    required this.computePhase,
+    required this.actionPhase,
+    required this.bouncePhase,
+    required this.aborted,
+    required this.destroyed,
+  });
   factory TransactionDescriptionGeneric.deserialize(Slice slice) {
     final creditFirst = slice.loadBit();
-    final TransactionStoragePhase? storagePhase = slice
-        .loadBit()
-        .onTrue(() => TransactionStoragePhase.deserialize(slice));
-    final TransactionCreditPhase? creditPhase =
-        slice.loadBit().onTrue(() => TransactionCreditPhase.deserialize(slice));
+    final TransactionStoragePhase? storagePhase = slice.loadBit().onTrue(
+      () => TransactionStoragePhase.deserialize(slice),
+    );
+    final TransactionCreditPhase? creditPhase = slice.loadBit().onTrue(
+      () => TransactionCreditPhase.deserialize(slice),
+    );
     final TransactionComputePhase computePhase =
         TransactionComputePhase.deserialize(slice);
     final TransactionActionPhase? actionPhase = slice.loadBit().onTrue(
-        () => TransactionActionPhase.deserialize(slice.loadRef().beginParse()));
+      () => TransactionActionPhase.deserialize(slice.loadRef().beginParse()),
+    );
     final aborted = slice.loadBit();
-    final TransactionBouncePhase? bouncePhase =
-        slice.loadBit().onTrue(() => TransactionBouncePhase.deserialize(slice));
+    final TransactionBouncePhase? bouncePhase = slice.loadBit().onTrue(
+      () => TransactionBouncePhase.deserialize(slice),
+    );
     final destroyed = slice.loadBit();
     return TransactionDescriptionGeneric(
-        creditFirst: creditFirst,
-        storagePhase: storagePhase,
-        creditPhase: creditPhase,
-        computePhase: computePhase,
-        actionPhase: actionPhase,
-        bouncePhase: bouncePhase,
-        aborted: aborted,
-        destroyed: destroyed);
+      creditFirst: creditFirst,
+      storagePhase: storagePhase,
+      creditPhase: creditPhase,
+      computePhase: computePhase,
+      actionPhase: actionPhase,
+      bouncePhase: bouncePhase,
+      aborted: aborted,
+      destroyed: destroyed,
+    );
   }
   factory TransactionDescriptionGeneric.fromJson(Map<String, dynamic> json) {
     return TransactionDescriptionGeneric(
-        creditFirst: json['credit_first'],
-        storagePhase: (json['storage_phase'] as Object?)
-            ?.convertTo<TransactionStoragePhase, Map>(
-                (result) => TransactionStoragePhase.fromJson(result.cast())),
-        creditPhase: (json['credit_phase'] as Object?)
-            ?.convertTo<TransactionCreditPhase, Map>(
-                (result) => TransactionCreditPhase.fromJson(result.cast())),
-        computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
-        actionPhase: (json['action_phase'] as Object?)
-            ?.convertTo<TransactionActionPhase, Map>(
-                (result) => TransactionActionPhase.fromJson(result.cast())),
-        bouncePhase: (json['bounce_phase'] as Object?)
-            ?.convertTo<TransactionBouncePhase, Map>(
-                (result) => TransactionBouncePhase.fromJson(result.cast())),
-        aborted: json['aborted'],
-        destroyed: json['destroyed']);
+      creditFirst: json['credit_first'],
+      storagePhase: (json['storage_phase'] as Object?)
+          ?.convertTo<TransactionStoragePhase, Map>(
+            (result) => TransactionStoragePhase.fromJson(result.cast()),
+          ),
+      creditPhase: (json['credit_phase'] as Object?)
+          ?.convertTo<TransactionCreditPhase, Map>(
+            (result) => TransactionCreditPhase.fromJson(result.cast()),
+          ),
+      computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
+      actionPhase: (json['action_phase'] as Object?)
+          ?.convertTo<TransactionActionPhase, Map>(
+            (result) => TransactionActionPhase.fromJson(result.cast()),
+          ),
+      bouncePhase: (json['bounce_phase'] as Object?)
+          ?.convertTo<TransactionBouncePhase, Map>(
+            (result) => TransactionBouncePhase.fromJson(result.cast()),
+          ),
+      aborted: json['aborted'],
+      destroyed: json['destroyed'],
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -190,7 +203,7 @@ class TransactionDescriptionGeneric extends TransactionDescription {
       'bounce_phase': bouncePhase?.toJson(),
       'aborted': aborted,
       'destroyed': destroyed,
-      'type': type.name
+      'type': type.name,
     };
   }
 
@@ -228,7 +241,8 @@ class TransactionDescriptionStorage extends TransactionDescription {
   }
   factory TransactionDescriptionStorage.deserialize(Slice slice) {
     return TransactionDescriptionStorage(
-        storagePhase: TransactionStoragePhase.deserialize(slice));
+      storagePhase: TransactionStoragePhase.deserialize(slice),
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -269,27 +283,31 @@ class TransactionDescriptionTickTock extends TransactionDescription {
     final TransactionComputePhase computePhase =
         TransactionComputePhase.deserialize(slice);
     final TransactionActionPhase? actionPhase = slice.loadBit().onTrue(
-        () => TransactionActionPhase.deserialize(slice.loadRef().beginParse()));
+      () => TransactionActionPhase.deserialize(slice.loadRef().beginParse()),
+    );
     final aborted = slice.loadBit();
     final destroyed = slice.loadBit();
     return TransactionDescriptionTickTock(
-        storagePhase: storagePhase,
-        isTock: isTock,
-        computePhase: computePhase,
-        actionPhase: actionPhase,
-        aborted: aborted,
-        destroyed: destroyed);
+      storagePhase: storagePhase,
+      isTock: isTock,
+      computePhase: computePhase,
+      actionPhase: actionPhase,
+      aborted: aborted,
+      destroyed: destroyed,
+    );
   }
   factory TransactionDescriptionTickTock.fromJson(Map<String, dynamic> json) {
     return TransactionDescriptionTickTock(
-        storagePhase: TransactionStoragePhase.fromJson(json['storage_phase']),
-        computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
-        actionPhase: (json['action_phase'] as Object?)
-            ?.convertTo<TransactionActionPhase, Map>(
-                (result) => TransactionActionPhase.fromJson(result.cast())),
-        aborted: json['aborted'],
-        destroyed: json['destroyed'],
-        isTock: json['is_tock']);
+      storagePhase: TransactionStoragePhase.fromJson(json['storage_phase']),
+      computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
+      actionPhase: (json['action_phase'] as Object?)
+          ?.convertTo<TransactionActionPhase, Map>(
+            (result) => TransactionActionPhase.fromJson(result.cast()),
+          ),
+      aborted: json['aborted'],
+      destroyed: json['destroyed'],
+      isTock: json['is_tock'],
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -300,7 +318,7 @@ class TransactionDescriptionTickTock extends TransactionDescription {
       'action_phase': actionPhase?.toJson(),
       'aborted': aborted,
       'destroyed': destroyed,
-      'type': type.name
+      'type': type.name,
     };
   }
 
@@ -343,37 +361,43 @@ class TransactionDescriptionSplitPrepare extends TransactionDescription {
   });
   factory TransactionDescriptionSplitPrepare.deserialize(Slice slice) {
     final splitInfo = SplitMergeInfo.deserialize(slice);
-    final TransactionStoragePhase? storagePhase = slice
-        .loadBit()
-        .onTrue(() => TransactionStoragePhase.deserialize(slice));
+    final TransactionStoragePhase? storagePhase = slice.loadBit().onTrue(
+      () => TransactionStoragePhase.deserialize(slice),
+    );
     final TransactionComputePhase computePhase =
         TransactionComputePhase.deserialize(slice);
     final TransactionActionPhase? actionPhase = slice.loadBit().onTrue(
-        () => TransactionActionPhase.deserialize(slice.loadRef().beginParse()));
+      () => TransactionActionPhase.deserialize(slice.loadRef().beginParse()),
+    );
 
     final aborted = slice.loadBit();
     final destroyed = slice.loadBit();
     return TransactionDescriptionSplitPrepare(
-        splitInfo: splitInfo,
-        storagePhase: storagePhase,
-        computePhase: computePhase,
-        actionPhase: actionPhase,
-        aborted: aborted,
-        destroyed: destroyed);
+      splitInfo: splitInfo,
+      storagePhase: storagePhase,
+      computePhase: computePhase,
+      actionPhase: actionPhase,
+      aborted: aborted,
+      destroyed: destroyed,
+    );
   }
   factory TransactionDescriptionSplitPrepare.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TransactionDescriptionSplitPrepare(
-        splitInfo: SplitMergeInfo.fromJson(json['split_info']),
-        storagePhase: (json['storage_phase'] as Object?)
-            ?.convertTo<TransactionStoragePhase, Map>(
-                (result) => TransactionStoragePhase.fromJson(result.cast())),
-        computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
-        actionPhase: (json['action_phase'] as Object?)
-            ?.convertTo<TransactionActionPhase, Map>(
-                (result) => TransactionActionPhase.fromJson(result.cast())),
-        aborted: json['aborted'],
-        destroyed: json['destroyed']);
+      splitInfo: SplitMergeInfo.fromJson(json['split_info']),
+      storagePhase: (json['storage_phase'] as Object?)
+          ?.convertTo<TransactionStoragePhase, Map>(
+            (result) => TransactionStoragePhase.fromJson(result.cast()),
+          ),
+      computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
+      actionPhase: (json['action_phase'] as Object?)
+          ?.convertTo<TransactionActionPhase, Map>(
+            (result) => TransactionActionPhase.fromJson(result.cast()),
+          ),
+      aborted: json['aborted'],
+      destroyed: json['destroyed'],
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -384,7 +408,7 @@ class TransactionDescriptionSplitPrepare extends TransactionDescription {
       'action_phase': actionPhase?.toJson(),
       'aborted': aborted,
       'destroyed': destroyed,
-      'type': type.name
+      'type': type.name,
     };
   }
 
@@ -418,21 +442,24 @@ class TransactionDescriptionSplitInstall extends TransactionDescription {
   });
   factory TransactionDescriptionSplitInstall.deserialize(Slice slice) {
     final splitInfo = SplitMergeInfo.deserialize(slice);
-    final prepareTransaction =
-        TonTransaction.deserialize(slice.loadRef().beginParse());
+    final prepareTransaction = TonTransaction.deserialize(
+      slice.loadRef().beginParse(),
+    );
     final installed = slice.loadBit();
     return TransactionDescriptionSplitInstall(
-        splitInfo: splitInfo,
-        prepareTransaction: prepareTransaction,
-        installed: installed);
+      splitInfo: splitInfo,
+      prepareTransaction: prepareTransaction,
+      installed: installed,
+    );
   }
   factory TransactionDescriptionSplitInstall.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TransactionDescriptionSplitInstall(
-        splitInfo: SplitMergeInfo.fromJson(json['split_info']),
-        prepareTransaction:
-            TonTransaction.fromJson(json['prepare_transaction']),
-        installed: json['installed']);
+      splitInfo: SplitMergeInfo.fromJson(json['split_info']),
+      prepareTransaction: TonTransaction.fromJson(json['prepare_transaction']),
+      installed: json['installed'],
+    );
   }
   @override
   Map<String, dynamic> toJson() {
@@ -440,7 +467,7 @@ class TransactionDescriptionSplitInstall extends TransactionDescription {
       'split_info': splitInfo.toJson(),
       'prepare_transaction': prepareTransaction.toJson(),
       'installed': installed,
-      'type': type.name
+      'type': type.name,
     };
   }
 

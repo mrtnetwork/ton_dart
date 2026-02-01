@@ -15,10 +15,16 @@ enum TonTransactionAction {
   bool get isBroadcast => this == broadcast;
 }
 
-abstract class WalletContract<C extends ContractState,
-    T extends WalletContractTransferParams> extends TonContract<C> {
-  const WalletContract(
-      {required this.state, required this.address, required this.chain});
+abstract class WalletContract<
+  C extends ContractState,
+  T extends WalletContractTransferParams
+>
+    extends TonContract<C> {
+  const WalletContract({
+    required this.state,
+    required this.address,
+    required this.chain,
+  });
   @override
   final C? state;
 
@@ -26,12 +32,13 @@ abstract class WalletContract<C extends ContractState,
   final TonAddress address;
   final TonChainId chain;
 
-  Future<String> sendTransfer(
-      {required T params,
-      required List<MessageRelaxed> messages,
-      required TonProvider rpc,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      required OnEstimateFee? onEstimateFee,
-      required TonTransactionAction action});
+  Future<String> sendTransfer({
+    required T params,
+    required List<MessageRelaxed> messages,
+    required TonProvider rpc,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    required OnEstimateFee? onEstimateFee,
+    required TonTransactionAction action,
+  });
 }

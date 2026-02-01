@@ -5,8 +5,10 @@ class CreditPhaseResponse with JsonSerialization {
   final BigInt feesCollected;
   final BigInt credit;
 
-  const CreditPhaseResponse(
-      {required this.feesCollected, required this.credit});
+  const CreditPhaseResponse({
+    required this.feesCollected,
+    required this.credit,
+  });
 
   factory CreditPhaseResponse.fromJson(Map<String, dynamic> json) {
     return CreditPhaseResponse(
@@ -19,7 +21,7 @@ class CreditPhaseResponse with JsonSerialization {
   Map<String, dynamic> toJson() {
     return {
       'fees_collected': feesCollected.toString(),
-      'credit': credit.toString()
+      'credit': credit.toString(),
     };
   }
 }

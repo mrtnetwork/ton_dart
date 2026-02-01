@@ -9,10 +9,11 @@ class TonCenterTryLocateTx
   final String destination;
   final int createdLt;
 
-  TonCenterTryLocateTx(
-      {required this.source,
-      required this.destination,
-      required this.createdLt});
+  TonCenterTryLocateTx({
+    required this.source,
+    required this.destination,
+    required this.createdLt,
+  });
 
   @override
   String get method => TonCenterMethods.tryLocateTx.name;

@@ -6,5 +6,5 @@ import 'package:ton_dart/src/utils/utils/extensions.dart';
 abstract class WalletContractTransferParams<T extends OutAction> {
   final List<T> messages;
   WalletContractTransferParams({required List<T> messages})
-      : messages = messages.immutable;
+    : messages = messages.immutable;
 }

@@ -16,16 +16,18 @@ class MultiOwnerWalletState extends ContractState {
   factory MultiOwnerWalletState.deserialize(Slice slice) {
     final next = slice.loadUint256();
     final threshHold = slice.loadUint8();
-    final signers = Dictionary.loadDirect<int, TonAddress>(
-            key: DictionaryKey.uintCodec(8),
-            value: DictionaryValue.addressCodec(),
-            slice: slice.loadRef().beginParse())
-        .asMap
-        .values
-        .toList();
+    final signers =
+        Dictionary.loadDirect<int, TonAddress>(
+          key: DictionaryKey.uintCodec(8),
+          value: DictionaryValue.addressCodec(),
+          slice: slice.loadRef().beginParse(),
+        ).asMap.values.toList();
     final int signerNum = slice.loadUint8();
     final proposers = Dictionary.load<int, TonAddress>(
-        DictionaryKey.uintCodec(8), DictionaryValue.addressCodec(), slice);
+      DictionaryKey.uintCodec(8),
+      DictionaryValue.addressCodec(),
+      slice,
+    );
     return MultiOwnerWalletState(
       nextOrderSeqno: next,
       threshold: threshHold,
@@ -42,10 +44,10 @@ class MultiOwnerWalletState extends ContractState {
     int? signersNum,
     List<TonAddress> signers = const [],
     List<TonAddress> proposers = const [],
-  })  : signers = List<TonAddress>.unmodifiable(signers),
-        proposers = List<TonAddress>.unmodifiable(proposers),
-        nextOrderSeqno = nextOrderSeqno ?? BigInt.zero,
-        signersNum = signersNum ?? signers.length;
+  }) : signers = List<TonAddress>.unmodifiable(signers),
+       proposers = List<TonAddress>.unmodifiable(proposers),
+       nextOrderSeqno = nextOrderSeqno ?? BigInt.zero,
+       signersNum = signersNum ?? signers.length;
 
   @override
   StateInit initialState({TonChainId? chain}) {
@@ -60,13 +62,15 @@ class MultiOwnerWalletState extends ContractState {
   @override
   Cell initialData() {
     final signersDict = Dictionary.fromEnteries<int, TonAddress>(
-        key: DictionaryKey.uintCodec(8),
-        value: DictionaryValue.addressCodec(),
-        map: {for (int i = 0; i < signers.length; i++) i: signers[i]});
+      key: DictionaryKey.uintCodec(8),
+      value: DictionaryValue.addressCodec(),
+      map: {for (int i = 0; i < signers.length; i++) i: signers[i]},
+    );
     final proposersDict = Dictionary.fromEnteries<int, TonAddress>(
-        key: DictionaryKey.uintCodec(8),
-        value: DictionaryValue.addressCodec(),
-        map: {for (int i = 0; i < proposers.length; i++) i: proposers[i]});
+      key: DictionaryKey.uintCodec(8),
+      value: DictionaryValue.addressCodec(),
+      map: {for (int i = 0; i < proposers.length; i++) i: proposers[i]},
+    );
     return beginCell()
         .storeUint256(0)
         .storeUint8(threshold)
@@ -84,7 +88,7 @@ class MultiOwnerWalletState extends ContractState {
       'proposers': proposers.map((e) => e.toFriendlyAddress()).toList(),
       'nextOrderSeqno': nextOrderSeqno.toString(),
       'allowArbitrarySeqno': allowArbitrarySeqno,
-      'signersNum': signersNum
+      'signersNum': signersNum,
     };
   }
 }

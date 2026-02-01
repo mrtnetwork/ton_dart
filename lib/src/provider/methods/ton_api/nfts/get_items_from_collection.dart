@@ -15,8 +15,11 @@ class TonApiGetItemsFromCollection
 
   /// Default: 0
   final int? offset;
-  TonApiGetItemsFromCollection(
-      {required this.accountId, this.limit, this.offset});
+  TonApiGetItemsFromCollection({
+    required this.accountId,
+    this.limit,
+    this.offset,
+  });
   @override
   String get method => TonApiMethods.getitemsfromcollection.url;
 
@@ -24,8 +27,10 @@ class TonApiGetItemsFromCollection
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'limit': limit, 'offset': offset};
+  Map<String, dynamic> get queryParameters => {
+    'limit': limit,
+    'offset': offset,
+  };
 
   @override
   NftItemsResponse onResonse(Map<String, dynamic> result) {

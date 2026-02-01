@@ -32,11 +32,11 @@ class StorageProviderResponse with JsonSerialization {
   @override
   @override
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'accept_new_contracts': acceptNewContracts,
-        'rate_per_mb_day': ratePerMBDay.toString(),
-        'max_span': maxSpan.toString(),
-        'minimal_file_size': minimalFileSize.toString(),
-        'maximal_file_size': maximalFileSize.toString(),
-      };
+    'address': address,
+    'accept_new_contracts': acceptNewContracts,
+    'rate_per_mb_day': ratePerMBDay.toString(),
+    'max_span': maxSpan.toString(),
+    'minimal_file_size': minimalFileSize.toString(),
+    'maximal_file_size': maximalFileSize.toString(),
+  };
 }

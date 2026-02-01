@@ -8,9 +8,11 @@ class TraceIDsResponse with JsonSerialization {
 
   factory TraceIDsResponse.fromJson(Map<String, dynamic> json) {
     return TraceIDsResponse(
-        traces: (json['traces'] as List<dynamic>)
-            .map((e) => TraceIDResponse.fromJson(e as Map<String, dynamic>))
-            .toList());
+      traces:
+          (json['traces'] as List<dynamic>)
+              .map((e) => TraceIDResponse.fromJson(e as Map<String, dynamic>))
+              .toList(),
+    );
   }
 
   @override

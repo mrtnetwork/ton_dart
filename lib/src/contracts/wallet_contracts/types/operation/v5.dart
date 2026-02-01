@@ -7,8 +7,10 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class VersionedWalletV5OperaionType extends ContractOperationType {
-  const VersionedWalletV5OperaionType._(
-      {required super.name, required super.operation});
+  const VersionedWalletV5OperaionType._({
+    required super.name,
+    required super.operation,
+  });
   static const VersionedWalletV5OperaionType internal =
       VersionedWalletV5OperaionType._(name: 'Internal', operation: 0x73696e74);
   static const VersionedWalletV5OperaionType extension =
@@ -16,12 +18,17 @@ class VersionedWalletV5OperaionType extends ContractOperationType {
 
   static const List<VersionedWalletV5OperaionType> values = [
     internal,
-    extension
+    extension,
   ];
   factory VersionedWalletV5OperaionType.fromOperation(int? operation) {
-    return values.firstWhere((e) => e.operation == operation,
-        orElse: () =>
-            throw TonContractExceptionConst.invalidOperationId(tag: operation));
+    return values.firstWhere(
+      (e) => e.operation == operation,
+      orElse:
+          () =>
+              throw TonContractExceptionConst.invalidOperationId(
+                tag: operation,
+              ),
+    );
   }
 }
 
@@ -38,16 +45,21 @@ abstract class VersionedWalletV5Operaion extends TonSerialization
   const VersionedWalletV5Operaion({required this.type});
   @override
   String get contractName => 'Wallet V5R1';
-  factory VersionedWalletV5Operaion.deserialize(
-      {required Slice slice, required TonChainId chain}) {
-    final type =
-        VersionedWalletV5OperaionType.fromOperation(slice.tryPreloadUint32());
+  factory VersionedWalletV5Operaion.deserialize({
+    required Slice slice,
+    required TonChainId chain,
+  }) {
+    final type = VersionedWalletV5OperaionType.fromOperation(
+      slice.tryPreloadUint32(),
+    );
     switch (type) {
       case VersionedWalletV5OperaionType.extension:
         return VersionedWalletV5Extension.deserialize(slice);
       default:
         return VersionedWalletV5Internal.deserialize(
-            slice: slice, chain: chain);
+          slice: slice,
+          chain: chain,
+        );
     }
   }
 }
@@ -56,11 +68,12 @@ class VersionedWalletV5Extension extends VersionedWalletV5Operaion {
   final List<OutActionWalletV5> actions;
   final BigInt queryId;
 
-  VersionedWalletV5Extension(
-      {required List<OutActionWalletV5> actions, BigInt? queryId})
-      : actions = actions.immutable,
-        queryId = queryId ?? BigInt.zero,
-        super(type: VersionedWalletV5OperaionType.extension);
+  VersionedWalletV5Extension({
+    required List<OutActionWalletV5> actions,
+    BigInt? queryId,
+  }) : actions = actions.immutable,
+       queryId = queryId ?? BigInt.zero,
+       super(type: VersionedWalletV5OperaionType.extension);
   factory VersionedWalletV5Extension.deserialize(Slice slice) {
     slice.loadUint32();
     return VersionedWalletV5Extension(
@@ -81,7 +94,7 @@ class VersionedWalletV5Extension extends VersionedWalletV5Operaion {
     return {
       'type': type.name,
       'queryId': queryId.toString(),
-      'actions': actions.map((e) => e.toJson()).toList()
+      'actions': actions.map((e) => e.toJson()).toList(),
     };
   }
 }
@@ -91,26 +104,31 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
   final V5R1Context walletId;
   final List<OutActionWalletV5> actions;
   final int timeout;
-  VersionedWalletV5InternalMessage(
-      {required this.accountSeqno,
-      required this.walletId,
-      required List<OutActionWalletV5> actions,
-      required this.timeout})
-      : actions = actions.immutable;
-  factory VersionedWalletV5InternalMessage.deserialize(
-      {required Slice slice, required TonChainId chain}) {
+  VersionedWalletV5InternalMessage({
+    required this.accountSeqno,
+    required this.walletId,
+    required List<OutActionWalletV5> actions,
+    required this.timeout,
+  }) : actions = actions.immutable;
+  factory VersionedWalletV5InternalMessage.deserialize({
+    required Slice slice,
+    required TonChainId chain,
+  }) {
     return TonModelParser.parseBoc(
-        parse: () {
-          slice.loadUint32();
-          return VersionedWalletV5InternalMessage(
-            walletId: VersionedWalletUtils.loadV5Context(
-                contextBytes: slice.loadBuffer(4), chain: chain),
-            timeout: slice.loadUint32(),
-            accountSeqno: slice.loadUint32(),
-            actions: OutActionsV5.deserialize(slice).actions,
-          );
-        },
-        name: 'Wallet V5R1');
+      parse: () {
+        slice.loadUint32();
+        return VersionedWalletV5InternalMessage(
+          walletId: VersionedWalletUtils.loadV5Context(
+            contextBytes: slice.loadBuffer(4),
+            chain: chain,
+          ),
+          timeout: slice.loadUint32(),
+          accountSeqno: slice.loadUint32(),
+          actions: OutActionsV5.deserialize(slice).actions,
+        );
+      },
+      name: 'Wallet V5R1',
+    );
   }
 
   @override
@@ -134,7 +152,7 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
       'accountSeqno': accountSeqno,
       'walletId': walletId.toJson(),
       'actions': actions.map((e) => e.toJson()).toList(),
-      'timeout': timeout
+      'timeout': timeout,
     };
   }
 }
@@ -142,21 +160,27 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
 class VersionedWalletV5Internal extends VersionedWalletV5Operaion {
   final VersionedWalletV5InternalMessage message;
   final List<int> signature;
-  VersionedWalletV5Internal(
-      {required this.message, required List<int> signature})
-      : signature = BytesUtils.toBytes(signature, unmodifiable: true),
-        super(type: VersionedWalletV5OperaionType.internal);
-  factory VersionedWalletV5Internal.deserialize(
-      {required Slice slice, required TonChainId chain}) {
+  VersionedWalletV5Internal({
+    required this.message,
+    required List<int> signature,
+  }) : signature = BytesUtils.toBytes(signature, unmodifiable: true),
+       super(type: VersionedWalletV5OperaionType.internal);
+  factory VersionedWalletV5Internal.deserialize({
+    required Slice slice,
+    required TonChainId chain,
+  }) {
     return TonModelParser.parseBoc(
-        parse: () {
-          return VersionedWalletV5Internal(
-            message: VersionedWalletV5InternalMessage.deserialize(
-                slice: slice, chain: chain),
-            signature: slice.loadBuffer(64),
-          );
-        },
-        name: 'Wallet V5R1');
+      parse: () {
+        return VersionedWalletV5Internal(
+          message: VersionedWalletV5InternalMessage.deserialize(
+            slice: slice,
+            chain: chain,
+          ),
+          signature: slice.loadBuffer(64),
+        );
+      },
+      name: 'Wallet V5R1',
+    );
   }
 
   @override
@@ -170,7 +194,7 @@ class VersionedWalletV5Internal extends VersionedWalletV5Operaion {
     return {
       'type': type.name,
       'message': message.toJson(),
-      'signature': BytesUtils.toHexString(signature)
+      'signature': BytesUtils.toHexString(signature),
     };
   }
 }

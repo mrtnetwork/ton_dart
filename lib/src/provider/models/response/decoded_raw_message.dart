@@ -9,16 +9,14 @@ class DecodedRawMessageResponse with JsonSerialization {
 
   factory DecodedRawMessageResponse.fromJson(Map<String, dynamic> json) {
     return DecodedRawMessageResponse(
-        message: DecodedRawMessageMessageResponse.fromJson(json['message']),
-        mode: json['mode']);
+      message: DecodedRawMessageMessageResponse.fromJson(json['message']),
+      mode: json['mode'],
+    );
   }
 
   @override
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'message': message.toJson(),
-      'mode': mode,
-    };
+    return {'message': message.toJson(), 'mode': mode};
   }
 }

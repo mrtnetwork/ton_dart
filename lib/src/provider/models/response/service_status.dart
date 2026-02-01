@@ -4,8 +4,10 @@ class ServiceStatusResponse with JsonSerialization {
   final bool restOnline;
   final int indexingLatency;
 
-  const ServiceStatusResponse(
-      {required this.restOnline, required this.indexingLatency});
+  const ServiceStatusResponse({
+    required this.restOnline,
+    required this.indexingLatency,
+  });
 
   factory ServiceStatusResponse.fromJson(Map<String, dynamic> json) {
     return ServiceStatusResponse(

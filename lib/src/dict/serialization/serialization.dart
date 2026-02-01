@@ -1,4 +1,3 @@
-import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/exception/exception.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
@@ -17,11 +16,7 @@ class _Node<T> {
     if (isLeaf) {
       return {'value': value, 'type': 'leaf'};
     }
-    return {
-      'left': left.toJson(),
-      'right': right.toJson(),
-      'type': 'fork',
-    };
+    return {'left': left.toJson(), 'right': right.toJson(), 'type': 'fork'};
   }
 }
 
@@ -43,8 +38,10 @@ class _DictSerializationUtils {
     return src;
   }
 
-  static Tuple<Map<String, T>, Map<String, T>> forkMap<T>(
-      Map<String, T> src, int prefixLen) {
+  static (Map<String, T>, Map<String, T>) forkMap<T>(
+    Map<String, T> src,
+    int prefixLen,
+  ) {
     if (src.isEmpty) {
       throw DictException('Internal inconsistency');
     }
@@ -65,7 +62,7 @@ class _DictSerializationUtils {
     if (right.isEmpty) {
       throw DictException('Internal inconsistency. Right emtpy.');
     }
-    return Tuple(left, right);
+    return (left, right);
   }
 
   static _Node<T> buildNode<T>(Map<String, T> src, int prefixLen) {
@@ -76,8 +73,8 @@ class _DictSerializationUtils {
       return _Node.leaf(src.values.first);
     }
     final fork = forkMap(src, prefixLen);
-    final left = buildEdge<T>(fork.item1, prefixLen + 1);
-    final right = buildEdge<T>(fork.item2, prefixLen + 1);
+    final left = buildEdge<T>(fork.$1, prefixLen + 1);
+    final right = buildEdge<T>(fork.$2, prefixLen + 1);
     return _Node.fork(left, right);
   }
 
@@ -85,8 +82,10 @@ class _DictSerializationUtils {
     if (src.isEmpty) {
       throw DictException('Internal inconsistency');
     }
-    final label =
-        DictionaryUtils.findCommonPrefix(src.keys.toList(), prefixLen);
+    final label = DictionaryUtils.findCommonPrefix(
+      src.keys.toList(),
+      prefixLen,
+    );
     final node = buildNode<T>(src, label.length + prefixLen);
     return _Edge(label, node);
   }
@@ -143,7 +142,11 @@ class _DictSerializationUtils {
   }
 
   static void writeLabelSame(
-      bool value, int length, int keyLength, Builder to) {
+    bool value,
+    int length,
+    int keyLength,
+    Builder to,
+  ) {
     // Header
     to.storeBit(1);
     to.storeBit(1);
@@ -206,8 +209,12 @@ class _DictSerializationUtils {
     }
   }
 
-  static void writeNode<T>(_Node<T> src, int keyLength,
-      void Function(T, Builder) serializer, Builder to) {
+  static void writeNode<T>(
+    _Node<T> src,
+    int keyLength,
+    void Function(T, Builder) serializer,
+    Builder to,
+  ) {
     if (src.isLeaf) {
       serializer(src.value, to);
     }
@@ -221,16 +228,24 @@ class _DictSerializationUtils {
     }
   }
 
-  static void writeEdge<T>(_Edge<T> src, int keyLength,
-      void Function(T, Builder) serializer, Builder to) {
+  static void writeEdge<T>(
+    _Edge<T> src,
+    int keyLength,
+    void Function(T, Builder) serializer,
+    Builder to,
+  ) {
     writeLabel(src.label, keyLength, to);
     writeNode(src.node, keyLength - src.label.length, serializer, to);
   }
 }
 
 class DictSerialization {
-  static void serialize<T>(Map<BigInt, T> src, int keyLength,
-      void Function(T, Builder) serializer, Builder to) {
+  static void serialize<T>(
+    Map<BigInt, T> src,
+    int keyLength,
+    void Function(T, Builder) serializer,
+    Builder to,
+  ) {
     final tree = _DictSerializationUtils.buildTree<T>(src, keyLength);
     _DictSerializationUtils.writeEdge(tree, keyLength, serializer, to);
   }

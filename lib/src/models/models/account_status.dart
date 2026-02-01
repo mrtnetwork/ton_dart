@@ -8,8 +8,10 @@ class AccountStatus extends TonSerialization {
   final String status;
   const AccountStatus._(this.tag, this.status);
   // Predefined constant for 'uninitialized' account status.
-  static const AccountStatus uninitialized =
-      AccountStatus._(0x00, 'uninitialized');
+  static const AccountStatus uninitialized = AccountStatus._(
+    0x00,
+    'uninitialized',
+  );
 
   // Predefined constant for 'frozen' account status.
   static const AccountStatus frozen = AccountStatus._(0x01, 'frozen');
@@ -18,8 +20,10 @@ class AccountStatus extends TonSerialization {
   static const AccountStatus active = AccountStatus._(0x02, 'active');
 
   // Predefined constant for 'non-existing' account status.
-  static const AccountStatus nonExisting =
-      AccountStatus._(0x03, 'non-existing');
+  static const AccountStatus nonExisting = AccountStatus._(
+    0x03,
+    'non-existing',
+  );
 
   factory AccountStatus.deserialize(Slice slice) {
     return AccountStatus.fromTag(slice.loadUint(2));
@@ -32,22 +36,28 @@ class AccountStatus extends TonSerialization {
     uninitialized,
     frozen,
     active,
-    nonExisting
+    nonExisting,
   ];
   factory AccountStatus.fromValue(String? status) {
     return values.firstWhere(
       (element) => element.status == status,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find AccountStatus from provided status',
-          details: {'status': status}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find AccountStatus from provided status',
+                details: {'status': status},
+              ),
     );
   }
   factory AccountStatus.fromTag(int? tag) {
     return values.firstWhere(
       (element) => element.tag == tag,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find AccountStatus from provided tag',
-          details: {'tag': tag}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find AccountStatus from provided tag',
+                details: {'tag': tag},
+              ),
     );
   }
 

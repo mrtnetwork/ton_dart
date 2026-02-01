@@ -29,11 +29,13 @@ class MisbehaviourPunishmentConfigResponse with JsonSerialization {
   });
 
   factory MisbehaviourPunishmentConfigResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return MisbehaviourPunishmentConfigResponse(
       defaultFlatFine: BigintUtils.parse(json['default_flat_fine']),
-      defaultProportionalFine:
-          BigintUtils.parse(json['default_proportional_fine']),
+      defaultProportionalFine: BigintUtils.parse(
+        json['default_proportional_fine'],
+      ),
       severityFlatMult: json['severity_flat_mult'],
       severityProportionalMult: json['severity_proportional_mult'],
       unpunishableInterval: json['unpunishable_interval'],
@@ -59,7 +61,7 @@ class MisbehaviourPunishmentConfigResponse with JsonSerialization {
       'long_proportional_mult': longProportionalMult,
       'medium_interval': mediumInterval,
       'medium_flat_mult': mediumFlatMult,
-      'medium_proportional_mult': mediumProportionalMult
+      'medium_proportional_mult': mediumProportionalMult,
     };
   }
 }

@@ -18,11 +18,12 @@ class AccountAddressResponse with JsonSerialization {
 
   factory AccountAddressResponse.fromJson(Map<String, dynamic> json) {
     return AccountAddressResponse(
-        address: TonAddress(json['address'], bounceable: true),
-        name: json['name'],
-        isScam: json['is_scam'],
-        icon: json['icon'],
-        isWallet: json['is_wallet']);
+      address: TonAddress(json['address'], bounceable: true),
+      name: json['name'],
+      isScam: json['is_scam'],
+      icon: json['icon'],
+      isWallet: json['is_wallet'],
+    );
   }
 
   @override

@@ -6,10 +6,11 @@ class MarketTonRatesResponse with JsonSerialization {
   final double usdPrice;
   final BigInt lastDateUpdate;
 
-  const MarketTonRatesResponse(
-      {required this.market,
-      required this.usdPrice,
-      required this.lastDateUpdate});
+  const MarketTonRatesResponse({
+    required this.market,
+    required this.usdPrice,
+    required this.lastDateUpdate,
+  });
 
   factory MarketTonRatesResponse.fromJson(Map<String, dynamic> json) {
     return MarketTonRatesResponse(
@@ -21,8 +22,8 @@ class MarketTonRatesResponse with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'market': market,
-        'usd_price': usdPrice,
-        'last_date_update': lastDateUpdate.toString()
-      };
+    'market': market,
+    'usd_price': usdPrice,
+    'last_date_update': lastDateUpdate.toString(),
+  };
 }

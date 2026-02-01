@@ -4,16 +4,10 @@ class PriceResponse with JsonSerialization {
   final String value;
   final String tokenName;
 
-  const PriceResponse({
-    required this.value,
-    required this.tokenName,
-  });
+  const PriceResponse({required this.value, required this.tokenName});
 
   factory PriceResponse.fromJson(Map<String, dynamic> json) {
-    return PriceResponse(
-      value: json['value'],
-      tokenName: json['token_name'],
-    );
+    return PriceResponse(value: json['value'], tokenName: json['token_name']);
   }
 
   @override

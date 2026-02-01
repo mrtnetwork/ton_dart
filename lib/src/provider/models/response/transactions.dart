@@ -8,16 +8,19 @@ class TransactionsResponse with JsonSerialization {
 
   factory TransactionsResponse.fromJson(Map<String, dynamic> json) {
     return TransactionsResponse(
-        transactions: List<TransactionResponse>.from((json['transactions']
-                as List)
-            .map((transaction) => TransactionResponse.fromJson(transaction))));
+      transactions: List<TransactionResponse>.from(
+        (json['transactions'] as List).map(
+          (transaction) => TransactionResponse.fromJson(transaction),
+        ),
+      ),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
     return {
       'transactions':
-          transactions.map((transaction) => transaction.toJson()).toList()
+          transactions.map((transaction) => transaction.toJson()).toList(),
     };
   }
 }

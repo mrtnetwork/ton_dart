@@ -18,14 +18,15 @@ class TonApiGetAccountJettonHistoryByID
 
   final BigInt? startDate;
   final BigInt? endDate;
-  TonApiGetAccountJettonHistoryByID(
-      {required this.accountId,
-      required this.jettonId,
-      this.acceptLanguage,
-      this.beforeLt,
-      this.limit = 100,
-      this.startDate,
-      this.endDate});
+  TonApiGetAccountJettonHistoryByID({
+    required this.accountId,
+    required this.jettonId,
+    this.acceptLanguage,
+    this.beforeLt,
+    this.limit = 100,
+    this.startDate,
+    this.endDate,
+  });
   @override
   String get method => TonApiMethods.getaccountjettonhistorybyid.url;
 
@@ -34,11 +35,11 @@ class TonApiGetAccountJettonHistoryByID
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'before_lt': beforeLt,
-        'limit': limit,
-        'start_date': startDate,
-        'end_date': endDate
-      };
+    'before_lt': beforeLt,
+    'limit': limit,
+    'start_date': startDate,
+    'end_date': endDate,
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': acceptLanguage};

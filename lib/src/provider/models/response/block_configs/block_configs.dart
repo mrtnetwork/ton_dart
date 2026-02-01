@@ -24,8 +24,10 @@ class _ConfigParserUtils {
       parse: (slice) {
         final header = slice.loadUint(8);
         if (header != _ConfigConst.header18) {
-          throw TonDartPluginException('Invalid header for config 18.',
-              details: {'expected': _ConfigConst.header18, 'header': header});
+          throw TonDartPluginException(
+            'Invalid header for config 18.',
+            details: {'expected': _ConfigConst.header18, 'header': header},
+          );
         }
 
         return BlockchainConfig18StoragePricesItem.fromCell(slice);
@@ -43,15 +45,16 @@ class BlockchainConfig82 with JsonSerialization {
 
   factory BlockchainConfig82.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig82(
-      jettonBridgeParams:
-          JettonBridgeParamsResponse.fromJson(json['jetton_bridge_params']),
+      jettonBridgeParams: JettonBridgeParamsResponse.fromJson(
+        json['jetton_bridge_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'jetton_bridge_params': jettonBridgeParams.toJson(),
-      };
+    'jetton_bridge_params': jettonBridgeParams.toJson(),
+  };
 }
 
 class BlockchainConfig81 with JsonSerialization {
@@ -61,15 +64,16 @@ class BlockchainConfig81 with JsonSerialization {
 
   factory BlockchainConfig81.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig81(
-      jettonBridgeParams:
-          JettonBridgeParamsResponse.fromJson(json['jetton_bridge_params']),
+      jettonBridgeParams: JettonBridgeParamsResponse.fromJson(
+        json['jetton_bridge_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'jetton_bridge_params': jettonBridgeParams.toJson(),
-      };
+    'jetton_bridge_params': jettonBridgeParams.toJson(),
+  };
 }
 
 class BlockchainConfig79 with JsonSerialization {
@@ -79,15 +83,16 @@ class BlockchainConfig79 with JsonSerialization {
 
   factory BlockchainConfig79.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig79(
-      jettonBridgeParams:
-          JettonBridgeParamsResponse.fromJson(json['jetton_bridge_params']),
+      jettonBridgeParams: JettonBridgeParamsResponse.fromJson(
+        json['jetton_bridge_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'jetton_bridge_params': jettonBridgeParams.toJson(),
-      };
+    'jetton_bridge_params': jettonBridgeParams.toJson(),
+  };
 }
 
 class BlockchainConfig73 with JsonSerialization {
@@ -97,15 +102,16 @@ class BlockchainConfig73 with JsonSerialization {
 
   factory BlockchainConfig73.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig73(
-      oracleBridgeParams:
-          OracleBridgeParamsResponse.fromJson(json['oracle_bridge_params']),
+      oracleBridgeParams: OracleBridgeParamsResponse.fromJson(
+        json['oracle_bridge_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'oracle_bridge_params': oracleBridgeParams.toJson(),
-      };
+    'oracle_bridge_params': oracleBridgeParams.toJson(),
+  };
 }
 
 class BlockchainConfig72 with JsonSerialization {
@@ -115,15 +121,16 @@ class BlockchainConfig72 with JsonSerialization {
 
   factory BlockchainConfig72.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig72(
-      oracleBridgeParams:
-          OracleBridgeParamsResponse.fromJson(json['oracle_bridge_params']),
+      oracleBridgeParams: OracleBridgeParamsResponse.fromJson(
+        json['oracle_bridge_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'oracle_bridge_params': oracleBridgeParams.toJson(),
-      };
+    'oracle_bridge_params': oracleBridgeParams.toJson(),
+  };
 }
 
 class BlockchainConfig71 with JsonSerialization {
@@ -133,23 +140,26 @@ class BlockchainConfig71 with JsonSerialization {
 
   factory BlockchainConfig71.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig71(
-      oracleBridgeParams:
-          OracleBridgeParamsResponse.fromJson(json['oracle_bridge_params']),
+      oracleBridgeParams: OracleBridgeParamsResponse.fromJson(
+        json['oracle_bridge_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'oracle_bridge_params': oracleBridgeParams.toJson(),
-      };
+    'oracle_bridge_params': oracleBridgeParams.toJson(),
+  };
 }
 
 class BlockchainConfig44 with JsonSerialization {
   final List<String> accounts;
   final int suspendedUntil;
 
-  const BlockchainConfig44(
-      {required this.accounts, required this.suspendedUntil});
+  const BlockchainConfig44({
+    required this.accounts,
+    required this.suspendedUntil,
+  });
 
   factory BlockchainConfig44.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig44(
@@ -160,9 +170,9 @@ class BlockchainConfig44 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'accounts': accounts,
-        'suspended_until': suspendedUntil,
-      };
+    'accounts': accounts,
+    'suspended_until': suspendedUntil,
+  };
 }
 
 class BlockchainConfig43 with JsonSerialization {
@@ -172,15 +182,16 @@ class BlockchainConfig43 with JsonSerialization {
 
   factory BlockchainConfig43.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig43(
-      sizeLimitsConfig:
-          SizeLimitsConfigResponse.fromJson(json['size_limits_config']),
+      sizeLimitsConfig: SizeLimitsConfigResponse.fromJson(
+        json['size_limits_config'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'size_limits_config': sizeLimitsConfig.toJson(),
-      };
+    'size_limits_config': sizeLimitsConfig.toJson(),
+  };
 }
 
 class BlockchainConfig40 with JsonSerialization {
@@ -192,14 +203,15 @@ class BlockchainConfig40 with JsonSerialization {
     return BlockchainConfig40(
       misbehaviourPunishmentConfig:
           MisbehaviourPunishmentConfigResponse.fromJson(
-              json['misbehaviour_punishment_config']),
+            json['misbehaviour_punishment_config'],
+          ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'misbehaviour_punishment_config': misbehaviourPunishmentConfig.toJson(),
-      };
+    'misbehaviour_punishment_config': misbehaviourPunishmentConfig.toJson(),
+  };
 }
 
 class BlockchainConfig31 with JsonSerialization {
@@ -214,9 +226,7 @@ class BlockchainConfig31 with JsonSerialization {
   }
 
   @override
-  Map<String, dynamic> toJson() => {
-        'fundamental_smc_addr': fundamentalSmcAddr,
-      };
+  Map<String, dynamic> toJson() => {'fundamental_smc_addr': fundamentalSmcAddr};
 }
 
 class BlockchainConfig29 with JsonSerialization {
@@ -261,26 +271,27 @@ class BlockchainConfig29 with JsonSerialization {
       maxBlockBytes: BigintUtils.parse(json['max_block_bytes']),
       maxCollatedBytes: BigintUtils.parse(json['max_collated_bytes']),
       protoVersion: BigintUtils.tryParse(json['proto_version']),
-      catchainMaxBlocksCoeff:
-          BigintUtils.tryParse(json['catchain_max_blocks_coeff']),
+      catchainMaxBlocksCoeff: BigintUtils.tryParse(
+        json['catchain_max_blocks_coeff'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'flags': flags,
-        'new_catchain_ids': newCatchainIds,
-        'round_candidates': roundCandidates.toString(),
-        'next_candidate_delay_ms': nextCandidateDelayMs.toString(),
-        'consensus_timeout_ms': consensusTimeoutMs.toString(),
-        'fast_attempts': fastAttempts.toString(),
-        'attempt_duration': attemptDuration.toString(),
-        'catchain_max_deps': catchainMaxDeps.toString(),
-        'max_block_bytes': maxBlockBytes.toString(),
-        'max_collated_bytes': maxCollatedBytes.toString(),
-        'proto_version': protoVersion?.toString(),
-        'catchain_max_blocks_coeff': catchainMaxBlocksCoeff?.toString(),
-      };
+    'flags': flags,
+    'new_catchain_ids': newCatchainIds,
+    'round_candidates': roundCandidates.toString(),
+    'next_candidate_delay_ms': nextCandidateDelayMs.toString(),
+    'consensus_timeout_ms': consensusTimeoutMs.toString(),
+    'fast_attempts': fastAttempts.toString(),
+    'attempt_duration': attemptDuration.toString(),
+    'catchain_max_deps': catchainMaxDeps.toString(),
+    'max_block_bytes': maxBlockBytes.toString(),
+    'max_collated_bytes': maxCollatedBytes.toString(),
+    'proto_version': protoVersion?.toString(),
+    'catchain_max_blocks_coeff': catchainMaxBlocksCoeff?.toString(),
+  };
 }
 
 class BlockchainConfig28 with JsonSerialization {
@@ -304,8 +315,9 @@ class BlockchainConfig28 with JsonSerialization {
     return BlockchainConfig28(
       mcCatchainLifetime: BigintUtils.parse(json['mc_catchain_lifetime']),
       shardCatchainLifetime: BigintUtils.parse(json['shard_catchain_lifetime']),
-      shardValidatorsLifetime:
-          BigintUtils.parse(json['shard_validators_lifetime']),
+      shardValidatorsLifetime: BigintUtils.parse(
+        json['shard_validators_lifetime'],
+      ),
       shardValidatorsNum: BigintUtils.parse(json['shard_validators_num']),
       flags: json['flags'],
       shuffleMcValidators: json['shuffle_mc_validators'],
@@ -314,13 +326,13 @@ class BlockchainConfig28 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'mc_catchain_lifetime': mcCatchainLifetime.toString(),
-        'shard_catchain_lifetime': shardCatchainLifetime.toString(),
-        'shard_validators_lifetime': shardValidatorsLifetime.toString(),
-        'shard_validators_num': shardValidatorsNum.toString(),
-        'flags': flags,
-        'shuffle_mc_validators': shuffleMcValidators,
-      };
+    'mc_catchain_lifetime': mcCatchainLifetime.toString(),
+    'shard_catchain_lifetime': shardCatchainLifetime.toString(),
+    'shard_validators_lifetime': shardValidatorsLifetime.toString(),
+    'shard_validators_num': shardValidatorsNum.toString(),
+    'flags': flags,
+    'shuffle_mc_validators': shuffleMcValidators,
+  };
 }
 
 class BlockchainConfig25 with JsonSerialization {
@@ -330,19 +342,21 @@ class BlockchainConfig25 with JsonSerialization {
 
   factory BlockchainConfig25.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig25(
-      msgForwardPrices:
-          MsgForwardPricesResponse.fromJson(json['msg_forward_prices']),
+      msgForwardPrices: MsgForwardPricesResponse.fromJson(
+        json['msg_forward_prices'],
+      ),
     );
   }
   factory BlockchainConfig25.derserialize(Slice slice) {
     return BlockchainConfig25(
-        msgForwardPrices: MsgForwardPricesResponse.deserialize(slice));
+      msgForwardPrices: MsgForwardPricesResponse.deserialize(slice),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'msg_forward_prices': msgForwardPrices.toJson(),
-      };
+    'msg_forward_prices': msgForwardPrices.toJson(),
+  };
 }
 
 class BlockchainConfig24 with JsonSerialization {
@@ -352,19 +366,21 @@ class BlockchainConfig24 with JsonSerialization {
 
   factory BlockchainConfig24.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig24(
-      msgForwardPrices:
-          MsgForwardPricesResponse.fromJson(json['msg_forward_prices']),
+      msgForwardPrices: MsgForwardPricesResponse.fromJson(
+        json['msg_forward_prices'],
+      ),
     );
   }
   factory BlockchainConfig24.derserialize(Slice slice) {
     return BlockchainConfig24(
-        msgForwardPrices: MsgForwardPricesResponse.deserialize(slice));
+      msgForwardPrices: MsgForwardPricesResponse.deserialize(slice),
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'msg_forward_prices': msgForwardPrices.toJson(),
-      };
+    'msg_forward_prices': msgForwardPrices.toJson(),
+  };
 }
 
 class BlockchainConfig23 with JsonSerialization {
@@ -379,9 +395,7 @@ class BlockchainConfig23 with JsonSerialization {
   }
 
   @override
-  Map<String, dynamic> toJson() => {
-        'block_limits': blockLimits.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'block_limits': blockLimits.toJson()};
 }
 
 class BlockchainConfig22 with JsonSerialization {
@@ -396,9 +410,7 @@ class BlockchainConfig22 with JsonSerialization {
   }
 
   @override
-  Map<String, dynamic> toJson() => {
-        'block_limits': blockLimits.toJson(),
-      };
+  Map<String, dynamic> toJson() => {'block_limits': blockLimits.toJson()};
 }
 
 class BlockchainConfig21 with JsonSerialization {
@@ -408,8 +420,9 @@ class BlockchainConfig21 with JsonSerialization {
 
   factory BlockchainConfig21.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig21(
-      gasLimitsPrices:
-          GasLimitPricesResponse.fromJson(json['gas_limits_prices']),
+      gasLimitsPrices: GasLimitPricesResponse.fromJson(
+        json['gas_limits_prices'],
+      ),
     );
   }
   factory BlockchainConfig21.deserialize(Slice slice) {
@@ -420,8 +433,8 @@ class BlockchainConfig21 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'gas_limits_prices': gasLimitsPrices.toJson(),
-      };
+    'gas_limits_prices': gasLimitsPrices.toJson(),
+  };
 }
 
 class BlockchainConfig20 with JsonSerialization {
@@ -431,8 +444,9 @@ class BlockchainConfig20 with JsonSerialization {
 
   factory BlockchainConfig20.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig20(
-      gasLimitsPrices:
-          GasLimitPricesResponse.fromJson(json['gas_limits_prices']),
+      gasLimitsPrices: GasLimitPricesResponse.fromJson(
+        json['gas_limits_prices'],
+      ),
     );
   }
   factory BlockchainConfig20.deserialize(Slice slice) {
@@ -443,8 +457,8 @@ class BlockchainConfig20 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'gas_limits_prices': gasLimitsPrices.toJson(),
-      };
+    'gas_limits_prices': gasLimitsPrices.toJson(),
+  };
 }
 
 class BlockchainConfig18StoragePricesItem with JsonSerialization {
@@ -471,7 +485,8 @@ class BlockchainConfig18StoragePricesItem with JsonSerialization {
     );
   }
   factory BlockchainConfig18StoragePricesItem.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return BlockchainConfig18StoragePricesItem(
       utimeSince: IntUtils.parse(json['utime_since']),
       bitPricePs: BigintUtils.parse(json['bit_price_ps']),
@@ -483,12 +498,12 @@ class BlockchainConfig18StoragePricesItem with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'utime_since': utimeSince.toString(),
-        'bit_price_ps': bitPricePs.toString(),
-        'cell_price_ps': cellPricePs.toString(),
-        'mc_bit_price_ps': mcBitPricePs.toString(),
-        'mc_cell_price_ps': mcCellPricePs.toString(),
-      };
+    'utime_since': utimeSince.toString(),
+    'bit_price_ps': bitPricePs.toString(),
+    'cell_price_ps': cellPricePs.toString(),
+    'mc_bit_price_ps': mcBitPricePs.toString(),
+    'mc_cell_price_ps': mcCellPricePs.toString(),
+  };
 }
 
 class BlockchainConfig18 with JsonSerialization {
@@ -497,19 +512,22 @@ class BlockchainConfig18 with JsonSerialization {
   const BlockchainConfig18({required this.storagePrices});
   factory BlockchainConfig18.deserialize(Slice slice) {
     return BlockchainConfig18(
-        storagePrices: _ConfigParserUtils.parser18(slice));
+      storagePrices: _ConfigParserUtils.parser18(slice),
+    );
   }
   factory BlockchainConfig18.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig18(
-      storagePrices: (json['storage_prices'] as List<dynamic>)
-          .map((item) => BlockchainConfig18StoragePricesItem.fromJson(item))
-          .toList(),
+      storagePrices:
+          (json['storage_prices'] as List<dynamic>)
+              .map((item) => BlockchainConfig18StoragePricesItem.fromJson(item))
+              .toList(),
     );
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'storage_prices': storagePrices.map((item) => item.toJson()).toList()};
+  Map<String, dynamic> toJson() => {
+    'storage_prices': storagePrices.map((item) => item.toJson()).toList(),
+  };
 }
 
 class BlockchainConfig17 with JsonSerialization {
@@ -536,11 +554,11 @@ class BlockchainConfig17 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'min_stake': minStake,
-        'max_stake': maxStake,
-        'min_total_stake': minTotalStake,
-        'max_stake_factor': maxStakeFactor.toString(),
-      };
+    'min_stake': minStake,
+    'max_stake': maxStake,
+    'min_total_stake': minTotalStake,
+    'max_stake_factor': maxStakeFactor.toString(),
+  };
 }
 
 class BlockchainConfig16 with JsonSerialization {
@@ -564,10 +582,10 @@ class BlockchainConfig16 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'max_validators': maxValidators,
-        'max_main_validators': maxMainValidators,
-        'min_validators': minValidators,
-      };
+    'max_validators': maxValidators,
+    'max_main_validators': maxMainValidators,
+    'min_validators': minValidators,
+  };
 }
 
 class BlockchainConfig15 with JsonSerialization {
@@ -594,19 +612,21 @@ class BlockchainConfig15 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'validators_elected_for': validatorsElectedFor.toString(),
-        'elections_start_before': electionsStartBefore.toString(),
-        'elections_end_before': electionsEndBefore.toString(),
-        'stake_held_for': stakeHeldFor.toString(),
-      };
+    'validators_elected_for': validatorsElectedFor.toString(),
+    'elections_start_before': electionsStartBefore.toString(),
+    'elections_end_before': electionsEndBefore.toString(),
+    'stake_held_for': stakeHeldFor.toString(),
+  };
 }
 
 class BlockchainConfig14 with JsonSerialization {
   final BigInt masterchainBlockFee;
   final BigInt basechainBlockFee;
 
-  const BlockchainConfig14(
-      {required this.masterchainBlockFee, required this.basechainBlockFee});
+  const BlockchainConfig14({
+    required this.masterchainBlockFee,
+    required this.basechainBlockFee,
+  });
 
   factory BlockchainConfig14.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig14(
@@ -617,9 +637,9 @@ class BlockchainConfig14 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'masterchain_block_fee': masterchainBlockFee.toString(),
-        'basechain_block_fee': basechainBlockFee.toString(),
-      };
+    'masterchain_block_fee': masterchainBlockFee.toString(),
+    'basechain_block_fee': basechainBlockFee.toString(),
+  };
 }
 
 class BlockchainConfig13 with JsonSerialization {
@@ -643,10 +663,10 @@ class BlockchainConfig13 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'deposit': deposit.toString(),
-        'bit_price': bitPrice.toString(),
-        'cell_price': cellPrice.toString(),
-      };
+    'deposit': deposit.toString(),
+    'bit_price': bitPrice.toString(),
+    'cell_price': cellPrice.toString(),
+  };
 }
 
 class BlockchainConfig12 with JsonSerialization {
@@ -656,15 +676,17 @@ class BlockchainConfig12 with JsonSerialization {
 
   factory BlockchainConfig12.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig12(
-      workchains: (json['workchains'] as List<dynamic>)
-          .map((item) => WorkchainDescr.fromJson(item))
-          .toList(),
+      workchains:
+          (json['workchains'] as List<dynamic>)
+              .map((item) => WorkchainDescr.fromJson(item))
+              .toList(),
     );
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'workchains': workchains.map((item) => item.toJson()).toList()};
+  Map<String, dynamic> toJson() => {
+    'workchains': workchains.map((item) => item.toJson()).toList(),
+  };
 }
 
 class BlockchainConfig11 with JsonSerialization {
@@ -679,24 +701,23 @@ class BlockchainConfig11 with JsonSerialization {
   factory BlockchainConfig11.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig11(
       normalParams: ConfigProposalSetupResponse.fromJson(json['normal_params']),
-      criticalParams:
-          ConfigProposalSetupResponse.fromJson(json['critical_params']),
+      criticalParams: ConfigProposalSetupResponse.fromJson(
+        json['critical_params'],
+      ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'normal_params': normalParams.toJson(),
-        'critical_params': criticalParams.toJson()
-      };
+    'normal_params': normalParams.toJson(),
+    'critical_params': criticalParams.toJson(),
+  };
 }
 
 class BlockchainConfig10 with JsonSerialization {
   final List<int> criticalParams;
 
-  const BlockchainConfig10({
-    required this.criticalParams,
-  });
+  const BlockchainConfig10({required this.criticalParams});
 
   factory BlockchainConfig10.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig10(
@@ -711,9 +732,7 @@ class BlockchainConfig10 with JsonSerialization {
 class BlockchainConfig9 with JsonSerialization {
   final List<int> mandatoryParams;
 
-  const BlockchainConfig9({
-    required this.mandatoryParams,
-  });
+  const BlockchainConfig9({required this.mandatoryParams});
 
   factory BlockchainConfig9.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig9(
@@ -739,8 +758,10 @@ class BlockchainConfig8 with JsonSerialization {
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'version': version.toString(), 'capabilities': capabilities.toString()};
+  Map<String, dynamic> toJson() => {
+    'version': version.toString(),
+    'capabilities': capabilities.toString(),
+  };
 }
 
 class BlockchainConfig7CurrenciesItem with JsonSerialization {
@@ -761,9 +782,9 @@ class BlockchainConfig7CurrenciesItem with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'currency_id': currencyId.toString(),
-        'amount': amount,
-      };
+    'currency_id': currencyId.toString(),
+    'amount': amount,
+  };
 }
 
 class BlockchainConfig7 with JsonSerialization {
@@ -773,22 +794,27 @@ class BlockchainConfig7 with JsonSerialization {
 
   factory BlockchainConfig7.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig7(
-        currencies: (json['currencies'] as List)
-            .map((item) => BlockchainConfig7CurrenciesItem.fromJson(item))
-            .toList());
+      currencies:
+          (json['currencies'] as List)
+              .map((item) => BlockchainConfig7CurrenciesItem.fromJson(item))
+              .toList(),
+    );
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'currencies': currencies.map((item) => item.toJson()).toList()};
+  Map<String, dynamic> toJson() => {
+    'currencies': currencies.map((item) => item.toJson()).toList(),
+  };
 }
 
 class BlockchainConfig6 with JsonSerialization {
   final BigInt mintNewPrice;
   final BigInt mintAddPrice;
 
-  const BlockchainConfig6(
-      {required this.mintNewPrice, required this.mintAddPrice});
+  const BlockchainConfig6({
+    required this.mintNewPrice,
+    required this.mintAddPrice,
+  });
 
   factory BlockchainConfig6.fromJson(Map<String, dynamic> json) {
     return BlockchainConfig6(
@@ -799,9 +825,9 @@ class BlockchainConfig6 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'mint_new_price': mintNewPrice.toString(),
-        'mint_add_price': mintAddPrice.toString()
-      };
+    'mint_new_price': mintNewPrice.toString(),
+    'mint_add_price': mintAddPrice.toString(),
+  };
 }
 
 class BlockchainConfig5 with JsonSerialization {
@@ -825,8 +851,8 @@ class BlockchainConfig5 with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'blackhole_addr': blackholeAddr,
-        'fee_burn_nom': feeBurnNom.toString(),
-        'fee_burn_denom': feeBurnDenom.toString()
-      };
+    'blackhole_addr': blackholeAddr,
+    'fee_burn_nom': feeBurnNom.toString(),
+    'fee_burn_denom': feeBurnDenom.toString(),
+  };
 }

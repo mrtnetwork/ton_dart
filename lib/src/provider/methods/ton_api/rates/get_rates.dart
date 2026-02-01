@@ -6,8 +6,9 @@ import 'package:ton_dart/src/provider/models/response/token_rates.dart';
 ///
 /// Get the token price to the currency.
 ///
-class TonApiGetRates extends TonApiRequest<Map<String, TokenRatesResponse>,
-    Map<String, dynamic>> {
+class TonApiGetRates
+    extends
+        TonApiRequest<Map<String, TokenRatesResponse>, Map<String, dynamic>> {
   /// accept ton and jetton master addresses.
   final List<String> tokens;
 
@@ -23,14 +24,20 @@ class TonApiGetRates extends TonApiRequest<Map<String, TokenRatesResponse>,
   List<String> get pathParameters => [];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'tokens': tokens.join(','), 'currencies': currencies.join(',')};
+  Map<String, dynamic> get queryParameters => {
+    'tokens': tokens.join(','),
+    'currencies': currencies.join(','),
+  };
 
   @override
   Map<String, TokenRatesResponse> onResonse(Map<String, dynamic> result) {
-    return Map<String, TokenRatesResponse>.fromEntries((result['rates'] as Map)
-        .entries
-        .map((e) => MapEntry<String, TokenRatesResponse>(
-            e.key, TokenRatesResponse.fromJson(e.value))));
+    return Map<String, TokenRatesResponse>.fromEntries(
+      (result['rates'] as Map).entries.map(
+        (e) => MapEntry<String, TokenRatesResponse>(
+          e.key,
+          TokenRatesResponse.fromJson(e.value),
+        ),
+      ),
+    );
   }
 }

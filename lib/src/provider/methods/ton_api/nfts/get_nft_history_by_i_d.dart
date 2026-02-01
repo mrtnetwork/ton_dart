@@ -21,13 +21,14 @@ class TonApiGetNftHistoryByID
 
   /// 1668436763
   final BigInt? endDate;
-  TonApiGetNftHistoryByID(
-      {required this.accountId,
-      this.acceptLanguage,
-      this.beforeLt,
-      this.limit = 100,
-      this.startDate,
-      this.endDate});
+  TonApiGetNftHistoryByID({
+    required this.accountId,
+    this.acceptLanguage,
+    this.beforeLt,
+    this.limit = 100,
+    this.startDate,
+    this.endDate,
+  });
   @override
   String get method => TonApiMethods.getnfthistorybyid.url;
 
@@ -36,11 +37,11 @@ class TonApiGetNftHistoryByID
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'before_lt': beforeLt,
-        'limit': limit,
-        'start_date': startDate,
-        'end_date': endDate
-      };
+    'before_lt': beforeLt,
+    'limit': limit,
+    'start_date': startDate,
+    'end_date': endDate,
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': acceptLanguage};

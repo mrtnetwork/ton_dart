@@ -30,9 +30,6 @@ class StorageUsedShort extends TonSerialization {
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'cells': cells.toString(),
-      'bits': bits.toString(),
-    };
+    return {'cells': cells.toString(), 'bits': bits.toString()};
   }
 }

@@ -30,11 +30,13 @@ class JettonBridgeParamsResponse with JsonSerialization {
       stateFlags: json['state_flags'],
       burnBridgeFee: BigintUtils.tryParse(json['burn_bridge_fee']),
       oracles: List<OracleResponse>.from(
-          (json['oracles'] as List).map((x) => OracleResponse.fromJson(x))),
+        (json['oracles'] as List).map((x) => OracleResponse.fromJson(x)),
+      ),
       externalChainAddress: json['external_chain_address'],
-      prices: json['prices'] != null
-          ? JettonBridgePricesResponse.fromJson(json['prices'])
-          : null,
+      prices:
+          json['prices'] != null
+              ? JettonBridgePricesResponse.fromJson(json['prices'])
+              : null,
     );
   }
 

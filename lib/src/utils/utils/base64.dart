@@ -19,8 +19,10 @@ class Base64Utils {
       }
       return StringUtils.encode(b64, type: StringEncoding.base64);
     } catch (e) {
-      throw TonDartPluginException('Invalid base64 string.',
-          details: {'value': base64});
+      throw TonDartPluginException(
+        'Invalid base64 string.',
+        details: {'value': base64},
+      );
     }
   }
 }

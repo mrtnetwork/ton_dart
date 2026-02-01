@@ -6,8 +6,12 @@ import 'package:ton_dart/src/provider/models/response/account_info_by_state_init
 ///
 /// Get account info by state init.
 ///
-class TonApiGetAccountInfoByStateInit extends TonApiPostRequest<
-    AccountInfoByStateInitResponse, Map<String, dynamic>> {
+class TonApiGetAccountInfoByStateInit
+    extends
+        TonApiPostRequest<
+          AccountInfoByStateInitResponse,
+          Map<String, dynamic>
+        > {
   final String stateInit;
   TonApiGetAccountInfoByStateInit(this.stateInit);
   @override

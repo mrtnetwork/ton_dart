@@ -24,8 +24,9 @@ class ValidatorsResponse with JsonSerialization {
       electClose: BigintUtils.parse(json['elect_close']),
       minStake: BigintUtils.parse(json['min_stake']),
       totalStake: BigintUtils.parse(json['total_stake']),
-      validators: List<ValidatorResponse>.from((json['validators'] as List)
-          .map((x) => ValidatorResponse.fromJson(x))),
+      validators: List<ValidatorResponse>.from(
+        (json['validators'] as List).map((x) => ValidatorResponse.fromJson(x)),
+      ),
     );
   }
 

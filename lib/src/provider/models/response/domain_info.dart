@@ -16,11 +16,11 @@ class DomainInfoResponse with JsonSerialization {
 
   factory DomainInfoResponse.fromJson(Map<String, dynamic> json) {
     return DomainInfoResponse(
-        name: json['name'],
-        expiringAt: BigintUtils.tryParse(json['expiring_at']),
-        item: json['item'] != null
-            ? NftItemResponse.fromJson(json['item'])
-            : null);
+      name: json['name'],
+      expiringAt: BigintUtils.tryParse(json['expiring_at']),
+      item:
+          json['item'] != null ? NftItemResponse.fromJson(json['item']) : null,
+    );
   }
 
   @override
@@ -28,7 +28,7 @@ class DomainInfoResponse with JsonSerialization {
     return {
       'name': name,
       'expiring_at': expiringAt?.toString(),
-      'item': item?.toJson()
+      'item': item?.toJson(),
     };
   }
 }

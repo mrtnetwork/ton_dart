@@ -22,9 +22,12 @@ class BouncePhaseTypeResponse {
   static BouncePhaseTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No BouncePhaseTypeResponse find with provided name.',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No BouncePhaseTypeResponse find with provided name.',
+                details: {'name': name},
+              ),
     );
   }
 

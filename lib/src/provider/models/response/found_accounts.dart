@@ -8,9 +8,12 @@ class FoundAccountsResponse with JsonSerialization {
 
   factory FoundAccountsResponse.fromJson(Map<String, dynamic> json) {
     return FoundAccountsResponse(
-        addresses: List<FoundAccountsAddressesItemResponse>.from(
-            (json['addresses'] as List)
-                .map((x) => FoundAccountsAddressesItemResponse.fromJson(x))));
+      addresses: List<FoundAccountsAddressesItemResponse>.from(
+        (json['addresses'] as List).map(
+          (x) => FoundAccountsAddressesItemResponse.fromJson(x),
+        ),
+      ),
+    );
   }
 
   @override

@@ -18,10 +18,13 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
   bool get isTonCenter => rpc.api.isTonCenter;
 
   static SERVICERESPONSE _findError<SERVICERESPONSE>(
-      BaseServiceResponse response, TonRequestDetails request) {
+    BaseServiceResponse response,
+    TonRequestDetails request,
+  ) {
     if (response.type == ServiceResponseType.error) {
       final error = StringUtils.tryToJson<Map<String, dynamic>>(
-          response.cast<ServiceErrorResponse>().error);
+        response.cast<ServiceErrorResponse>().error,
+      );
       if (error != null) {
         _error(error, request);
       }
@@ -31,7 +34,9 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
       _error(val, request);
       if (request.apiType.isTonCenter && request.isJsonRpc) {
         return ServiceProviderUtils.parseResponse(
-            object: val['result'], params: request);
+          object: val['result'],
+          params: request,
+        );
       }
     }
     return ServiceProviderUtils.parseResponse(object: val, params: request);
@@ -58,9 +63,10 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
 
   static void _throw(TonRequestDetails request, String message, String? code) {
     throw RPCError(
-        message: message,
-        request: {...request.toJson(), 'api': request.apiType.name},
-        errorCode: int.tryParse(code ?? ''));
+      message: message,
+      request: {...request.toJson(), 'api': request.apiType.name},
+      errorCode: int.tryParse(code ?? ''),
+    );
   }
 
   /// Sends a request to the service using the specified [request] parameter.
@@ -68,8 +74,9 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
   /// The [timeout] parameter, if provided, sets the maximum duration for the request.
   @override
   Future<RESULT> request<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request,
-      {Duration? timeout}) async {
+    BaseServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request, {
+    Duration? timeout,
+  }) async {
     final r = await requestDynamic(request, timeout: timeout);
     return request.onResonse(r);
   }
@@ -80,16 +87,21 @@ class TonProvider implements BaseProvider<TonRequestDetails> {
   /// Whatever is received will be returned
   @override
   Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
-      BaseServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request,
-      {Duration? timeout}) async {
+    BaseServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request, {
+    Duration? timeout,
+  }) async {
     final params = request.buildRequest(_id++);
     if (params.isJsonRpc) {
-      final response =
-          await rpc.doRequest<Map<String, dynamic>>(params, timeout: timeout);
+      final response = await rpc.doRequest<Map<String, dynamic>>(
+        params,
+        timeout: timeout,
+      );
       return _findError<SERVICERESPONSE>(response, params);
     }
-    final response =
-        await rpc.doRequest<SERVICERESPONSE>(params, timeout: timeout);
+    final response = await rpc.doRequest<SERVICERESPONSE>(
+      params,
+      timeout: timeout,
+    );
 
     return _findError(response, params);
   }

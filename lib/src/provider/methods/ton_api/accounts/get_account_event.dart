@@ -17,11 +17,12 @@ class TonApiGetAccountEvent
   /// filter actions where requested account is not real subject (for example sender or receiver jettons)
   /// default: false
   final bool? subjectOnly;
-  TonApiGetAccountEvent(
-      {required this.accountId,
-      required this.eventId,
-      this.acceptLanguage,
-      this.subjectOnly});
+  TonApiGetAccountEvent({
+    required this.accountId,
+    required this.eventId,
+    this.acceptLanguage,
+    this.subjectOnly,
+  });
   @override
   String get method => TonApiMethods.getaccountevent.url;
 
@@ -29,8 +30,9 @@ class TonApiGetAccountEvent
   List<String> get pathParameters => [accountId, eventId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'subject_only': subjectOnly?.toString()};
+  Map<String, dynamic> get queryParameters => {
+    'subject_only': subjectOnly?.toString(),
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': acceptLanguage};

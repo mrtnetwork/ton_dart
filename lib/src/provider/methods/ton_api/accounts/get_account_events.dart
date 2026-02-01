@@ -29,15 +29,16 @@ class TonApiGetAccountEvents
 
   final BigInt? startDate;
   final BigInt? endDate;
-  TonApiGetAccountEvents(
-      {required this.accountId,
-      this.acceptLanguage,
-      this.initiator,
-      this.subjectOnly,
-      this.beforeLt,
-      this.limit = 20,
-      this.startDate,
-      this.endDate});
+  TonApiGetAccountEvents({
+    required this.accountId,
+    this.acceptLanguage,
+    this.initiator,
+    this.subjectOnly,
+    this.beforeLt,
+    this.limit = 20,
+    this.startDate,
+    this.endDate,
+  });
 
   @override
   String get method => TonApiMethods.getaccountevents.url;
@@ -47,13 +48,13 @@ class TonApiGetAccountEvents
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'initiator': initiator,
-        'subject_only': subjectOnly,
-        'before_lt': beforeLt,
-        'limit': limit,
-        'start_date': startDate,
-        'end_date': endDate
-      };
+    'initiator': initiator,
+    'subject_only': subjectOnly,
+    'before_lt': beforeLt,
+    'limit': limit,
+    'start_date': startDate,
+    'end_date': endDate,
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': acceptLanguage};

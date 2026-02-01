@@ -23,8 +23,11 @@ class JettonSwapActionDexResponse {
   static JettonSwapActionDexResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element._value == name,
-      orElse: () => throw TonDartPluginException(
-          'No JettonSwapActionDexResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No JettonSwapActionDexResponse found with the provided name: $name',
+              ),
     );
   }
 }

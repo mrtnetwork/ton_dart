@@ -5,20 +5,22 @@ class BlockchainAccountInspectMethodsItemResponse with JsonSerialization {
   final BigInt id;
   final String method;
 
-  const BlockchainAccountInspectMethodsItemResponse(
-      {required this.id, required this.method});
+  const BlockchainAccountInspectMethodsItemResponse({
+    required this.id,
+    required this.method,
+  });
 
   factory BlockchainAccountInspectMethodsItemResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return BlockchainAccountInspectMethodsItemResponse(
-        id: BigintUtils.parse(json['id']), method: json['method']);
+      id: BigintUtils.parse(json['id']),
+      method: json['method'],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'id': id.toString(),
-      'method': method,
-    };
+    return {'id': id.toString(), 'method': method};
   }
 }

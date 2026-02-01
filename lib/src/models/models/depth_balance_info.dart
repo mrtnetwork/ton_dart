@@ -10,8 +10,9 @@ class DepthBalanceInfo extends TonSerialization {
   const DepthBalanceInfo({required this.splitDepth, required this.balance});
   factory DepthBalanceInfo.deserialize(Slice slice) {
     return DepthBalanceInfo(
-        splitDepth: slice.loadUint(5),
-        balance: CurrencyCollection.deserialize(slice));
+      splitDepth: slice.loadUint(5),
+      balance: CurrencyCollection.deserialize(slice),
+    );
   }
   factory DepthBalanceInfo.fromJson(Map<String, dynamic> json) {
     return DepthBalanceInfo(

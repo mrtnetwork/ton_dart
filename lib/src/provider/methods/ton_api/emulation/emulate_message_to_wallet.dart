@@ -7,8 +7,9 @@ import 'package:ton_dart/src/provider/models/response/message_consequences.dart'
 ///
 /// Emulate sending message to blockchain.
 ///
-class TonApiEmulateMessageToWallet extends TonApiPostRequest<
-    MessageConsequencesResponse, Map<String, dynamic>> {
+class TonApiEmulateMessageToWallet
+    extends
+        TonApiPostRequest<MessageConsequencesResponse, Map<String, dynamic>> {
   final EmulateMessageToWalletReqResponse request;
   final String? acceptLanguage;
   TonApiEmulateMessageToWallet({required this.request, this.acceptLanguage});

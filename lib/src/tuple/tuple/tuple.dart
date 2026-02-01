@@ -39,16 +39,19 @@ class TupleItemTypes {
     nanItem,
     cellItem,
     sliceItem,
-    builderItem
+    builderItem,
   ];
 
   static TupleItemTypes fromName(String? name, {TupleItemTypes? expected}) {
     final n = name?.replaceAll('tvm.', '').toLowerCase();
     final type = values.firstWhere(
       (element) => element.name == n,
-      orElse: () => throw TupleException(
-          'Cannot find tuple type from provided type.',
-          details: {'value': name}),
+      orElse:
+          () =>
+              throw TupleException(
+                'Cannot find tuple type from provided type.',
+                details: {'value': name},
+              ),
     );
     if (expected != null && expected != type) {
       throw TupleException('Incorrect tuple type expected $expected got $type');
@@ -124,12 +127,14 @@ class TupleItemTuple extends TupleItem {
   factory TupleItemTuple.fromJson(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.tupleItem);
     return TupleItemTuple(
-        (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList());
+      (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList(),
+    );
   }
   factory TupleItemTuple.fromTvm(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.tupleItem);
     return TupleItemTuple(
-        (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList());
+      (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList(),
+    );
   }
   @override
   TupleItemTypes get type => TupleItemTypes.tupleItem;
@@ -315,8 +320,10 @@ class TupleItemBuilder extends TupleItemCell {
     return TupleItemBuilder(cell);
   }
   factory TupleItemBuilder.fromTvm(Map<String, dynamic> json) {
-    TupleItemTypes.fromName(json['@type'],
-        expected: TupleItemTypes.builderItem);
+    TupleItemTypes.fromName(
+      json['@type'],
+      expected: TupleItemTypes.builderItem,
+    );
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
       throw TupleException('Invalid builder string hex or base64');

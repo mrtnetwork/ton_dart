@@ -23,8 +23,10 @@ class TonApiGetAccountTraces
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'limit': limit, 'before_lt': beforeLt};
+  Map<String, dynamic> get queryParameters => {
+    'limit': limit,
+    'before_lt': beforeLt,
+  };
 
   @override
   TraceIDsResponse onResonse(Map<String, dynamic> result) {

@@ -7,10 +7,11 @@ class JettonQuantityResponse with JsonSerialization {
   final AccountAddressResponse walletAddress;
   final JettonPreviewResponse jetton;
 
-  const JettonQuantityResponse(
-      {required this.quantity,
-      required this.walletAddress,
-      required this.jetton});
+  const JettonQuantityResponse({
+    required this.quantity,
+    required this.walletAddress,
+    required this.jetton,
+  });
 
   factory JettonQuantityResponse.fromJson(Map<String, dynamic> json) {
     return JettonQuantityResponse(
@@ -25,7 +26,7 @@ class JettonQuantityResponse with JsonSerialization {
     return {
       'quantity': quantity,
       'wallet_address': walletAddress.toJson(),
-      'jetton': jetton.toJson()
+      'jetton': jetton.toJson(),
     };
   }
 }

@@ -6,8 +6,9 @@ import 'package:ton_dart/src/provider/models/response/raw_blockchain_block_state
 ///
 /// Get raw blockchain block state.
 ///
-class TonApiGetRawBlockchainBlockState extends TonApiRequest<
-    RawBlockchainBlockStateResponse, Map<String, dynamic>> {
+class TonApiGetRawBlockchainBlockState
+    extends
+        TonApiRequest<RawBlockchainBlockStateResponse, Map<String, dynamic>> {
   final String blockId;
   TonApiGetRawBlockchainBlockState(this.blockId);
   @override

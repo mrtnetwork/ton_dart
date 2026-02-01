@@ -8,19 +8,20 @@ class HighloadWalletV3State implements ContractState {
   final TonPublicKey publicKey;
   final int timeout;
   final int subWalletId;
-  HighloadWalletV3State(
-      {required List<int> publicKey,
-      required this.timeout,
-      required this.subWalletId})
-      : publicKey = TonPublicKey.fromBytes(publicKey);
+  HighloadWalletV3State({
+    required List<int> publicKey,
+    required this.timeout,
+    required this.subWalletId,
+  }) : publicKey = TonPublicKey.fromBytes(publicKey);
 
   factory HighloadWalletV3State.deserialize(Slice slice) {
     return HighloadWalletV3State(
-        publicKey: slice.loadBuffer(32),
-        subWalletId: slice.loadUint(32),
-        timeout: slice
-            .skip(1 + 1 + HighloadWalletConst.highLoadTimeStampSize)
-            .loadUint(HighloadWalletConst.highLoadTimeOutSize));
+      publicKey: slice.loadBuffer(32),
+      subWalletId: slice.loadUint(32),
+      timeout: slice
+          .skip(1 + 1 + HighloadWalletConst.highLoadTimeStampSize)
+          .loadUint(HighloadWalletConst.highLoadTimeOutSize),
+    );
   }
 
   @override

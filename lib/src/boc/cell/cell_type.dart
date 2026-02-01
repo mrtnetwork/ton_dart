@@ -31,7 +31,7 @@ class CellType {
     prunedBranch,
     library,
     merkleProof,
-    merkleUpdate
+    merkleUpdate,
   ];
 
   /// Returns the corresponding `CellType` based on the provided [tag].

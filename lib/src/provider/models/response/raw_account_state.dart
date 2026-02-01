@@ -8,19 +8,21 @@ class RawAccountStateResponse with JsonSerialization {
   final String shardProof;
   final String proof;
   final String state;
-  const RawAccountStateResponse(
-      {required this.id,
-      required this.shardblk,
-      required this.shardProof,
-      required this.proof,
-      required this.state});
+  const RawAccountStateResponse({
+    required this.id,
+    required this.shardblk,
+    required this.shardProof,
+    required this.proof,
+    required this.state,
+  });
   factory RawAccountStateResponse.fromJson(Map<String, dynamic> json) {
     return RawAccountStateResponse(
-        id: BlockRawResponse.fromJson(json['id']),
-        shardblk: BlockRawResponse.fromJson(json['shardblk']),
-        shardProof: json['shard_proof'],
-        proof: json['proof'],
-        state: json['state']);
+      id: BlockRawResponse.fromJson(json['id']),
+      shardblk: BlockRawResponse.fromJson(json['shardblk']),
+      shardProof: json['shard_proof'],
+      proof: json['proof'],
+      state: json['state'],
+    );
   }
 
   @override
@@ -30,7 +32,7 @@ class RawAccountStateResponse with JsonSerialization {
       'shardblk': shardblk.toJson(),
       'shard_proof': shardProof,
       'proof': proof,
-      'state': state
+      'state': state,
     };
   }
 }

@@ -6,10 +6,11 @@ class BlockParamLimitsResponse with JsonSerialization {
   final BigInt softLimit;
   final BigInt hardLimit;
 
-  const BlockParamLimitsResponse(
-      {required this.underload,
-      required this.softLimit,
-      required this.hardLimit});
+  const BlockParamLimitsResponse({
+    required this.underload,
+    required this.softLimit,
+    required this.hardLimit,
+  });
 
   factory BlockParamLimitsResponse.fromJson(Map<String, dynamic> json) {
     return BlockParamLimitsResponse(

@@ -7,19 +7,22 @@ class DecodedMessageResponse with JsonSerialization {
   final String destinationWalletVersion;
   final DecodedMessageExtInMsgDecodedResponse? extInMsgDecoded;
 
-  const DecodedMessageResponse(
-      {required this.destination,
-      required this.destinationWalletVersion,
-      this.extInMsgDecoded});
+  const DecodedMessageResponse({
+    required this.destination,
+    required this.destinationWalletVersion,
+    this.extInMsgDecoded,
+  });
 
   factory DecodedMessageResponse.fromJson(Map<String, dynamic> json) {
     return DecodedMessageResponse(
       destination: AccountAddressResponse.fromJson(json['destination']),
       destinationWalletVersion: json['destination_wallet_version'],
-      extInMsgDecoded: json['ext_in_msg_decoded'] != null
-          ? DecodedMessageExtInMsgDecodedResponse.fromJson(
-              json['ext_in_msg_decoded'])
-          : null,
+      extInMsgDecoded:
+          json['ext_in_msg_decoded'] != null
+              ? DecodedMessageExtInMsgDecodedResponse.fromJson(
+                json['ext_in_msg_decoded'],
+              )
+              : null,
     );
   }
 

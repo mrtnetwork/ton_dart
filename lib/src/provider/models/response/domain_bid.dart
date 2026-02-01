@@ -10,12 +10,13 @@ class DomainBidResponse with JsonSerialization {
   final String txHash;
   final AccountAddressResponse bidder;
 
-  const DomainBidResponse(
-      {required this.success,
-      required this.value,
-      required this.txTime,
-      required this.txHash,
-      required this.bidder});
+  const DomainBidResponse({
+    required this.success,
+    required this.value,
+    required this.txTime,
+    required this.txHash,
+    required this.bidder,
+  });
 
   factory DomainBidResponse.fromJson(Map<String, dynamic> json) {
     return DomainBidResponse(
@@ -34,7 +35,7 @@ class DomainBidResponse with JsonSerialization {
       'value': value.toString(),
       'txTime': txTime.toString(),
       'txHash': txHash,
-      'bidder': bidder.toJson()
+      'bidder': bidder.toJson(),
     };
   }
 }

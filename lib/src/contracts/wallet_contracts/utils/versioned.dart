@@ -9,10 +9,11 @@ import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/versioned.dart';
 
 class VersionedWalletUtils {
-  static VersionedWalletState readState(
-      {required Cell? stateData,
-      required WalletVersion type,
-      required TonChainId chain}) {
+  static VersionedWalletState readState({
+    required Cell? stateData,
+    required WalletVersion type,
+    required TonChainId chain,
+  }) {
     if (stateData == null) {
       throw TonContractExceptionConst.stateIsInactive;
     }
@@ -40,47 +41,58 @@ class VersionedWalletUtils {
         case WalletVersion.v5R1:
           final pubKeyEnabled = cell.loadBoolean();
           seqno = cell.loadUint32();
-          final context =
-              loadV5Context(contextBytes: cell.loadBuffer(4), chain: chain);
+          final context = loadV5Context(
+            contextBytes: cell.loadBuffer(4),
+            chain: chain,
+          );
           pubkeyBytes = cell.loadBuffer(32);
           List<TonAddress> extensionPubkeys = [];
           final pubRefs = cell.loadMaybeRef();
           if (pubRefs != null) {
             final Dictionary<List<int>, BigInt> items = Dictionary.loadDirect(
-                key: DictionaryKey.bufferCodec(32),
-                value: DictionaryValue.bigIntValueCodec(1),
-                slice: pubRefs.beginParse());
-            extensionPubkeys = items.keys
-                .map((e) => TonAddress.fromBytes(chain.workchain, e))
-                .toList();
+              key: DictionaryKey.bufferCodec(32),
+              value: DictionaryValue.bigIntValueCodec(1),
+              slice: pubRefs.beginParse(),
+            );
+            extensionPubkeys =
+                items.keys
+                    .map((e) => TonAddress.fromBytes(chain.workchain, e))
+                    .toList();
           }
 
           return V5VersionedWalletState(
-              publicKey: pubkeyBytes,
-              seqno: seqno,
-              context: context,
-              version: type,
-              setPubKeyEnabled: pubKeyEnabled,
-              extensionPubKeys: extensionPubkeys);
+            publicKey: pubkeyBytes,
+            seqno: seqno,
+            context: context,
+            version: type,
+            setPubKeyEnabled: pubKeyEnabled,
+            extensionPubKeys: extensionPubkeys,
+          );
         default:
           throw UnimplementedError();
       }
       if (subWallet == null) {
         return NoneSubWalletVersionedWalletState(
-            publicKey: pubkeyBytes, seqno: seqno, version: type);
-      }
-      return SubWalletVersionedWalletState(
-          subwallet: subWallet,
           publicKey: pubkeyBytes,
           seqno: seqno,
-          version: type);
+          version: type,
+        );
+      }
+      return SubWalletVersionedWalletState(
+        subwallet: subWallet,
+        publicKey: pubkeyBytes,
+        seqno: seqno,
+        version: type,
+      );
     } catch (e) {
       throw TonContractException('Invalid ${type.name} state account data.');
     }
   }
 
-  static V5R1Context loadV5Context(
-      {required List<int> contextBytes, required TonChainId chain}) {
+  static V5R1Context loadV5Context({
+    required List<int> contextBytes,
+    required TonChainId chain,
+  }) {
     final contextId = BitReader(BitString(contextBytes, 0, 32)).loadInt(32);
     final context = BigInt.from(contextId) ^ BigInt.from(chain.id);
     final slice = beginCell().storeInt(context, 32).endCell().beginParse();
@@ -93,8 +105,10 @@ class VersionedWalletUtils {
       }
       final subwalletNumber = slice.loadUint(15);
       if (chain.workchain != workchain) {
-        throw TonContractException('Incorrect workchain.',
-            details: {'expected': workchain, 'got': chain.workchain});
+        throw TonContractException(
+          'Incorrect workchain.',
+          details: {'expected': workchain, 'got': chain.workchain},
+        );
       }
       return V5R1ClientContext(chain: chain, subwalletNumber: subwalletNumber);
     }
@@ -108,23 +122,29 @@ class VersionedWalletUtils {
     required TonChainId? chain,
   }) {
     final state = readState(
-        stateData: stateData,
-        type: type,
-        chain: chain ?? TonChainId.fromWorkchain(address.workChain));
+      stateData: stateData,
+      type: type,
+      chain: chain ?? TonChainId.fromWorkchain(address.workChain),
+    );
     final StateInit currentState = state.initialState();
-    final currentAddress =
-        TonAddress.fromState(state: currentState, workChain: address.workChain);
+    final currentAddress = TonAddress.fromState(
+      state: currentState,
+      workChain: address.workChain,
+    );
     if (currentAddress.toRawAddress() != address.toRawAddress()) {
       throw TonContractException(
-          'Invalid wallet address. state gives a different address',
-          details: {
-            'expected': currentAddress.toRawAddress(),
-            'address': address.toRawAddress()
-          });
+        'Invalid wallet address. state gives a different address',
+        details: {
+          'expected': currentAddress.toRawAddress(),
+          'address': address.toRawAddress(),
+        },
+      );
     }
     if (state is! T) {
-      throw TonContractException('Incurrect state casting.',
-          details: {'expected': state.toString(), 'got': '$T'});
+      throw TonContractException(
+        'Incurrect state casting.',
+        details: {'expected': state.toString(), 'got': '$T'},
+      );
     }
     return state;
   }

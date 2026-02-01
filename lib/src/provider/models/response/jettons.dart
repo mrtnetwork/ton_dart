@@ -8,9 +8,11 @@ class JettonsResponse with JsonSerialization {
 
   factory JettonsResponse.fromJson(Map<String, dynamic> json) {
     return JettonsResponse(
-        nftItems: (json['jettons'] as List)
-            .map((item) => JettonInfoResponse.fromJson(item))
-            .toList());
+      nftItems:
+          (json['jettons'] as List)
+              .map((item) => JettonInfoResponse.fromJson(item))
+              .toList(),
+    );
   }
 
   @override

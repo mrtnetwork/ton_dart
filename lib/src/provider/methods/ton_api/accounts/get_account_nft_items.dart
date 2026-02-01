@@ -24,12 +24,13 @@ class TonApiGetAccountNftItems
   /// Default: false
   final bool? indirectOwnership;
 
-  TonApiGetAccountNftItems(
-      {required this.accountId,
-      this.collection,
-      this.limit,
-      this.offset,
-      this.indirectOwnership});
+  TonApiGetAccountNftItems({
+    required this.accountId,
+    this.collection,
+    this.limit,
+    this.offset,
+    this.indirectOwnership,
+  });
 
   @override
   String get method => TonApiMethods.getaccountnftitems.url;
@@ -39,11 +40,11 @@ class TonApiGetAccountNftItems
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'collection': collection,
-        'limit': limit,
-        'offset': offset,
-        'indirect_ownership': indirectOwnership
-      };
+    'collection': collection,
+    'limit': limit,
+    'offset': offset,
+    'indirect_ownership': indirectOwnership,
+  };
 
   @override
   NftItemsResponse onResonse(Map<String, dynamic> result) {

@@ -7,11 +7,12 @@ class AccountStateResponse with JsonSerialization {
   final Cell? code;
   final Cell? data;
   final AccountStatusResponse state;
-  const AccountStateResponse(
-      {required this.balance,
-      required this.code,
-      required this.data,
-      required this.state});
+  const AccountStateResponse({
+    required this.balance,
+    required this.code,
+    required this.data,
+    required this.state,
+  });
 
   @override
   Map<String, dynamic> toJson() {

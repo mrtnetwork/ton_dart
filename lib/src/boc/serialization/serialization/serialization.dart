@@ -21,22 +21,22 @@ class _ParseBocResult {
   final bool? hasIndex;
   final bool? hasCrc32;
   final int magicNumber;
-  _ParseBocResult(
-      {required this.size,
-      required this.offBytes,
-      required this.cells,
-      required this.roots,
-      required this.absent,
-      required this.totalCellSize,
-      required List<int>? index,
-      required List<int> cellData,
-      required List<int> root,
-      required this.magicNumber,
-      this.hasCrc32,
-      this.hasIndex})
-      : index = BytesUtils.tryToBytes(index, unmodifiable: true),
-        cellData = BytesUtils.toBytes(cellData, unmodifiable: true),
-        root = BytesUtils.toBytes(root, unmodifiable: true);
+  _ParseBocResult({
+    required this.size,
+    required this.offBytes,
+    required this.cells,
+    required this.roots,
+    required this.absent,
+    required this.totalCellSize,
+    required List<int>? index,
+    required List<int> cellData,
+    required List<int> root,
+    required this.magicNumber,
+    this.hasCrc32,
+    this.hasIndex,
+  }) : index = BytesUtils.tryToBytes(index, unmodifiable: true),
+       cellData = BytesUtils.toBytes(cellData, unmodifiable: true),
+       root = BytesUtils.toBytes(root, unmodifiable: true);
 }
 
 class _ReadCellResult {
@@ -44,19 +44,24 @@ class _ReadCellResult {
   final List<int> refsList;
   final bool exotic;
   Cell? result;
-  _ReadCellResult._(
-      {required this.bits,
-      required List<int> refsList,
-      required this.exotic,
-      required this.result})
-      : refsList = List<int>.unmodifiable(refsList);
-  _ReadCellResult copyWith(
-      {BitString? bits, List<int>? refsList, bool? exotic, Cell? result}) {
+  _ReadCellResult._({
+    required this.bits,
+    required List<int> refsList,
+    required this.exotic,
+    required this.result,
+  }) : refsList = List<int>.unmodifiable(refsList);
+  _ReadCellResult copyWith({
+    BitString? bits,
+    List<int>? refsList,
+    bool? exotic,
+    Cell? result,
+  }) {
     return _ReadCellResult._(
-        bits: bits ?? this.bits,
-        refsList: refsList ?? this.refsList,
-        exotic: exotic ?? this.exotic,
-        result: result ?? this.result);
+      bits: bits ?? this.bits,
+      refsList: refsList ?? this.refsList,
+      exotic: exotic ?? this.exotic,
+      result: result ?? this.result,
+    );
   }
 }
 
@@ -92,16 +97,17 @@ class _BocSerializationUtils {
         final index = reader.loadBuffer(cells * offBytes);
         final cellData = reader.loadBuffer(totalCellSize);
         return _ParseBocResult(
-            size: size,
-            offBytes: offBytes,
-            cells: cells,
-            roots: roots,
-            absent: absent,
-            totalCellSize: totalCellSize,
-            index: index,
-            cellData: cellData,
-            root: [0],
-            magicNumber: magic);
+          size: size,
+          offBytes: offBytes,
+          cells: cells,
+          roots: roots,
+          absent: absent,
+          totalCellSize: totalCellSize,
+          index: index,
+          cellData: cellData,
+          root: [0],
+          magicNumber: magic,
+        );
       case customFormatMagic:
         final size = reader.loadUint(8);
         final offBytes = reader.loadUint(8);
@@ -113,23 +119,29 @@ class _BocSerializationUtils {
         final cellData = reader.loadBuffer(totalCellSize);
         final crc32 = reader.loadBuffer(4);
         if (!BytesUtils.bytesEqual(
-            CryptoUtils.crc32c(src.sublist(0, src.length - 4)), crc32)) {
-          throw BocException('Invalid CRC32C', details: {
-            'crc32': crc32,
-            'expected': src.sublist(0, src.length - 4)
-          });
+          CryptoUtils.crc32c(src.sublist(0, src.length - 4)),
+          crc32,
+        )) {
+          throw BocException(
+            'Invalid CRC32C',
+            details: {
+              'crc32': crc32,
+              'expected': src.sublist(0, src.length - 4),
+            },
+          );
         }
         return _ParseBocResult(
-            size: size,
-            offBytes: offBytes,
-            cells: cells,
-            roots: roots,
-            absent: absent,
-            totalCellSize: totalCellSize,
-            index: index,
-            cellData: cellData,
-            root: [0],
-            magicNumber: magic);
+          size: size,
+          offBytes: offBytes,
+          cells: cells,
+          roots: roots,
+          absent: absent,
+          totalCellSize: totalCellSize,
+          index: index,
+          cellData: cellData,
+          root: [0],
+          magicNumber: magic,
+        );
       case anotherMagicNumber:
         final hasIdx = reader.loadBit();
         final hasCrc32c = reader.loadBit();
@@ -154,32 +166,44 @@ class _BocSerializationUtils {
         if (hasCrc32c) {
           final List<int> crc32 = reader.loadBuffer(4);
           if (!BytesUtils.bytesEqual(
-              CryptoUtils.crc32c(src.sublist(0, src.length - 4)), crc32)) {
-            throw BocException('Invalid CRC32C', details: {
-              'crc32': crc32,
-              'expected': src.sublist(0, src.length - 4)
-            });
+            CryptoUtils.crc32c(src.sublist(0, src.length - 4)),
+            crc32,
+          )) {
+            throw BocException(
+              'Invalid CRC32C',
+              details: {
+                'crc32': crc32,
+                'expected': src.sublist(0, src.length - 4),
+              },
+            );
           }
         }
         return _ParseBocResult(
-            size: size,
-            offBytes: offBytes,
-            cells: cells,
-            roots: roots,
-            absent: absent,
-            totalCellSize: totalCellSize,
-            index: index,
-            cellData: cellData,
-            root: root,
-            hasCrc32: hasCrc32c,
-            hasIndex: hasIdx,
-            magicNumber: magic);
+          size: size,
+          offBytes: offBytes,
+          cells: cells,
+          roots: roots,
+          absent: absent,
+          totalCellSize: totalCellSize,
+          index: index,
+          cellData: cellData,
+          root: root,
+          hasCrc32: hasCrc32c,
+          hasIndex: hasIdx,
+          magicNumber: magic,
+        );
       default:
-        throw BocException('Invalid magic number.', details: {
-          'magic': magic,
-          'expected': [bocMagicNumber, customFormatMagic, anotherMagicNumber]
-              .join('or ')
-        });
+        throw BocException(
+          'Invalid magic number.',
+          details: {
+            'magic': magic,
+            'expected': [
+              bocMagicNumber,
+              customFormatMagic,
+              anotherMagicNumber,
+            ].join('or '),
+          },
+        );
     }
   }
 
@@ -188,9 +212,16 @@ class _BocSerializationUtils {
   }
 
   static void writeCellToBuilder(
-      Cell cell, List<int> refs, int sizeBytes, BitBuilder to) {
-    final int d1 =
-        CellUtils.getRefsDescriptor(cell.refs, cell.mask.value, cell.type);
+    Cell cell,
+    List<int> refs,
+    int sizeBytes,
+    BitBuilder to,
+  ) {
+    final int d1 = CellUtils.getRefsDescriptor(
+      cell.refs,
+      cell.mask.value,
+      cell.type,
+    );
     final int d2 = CellUtils.getBitsDescriptor(cell.bits);
     to.writeUint(d1, 8);
     to.writeUint(d2, 8);
@@ -224,9 +255,10 @@ class _BocSerializationUtils {
     // Bits
     var bits = BitString.empty;
     if (dataBytesize > 0) {
-      bits = paddingAdded
-          ? reader.loadPaddedBits(dataBytesize * 8)
-          : reader.loadBits(dataBytesize * 8);
+      bits =
+          paddingAdded
+              ? reader.loadPaddedBits(dataBytesize * 8)
+              : reader.loadBits(dataBytesize * 8);
     }
 
     // Refs
@@ -235,15 +267,22 @@ class _BocSerializationUtils {
       refsList.add(reader.loadUint(sizeBytes * 8));
     }
     return _ReadCellResult._(
-        bits: bits, refsList: refsList, exotic: exotic, result: null);
+      bits: bits,
+      refsList: refsList,
+      exotic: exotic,
+      result: null,
+    );
 
     // Result
   }
 }
 
 class BocSerialization {
-  static List<int> serialize(
-      {required Cell root, required bool idx, required bool crc32}) {
+  static List<int> serialize({
+    required Cell root,
+    required bool idx,
+    required bool crc32,
+  }) {
     // Sort cells
     final allCells = CellUtils.topologicalSort(root);
 
@@ -261,7 +300,8 @@ class BocSerialization {
     }
     final int offsetBytes =
         (totalCellSize.toRadixString(2).length / 8).ceil().clamp(1, 3).toInt();
-    final int totalSize = (4 + // magic
+    final int totalSize =
+        (4 + // magic
             1 + // flags and s_bytes
             1 + // offset_bytes
             3 * sizeBytes + // cells_num, roots, complete
@@ -295,19 +335,26 @@ class BocSerialization {
     for (int i = 0; i < cellsNum; i++) {
       // Cells
       _BocSerializationUtils.writeCellToBuilder(
-          allCells[i].cell, allCells[i].refs, sizeBytes, builder);
+        allCells[i].cell,
+        allCells[i].refs,
+        sizeBytes,
+        builder,
+      );
     }
     if (crc32) {
-      final List<int> crc32 = CryptoUtils.crc32c(builder
-          .buffer()); // builder.buffer() is fast since it doesn't allocate new memory
+      final List<int> crc32 = CryptoUtils.crc32c(
+        builder.buffer(),
+      ); // builder.buffer() is fast since it doesn't allocate new memory
       builder.writeBuffer(crc32);
     }
 
     // Sanity Check
     final List<int> res = builder.buffer();
     if (res.length != totalSize ~/ 8) {
-      throw BocException('Serialization cannot verify length.',
-          details: {'expected': totalSize ~/ 8, 'length': res.length});
+      throw BocException(
+        'Serialization cannot verify length.',
+        details: {'expected': totalSize ~/ 8, 'length': res.length},
+      );
     }
     return res;
   }
@@ -315,12 +362,15 @@ class BocSerialization {
   static List<Cell> deserialize(List<int> src) {
     /// Parse BOC
     final _ParseBocResult boc = _BocSerializationUtils.parseBoc(src);
-    final BitReader reader =
-        BitReader(BitString(boc.cellData, 0, boc.cellData.length * 8));
+    final BitReader reader = BitReader(
+      BitString(boc.cellData, 0, boc.cellData.length * 8),
+    );
 
     /// Load cells
-    final List<_ReadCellResult> cells = List.generate(boc.cells,
-        (index) => _BocSerializationUtils.readCell(reader, boc.size));
+    final List<_ReadCellResult> cells = List.generate(
+      boc.cells,
+      (index) => _BocSerializationUtils.readCell(reader, boc.size),
+    );
 
     /// Build cells
     for (int i = cells.length - 1; i >= 0; i--) {

@@ -75,33 +75,41 @@ class TransactionResponse with JsonSerialization {
       endStatus: AccountStatusResponse.fromName(json['end_status']),
       totalFees: BigintUtils.parse(json['total_fees']),
       endBalance: BigintUtils.parse(json['end_balance']),
-      transactionType:
-          TransactionTypeResponse.fromName(json['transaction_type']),
+      transactionType: TransactionTypeResponse.fromName(
+        json['transaction_type'],
+      ),
       stateUpdateOld: json['state_update_old'],
       stateUpdateNew: json['state_update_new'],
-      inMsg: json['in_msg'] != null
-          ? MessageResponse.fromJson(json['in_msg'])
-          : null,
-      outMsgs: List<MessageResponse>.from((json['out_msgs'] as List)
-          .map((msg) => MessageResponse.fromJson(msg))),
+      inMsg:
+          json['in_msg'] != null
+              ? MessageResponse.fromJson(json['in_msg'])
+              : null,
+      outMsgs: List<MessageResponse>.from(
+        (json['out_msgs'] as List).map((msg) => MessageResponse.fromJson(msg)),
+      ),
       block: json['block'],
       prevTransHash: json['prev_trans_hash'],
       prevTransLt: BigintUtils.tryParse(json['prev_trans_lt']),
-      computePhase: json['compute_phase'] != null
-          ? ComputePhaseResponse.fromJson(json['compute_phase'])
-          : null,
-      storagePhase: json['storage_phase'] != null
-          ? StoragePhaseResponse.fromJson(json['storage_phase'])
-          : null,
-      creditPhase: json['credit_phase'] != null
-          ? CreditPhaseResponse.fromJson(json['credit_phase'])
-          : null,
-      actionPhase: json['action_phase'] != null
-          ? ActionPhaseResponse.fromJson(json['action_phase'])
-          : null,
-      bouncePhase: json['bounce_phase'] != null
-          ? BouncePhaseTypeResponse.fromName(json['bounce_phase'])
-          : null,
+      computePhase:
+          json['compute_phase'] != null
+              ? ComputePhaseResponse.fromJson(json['compute_phase'])
+              : null,
+      storagePhase:
+          json['storage_phase'] != null
+              ? StoragePhaseResponse.fromJson(json['storage_phase'])
+              : null,
+      creditPhase:
+          json['credit_phase'] != null
+              ? CreditPhaseResponse.fromJson(json['credit_phase'])
+              : null,
+      actionPhase:
+          json['action_phase'] != null
+              ? ActionPhaseResponse.fromJson(json['action_phase'])
+              : null,
+      bouncePhase:
+          json['bounce_phase'] != null
+              ? BouncePhaseTypeResponse.fromName(json['bounce_phase'])
+              : null,
       aborted: json['aborted'],
       destroyed: json['destroyed'],
     );

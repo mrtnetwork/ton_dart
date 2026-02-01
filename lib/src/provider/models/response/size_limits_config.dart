@@ -11,15 +11,16 @@ class SizeLimitsConfigResponse with JsonSerialization {
   final BigInt? maxAccStateCells;
   final BigInt? maxAccStateBits;
 
-  const SizeLimitsConfigResponse(
-      {required this.maxMsgBits,
-      required this.maxMsgCells,
-      required this.maxLibraryCells,
-      required this.maxVMDataDepth,
-      required this.maxExtMsgSize,
-      required this.maxExtMsgDepth,
-      this.maxAccStateCells,
-      this.maxAccStateBits});
+  const SizeLimitsConfigResponse({
+    required this.maxMsgBits,
+    required this.maxMsgCells,
+    required this.maxLibraryCells,
+    required this.maxVMDataDepth,
+    required this.maxExtMsgSize,
+    required this.maxExtMsgDepth,
+    this.maxAccStateCells,
+    this.maxAccStateBits,
+  });
 
   factory SizeLimitsConfigResponse.fromJson(Map<String, dynamic> json) {
     return SizeLimitsConfigResponse(

@@ -10,12 +10,13 @@ class NFTItemData with JsonSerialization {
   final TonAddress? ownerAddress;
   final Cell? content;
 
-  const NFTItemData(
-      {required this.init,
-      required this.index,
-      this.collectionAddress,
-      this.ownerAddress,
-      this.content});
+  const NFTItemData({
+    required this.init,
+    required this.index,
+    this.collectionAddress,
+    this.ownerAddress,
+    this.content,
+  });
 
   String? parseUri() {
     if (!init) return null;
@@ -45,7 +46,7 @@ class NFTItemData with JsonSerialization {
       'index': index.toString(),
       'collection_address': collectionAddress?.toFriendlyAddress(),
       'owner_address': ownerAddress?.toFriendlyAddress(),
-      'content': content?.toBase64()
+      'content': content?.toBase64(),
     };
   }
 }

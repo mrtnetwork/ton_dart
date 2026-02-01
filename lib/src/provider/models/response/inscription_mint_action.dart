@@ -34,7 +34,7 @@ class InscriptionMintActionResponse with JsonSerialization {
       'amount': amount,
       'type': type.value,
       'ticker': ticker,
-      'decimals': decimals
+      'decimals': decimals,
     };
   }
 }

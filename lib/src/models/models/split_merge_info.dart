@@ -12,17 +12,19 @@ class SplitMergeInfo extends TonSerialization {
   final int accountSplitDepth;
   final BigInt thisAddress;
   final BigInt siblingAddress;
-  const SplitMergeInfo(
-      {required this.currentShardPrefixLength,
-      required this.accountSplitDepth,
-      required this.thisAddress,
-      required this.siblingAddress});
+  const SplitMergeInfo({
+    required this.currentShardPrefixLength,
+    required this.accountSplitDepth,
+    required this.thisAddress,
+    required this.siblingAddress,
+  });
   factory SplitMergeInfo.fromJson(Map<String, dynamic> json) {
     return SplitMergeInfo(
-        currentShardPrefixLength: json['current_shard_prefix_length'],
-        accountSplitDepth: json['account_split_depth'],
-        thisAddress: BigintUtils.parse(json['this_address']),
-        siblingAddress: BigintUtils.parse(json['sibling_address']));
+      currentShardPrefixLength: json['current_shard_prefix_length'],
+      accountSplitDepth: json['account_split_depth'],
+      thisAddress: BigintUtils.parse(json['this_address']),
+      siblingAddress: BigintUtils.parse(json['sibling_address']),
+    );
   }
   factory SplitMergeInfo.deserialize(Slice slice) {
     return SplitMergeInfo(
@@ -47,7 +49,7 @@ class SplitMergeInfo extends TonSerialization {
       'current_shard_prefix_length': currentShardPrefixLength,
       'account_split_depth': accountSplitDepth,
       'this_address': thisAddress.toString(),
-      'sibling_address': siblingAddress.toString()
+      'sibling_address': siblingAddress.toString(),
     };
   }
 }

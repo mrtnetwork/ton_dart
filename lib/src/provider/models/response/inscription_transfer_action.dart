@@ -22,15 +22,17 @@ class InscriptionTransferActionResponse with JsonSerialization {
   });
 
   factory InscriptionTransferActionResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return InscriptionTransferActionResponse(
-        sender: AccountAddressResponse.fromJson(json['sender']),
-        recipient: AccountAddressResponse.fromJson(json['recipient']),
-        amount: json['amount'],
-        comment: json['comment'],
-        type: InscriptionTypeResponse.fromName(json['type']),
-        ticker: json['ticker'],
-        decimals: json['decimals']);
+      sender: AccountAddressResponse.fromJson(json['sender']),
+      recipient: AccountAddressResponse.fromJson(json['recipient']),
+      amount: json['amount'],
+      comment: json['comment'],
+      type: InscriptionTypeResponse.fromName(json['type']),
+      ticker: json['ticker'],
+      decimals: json['decimals'],
+    );
   }
 
   @override

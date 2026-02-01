@@ -20,22 +20,29 @@ class OrderContract<E extends WalletContractTransferParams>
   final WalletContract<ContractState, E> owner;
   const OrderContract({required this.address, required this.owner, this.state});
 
-  factory OrderContract.create(
-      {TonChainId? chain,
-      required TonAddress multisig,
-      required BigInt orderSeqno,
-      required WalletContract<ContractState, E> owner}) {
-    final stateInit =
-        OrderContractState(multisig: multisig, orderSeqno: orderSeqno);
+  factory OrderContract.create({
+    TonChainId? chain,
+    required TonAddress multisig,
+    required BigInt orderSeqno,
+    required WalletContract<ContractState, E> owner,
+  }) {
+    final stateInit = OrderContractState(
+      multisig: multisig,
+      orderSeqno: orderSeqno,
+    );
     final state = stateInit.initialState();
     return OrderContract(
-        address: TonAddress.fromState(
-            state: state, workChain: chain?.workchain ?? owner.chain.workchain),
-        owner: owner,
-        state: stateInit);
+      address: TonAddress.fromState(
+        state: state,
+        workChain: chain?.workchain ?? owner.chain.workchain,
+      ),
+      owner: owner,
+      state: stateInit,
+    );
   }
   OrderContract changeOwnerWallet<T extends WalletContractTransferParams>(
-      WalletContract<ContractState, T> wallet) {
+    WalletContract<ContractState, T> wallet,
+  ) {
     return OrderContract<T>(address: address, owner: wallet, state: state);
   }
 
@@ -62,7 +69,7 @@ class OrderContract<E extends WalletContractTransferParams>
           bounced: bounced,
           body: body,
           bounce: bounce ?? address.isBounceable,
-        )
+        ),
       ],
       rpc: rpc,
       timeout: timeout,
@@ -72,14 +79,15 @@ class OrderContract<E extends WalletContractTransferParams>
     );
   }
 
-  Cell initMessageBody(
-      {required List<TonAddress> signers,
-      required BigInt expirationDate,
-      required Cell order,
-      required int threshold,
-      bool approveOnInit = false,
-      int signerIdx = 0,
-      BigInt? queryId}) {
+  Cell initMessageBody({
+    required List<TonAddress> signers,
+    required BigInt expirationDate,
+    required Cell order,
+    required int threshold,
+    bool approveOnInit = false,
+    int signerIdx = 0,
+    BigInt? queryId,
+  }) {
     final signersDict = MultiOwnerContractUtils.signersToDict(signers);
     final msgBody = beginCell()
         .storeUint32(MultiOwnerContractConst.orderInitOperation)
@@ -120,12 +128,14 @@ class OrderContract<E extends WalletContractTransferParams>
     final active = await isActive(rpc);
     if (!active) {
       throw const TonContractException(
-          'canoot send approve before deploying contarct. please first use deply method for deploying.');
+        'canoot send approve before deploying contarct. please first use deply method for deploying.',
+      );
     }
     if (signerIdx == null) {
       if (state == null) {
         throw const TonContractException(
-            'cannot send approve without known signer index. please first use deply method for deploying.');
+          'cannot send approve without known signer index. please first use deply method for deploying.',
+        );
       }
       signerIdx = state!.signers.indexOf(owner.address);
     }
@@ -147,15 +157,19 @@ class OrderContract<E extends WalletContractTransferParams>
   }
 
   Future<OrderContractState> getOrderData(TonProvider rpc) async {
-    final state =
-        await getStateStack(rpc: rpc, method: 'get_order_data', stack: []);
+    final state = await getStateStack(
+      rpc: rpc,
+      method: 'get_order_data',
+      stack: [],
+    );
     final stack = state.reader();
     final multisig = stack.readAddress();
     final orderSeqno = stack.readBigNumber();
     final threshold = stack.readNumberOpt();
     final executed = stack.readBooleanOpt();
-    final signers =
-        MultiOwnerContractUtils.signerCellToList(stack.readCellOpt());
+    final signers = MultiOwnerContractUtils.signerCellToList(
+      stack.readCellOpt(),
+    );
     final approvals = stack.readBigNumberOpt();
     final approvalsNum = stack.readNumberOpt();
     final expirationDate = stack.readBigNumberOpt();
@@ -169,14 +183,15 @@ class OrderContract<E extends WalletContractTransferParams>
       }
     }
     return OrderContractState(
-        multisig: multisig,
-        orderSeqno: orderSeqno,
-        threshold: threshold,
-        approvals: approvals,
-        approvalsNum: approvalsNum,
-        executed: executed,
-        signers: signers,
-        expirationDate: expirationDate,
-        order: order);
+      multisig: multisig,
+      orderSeqno: orderSeqno,
+      threshold: threshold,
+      approvals: approvals,
+      approvalsNum: approvalsNum,
+      executed: executed,
+      signers: signers,
+      expirationDate: expirationDate,
+      order: order,
+    );
   }
 }

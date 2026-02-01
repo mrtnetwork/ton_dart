@@ -18,8 +18,10 @@ class _BitBuilderUtils {
 
   static BigInt parseBigint(dynamic value, {bool sign = false}) {
     if (value is! int && value is! BigInt) {
-      throw BocException('Invalid integer type. value must be int or BigInt.',
-          details: {'value': value, 'type': value.runtimeType.toString()});
+      throw BocException(
+        'Invalid integer type. value must be int or BigInt.',
+        details: {'value': value, 'type': value.runtimeType.toString()},
+      );
     }
     BigInt val;
     if (value is int) {
@@ -41,8 +43,8 @@ class BitBuilder {
 
   /// Initializes a bit builder with a byte buffer of specified size.
   BitBuilder({int size = 1023})
-      : _bytes = List<int>.filled((size / 8).ceil(), 0),
-        _length = 0;
+    : _bytes = List<int>.filled((size / 8).ceil(), 0),
+      _length = 0;
 
   /// Returns the current length of the bit stream.
   int get length => _length;
@@ -50,8 +52,10 @@ class BitBuilder {
   /// Writes a single bit to the buffer.
   void writeBit(bool value) {
     if (_length > _bytes.length * 8) {
-      throw BocException('Overflow bytes',
-          details: {'offset': _length, 'length': _bytes.length * 8});
+      throw BocException(
+        'Overflow bytes',
+        details: {'offset': _length, 'length': _bytes.length * 8},
+      );
     }
     if (value) {
       _bytes[(_length / 8).floor()] |= 1 << (7 - (_length % 8));
@@ -69,13 +73,17 @@ class BitBuilder {
 
   /// Writes a buffer of bytes to the bit stream.
   void writeBuffer(List<int> src) {
-    BytesUtils.validateBytes(src);
+    src = src.asBytes;
+    // BytesUtils.validateBytes(src);
     if (_length % 8 == 0) {
       if (_length + src.length * 8 > _bytes.length * 8) {
-        throw BocException('Overflow bytes', details: {
-          'offset': _length + src.length * 8,
-          'length': _bytes.length * 8
-        });
+        throw BocException(
+          'Overflow bytes',
+          details: {
+            'offset': _length + src.length * 8,
+            'length': _bytes.length * 8,
+          },
+        );
       }
       _bytes.setRange(_length ~/ 8, (_length ~/ 8) + src.length, src);
       _length += src.length * 8;
@@ -93,16 +101,20 @@ class BitBuilder {
 
     if (bits == 0) {
       if (v != BigInt.zero) {
-        throw BocException('value is not zero for $bits bits.',
-            details: {'value': v});
+        throw BocException(
+          'value is not zero for $bits bits.',
+          details: {'value': v},
+        );
       } else {
         return;
       }
     }
 
     if (v.bitLength > bits) {
-      throw BocException('BitLength is too small for a value.',
-          details: {'value': v, 'bits': bits, 'value_bitLength': v.bitLength});
+      throw BocException(
+        'BitLength is too small for a value.',
+        details: {'value': v, 'bits': bits, 'value_bitLength': v.bitLength},
+      );
     }
 
     if (_length + bits > _bytes.length * 8) {
@@ -145,8 +157,10 @@ class BitBuilder {
 
     if (bits == 0) {
       if (value != BigInt.zero) {
-        throw BocException('value is not zero for $bits bits.',
-            details: {'value': v});
+        throw BocException(
+          'value is not zero for $bits bits.',
+          details: {'value': v},
+        );
       } else {
         return;
       }
@@ -154,8 +168,10 @@ class BitBuilder {
 
     if (bits == 1) {
       if (value != -BigInt.one && value != BigInt.zero) {
-        throw BocException('value is not zero or -1 for $bits bits.',
-            details: {'value': v});
+        throw BocException(
+          'value is not zero or -1 for $bits bits.',
+          details: {'value': v},
+        );
       } else {
         writeBit(value == -BigInt.one);
         return;
@@ -164,8 +180,10 @@ class BitBuilder {
 
     final BigInt vBits = BigInt.one << (bits - 1);
     if (v < -vBits || v >= vBits) {
-      throw BocException('Out of range.',
-          details: {'value': v, 'length': bits});
+      throw BocException(
+        'Out of range.',
+        details: {'value': v, 'length': bits},
+      );
     }
 
     if (v < BigInt.zero) {

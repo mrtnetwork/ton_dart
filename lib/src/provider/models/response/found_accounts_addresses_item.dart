@@ -5,16 +5,26 @@ class FoundAccountsAddressesItemResponse with JsonSerialization {
   final String name;
   final String preview;
 
-  const FoundAccountsAddressesItemResponse(
-      {required this.address, required this.name, required this.preview});
+  const FoundAccountsAddressesItemResponse({
+    required this.address,
+    required this.name,
+    required this.preview,
+  });
 
   factory FoundAccountsAddressesItemResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return FoundAccountsAddressesItemResponse(
-        address: json['address'], name: json['name'], preview: json['preview']);
+      address: json['address'],
+      name: json['name'],
+      preview: json['preview'],
+    );
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'address': address, 'name': name, 'preview': preview};
+  Map<String, dynamic> toJson() => {
+    'address': address,
+    'name': name,
+    'preview': preview,
+  };
 }

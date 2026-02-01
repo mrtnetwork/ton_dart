@@ -9,13 +9,14 @@ class ValidatorsSetResponse with JsonSerialization {
   final String? totalWeight;
   final List<ValidatorsSetListItemResponse> list;
 
-  const ValidatorsSetResponse(
-      {required this.utimeSince,
-      required this.utimeUntil,
-      required this.total,
-      required this.main,
-      this.totalWeight,
-      required this.list});
+  const ValidatorsSetResponse({
+    required this.utimeSince,
+    required this.utimeUntil,
+    required this.total,
+    required this.main,
+    this.totalWeight,
+    required this.list,
+  });
 
   factory ValidatorsSetResponse.fromJson(Map<String, dynamic> json) {
     return ValidatorsSetResponse(
@@ -24,8 +25,11 @@ class ValidatorsSetResponse with JsonSerialization {
       total: json['total'],
       main: json['main'],
       totalWeight: json['total_weight'],
-      list: List<ValidatorsSetListItemResponse>.from((json['list'] as List)
-          .map((item) => ValidatorsSetListItemResponse.fromJson(item))),
+      list: List<ValidatorsSetListItemResponse>.from(
+        (json['list'] as List).map(
+          (item) => ValidatorsSetListItemResponse.fromJson(item),
+        ),
+      ),
     );
   }
 

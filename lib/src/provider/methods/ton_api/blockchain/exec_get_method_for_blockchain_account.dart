@@ -11,10 +11,11 @@ class TonApiExecGetMethodForBlockchainAccount
   final String accountId;
   final String methodName;
   final dynamic args;
-  TonApiExecGetMethodForBlockchainAccount(
-      {required this.accountId,
-      required this.methodName,
-      this.args = const []});
+  TonApiExecGetMethodForBlockchainAccount({
+    required this.accountId,
+    required this.methodName,
+    this.args = const [],
+  });
   @override
   String get method => TonApiMethods.execgetmethodforblockchainaccount.url;
 

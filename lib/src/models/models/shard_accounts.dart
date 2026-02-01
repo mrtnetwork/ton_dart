@@ -7,18 +7,22 @@ import 'package:ton_dart/src/serialization/serialization.dart';
 import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class ShardAccountsCodec {
-  static final DictionaryValue<ShardAccountRef> codec =
-      DictionaryValue(serialize: (p0, p1) {
-    p0.store(p1);
-  }, parse: (slice) {
-    return ShardAccountRef.deserialize(slice);
-  });
-  static Dictionary<BigInt, ShardAccountRef> dict(
-      {Map<BigInt, ShardAccountRef>? accounts}) {
+  static final DictionaryValue<ShardAccountRef> codec = DictionaryValue(
+    serialize: (p0, p1) {
+      p0.store(p1);
+    },
+    parse: (slice) {
+      return ShardAccountRef.deserialize(slice);
+    },
+  );
+  static Dictionary<BigInt, ShardAccountRef> dict({
+    Map<BigInt, ShardAccountRef>? accounts,
+  }) {
     return Dictionary.fromEnteries(
-        key: DictionaryKey.bigUintCodec(256),
-        value: ShardAccountsCodec.codec,
-        map: accounts ?? {});
+      key: DictionaryKey.bigUintCodec(256),
+      value: ShardAccountsCodec.codec,
+      map: accounts ?? {},
+    );
   }
 }
 
@@ -26,8 +30,10 @@ class ShardAccountRef extends TonSerialization {
   final DepthBalanceInfo depthBalanceInfo;
   final ShardAccount shardAccount;
 
-  const ShardAccountRef(
-      {required this.depthBalanceInfo, required this.shardAccount});
+  const ShardAccountRef({
+    required this.depthBalanceInfo,
+    required this.shardAccount,
+  });
   factory ShardAccountRef.deserialize(Slice slice) {
     return ShardAccountRef(
       depthBalanceInfo: DepthBalanceInfo.deserialize(slice),
@@ -36,8 +42,9 @@ class ShardAccountRef extends TonSerialization {
   }
   factory ShardAccountRef.fromJson(Map<String, dynamic> json) {
     return ShardAccountRef(
-        depthBalanceInfo: DepthBalanceInfo.fromJson(json['depth_balance_info']),
-        shardAccount: ShardAccount.fromJson(json['shard_account']));
+      depthBalanceInfo: DepthBalanceInfo.fromJson(json['depth_balance_info']),
+      shardAccount: ShardAccount.fromJson(json['shard_account']),
+    );
   }
 
   @override
@@ -50,7 +57,7 @@ class ShardAccountRef extends TonSerialization {
   Map<String, dynamic> toJson() {
     return {
       'depth_balance_info': depthBalanceInfo.toJson(),
-      'shard_account': shardAccount.toJson()
+      'shard_account': shardAccount.toJson(),
     };
   }
 }
@@ -60,16 +67,19 @@ class ShardAccountRef extends TonSerialization {
 class ShardAccounts extends TonSerialization {
   final Map<BigInt, ShardAccountRef> accounts;
   ShardAccounts(Map<BigInt, ShardAccountRef> accounts)
-      : accounts = accounts.mutabl;
+    : accounts = accounts.mutabl;
   factory ShardAccounts.deserialize(Slice slice) {
     final dict = ShardAccountsCodec.dict();
     dict.loadFromClice(slice);
     return ShardAccounts(dict.asMap);
   }
   factory ShardAccounts.fromJson(Map<String, dynamic> json) {
-    return ShardAccounts((json['accounts'] as Map<String, dynamic>).map(
+    return ShardAccounts(
+      (json['accounts'] as Map<String, dynamic>).map(
         (key, value) =>
-            MapEntry(BigintUtils.parse(key), ShardAccountRef.fromJson(value))));
+            MapEntry(BigintUtils.parse(key), ShardAccountRef.fromJson(value)),
+      ),
+    );
   }
 
   @override
@@ -81,8 +91,9 @@ class ShardAccounts extends TonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'accounts':
-          accounts.map((key, value) => MapEntry(key.toString(), value.toJson()))
+      'accounts': accounts.map(
+        (key, value) => MapEntry(key.toString(), value.toJson()),
+      ),
     };
   }
 }

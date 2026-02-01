@@ -15,7 +15,7 @@ class ComputeSkipReasonResponse {
   static const List<ComputeSkipReasonResponse> values = [
     cskipNoState,
     cskipBadState,
-    cskipNoGas
+    cskipNoGas,
   ];
 
   String get value => _value;
@@ -23,9 +23,12 @@ class ComputeSkipReasonResponse {
   static ComputeSkipReasonResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No ComputeSkipReasonResponse find with provided name.',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No ComputeSkipReasonResponse find with provided name.',
+                details: {'name': name},
+              ),
     );
   }
 }

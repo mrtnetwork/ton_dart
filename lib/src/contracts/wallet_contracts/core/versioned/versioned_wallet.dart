@@ -29,7 +29,7 @@ class WalletVersion {
     v3R1,
     v3R2,
     v4,
-    v5R1
+    v5R1,
   ];
 
   bool get isVersionedWallet {
@@ -74,9 +74,12 @@ class WalletVersion {
   factory WalletVersion.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonContractException(
-          'Cannot find WalletVersion from provided status',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonContractException(
+                'Cannot find WalletVersion from provided status',
+                details: {'name': name},
+              ),
     );
   }
 
@@ -86,19 +89,22 @@ class WalletVersion {
   }
 }
 
-abstract class VersionedWalletContract<STATE extends VersionedWalletState,
-        TRANSFERPARAMS extends WalletContractTransferParams>
+abstract class VersionedWalletContract<
+  STATE extends VersionedWalletState,
+  TRANSFERPARAMS extends WalletContractTransferParams
+>
     extends WalletContract<STATE, TRANSFERPARAMS>
     with VerionedProviderImpl<STATE, TRANSFERPARAMS> {
   @override
   final WalletVersion type;
 
-  VersionedWalletContract(
-      {required STATE? stateInit,
-      required TonChainId? chain,
-      required super.address,
-      required this.type})
-      : super(
-            state: stateInit,
-            chain: chain ?? TonChainId.fromWorkchain(address.workChain));
+  VersionedWalletContract({
+    required STATE? stateInit,
+    required TonChainId? chain,
+    required super.address,
+    required this.type,
+  }) : super(
+         state: stateInit,
+         chain: chain ?? TonChainId.fromWorkchain(address.workChain),
+       );
 }

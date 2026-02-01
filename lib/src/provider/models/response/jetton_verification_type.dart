@@ -15,7 +15,7 @@ class JettonVerificationTypeResponse {
   static const List<JettonVerificationTypeResponse> values = [
     whitelist,
     blacklist,
-    none
+    none,
   ];
 
   String get value => _value;
@@ -23,8 +23,11 @@ class JettonVerificationTypeResponse {
   static JettonVerificationTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element._value == name,
-      orElse: () => throw TonDartPluginException(
-          'No JettonVerificationTypeResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No JettonVerificationTypeResponse found with the provided name: $name',
+              ),
     );
   }
 }

@@ -10,25 +10,28 @@ class JettonWalletState extends ContractState {
   final TonAddress owanetOfJettonWallet;
   final TonAddress minterAddress;
   final Cell? walletCode;
-  const JettonWalletState(
-      {required this.balance,
-      required this.owanetOfJettonWallet,
-      required this.minterAddress,
-      this.walletCode});
+  const JettonWalletState({
+    required this.balance,
+    required this.owanetOfJettonWallet,
+    required this.minterAddress,
+    this.walletCode,
+  });
   factory JettonWalletState.fromTuple(TupleReader reader) {
     final balance = reader.readBigNumber();
     return JettonWalletState(
-        balance: balance,
-        owanetOfJettonWallet: reader.readAddress(),
-        minterAddress: reader.readAddress(),
-        walletCode: reader.readCell());
+      balance: balance,
+      owanetOfJettonWallet: reader.readAddress(),
+      minterAddress: reader.readAddress(),
+      walletCode: reader.readCell(),
+    );
   }
   factory JettonWalletState.deserialize(Slice slice) {
     return JettonWalletState(
-        balance: slice.loadCoins(),
-        owanetOfJettonWallet: slice.loadAddress(),
-        minterAddress: slice.loadAddress(),
-        walletCode: slice.loadRef());
+      balance: slice.loadCoins(),
+      owanetOfJettonWallet: slice.loadAddress(),
+      minterAddress: slice.loadAddress(),
+      walletCode: slice.loadRef(),
+    );
   }
 
   @override

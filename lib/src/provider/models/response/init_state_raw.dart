@@ -13,9 +13,10 @@ class InitStateRawResponse with JsonSerialization {
 
   factory InitStateRawResponse.fromJson(Map<String, dynamic> json) {
     return InitStateRawResponse(
-        workchain: json['workchain'],
-        rootHash: json['root_hash'],
-        fileHash: json['file_hash']);
+      workchain: json['workchain'],
+      rootHash: json['root_hash'],
+      fileHash: json['file_hash'],
+    );
   }
 
   @override

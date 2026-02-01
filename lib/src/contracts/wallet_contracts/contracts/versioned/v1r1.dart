@@ -13,38 +13,52 @@ import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
 /// No valid_until check, so you can't be sure that the transaction won't be confirmed too late.
 /// The first issue is fixed in V1R2 and V1R3. That R letter means revision. Usually revisions are just small updates which only add get-methods which allows you to retrieve seqno and public key from the contract. But this version also has a second issue, which is fixed in the next version.
 /// https://docs.ton.org/participate/wallets/contracts
-class WalletV1R1 extends VersionedWalletContract<
-    NoneSubWalletVersionedWalletState, VersionedTransferParams> {
+class WalletV1R1
+    extends
+        VersionedWalletContract<
+          NoneSubWalletVersionedWalletState,
+          VersionedTransferParams
+        > {
   WalletV1R1({super.stateInit, required super.address, super.chain})
-      : super(type: WalletVersion.v1R1);
+    : super(type: WalletVersion.v1R1);
 
-  factory WalletV1R1.create(
-      {required TonChainId chain,
-      required List<int> publicKey,
-      bool bounceableAddress = false}) {
+  factory WalletV1R1.create({
+    required TonChainId chain,
+    required List<int> publicKey,
+    bool bounceableAddress = false,
+  }) {
     final state = NoneSubWalletVersionedWalletState(
-        publicKey: publicKey, version: WalletVersion.v1R1);
+      publicKey: publicKey,
+      version: WalletVersion.v1R1,
+    );
     return WalletV1R1(
-        address: TonAddress.fromState(
-            state: state.initialState(),
-            workChain: chain.workchain,
-            bounceable: bounceableAddress),
-        stateInit: state,
-        chain: chain);
+      address: TonAddress.fromState(
+        state: state.initialState(),
+        workChain: chain.workchain,
+        bounceable: bounceableAddress,
+      ),
+      stateInit: state,
+      chain: chain,
+    );
   }
 
-  static Future<WalletV1R1> fromAddress(
-      {required TonAddress address,
-      required TonProvider rpc,
-      TonChainId? chain}) async {
-    final data =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
+  static Future<WalletV1R1> fromAddress({
+    required TonAddress address,
+    required TonProvider rpc,
+    TonChainId? chain,
+  }) async {
+    final data = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
     final state = VersionedWalletUtils.buildFromAddress<
-            NoneSubWalletVersionedWalletState>(
-        address: address,
-        stateData: data.data,
-        type: WalletVersion.v1R1,
-        chain: chain);
+      NoneSubWalletVersionedWalletState
+    >(
+      address: address,
+      stateData: data.data,
+      type: WalletVersion.v1R1,
+      chain: chain,
+    );
     return WalletV1R1(address: address, stateInit: state);
   }
 }

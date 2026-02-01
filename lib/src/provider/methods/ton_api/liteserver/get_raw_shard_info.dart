@@ -13,11 +13,12 @@ class TonApiGetRawShardInfo
   final int workchain;
   final int shard;
   final bool exact;
-  TonApiGetRawShardInfo(
-      {required this.blockId,
-      required this.workchain,
-      required this.shard,
-      required this.exact});
+  TonApiGetRawShardInfo({
+    required this.blockId,
+    required this.workchain,
+    required this.shard,
+    required this.exact,
+  });
 
   @override
   String get method => TonApiMethods.getrawshardinfo.url;
@@ -26,8 +27,11 @@ class TonApiGetRawShardInfo
   List<String> get pathParameters => [blockId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'workchain': workchain, 'shard': shard, 'exact': exact};
+  Map<String, dynamic> get queryParameters => {
+    'workchain': workchain,
+    'shard': shard,
+    'exact': exact,
+  };
 
   @override
   RawShardInfoResponse onResonse(Map<String, dynamic> result) {

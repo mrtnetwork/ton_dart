@@ -5,8 +5,9 @@ class TransactionTypeResponse {
 
   const TransactionTypeResponse._(this._value);
 
-  static const TransactionTypeResponse transOrd =
-      TransactionTypeResponse._('TransOrd');
+  static const TransactionTypeResponse transOrd = TransactionTypeResponse._(
+    'TransOrd',
+  );
   static const TransactionTypeResponse transTickTock =
       TransactionTypeResponse._('TransTickTock');
   static const TransactionTypeResponse transSplitPrepare =
@@ -17,8 +18,9 @@ class TransactionTypeResponse {
       TransactionTypeResponse._('TransMergePrepare');
   static const TransactionTypeResponse transMergeInstall =
       TransactionTypeResponse._('TransMergeInstall');
-  static const TransactionTypeResponse transStorage =
-      TransactionTypeResponse._('TransStorage');
+  static const TransactionTypeResponse transStorage = TransactionTypeResponse._(
+    'TransStorage',
+  );
 
   static const List<TransactionTypeResponse> values = [
     transOrd,
@@ -35,9 +37,12 @@ class TransactionTypeResponse {
   static TransactionTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No TransactionTypeResponse find with provided name.',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No TransactionTypeResponse find with provided name.',
+                details: {'name': name},
+              ),
     );
   }
 }

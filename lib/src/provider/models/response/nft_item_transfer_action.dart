@@ -24,21 +24,25 @@ class NftItemTransferActionResponse with JsonSerialization {
 
   factory NftItemTransferActionResponse.fromJson(Map<String, dynamic> json) {
     return NftItemTransferActionResponse(
-      sender: json['sender'] != null
-          ? AccountAddressResponse.fromJson(json['sender'])
-          : null,
-      recipient: json['recipient'] != null
-          ? AccountAddressResponse.fromJson(json['recipient'])
-          : null,
+      sender:
+          json['sender'] != null
+              ? AccountAddressResponse.fromJson(json['sender'])
+              : null,
+      recipient:
+          json['recipient'] != null
+              ? AccountAddressResponse.fromJson(json['recipient'])
+              : null,
       nft: json['nft'],
       comment: json['comment'],
-      encryptedComment: json['encrypted_comment'] == null
-          ? null
-          : EncryptedCommentResponse.fromJson(json['encrypted_comment']),
+      encryptedComment:
+          json['encrypted_comment'] == null
+              ? null
+              : EncryptedCommentResponse.fromJson(json['encrypted_comment']),
       payload: json['payload'],
-      refund: json['refund'] != null
-          ? RefundResponse.fromJson(json['refund'])
-          : null,
+      refund:
+          json['refund'] != null
+              ? RefundResponse.fromJson(json['refund'])
+              : null,
     );
   }
 

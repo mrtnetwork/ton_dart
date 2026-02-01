@@ -29,22 +29,26 @@ class JettonTransferActionResponse with JsonSerialization {
 
   factory JettonTransferActionResponse.fromJson(Map<String, dynamic> json) {
     return JettonTransferActionResponse(
-      sender: json['sender'] != null
-          ? AccountAddressResponse.fromJson(json['sender'])
-          : null,
-      recipient: json['recipient'] != null
-          ? AccountAddressResponse.fromJson(json['recipient'])
-          : null,
+      sender:
+          json['sender'] != null
+              ? AccountAddressResponse.fromJson(json['sender'])
+              : null,
+      recipient:
+          json['recipient'] != null
+              ? AccountAddressResponse.fromJson(json['recipient'])
+              : null,
       sendersWallet: json['senders_wallet'],
       recipientsWallet: json['recipients_wallet'],
       amount: json['amount'],
       comment: json['comment'],
-      encryptedComment: json['encrypted_comment'] == null
-          ? null
-          : EncryptedCommentResponse.fromJson(json['encrypted_comment']),
-      refund: json['refund'] != null
-          ? RefundResponse.fromJson(json['refund'])
-          : null,
+      encryptedComment:
+          json['encrypted_comment'] == null
+              ? null
+              : EncryptedCommentResponse.fromJson(json['encrypted_comment']),
+      refund:
+          json['refund'] != null
+              ? RefundResponse.fromJson(json['refund'])
+              : null,
       jetton: JettonPreviewResponse.fromJson(json['jetton']),
     );
   }

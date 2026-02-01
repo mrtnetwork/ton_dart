@@ -201,8 +201,10 @@ class Builder {
   /// Stores a reference (cell). Throws [BocException] if more than 4 references are added.
   Builder storeRef(Cell cell) {
     if (_refs.length >= 4) {
-      throw BocException('Too many references.',
-          details: {'maximum': 4, 'refrence': _refs.length});
+      throw BocException(
+        'Too many references.',
+        details: {'maximum': 4, 'refrence': _refs.length},
+      );
     }
     _refs.add(cell);
     return this;
@@ -327,10 +329,11 @@ class Builder {
   }
 
   /// Stores a dictionary with keys [K] and values [V].
-  Builder storeDict<K extends Object, V>(
-      {Dictionary<K, V>? dict,
-      DictionaryKey<K>? key,
-      DictionaryValue<V>? value}) {
+  Builder storeDict<K extends Object, V>({
+    Dictionary<K, V>? dict,
+    DictionaryKey<K>? key,
+    DictionaryValue<V>? value,
+  }) {
     if (dict != null) {
       dict.store(this, key: key, value: value);
     } else {
@@ -340,8 +343,11 @@ class Builder {
   }
 
   /// Stores a dictionary directly with keys [K] and values [V].
-  Builder storeDictDirect<K extends Object, V>(Dictionary<K, V> dict,
-      {DictionaryKey<K>? key, DictionaryValue<V>? value}) {
+  Builder storeDictDirect<K extends Object, V>(
+    Dictionary<K, V> dict, {
+    DictionaryKey<K>? key,
+    DictionaryValue<V>? value,
+  }) {
     dict.storeDirect(this, key: key, value: value);
     return this;
   }

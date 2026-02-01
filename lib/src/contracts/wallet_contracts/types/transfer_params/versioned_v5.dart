@@ -12,10 +12,14 @@ class VersionedV5TransferParams
     super.messages = const [],
     required this.signer,
   });
-  factory VersionedV5TransferParams.external(
-      {required TonPrivateKey signer,
-      List<OutActionWalletV5> messages = const []}) {
+  factory VersionedV5TransferParams.external({
+    required TonPrivateKey signer,
+    List<OutActionWalletV5> messages = const [],
+  }) {
     return VersionedV5TransferParams._(
-        signer: signer, messages: messages, type: WalletV5AuthType.external);
+      signer: signer,
+      messages: messages,
+      type: WalletV5AuthType.external,
+    );
   }
 }

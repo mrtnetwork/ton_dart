@@ -109,9 +109,10 @@ void _test() {
 
   test('should read address from builder', () {
     for (int i = 0; i < 1000; i++) {
-      final a = i.isEven
-          ? null
-          : TonAddress.fromBytes(-1, QuickCrypto.generateRandom());
+      final a =
+          i.isEven
+              ? null
+              : TonAddress.fromBytes(-1, QuickCrypto.generateRandom());
       final b = TonAddress.fromBytes(0, QuickCrypto.generateRandom());
       final builder = beginCell();
       builder.storeAddress(a);
@@ -126,9 +127,11 @@ void _test() {
   test('should read string tails from builder', () {
     for (int i = 0; i < 1000; i++) {
       final a = BytesUtils.toHexString(
-          QuickCrypto.generateRandom(_random.nextInt(1023)));
+        QuickCrypto.generateRandom(_random.nextInt(1023)),
+      );
       final b = BytesUtils.toHexString(
-          QuickCrypto.generateRandom(_random.nextInt(1023)));
+        QuickCrypto.generateRandom(_random.nextInt(1023)),
+      );
       final builder = beginCell();
       builder.storeStringRefTail(a);
       builder.storeStringTail(b);

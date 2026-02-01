@@ -16,36 +16,41 @@ class NFTMintParams extends TonSerialization {
     final collectionData = slice.loadRef().beginParse();
     final TonAddress ownerAddress = collectionData.loadAddress();
     return NFTMintParams(
-        ownerAddress: ownerAddress,
-        content: collectionData.loadRef(),
-        initAmount: initAmount,
-        itemIndex: itemIndex);
+      ownerAddress: ownerAddress,
+      content: collectionData.loadRef(),
+      initAmount: initAmount,
+      itemIndex: itemIndex,
+    );
   }
 
   factory NFTMintParams.fromJson(Map<String, dynamic> json) {
     return NFTMintParams(
-        ownerAddress: TonAddress(json['ownerAddress']),
-        content: Cell.fromBase64(json['content']),
-        initAmount: BigintUtils.parse(json['initAmount']),
-        itemIndex: BigintUtils.parse(json['itemIndex']));
+      ownerAddress: TonAddress(json['ownerAddress']),
+      content: Cell.fromBase64(json['content']),
+      initAmount: BigintUtils.parse(json['initAmount']),
+      itemIndex: BigintUtils.parse(json['itemIndex']),
+    );
   }
-  NFTMintParams copyWith(
-      {TonAddress? ownerAddress,
-      Cell? content,
-      BigInt? initAmount,
-      BigInt? itemIndex}) {
+  NFTMintParams copyWith({
+    TonAddress? ownerAddress,
+    Cell? content,
+    BigInt? initAmount,
+    BigInt? itemIndex,
+  }) {
     return NFTMintParams(
-        ownerAddress: ownerAddress ?? this.ownerAddress,
-        content: content ?? this.content,
-        initAmount: initAmount ?? this.initAmount,
-        itemIndex: itemIndex ?? this.itemIndex);
+      ownerAddress: ownerAddress ?? this.ownerAddress,
+      content: content ?? this.content,
+      initAmount: initAmount ?? this.initAmount,
+      itemIndex: itemIndex ?? this.itemIndex,
+    );
   }
 
-  NFTMintParams(
-      {required this.ownerAddress,
-      required this.content,
-      required this.initAmount,
-      required this.itemIndex});
+  NFTMintParams({
+    required this.ownerAddress,
+    required this.content,
+    required this.initAmount,
+    required this.itemIndex,
+  });
 
   @override
   void store(Builder builder) {
@@ -66,7 +71,7 @@ class NFTMintParams extends TonSerialization {
       'content': content.toBase64(),
       'initAmount': initAmount.toString(),
       'ownerAddress': ownerAddress.toRawAddress(),
-      'itemIndex': itemIndex.toString()
+      'itemIndex': itemIndex.toString(),
     };
   }
 }

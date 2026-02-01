@@ -13,41 +13,53 @@ import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
 /// Basically, subwallet_id is just a number which is added to the contract state when it is deployed.
 /// And since the contract address in TON is a hash of its state and code, the wallet address will change with a different subwallet_id.
 /// This version is the most used right now. It covers most use-cases and remains clean and simple.
-class WalletV3R1 extends VersionedWalletContract<SubWalletVersionedWalletState,
-    VersionedTransferParams> {
+class WalletV3R1
+    extends
+        VersionedWalletContract<
+          SubWalletVersionedWalletState,
+          VersionedTransferParams
+        > {
   WalletV3R1({super.stateInit, required super.address, super.chain})
-      : super(type: WalletVersion.v3R1);
+    : super(type: WalletVersion.v3R1);
 
-  factory WalletV3R1.create(
-      {required TonChainId chain,
-      required List<int> publicKey,
-      int? subWalletId,
-      bool bounceableAddress = false}) {
+  factory WalletV3R1.create({
+    required TonChainId chain,
+    required List<int> publicKey,
+    int? subWalletId,
+    bool bounceableAddress = false,
+  }) {
     subWalletId ??= VersionedWalletConst.defaultSubWalletId + chain.workchain;
     final state = SubWalletVersionedWalletState(
-        publicKey: publicKey,
-        version: WalletVersion.v3R1,
-        subwallet: subWalletId);
+      publicKey: publicKey,
+      version: WalletVersion.v3R1,
+      subwallet: subWalletId,
+    );
     return WalletV3R1(
-        stateInit: state,
-        address: TonAddress.fromState(
-            state: state.initialState(),
-            workChain: chain.workchain,
-            bounceable: bounceableAddress),
-        chain: chain);
+      stateInit: state,
+      address: TonAddress.fromState(
+        state: state.initialState(),
+        workChain: chain.workchain,
+        bounceable: bounceableAddress,
+      ),
+      chain: chain,
+    );
   }
-  static Future<WalletV3R1> fromAddress(
-      {required TonAddress address,
-      required TonProvider rpc,
-      TonChainId? chain}) async {
-    final data =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
+  static Future<WalletV3R1> fromAddress({
+    required TonAddress address,
+    required TonProvider rpc,
+    TonChainId? chain,
+  }) async {
+    final data = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
     final state =
         VersionedWalletUtils.buildFromAddress<SubWalletVersionedWalletState>(
-            address: address,
-            stateData: data.data,
-            type: WalletVersion.v3R1,
-            chain: chain);
+          address: address,
+          stateData: data.data,
+          type: WalletVersion.v3R1,
+          chain: chain,
+        );
     return WalletV3R1(address: address, stateInit: state);
   }
 

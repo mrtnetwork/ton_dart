@@ -16,8 +16,11 @@ class DictionaryKey<K extends Object> {
 
   /// Constructs a `DictionaryKey` with the specified bit length, serialization,
   /// and parsing functions.
-  const DictionaryKey(
-      {required this.bits, required this.serialize, required this.parse});
+  const DictionaryKey({
+    required this.bits,
+    required this.serialize,
+    required this.parse,
+  });
 
   /// Returns a `DictionaryKey` for `TonBaseAddress` with a bit length of 267.
   static DictionaryKey<TonBaseAddress> addressCodec() =>

@@ -18,8 +18,10 @@ class TonApiGetJettons
   String get method => TonApiMethods.getjettons.url;
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'offset': offset, 'limit': limit};
+  Map<String, dynamic> get queryParameters => {
+    'offset': offset,
+    'limit': limit,
+  };
   @override
   JettonsResponse onResonse(Map<String, dynamic> result) {
     return JettonsResponse.fromJson(result);

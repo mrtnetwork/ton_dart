@@ -12,11 +12,12 @@ class TonApiGetRawTransactions
   final int count;
   final BigInt lt;
   final String hash;
-  TonApiGetRawTransactions(
-      {required this.accountId,
-      required this.count,
-      required this.lt,
-      required this.hash});
+  TonApiGetRawTransactions({
+    required this.accountId,
+    required this.count,
+    required this.lt,
+    required this.hash,
+  });
   @override
   String get method => TonApiMethods.getrawtransactions.url;
 
@@ -24,8 +25,11 @@ class TonApiGetRawTransactions
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'count': count, 'lt': lt, 'hash': hash};
+  Map<String, dynamic> get queryParameters => {
+    'count': count,
+    'lt': lt,
+    'hash': hash,
+  };
 
   @override
   RawTransactionResponse onResonse(Map<String, dynamic> result) {

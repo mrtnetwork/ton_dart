@@ -8,11 +8,12 @@ class NFTItemState extends ContractState {
   final TonAddress? collectionAddress;
   final TonAddress ownerAddress;
   final Cell content;
-  const NFTItemState._(
-      {required this.index,
-      this.collectionAddress,
-      required this.ownerAddress,
-      required this.content});
+  const NFTItemState._({
+    required this.index,
+    this.collectionAddress,
+    required this.ownerAddress,
+    required this.content,
+  });
   factory NFTItemState({
     required BigInt index,
     TonAddress? collectionAddress,
@@ -20,10 +21,11 @@ class NFTItemState extends ContractState {
     required TonAddress ownerAddress,
   }) {
     return NFTItemState._(
-        index: index,
-        ownerAddress: ownerAddress,
-        content: metadata.toContent(collectionless: collectionAddress == null),
-        collectionAddress: collectionAddress);
+      index: index,
+      ownerAddress: ownerAddress,
+      content: metadata.toContent(collectionless: collectionAddress == null),
+      collectionAddress: collectionAddress,
+    );
   }
   factory NFTItemState.deserialize(Slice slice) {
     return NFTItemState._(
@@ -37,8 +39,9 @@ class NFTItemState extends ContractState {
   @override
   StateInit initialState() {
     return StateInit(
-        code: TonNftConst.nftItemCode(ownerAddress.workChain),
-        data: initialData());
+      code: TonNftConst.nftItemCode(ownerAddress.workChain),
+      data: initialData(),
+    );
   }
 
   @override
@@ -60,7 +63,7 @@ class NFTItemState extends ContractState {
       'collectionAddress': collectionAddress?.toFriendlyAddress(),
       'ownerAddress': ownerAddress.toFriendlyAddress(),
       'content': content.toBase64(),
-      'metadata': metadata.toJson()
+      'metadata': metadata.toJson(),
     };
   }
 }

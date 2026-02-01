@@ -34,33 +34,34 @@ class AccountResponse with JsonSerialization {
 
   factory AccountResponse.fromJson(Map<String, dynamic> json) {
     return AccountResponse(
-        address: json['address'],
-        balance: BigintUtils.parse(json['balance']),
-        lastActivity: BigintUtils.parse(json['last_activity']),
-        status: AccountStatusResponse.fromName(json['status']),
-        interfaces: List<String>.from(json['interfaces'] ?? []),
-        name: json['name'],
-        isScam: json['is_scam'],
-        icon: json['icon'],
-        memoRequired: json['memo_required'],
-        getMethods: List<String>.from(json['get_methods']),
-        isSuspended: json['is_suspended'],
-        isWallet: json['is_wallet']);
+      address: json['address'],
+      balance: BigintUtils.parse(json['balance']),
+      lastActivity: BigintUtils.parse(json['last_activity']),
+      status: AccountStatusResponse.fromName(json['status']),
+      interfaces: List<String>.from(json['interfaces'] ?? []),
+      name: json['name'],
+      isScam: json['is_scam'],
+      icon: json['icon'],
+      memoRequired: json['memo_required'],
+      getMethods: List<String>.from(json['get_methods']),
+      isSuspended: json['is_suspended'],
+      isWallet: json['is_wallet'],
+    );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'address': address,
-        'balance': balance.toString(),
-        'last_activity': lastActivity.toString(),
-        'status': status.value,
-        'interfaces': interfaces,
-        'name': name,
-        'is_scam': isScam,
-        'icon': icon,
-        'memo_required': memoRequired,
-        'get_methods': getMethods,
-        'is_suspended': isSuspended,
-        'is_wallet': isWallet,
-      };
+    'address': address,
+    'balance': balance.toString(),
+    'last_activity': lastActivity.toString(),
+    'status': status.value,
+    'interfaces': interfaces,
+    'name': name,
+    'is_scam': isScam,
+    'icon': icon,
+    'memo_required': memoRequired,
+    'get_methods': getMethods,
+    'is_suspended': isSuspended,
+    'is_wallet': isWallet,
+  };
 }

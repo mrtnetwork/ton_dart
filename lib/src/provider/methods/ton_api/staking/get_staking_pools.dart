@@ -14,8 +14,11 @@ class TonApiGetStakingPools
   final bool? includeUnverified;
   final String? acceptLanguage;
 
-  TonApiGetStakingPools(
-      {this.availableFor, this.includeUnverified, this.acceptLanguage});
+  TonApiGetStakingPools({
+    this.availableFor,
+    this.includeUnverified,
+    this.acceptLanguage,
+  });
 
   @override
   String get method => TonApiMethods.getstakingpools.url;
@@ -25,9 +28,9 @@ class TonApiGetStakingPools
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'available_for': availableFor,
-        'include_unverified': includeUnverified,
-      };
+    'available_for': availableFor,
+    'include_unverified': includeUnverified,
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': acceptLanguage};

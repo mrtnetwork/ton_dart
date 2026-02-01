@@ -39,21 +39,23 @@ class ShardStateUnsplit extends TonSerialization {
   final bool beforeSplit;
   final ShardAccounts? accounts;
   final MasterchainStateExtra? extras;
-  ShardStateUnsplit(
-      {required this.globalId,
-      required this.shardId,
-      required this.seqno,
-      required this.vertSeqNo,
-      required this.genUtime,
-      required this.genLt,
-      required this.minRefMcSeqno,
-      required this.beforeSplit,
-      this.accounts,
-      this.extras});
+  ShardStateUnsplit({
+    required this.globalId,
+    required this.shardId,
+    required this.seqno,
+    required this.vertSeqNo,
+    required this.genUtime,
+    required this.genLt,
+    required this.minRefMcSeqno,
+    required this.beforeSplit,
+    this.accounts,
+    this.extras,
+  });
   factory ShardStateUnsplit.deserialize(Slice slice) {
     if (slice.loadUint(32) != _ShardStateUnsplitConst.magic) {
       throw const TonDartPluginException(
-          'Invalid ShardStateUnsplit slice data.');
+        'Invalid ShardStateUnsplit slice data.',
+      );
     }
     final globalId = slice.loadInt(32);
     final shardId = ShardIdent.deserialize(slice);
@@ -88,32 +90,36 @@ class ShardStateUnsplit extends TonSerialization {
       }
     }
     return ShardStateUnsplit(
-        globalId: globalId,
-        shardId: shardId,
-        seqno: seqno,
-        vertSeqNo: vertSeqNo,
-        genUtime: genUtime,
-        genLt: genLt,
-        minRefMcSeqno: minRefMcSeqno,
-        beforeSplit: beforeSplit,
-        accounts: accounts,
-        extras: extras);
+      globalId: globalId,
+      shardId: shardId,
+      seqno: seqno,
+      vertSeqNo: vertSeqNo,
+      genUtime: genUtime,
+      genLt: genLt,
+      minRefMcSeqno: minRefMcSeqno,
+      beforeSplit: beforeSplit,
+      accounts: accounts,
+      extras: extras,
+    );
   }
   factory ShardStateUnsplit.fromJson(Map<String, dynamic> json) {
     return ShardStateUnsplit(
-        globalId: json['global_id'],
-        shardId: ShardIdent.fromJson(json['shard_id']),
-        seqno: json['seqno'],
-        vertSeqNo: json['vert_seq_no'],
-        genUtime: json['gen_utime'],
-        genLt: BigintUtils.parse(json['gen_lt']),
-        minRefMcSeqno: json['min_ref_mc_seqno'],
-        beforeSplit: json['before_split'],
-        accounts: ((json['accounts'] as Object?)?.convertTo<ShardAccounts, Map>(
-            (result) => ShardAccounts.fromJson(result.cast()))),
-        extras: (json['extras'] as Object?)
-            ?.convertTo<MasterchainStateExtra, Map>(
-                (result) => MasterchainStateExtra.fromJson(result.cast())));
+      globalId: json['global_id'],
+      shardId: ShardIdent.fromJson(json['shard_id']),
+      seqno: json['seqno'],
+      vertSeqNo: json['vert_seq_no'],
+      genUtime: json['gen_utime'],
+      genLt: BigintUtils.parse(json['gen_lt']),
+      minRefMcSeqno: json['min_ref_mc_seqno'],
+      beforeSplit: json['before_split'],
+      accounts: ((json['accounts'] as Object?)?.convertTo<ShardAccounts, Map>(
+        (result) => ShardAccounts.fromJson(result.cast()),
+      )),
+      extras: (json['extras'] as Object?)
+          ?.convertTo<MasterchainStateExtra, Map>(
+            (result) => MasterchainStateExtra.fromJson(result.cast()),
+          ),
+    );
   }
 
   @override
@@ -133,7 +139,7 @@ class ShardStateUnsplit extends TonSerialization {
       'min_ref_mc_seqno': minRefMcSeqno,
       'before_split': beforeSplit,
       'accounts': accounts?.toJson(),
-      'extras': extras?.toJson()
+      'extras': extras?.toJson(),
     };
   }
 }

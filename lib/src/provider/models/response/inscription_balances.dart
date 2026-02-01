@@ -8,9 +8,12 @@ class InscriptionBalancesResponse with JsonSerialization {
 
   factory InscriptionBalancesResponse.fromJson(Map<String, dynamic> json) {
     return InscriptionBalancesResponse(
-        inscriptions: List<InscriptionBalanceResponse>.from(
-            (json['inscriptions'] as List)
-                .map((x) => InscriptionBalanceResponse.fromJson(x))));
+      inscriptions: List<InscriptionBalanceResponse>.from(
+        (json['inscriptions'] as List).map(
+          (x) => InscriptionBalanceResponse.fromJson(x),
+        ),
+      ),
+    );
   }
 
   @override

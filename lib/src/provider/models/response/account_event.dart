@@ -34,9 +34,10 @@ class AccountEventResponse with JsonSerialization {
       eventID: json['event_id'] as String,
       account: AccountAddressResponse.fromJson(json['account']),
       timestamp: BigintUtils.parse(json['timestamp']),
-      actions: (json['actions'] as List<dynamic>)
-          .map((e) => ActionResponse.fromJson(e))
-          .toList(),
+      actions:
+          (json['actions'] as List<dynamic>)
+              .map((e) => ActionResponse.fromJson(e))
+              .toList(),
       isScam: json['is_scam'],
       lt: BigintUtils.parse(json['lt']),
       inProgress: json['in_progress'],
@@ -54,7 +55,7 @@ class AccountEventResponse with JsonSerialization {
       'lt': lt.toString(),
       'in_progress': inProgress,
       'extra': extra.toString(),
-      'actions': actions.map((e) => e.toJson()).toList()
+      'actions': actions.map((e) => e.toJson()).toList(),
     };
   }
 }

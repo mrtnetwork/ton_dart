@@ -13,22 +13,25 @@ class EventResponse with JsonSerialization {
   final BigInt lt;
   final bool inProgress;
 
-  const EventResponse(
-      {required this.eventID,
-      required this.timestamp,
-      required this.actions,
-      required this.valueFlow,
-      required this.isScam,
-      required this.lt,
-      required this.inProgress});
+  const EventResponse({
+    required this.eventID,
+    required this.timestamp,
+    required this.actions,
+    required this.valueFlow,
+    required this.isScam,
+    required this.lt,
+    required this.inProgress,
+  });
 
   factory EventResponse.fromJson(Map<String, dynamic> json) {
     return EventResponse(
       eventID: json['event_id'],
       timestamp: BigintUtils.parse(json['timestamp']),
       actions: List<ActionResponse>.from(
-          (json['actions'] as List).map((x) => ActionResponse.fromJson(x))),
-      valueFlow: (json['value_flow'] as List?)
+        (json['actions'] as List).map((x) => ActionResponse.fromJson(x)),
+      ),
+      valueFlow:
+          (json['value_flow'] as List?)
               ?.map((e) => ValueFlowResponse.fromJson(e))
               .toList() ??
           [],

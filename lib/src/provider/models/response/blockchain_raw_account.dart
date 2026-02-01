@@ -35,9 +35,10 @@ class BlockchainRawAccountResponse with JsonSerialization {
     return BlockchainRawAccountResponse(
       address: json['address'],
       balance: BigintUtils.parse(json['balance']),
-      extraBalance: json['extra_balance'] != null
-          ? (json['extra_balance'] as Map).cast()
-          : null,
+      extraBalance:
+          json['extra_balance'] != null
+              ? (json['extra_balance'] as Map).cast()
+              : null,
       code: json['code'],
       data: json['data'],
       lastTransactionLt: BigintUtils.parse(json['last_transaction_lt']),
@@ -46,9 +47,11 @@ class BlockchainRawAccountResponse with JsonSerialization {
       status: AccountStatusResponse.fromName(json['status']),
       storage: AccountStorageInfoResponse.fromJson(json['storage']),
       libraries: List<BlockchainRawAccountLibrariesItemResponse>.from(
-          (json['libraries'] as List?)?.map((x) =>
-                  BlockchainRawAccountLibrariesItemResponse.fromJson(x)) ??
-              []),
+        (json['libraries'] as List?)?.map(
+              (x) => BlockchainRawAccountLibrariesItemResponse.fromJson(x),
+            ) ??
+            [],
+      ),
     );
   }
 

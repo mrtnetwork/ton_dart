@@ -6,7 +6,7 @@ class RunMethodResponse {
   final List<TupleItem> items;
   final int exitCode;
   RunMethodResponse({required List<TupleItem> items, required this.exitCode})
-      : items = items.immutable;
+    : items = items.immutable;
 
   TupleReader reader() => TupleReader(items);
 }

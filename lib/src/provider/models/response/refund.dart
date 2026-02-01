@@ -9,8 +9,9 @@ class RefundResponse with JsonSerialization {
 
   factory RefundResponse.fromJson(Map<String, dynamic> json) {
     return RefundResponse(
-        type: RefundTypeResponse.fromName(json['type']),
-        origin: json['origin']);
+      type: RefundTypeResponse.fromName(json['type']),
+      origin: json['origin'],
+    );
   }
 
   @override

@@ -13,9 +13,11 @@ void _test() {
     final cs = [0, -1, 1, 123123123, -123123123];
     for (final c in cs) {
       expect(
-          DictionaryUtils.deserializeInternalKey(
-              DictionaryUtils.serializeInternalKey(c)),
-          c);
+        DictionaryUtils.deserializeInternalKey(
+          DictionaryUtils.serializeInternalKey(c),
+        ),
+        c,
+      );
     }
   });
   test('should serialize bignumbers', () {
@@ -26,13 +28,15 @@ void _test() {
       BigInt.from(123123123),
       BigInt.from(-123123123),
       BigInt.parse('1231231231231237812683128376123'),
-      BigInt.parse('-1231273612873681263871263871263')
+      BigInt.parse('-1231273612873681263871263871263'),
     ];
     for (final c in cs) {
       expect(
-          DictionaryUtils.deserializeInternalKey(
-              DictionaryUtils.serializeInternalKey(c)),
-          c);
+        DictionaryUtils.deserializeInternalKey(
+          DictionaryUtils.serializeInternalKey(c),
+        ),
+        c,
+      );
     }
   });
   test('should serialize addresses', () {
@@ -40,13 +44,15 @@ void _test() {
       TonAddress.fromBytes(0, QuickCrypto.generateRandom()),
       TonAddress.fromBytes(-1, QuickCrypto.generateRandom()),
       TonAddress.fromBytes(0, QuickCrypto.generateRandom()),
-      TonAddress.fromBytes(0, QuickCrypto.generateRandom())
+      TonAddress.fromBytes(0, QuickCrypto.generateRandom()),
     ];
     for (final c in cs) {
       expect(
-          (DictionaryUtils.deserializeInternalKey(
-              DictionaryUtils.serializeInternalKey(c))),
-          c);
+        (DictionaryUtils.deserializeInternalKey(
+          DictionaryUtils.serializeInternalKey(c),
+        )),
+        c,
+      );
     }
   });
   test('should serialize buffers', () {
@@ -54,13 +60,15 @@ void _test() {
       [0x00],
       [0xff],
       [0x0f],
-      BytesUtils.fromHexString('0f000011002233456611')
+      BytesUtils.fromHexString('0f000011002233456611'),
     ];
     for (final c in cs) {
       expect(
-          (DictionaryUtils.deserializeInternalKey(
-              DictionaryUtils.serializeInternalKey(c))),
-          c);
+        (DictionaryUtils.deserializeInternalKey(
+          DictionaryUtils.serializeInternalKey(c),
+        )),
+        c,
+      );
     }
   });
   test('should serialize bit strings', () {
@@ -68,13 +76,14 @@ void _test() {
       [0x00],
       [0xff],
       [0x0f],
-      BytesUtils.fromHexString('0f000011002233456611')
+      BytesUtils.fromHexString('0f000011002233456611'),
     ];
     for (final c in cs) {
       for (int i = 0; i < c.length * 8 - 1; i++) {
         final bs = BitString(c, 0, c.length * 8 - i);
         final res = DictionaryUtils.deserializeInternalKey(
-            DictionaryUtils.serializeInternalKey(bs));
+          DictionaryUtils.serializeInternalKey(bs),
+        );
         expect(res, bs);
       }
     }

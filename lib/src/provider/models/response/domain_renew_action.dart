@@ -6,10 +6,11 @@ class DomainRenewActionResponse with JsonSerialization {
   final String contractAddress;
   final AccountAddressResponse renewer;
 
-  const DomainRenewActionResponse(
-      {required this.domain,
-      required this.contractAddress,
-      required this.renewer});
+  const DomainRenewActionResponse({
+    required this.domain,
+    required this.contractAddress,
+    required this.renewer,
+  });
 
   factory DomainRenewActionResponse.fromJson(Map<String, dynamic> json) {
     return DomainRenewActionResponse(
@@ -24,7 +25,7 @@ class DomainRenewActionResponse with JsonSerialization {
     return {
       'domain': domain,
       'contract_address': contractAddress,
-      'renewer': renewer.toJson()
+      'renewer': renewer.toJson(),
     };
   }
 }

@@ -15,12 +15,13 @@ class TonApiGetBlockchainAccountTransactions
   final int? limit;
   final GetBlockchainAccountTransactionsSortOrder? sortOrder;
 
-  TonApiGetBlockchainAccountTransactions(
-      {required this.accountId,
-      this.afterLt,
-      this.beforeLt,
-      this.limit,
-      this.sortOrder});
+  TonApiGetBlockchainAccountTransactions({
+    required this.accountId,
+    this.afterLt,
+    this.beforeLt,
+    this.limit,
+    this.sortOrder,
+  });
 
   @override
   String get method => TonApiMethods.getblockchainaccounttransactions.url;
@@ -30,11 +31,11 @@ class TonApiGetBlockchainAccountTransactions
 
   @override
   Map<String, dynamic> get queryParameters => {
-        'sort_order': sortOrder?.name,
-        'before_lt': beforeLt,
-        'after_lt': afterLt,
-        'limit': limit
-      };
+    'sort_order': sortOrder?.name,
+    'before_lt': beforeLt,
+    'after_lt': afterLt,
+    'limit': limit,
+  };
 
   @override
   TransactionsResponse onResonse(Map<String, dynamic> result) {

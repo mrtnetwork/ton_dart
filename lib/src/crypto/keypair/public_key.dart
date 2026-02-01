@@ -18,11 +18,12 @@ class TonPublicKey {
       return TonPublicKey._(Ed25519PublicKey.fromBytes(keyBytes));
     } catch (e) {
       throw KeyException(
-          'Invalid Ton Public key. Public key must be a valid Ed25519 key.',
-          details: {
-            'key': BytesUtils.toHexString(keyBytes),
-            'error': e.toString()
-          });
+        'Invalid Ton Public key. Public key must be a valid Ed25519 key.',
+        details: {
+          'key': BytesUtils.toHexString(keyBytes),
+          'error': e.toString(),
+        },
+      );
     }
   }
 

@@ -8,8 +8,9 @@ class AccountStatusChange extends TonSerialization {
   const AccountStatusChange._(this.status);
 
   // Predefined constant for 'unchanged' account status change.
-  static const AccountStatusChange unchanged =
-      AccountStatusChange._('unchanged');
+  static const AccountStatusChange unchanged = AccountStatusChange._(
+    'unchanged',
+  );
 
   // Predefined constant for 'deleted' account status change.
   static const AccountStatusChange deleted = AccountStatusChange._('deleted');
@@ -30,9 +31,12 @@ class AccountStatusChange extends TonSerialization {
   factory AccountStatusChange.fromValue(String? status) {
     return values.firstWhere(
       (element) => element.status == status,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find AccountStatusChange from provided status',
-          details: {'status': status}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find AccountStatusChange from provided status',
+                details: {'status': status},
+              ),
     );
   }
 

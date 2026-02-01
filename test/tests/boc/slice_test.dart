@@ -153,9 +153,10 @@ void _test() {
 
   test('should read address from slice', () {
     for (int i = 0; i < 1000; i++) {
-      final a = i.isEven
-          ? null
-          : TonAddress.fromBytes(-1, QuickCrypto.generateRandom());
+      final a =
+          i.isEven
+              ? null
+              : TonAddress.fromBytes(-1, QuickCrypto.generateRandom());
       final b = TonAddress.fromBytes(0, QuickCrypto.generateRandom());
       final builder = BitBuilder();
       builder.writeAddress(a);

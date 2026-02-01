@@ -15,42 +15,54 @@ import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
 /// This plugin will send coins to the destination address every day when it will be reqested by an external message.
 /// This is a very customizable feature which is unique to TON Blockchain.
 /// https://docs.ton.org/participate/wallets/contracts#wallet-v4
-class WalletV4 extends VersionedWalletContract<SubWalletVersionedWalletState,
-    VersionedTransferParams> {
+class WalletV4
+    extends
+        VersionedWalletContract<
+          SubWalletVersionedWalletState,
+          VersionedTransferParams
+        > {
   WalletV4({super.stateInit, required super.address, super.chain})
-      : super(type: WalletVersion.v4);
+    : super(type: WalletVersion.v4);
 
-  factory WalletV4.create(
-      {required TonChainId chain,
-      required List<int> publicKey,
-      int? subWalletId,
-      bool bounceableAddress = false}) {
+  factory WalletV4.create({
+    required TonChainId chain,
+    required List<int> publicKey,
+    int? subWalletId,
+    bool bounceableAddress = false,
+  }) {
     subWalletId ??= VersionedWalletConst.defaultSubWalletId + chain.workchain;
     final state = SubWalletVersionedWalletState(
-        publicKey: publicKey,
-        version: WalletVersion.v4,
-        subwallet: subWalletId);
+      publicKey: publicKey,
+      version: WalletVersion.v4,
+      subwallet: subWalletId,
+    );
     return WalletV4(
-        address: TonAddress.fromState(
-            state: state.initialState(),
-            workChain: chain.workchain,
-            bounceable: bounceableAddress),
-        stateInit: state,
-        chain: chain);
+      address: TonAddress.fromState(
+        state: state.initialState(),
+        workChain: chain.workchain,
+        bounceable: bounceableAddress,
+      ),
+      stateInit: state,
+      chain: chain,
+    );
   }
 
-  static Future<WalletV4> fromAddress(
-      {required TonAddress address,
-      required TonProvider rpc,
-      TonChainId? chain}) async {
-    final data =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
+  static Future<WalletV4> fromAddress({
+    required TonAddress address,
+    required TonProvider rpc,
+    TonChainId? chain,
+  }) async {
+    final data = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
     final state =
         VersionedWalletUtils.buildFromAddress<SubWalletVersionedWalletState>(
-            address: address,
-            stateData: data.data,
-            type: WalletVersion.v4,
-            chain: chain);
+          address: address,
+          stateData: data.data,
+          type: WalletVersion.v4,
+          chain: chain,
+        );
     return WalletV4(address: address, stateInit: state, chain: chain);
   }
 

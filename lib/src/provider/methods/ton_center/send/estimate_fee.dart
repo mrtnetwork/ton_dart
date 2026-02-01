@@ -11,12 +11,13 @@ class TonCenterEstimateFee
   final String initCode;
   final String initData;
   final bool ignoreChksig;
-  TonCenterEstimateFee(
-      {required this.address,
-      required this.body,
-      required this.initCode,
-      required this.initData,
-      this.ignoreChksig = true});
+  TonCenterEstimateFee({
+    required this.address,
+    required this.body,
+    required this.initCode,
+    required this.initData,
+    this.ignoreChksig = true,
+  });
 
   @override
   String get method => TonCenterMethods.estimateFee.name;
@@ -28,7 +29,7 @@ class TonCenterEstimateFee
       'body': body,
       'init_code': initCode,
       'init_data': initData,
-      'ignore_chksig': ignoreChksig
+      'ignore_chksig': ignoreChksig,
     };
   }
 

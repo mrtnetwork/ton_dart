@@ -18,8 +18,11 @@ class AccountStorage extends TonSerialization {
 
   /// The state of the account, which could be uninitialized, active, etc.
   final AccountState state;
-  const AccountStorage(
-      {required this.lastTransLt, required this.balance, required this.state});
+  const AccountStorage({
+    required this.lastTransLt,
+    required this.balance,
+    required this.state,
+  });
   factory AccountStorage.deserialize(Slice slice) {
     return AccountStorage(
       lastTransLt: slice.loadUintBig(64),
@@ -47,7 +50,7 @@ class AccountStorage extends TonSerialization {
     return {
       'last_trans_lt': lastTransLt.toString(),
       'balance': balance.toJson(),
-      'state': state.toJson()
+      'state': state.toJson(),
     };
   }
 }

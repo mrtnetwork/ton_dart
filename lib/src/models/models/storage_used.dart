@@ -6,8 +6,11 @@ class StorageUsed extends TonSerialization {
   final BigInt cells;
   final BigInt bits;
   final BigInt publicCells;
-  const StorageUsed(
-      {required this.cells, required this.bits, required this.publicCells});
+  const StorageUsed({
+    required this.cells,
+    required this.bits,
+    required this.publicCells,
+  });
   factory StorageUsed.deserialize(Slice slice) {
     return StorageUsed(
       cells: slice.loadVarUintBig(3),
@@ -35,7 +38,7 @@ class StorageUsed extends TonSerialization {
     return {
       'cells': cells.toString(),
       'bits': bits.toString(),
-      'public_cells': publicCells.toString()
+      'public_cells': publicCells.toString(),
     };
   }
 }

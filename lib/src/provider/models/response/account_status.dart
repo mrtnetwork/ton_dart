@@ -5,8 +5,9 @@ class AccountStatusResponse {
 
   const AccountStatusResponse._(this._value);
 
-  static const AccountStatusResponse nonexist =
-      AccountStatusResponse._('nonexist');
+  static const AccountStatusResponse nonexist = AccountStatusResponse._(
+    'nonexist',
+  );
   static const AccountStatusResponse uninit = AccountStatusResponse._('uninit');
   static const AccountStatusResponse active = AccountStatusResponse._('active');
   static const AccountStatusResponse frozen = AccountStatusResponse._('frozen');
@@ -27,8 +28,11 @@ class AccountStatusResponse {
     if (name == 'uninitialized') return AccountStatusResponse.uninit;
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No AccountStatusResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No AccountStatusResponse found with the provided name: $name',
+              ),
     );
   }
 }

@@ -12,7 +12,8 @@ class TokneMetadataUtils {
   /// Convert metadata key to sha256
   static String toKey(String key) {
     return BytesUtils.toHexString(
-        QuickCrypto.sha256Hash(StringUtils.encode(key)));
+      QuickCrypto.sha256Hash(StringUtils.encode(key)),
+    );
   }
 
   /// ensure metadata key is 32 bytes hex string otherwise use [toKey] method for generate key
@@ -40,8 +41,9 @@ class TokneMetadataUtils {
       } else if (type == TonMetadataConstant.ftMetadataOnChainTag) {
         final dict = _onChainMetadataDict({});
         dict.loadFromClice(slice);
-        final result = dict.asMap
-            .map((key, value) => MapEntry(BytesUtils.toHexString(key), value));
+        final result = dict.asMap.map(
+          (key, value) => MapEntry(BytesUtils.toHexString(key), value),
+        );
         return JettonOnChainMetadata.fromJson(result);
       }
     } catch (_) {}
@@ -94,7 +96,8 @@ class TokneMetadataUtils {
   /// and off-chain JSON doc. In case of collisions (the field exists in both off-chain data and on-chain data), on-chain values are used.
   /// Chunked format when we store data in dictionary chunk_index -> chunk.
   static Cell createOnChainContentChunckedFormat(
-      Map<String, Map<int, String>> content) {
+    Map<String, Map<int, String>> content,
+  ) {
     final dict = _onChainMetadataDict(keyToMetadataKey(content));
     final builder = beginCell();
     builder.storeUint(TonMetadataConstant.ftMetadataOnChainTag, 8);
@@ -102,49 +105,61 @@ class TokneMetadataUtils {
     return builder.endCell();
   }
 
-  static final DictionaryValue _onChainMetadataValueCodec =
-      DictionaryValue(serialize: (source, builder) {
-    final Builder ref = beginCell();
-    if (source is String) {
-      ref.storeUint(0, 8);
-      builder.storeRef(ref.storeStringTail(source).endCell());
-    } else {
-      Map<int, String> castMap;
-      try {
-        castMap = Map<int, String>.from(source);
-      } catch (e) {
-        throw TokenMetadataException(
+  static final DictionaryValue _onChainMetadataValueCodec = DictionaryValue(
+    serialize: (source, builder) {
+      final Builder ref = beginCell();
+      if (source is String) {
+        ref.storeUint(0, 8);
+        builder.storeRef(ref.storeStringTail(source).endCell());
+      } else {
+        Map<int, String> castMap;
+        try {
+          castMap = Map<int, String>.from(source);
+        } catch (e) {
+          throw TokenMetadataException(
             'Invalid metadata value. value must be string or chunked format(Map<int,String>)',
-            details: {'value': source});
+            details: {'value': source},
+          );
+        }
+        ref.storeUint(1, 8);
+        final result = Dictionary.fromEnteries<int, Cell>(
+          key: DictionaryKey.uintCodec(32),
+          value: DictionaryValue.cellCodec(),
+          map: castMap.map(
+            (key, value) =>
+                MapEntry(key, beginCell().storeStringTail(value).endCell()),
+          ),
+        );
+        builder.storeRef(ref.storeDict(dict: result).endCell());
       }
-      ref.storeUint(1, 8);
-      final result = Dictionary.fromEnteries<int, Cell>(
-        key: DictionaryKey.uintCodec(32),
-        value: DictionaryValue.cellCodec(),
-        map: castMap.map((key, value) =>
-            MapEntry(key, beginCell().storeStringTail(value).endCell())),
+    },
+    parse: (source) {
+      final slice = source.loadRef().beginParse();
+      final type = slice.loadUint8();
+      if (type == 0) {
+        return slice.loadStringTail();
+      } else if (type == 1) {
+        final result = slice.loadDict(
+          DictionaryKey.uintCodec(32),
+          DictionaryValue.cellCodec(),
+        );
+        return result.asMap.values.map((e) => e.beginParse().loadStringTail());
+      }
+      throw const TokenMetadataException(
+        'Invalid or Unsuported metadata type.',
       );
-      builder.storeRef(ref.storeDict(dict: result).endCell());
-    }
-  }, parse: (source) {
-    final slice = source.loadRef().beginParse();
-    final type = slice.loadUint8();
-    if (type == 0) {
-      return slice.loadStringTail();
-    } else if (type == 1) {
-      final result = slice.loadDict(
-          DictionaryKey.uintCodec(32), DictionaryValue.cellCodec());
-      return result.asMap.values.map((e) => e.beginParse().loadStringTail());
-    }
-    throw const TokenMetadataException('Invalid or Unsuported metadata type.');
-  });
+    },
+  );
   static Dictionary<List<int>, dynamic> _onChainMetadataDict(
-      Map<String, dynamic> content) {
+    Map<String, dynamic> content,
+  ) {
     final dict = Dictionary.fromEnteries<List<int>, dynamic>(
-        key: DictionaryKey.bufferCodec(32),
-        value: _onChainMetadataValueCodec,
-        map: content.map(
-            (key, value) => MapEntry(BytesUtils.fromHexString(key), value)));
+      key: DictionaryKey.bufferCodec(32),
+      value: _onChainMetadataValueCodec,
+      map: content.map(
+        (key, value) => MapEntry(BytesUtils.fromHexString(key), value),
+      ),
+    );
     return dict;
   }
 }

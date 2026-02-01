@@ -14,7 +14,7 @@ class TonMetadataConstant {
     'amount_style':
         '8b10e058ce46c44bc1ba139bc9761721e49170e2c0a176129250a70af053b700',
     'render_type':
-        'd33ae06043036d0d1c3be27201ac15ee4c73da8cdb7c8f3462ce308026095ac0'
+        'd33ae06043036d0d1c3be27201ac15ee4c73da8cdb7c8f3462ce308026095ac0',
   };
   static const int onChainMetadataKeyLength = 32;
   static const int ftMetadataOffChainTag = 0x01;

@@ -54,18 +54,21 @@ class MessageResponse with JsonSerialization {
       value: BigintUtils.parse(json['value']),
       fwdFee: BigintUtils.parse(json['fwd_fee']),
       ihrFee: BigintUtils.parse(json['ihr_fee']),
-      destination: json['destination'] != null
-          ? AccountAddressResponse.fromJson(json['destination'])
-          : null,
-      source: json['source'] != null
-          ? AccountAddressResponse.fromJson(json['source'])
-          : null,
+      destination:
+          json['destination'] != null
+              ? AccountAddressResponse.fromJson(json['destination'])
+              : null,
+      source:
+          json['source'] != null
+              ? AccountAddressResponse.fromJson(json['source'])
+              : null,
       importFee: BigintUtils.parse(json['import_fee']),
       createdAt: BigintUtils.parse(json['created_at']),
       opCode: json['op_code'],
-      init: json['init'] != null
-          ? StateInitResponse.fromJson(json['init'])
-          : null,
+      init:
+          json['init'] != null
+              ? StateInitResponse.fromJson(json['init'])
+              : null,
       rawBody: json['raw_body'],
       decodedOpName: json['decoded_op_name'],
       decodedBody: json['decoded_body'],

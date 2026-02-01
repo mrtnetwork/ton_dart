@@ -22,17 +22,24 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   @override
   final StableJettonWalletState? state;
 
-  const StableJettonWallet(
-      {required this.owner, required this.state, required this.address});
+  const StableJettonWallet({
+    required this.owner,
+    required this.state,
+    required this.address,
+  });
   static Future<StableJettonWallet<E>>
-      fromAddress<E extends WalletContractTransferParams>(
-          {required TonAddress address,
-          required WalletContract<ContractState, E> owner,
-          required TonProvider rpc}) async {
-    final stateData =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
-    final state =
-        StableJettonWalletState.deserialize(stateData.data!.beginParse());
+  fromAddress<E extends WalletContractTransferParams>({
+    required TonAddress address,
+    required WalletContract<ContractState, E> owner,
+    required TonProvider rpc,
+  }) async {
+    final stateData = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
+    final state = StableJettonWalletState.deserialize(
+      stateData.data!.beginParse(),
+    );
     return StableJettonWallet(owner: owner, state: state, address: address);
   }
 
@@ -50,12 +57,13 @@ class StableJettonWallet<E extends WalletContractTransferParams>
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     final message = TonHelper.internal(
-        destination: address,
-        amount: amount,
-        initState: state,
-        bounced: bounced,
-        body: body,
-        bounce: bounce ?? address.isBounceable);
+      destination: address,
+      amount: amount,
+      initState: state,
+      bounced: bounced,
+      body: body,
+      bounce: bounce ?? address.isBounceable,
+    );
     return await owner.sendTransfer(
       messages: [message],
       params: params,
@@ -77,17 +85,18 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   /// - `amount`: The amount of cryptocurrency to be sent in the transaction.
   /// - `operation`: The operation to be executed as part of the transaction, encapsulated in a [StableJettonWalletOperation] object.
   /// - `sendMode`: Specifies how the transaction fees are handled. The default is [SendModeConst.payGasSeparately].
-  Future<String> sendOperation(
-      {required E signerParams,
-      required TonProvider rpc,
-      required StableJettonWalletOperation operation,
-      required BigInt amount,
-      int sendMode = SendModeConst.payGasSeparately,
-      int? timeout,
-      bool? bounce,
-      bool bounced = false,
-      OnEstimateFee? onEstimateFee,
-      TonTransactionAction action = TonTransactionAction.broadcast}) async {
+  Future<String> sendOperation({
+    required E signerParams,
+    required TonProvider rpc,
+    required StableJettonWalletOperation operation,
+    required BigInt amount,
+    int sendMode = SendModeConst.payGasSeparately,
+    int? timeout,
+    bool? bounce,
+    bool bounced = false,
+    OnEstimateFee? onEstimateFee,
+    TonTransactionAction action = TonTransactionAction.broadcast,
+  }) async {
     return _sendTransaction(
       params: signerParams,
       rpc: rpc,

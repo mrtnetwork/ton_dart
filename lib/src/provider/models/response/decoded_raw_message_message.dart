@@ -6,11 +6,12 @@ class DecodedRawMessageMessageResponse with JsonSerialization {
   final String? opCode;
   final String decodedBody;
 
-  const DecodedRawMessageMessageResponse(
-      {required this.boc,
-      this.decodedOpName,
-      this.opCode,
-      required this.decodedBody});
+  const DecodedRawMessageMessageResponse({
+    required this.boc,
+    this.decodedOpName,
+    this.opCode,
+    required this.decodedBody,
+  });
 
   factory DecodedRawMessageMessageResponse.fromJson(Map<String, dynamic> json) {
     return DecodedRawMessageMessageResponse(
@@ -23,9 +24,9 @@ class DecodedRawMessageMessageResponse with JsonSerialization {
 
   @override
   Map<String, dynamic> toJson() => {
-        'boc': boc,
-        'decoded_op_name': decodedOpName,
-        'op_code': opCode,
-        'decoded_body': decodedBody
-      };
+    'boc': boc,
+    'decoded_op_name': decodedOpName,
+    'op_code': opCode,
+    'decoded_body': decodedBody,
+  };
 }

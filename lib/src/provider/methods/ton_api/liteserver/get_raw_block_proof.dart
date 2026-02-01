@@ -16,8 +16,11 @@ class TonApiGetRawBlockProof
   /// (-1,8000000000000000,4234234,3E575DAB1D25...90D8,47192E5C46C...BB29)
   final String? targetBlock;
   final int mode;
-  TonApiGetRawBlockProof(
-      {required this.knownBlock, this.targetBlock, required this.mode});
+  TonApiGetRawBlockProof({
+    required this.knownBlock,
+    this.targetBlock,
+    required this.mode,
+  });
   @override
   String get method => TonApiMethods.getrawblockproof.url;
 
@@ -25,8 +28,11 @@ class TonApiGetRawBlockProof
   List<String> get pathParameters => [];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'known_block': knownBlock, 'target_block': targetBlock, 'mode': mode};
+  Map<String, dynamic> get queryParameters => {
+    'known_block': knownBlock,
+    'target_block': targetBlock,
+    'mode': mode,
+  };
 
   @override
   RawBlockProofResponse onResonse(Map<String, dynamic> result) {

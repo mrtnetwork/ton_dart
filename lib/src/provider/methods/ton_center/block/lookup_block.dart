@@ -20,12 +20,13 @@ class TonCenterLookupBlock
   /// Block's unixtime
   final int? unixtime;
 
-  TonCenterLookupBlock(
-      {required this.workchain,
-      required this.shard,
-      this.seqno,
-      this.lt,
-      this.unixtime});
+  TonCenterLookupBlock({
+    required this.workchain,
+    required this.shard,
+    this.seqno,
+    this.lt,
+    this.unixtime,
+  });
 
   @override
   String get method => TonCenterMethods.lookupBlock.name;
@@ -37,7 +38,7 @@ class TonCenterLookupBlock
       'shard': shard,
       'seqno': seqno,
       'lt': lt,
-      'unixtime': unixtime
+      'unixtime': unixtime,
     };
   }
 }

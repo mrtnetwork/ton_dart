@@ -13,6 +13,7 @@ class MultiOwnerContractConst {
   static const int updateTransferOperation = 0x1d0cfbd3;
   static const int executeInternalOperantion = 0xa32c59bf;
   static final BigInt defaultOrderId = BigInt.parse(
-      '115792089237316195423570985008687907853269984665640564039457584007913129639935');
+    '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+  );
   static const int newOrderOperation = 0xf718510f;
 }

@@ -11,11 +11,14 @@ class EncryptedCommentResponse with JsonSerialization {
 
   factory EncryptedCommentResponse.fromJson(Map<String, dynamic> json) {
     return EncryptedCommentResponse(
-        encryptionType: json['encryption_type'],
-        cipherText: json['cipher_text']);
+      encryptionType: json['encryption_type'],
+      cipherText: json['cipher_text'],
+    );
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'encryption_type': encryptionType, 'cipher_text': cipherText};
+  Map<String, dynamic> toJson() => {
+    'encryption_type': encryptionType,
+    'cipher_text': cipherText,
+  };
 }

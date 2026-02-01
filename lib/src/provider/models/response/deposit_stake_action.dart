@@ -22,8 +22,9 @@ class DepositStakeActionResponse with JsonSerialization {
       amount: BigintUtils.parse(json['amount']),
       staker: AccountAddressResponse.fromJson(json['staker']),
       pool: AccountAddressResponse.fromJson(json['pool']),
-      implementation:
-          PoolImplementationTypeResponse.fromName(json['implementation']),
+      implementation: PoolImplementationTypeResponse.fromName(
+        json['implementation'],
+      ),
     );
   }
 
@@ -33,7 +34,7 @@ class DepositStakeActionResponse with JsonSerialization {
       'amount': amount.toString(),
       'staker': staker.toJson(),
       'pool': pool.toJson(),
-      'implementation': implementation.value
+      'implementation': implementation.value,
     };
   }
 }

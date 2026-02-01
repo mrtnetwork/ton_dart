@@ -18,19 +18,22 @@ class TonAddressType {
   static const TonAddressType bounceable = TonAddressType._('Bounceable');
 
   /// A non-bounceable address, used when bounced messages are not allowed.
-  static const TonAddressType nonBounceable =
-      TonAddressType._('Non-Bounceable');
+  static const TonAddressType nonBounceable = TonAddressType._(
+    'Non-Bounceable',
+  );
 
   /// A raw address type, typically used in low-level interactions without the friendly representation.
   static const TonAddressType raw = TonAddressType._('Raw');
 
   /// A bounceable address used in test networks.
-  static const TonAddressType testBounceable =
-      TonAddressType._('Test(Bounceable)');
+  static const TonAddressType testBounceable = TonAddressType._(
+    'Test(Bounceable)',
+  );
 
   /// A non-bounceable address used in test networks.
-  static const TonAddressType testNonBounceable =
-      TonAddressType._('Test(Non-Bounceable)');
+  static const TonAddressType testNonBounceable = TonAddressType._(
+    'Test(Non-Bounceable)',
+  );
 
   /// Returns `true` if the address type is bounceable.
   bool get isBounceable => this == bounceable;
@@ -76,36 +79,47 @@ class TonAddress implements TonBaseAddress {
 
   /// Private constructor initializing workChain, hash, and flags.
   TonAddress._(this.workChain, this.hash, List<FriendlyAddressFlags> flags)
-      : defaultFlags = List<FriendlyAddressFlags>.unmodifiable(flags);
+    : defaultFlags = List<FriendlyAddressFlags>.unmodifiable(flags);
 
   /// Factory to create a TON address from raw bytes.
-  factory TonAddress.fromBytes(int workChain, List<int> hash,
-      {bool bounceable = true, bool testNet = false}) {
+  factory TonAddress.fromBytes(
+    int workChain,
+    List<int> hash, {
+    bool bounceable = true,
+    bool testNet = false,
+  }) {
     final flags = [
       if (bounceable)
         FriendlyAddressFlags.bounceable
       else
         FriendlyAddressFlags.nonBounceable,
-      if (testNet) FriendlyAddressFlags.test
+      if (testNet) FriendlyAddressFlags.test,
     ];
     return TonAddress._(workChain, hash, flags);
   }
 
   /// Factory to create a TON address from a state initialization.
-  factory TonAddress.fromState(
-      {required StateInit state,
-      required int workChain,
-      bool bounceable = true,
-      bool testNet = false}) {
+  factory TonAddress.fromState({
+    required StateInit state,
+    required int workChain,
+    bool bounceable = true,
+    bool testNet = false,
+  }) {
     final hash = beginCell().store(state).endCell().hash();
-    return TonAddress.fromBytes(workChain, hash,
-        bounceable: bounceable, testNet: testNet);
+    return TonAddress.fromBytes(
+      workChain,
+      hash,
+      bounceable: bounceable,
+      testNet: testNet,
+    );
   }
 
   /// Factory to create a TON address from a string.
   factory TonAddress(String address, {int? forceWorkchain, bool? bounceable}) {
-    final decode =
-        _decoder.decodeWithResult(address, {'workchain': forceWorkchain});
+    final decode = _decoder.decodeWithResult(
+      address,
+      workChain: forceWorkchain,
+    );
     List<FriendlyAddressFlags> flags = List.from(decode.flags);
     if (bounceable != null) {
       flags = [
@@ -114,7 +128,7 @@ class TonAddress implements TonBaseAddress {
         if (bounceable)
           FriendlyAddressFlags.bounceable
         else
-          FriendlyAddressFlags.nonBounceable
+          FriendlyAddressFlags.nonBounceable,
       ];
     }
     return TonAddress._(decode.workchain, decode.hash, flags);
@@ -123,7 +137,8 @@ class TonAddress implements TonBaseAddress {
   /// Creates a copy of the address with optional bounceable and test-only flags.
   TonAddress copyWith({bool? bounceable, bool? testOnly}) {
     return TonAddress(
-        toFriendlyAddress(bounceable: bounceable, testOnly: testOnly));
+      toFriendlyAddress(bounceable: bounceable, testOnly: testOnly),
+    );
   }
 
   /// Converts the address to a raw format.
@@ -133,19 +148,23 @@ class TonAddress implements TonBaseAddress {
 
   /// Converts the address to a byte array.
   List<int> toBytes() {
-    final int chain = workChain & mask8;
+    final int chain = workChain & BinaryOps.mask8;
     return [...hash, ...List.generate(4, (index) => chain)];
   }
 
   /// Converts the address to a friendly format.
-  String toFriendlyAddress(
-      {bool? bounceable, bool? testOnly, bool urlSafe = true}) {
+  String toFriendlyAddress({
+    bool? bounceable,
+    bool? testOnly,
+    bool urlSafe = true,
+  }) {
     return TonAddressUtils.encodeAddress(
-        hash: hash,
-        workChain: workChain,
-        bounceable: bounceable ?? (isFriendly ? isBounceable : true),
-        urlSafe: urlSafe,
-        testOnly: testOnly ?? isTestOnly);
+      hash: hash,
+      workChain: workChain,
+      bounceable: bounceable ?? (isFriendly ? isBounceable : true),
+      urlSafe: urlSafe,
+      testOnly: testOnly ?? isTestOnly,
+    );
   }
 
   /// Returns the string representation of the address.

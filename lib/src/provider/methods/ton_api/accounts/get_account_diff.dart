@@ -11,10 +11,11 @@ class TonApiGetAccountDiff extends TonApiRequest<BigInt, Map<String, dynamic>> {
   final BigInt startDate;
   final BigInt endDate;
 
-  TonApiGetAccountDiff(
-      {required this.accountId,
-      required this.startDate,
-      required this.endDate});
+  TonApiGetAccountDiff({
+    required this.accountId,
+    required this.startDate,
+    required this.endDate,
+  });
   @override
   String get method => TonApiMethods.getaccountdiff.url;
 
@@ -22,8 +23,10 @@ class TonApiGetAccountDiff extends TonApiRequest<BigInt, Map<String, dynamic>> {
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'start_date': startDate.toString(), 'end_date': endDate.toString()};
+  Map<String, dynamic> get queryParameters => {
+    'start_date': startDate.toString(),
+    'end_date': endDate.toString(),
+  };
   @override
   BigInt onResonse(Map<String, dynamic> result) {
     return BigintUtils.parse(result['balance_change']);

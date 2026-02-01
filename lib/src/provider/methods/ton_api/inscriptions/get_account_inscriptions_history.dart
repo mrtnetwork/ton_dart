@@ -19,11 +19,12 @@ class TonApiGetAccountInscriptionsHistory
   /// default: 100
   final int? limit;
 
-  TonApiGetAccountInscriptionsHistory(
-      {required this.accountId,
-      this.acceptLanguage,
-      this.beforeLt,
-      this.limit});
+  TonApiGetAccountInscriptionsHistory({
+    required this.accountId,
+    this.acceptLanguage,
+    this.beforeLt,
+    this.limit,
+  });
 
   @override
   String get method => TonApiMethods.getaccountinscriptionshistory.url;
@@ -32,8 +33,10 @@ class TonApiGetAccountInscriptionsHistory
   List<String> get pathParameters => [accountId];
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'limit': limit, 'before_lt': beforeLt};
+  Map<String, dynamic> get queryParameters => {
+    'limit': limit,
+    'before_lt': beforeLt,
+  };
 
   @override
   Map<String, String?> get headers => {'Accept-Language': acceptLanguage};

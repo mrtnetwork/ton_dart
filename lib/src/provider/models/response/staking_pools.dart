@@ -13,19 +13,25 @@ class StakingPoolsResponse with JsonSerialization {
 
   factory StakingPoolsResponse.fromJson(Map<String, dynamic> json) {
     return StakingPoolsResponse(
-      pools: (json['pools'] as List<dynamic>)
-          .map((pool) => PoolInfoResponse.fromJson(pool))
-          .toList(),
+      pools:
+          (json['pools'] as List<dynamic>)
+              .map((pool) => PoolInfoResponse.fromJson(pool))
+              .toList(),
       implementations: (json['implementations'] as Map)
-          .map<String, PoolImplementationResponse>((key, value) => MapEntry(
-              key, PoolImplementationResponse.fromJson((value as Map).cast()))),
+          .map<String, PoolImplementationResponse>(
+            (key, value) => MapEntry(
+              key,
+              PoolImplementationResponse.fromJson((value as Map).cast()),
+            ),
+          ),
     );
   }
 
   @override
   Map<String, dynamic> toJson() => {
-        'pools': pools.map((pool) => pool.toJson()).toList(),
-        'implementations':
-            implementations.map((key, value) => MapEntry(key, value.toJson())),
-      };
+    'pools': pools.map((pool) => pool.toJson()).toList(),
+    'implementations': implementations.map(
+      (key, value) => MapEntry(key, value.toJson()),
+    ),
+  };
 }

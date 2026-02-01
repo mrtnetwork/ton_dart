@@ -5,13 +5,17 @@ class GetAllRawShardsInfoResponse with JsonSerialization {
   final BlockRawResponse id;
   final String proof;
   final String data;
-  const GetAllRawShardsInfoResponse(
-      {required this.id, required this.proof, required this.data});
+  const GetAllRawShardsInfoResponse({
+    required this.id,
+    required this.proof,
+    required this.data,
+  });
   factory GetAllRawShardsInfoResponse.fromJson(Map<String, dynamic> json) {
     return GetAllRawShardsInfoResponse(
-        id: BlockRawResponse.fromJson(json['id']),
-        proof: json['proof'],
-        data: json['data']);
+      id: BlockRawResponse.fromJson(json['id']),
+      proof: json['proof'],
+      data: json['data'],
+    );
   }
 
   @override

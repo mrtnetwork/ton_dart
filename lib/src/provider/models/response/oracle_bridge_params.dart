@@ -7,11 +7,12 @@ class OracleBridgeParamsResponse with JsonSerialization {
   final String externalChainAddress;
   final List<OracleResponse> oracles;
 
-  const OracleBridgeParamsResponse(
-      {required this.bridgeAddr,
-      required this.oracleMultisigAddress,
-      required this.externalChainAddress,
-      required this.oracles});
+  const OracleBridgeParamsResponse({
+    required this.bridgeAddr,
+    required this.oracleMultisigAddress,
+    required this.externalChainAddress,
+    required this.oracles,
+  });
 
   factory OracleBridgeParamsResponse.fromJson(Map<String, dynamic> json) {
     return OracleBridgeParamsResponse(
@@ -19,7 +20,8 @@ class OracleBridgeParamsResponse with JsonSerialization {
       oracleMultisigAddress: json['oracle_multisig_address'],
       externalChainAddress: json['external_chain_address'],
       oracles: List<OracleResponse>.from(
-          (json['oracles'] as List).map((x) => OracleResponse.fromJson(x))),
+        (json['oracles'] as List).map((x) => OracleResponse.fromJson(x)),
+      ),
     );
   }
 
@@ -29,7 +31,7 @@ class OracleBridgeParamsResponse with JsonSerialization {
       'bridge_addr': bridgeAddr,
       'oracle_multisig_address': oracleMultisigAddress,
       'external_chain_address': externalChainAddress,
-      'oracles': List<dynamic>.from(oracles.map((x) => x.toJson()))
+      'oracles': List<dynamic>.from(oracles.map((x) => x.toJson())),
     };
   }
 }

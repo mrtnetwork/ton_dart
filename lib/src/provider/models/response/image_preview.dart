@@ -4,14 +4,13 @@ class ImagePreviewResponse with JsonSerialization {
   final String resolution;
   final String url;
 
-  const ImagePreviewResponse({
-    required this.resolution,
-    required this.url,
-  });
+  const ImagePreviewResponse({required this.resolution, required this.url});
 
   factory ImagePreviewResponse.fromJson(Map<String, dynamic> json) {
     return ImagePreviewResponse(
-        resolution: json['resolution'], url: json['url']);
+      resolution: json['resolution'],
+      url: json['url'],
+    );
   }
 
   @override

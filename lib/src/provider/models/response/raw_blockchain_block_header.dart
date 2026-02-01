@@ -6,14 +6,19 @@ class RawBlockchainBlockHeaderResponseResponse with JsonSerialization {
   final int mode;
   final String headerProof;
 
-  const RawBlockchainBlockHeaderResponseResponse(
-      {required this.id, required this.mode, required this.headerProof});
+  const RawBlockchainBlockHeaderResponseResponse({
+    required this.id,
+    required this.mode,
+    required this.headerProof,
+  });
   factory RawBlockchainBlockHeaderResponseResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return RawBlockchainBlockHeaderResponseResponse(
-        id: BlockRawResponse.fromJson(json['id']),
-        headerProof: json['header_proof'],
-        mode: json['mode']);
+      id: BlockRawResponse.fromJson(json['id']),
+      headerProof: json['header_proof'],
+      mode: json['mode'],
+    );
   }
 
   @override

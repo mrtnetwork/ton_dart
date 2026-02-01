@@ -19,8 +19,10 @@ class BlockchainAccountInspectResponse with JsonSerialization {
       code: json['code'],
       codeHash: json['code_hash'],
       methods: List<BlockchainAccountInspectMethodsItemResponse>.from(
-          json['methods'].map(
-              (x) => BlockchainAccountInspectMethodsItemResponse.fromJson(x))),
+        json['methods'].map(
+          (x) => BlockchainAccountInspectMethodsItemResponse.fromJson(x),
+        ),
+      ),
       compiler: json['compiler'],
     );
   }

@@ -51,7 +51,7 @@ class V5R1ClientContext extends V5R1Context {
     return {
       'networkGlobalId': chain.id,
       'subwalletNumber': subwalletNumber,
-      'workchain': chain.workchain
+      'workchain': chain.workchain,
     };
   }
 

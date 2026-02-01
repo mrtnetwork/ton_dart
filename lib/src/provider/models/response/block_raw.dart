@@ -32,7 +32,7 @@ class BlockRawResponse with JsonSerialization {
       'shard': shard,
       'seqno': seqno,
       'root_hash': rootHash,
-      'file_hash': fileHash
+      'file_hash': fileHash,
     };
   }
 }

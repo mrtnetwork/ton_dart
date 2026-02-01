@@ -10,18 +10,20 @@ class ValueFlowResponse with JsonSerialization {
   final BigInt fees;
   final List<ValueFlowJettonsItemResponse> jettons;
 
-  const ValueFlowResponse(
-      {required this.account,
-      required this.ton,
-      required this.fees,
-      required this.jettons});
+  const ValueFlowResponse({
+    required this.account,
+    required this.ton,
+    required this.fees,
+    required this.jettons,
+  });
 
   factory ValueFlowResponse.fromJson(Map<String, dynamic> json) {
     return ValueFlowResponse(
       account: AccountAddressResponse.fromJson(json['account']),
       ton: BigintUtils.parse(json['ton']),
       fees: BigintUtils.parse(json['fees']),
-      jettons: (json['jettons'] as List?)
+      jettons:
+          (json['jettons'] as List?)
               ?.map((item) => ValueFlowJettonsItemResponse.fromJson(item))
               .toList() ??
           [],
@@ -34,7 +36,7 @@ class ValueFlowResponse with JsonSerialization {
       'account': account.toJson(),
       'ton': ton.toString(),
       'fees': fees.toString(),
-      'jettons': jettons.map((item) => item.toJson()).toList()
+      'jettons': jettons.map((item) => item.toJson()).toList(),
     };
   }
 }

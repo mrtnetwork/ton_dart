@@ -25,9 +25,10 @@ class ActionSimplePreviewResponse with JsonSerialization {
       actionImage: json['action_image'],
       value: json['value'],
       valueImage: json['value_image'],
-      accounts: (json['accounts'] as List)
-          .map((e) => AccountAddressResponse.fromJson(e))
-          .toList(),
+      accounts:
+          (json['accounts'] as List)
+              .map((e) => AccountAddressResponse.fromJson(e))
+              .toList(),
     );
   }
 
@@ -39,7 +40,7 @@ class ActionSimplePreviewResponse with JsonSerialization {
       'accounts': accounts.map((e) => e.toJson()).toList(),
       'action_image': actionImage,
       'value': value,
-      'value_image': valueImage
+      'value_image': valueImage,
     };
   }
 }

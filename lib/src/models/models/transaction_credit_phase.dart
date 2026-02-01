@@ -40,7 +40,7 @@ class TransactionCreditPhase extends TonSerialization {
   Map<String, dynamic> toJson() {
     return {
       'due_fees_colelcted': dueFeesColelcted?.toString(),
-      'credit': credit.toJson()
+      'credit': credit.toJson(),
     };
   }
 }

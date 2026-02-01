@@ -18,7 +18,7 @@ class MinterWalletState extends ContractState {
       'content': content.toBase64(),
       'totalSupply': totalSupply,
       'walletCode': walletCode?.toBase64(),
-      'metadata': metadata.toJson()
+      'metadata': metadata.toJson(),
     };
   }
 
@@ -35,10 +35,11 @@ class MinterWalletState extends ContractState {
     final Cell content = reader.readCell();
     final Cell walletCode = reader.readCell();
     return MinterWalletState._(
-        totalSupply: totalSupply,
-        owner: admin,
-        content: content,
-        walletCode: walletCode);
+      totalSupply: totalSupply,
+      owner: admin,
+      content: content,
+      walletCode: walletCode,
+    );
   }
   const MinterWalletState._({
     required this.owner,
@@ -46,22 +47,25 @@ class MinterWalletState extends ContractState {
     required this.walletCode,
     required this.content,
   });
-  factory MinterWalletState(
-      {required TonAddress owner,
-      required TonChainId chain,
-      TokenMetadata? metadata,
-      Cell? contect,
-      Cell? walletCode,
-      BigInt? totalSupply}) {
+  factory MinterWalletState({
+    required TonAddress owner,
+    required TonChainId chain,
+    TokenMetadata? metadata,
+    Cell? contect,
+    Cell? walletCode,
+    BigInt? totalSupply,
+  }) {
     if (metadata != null && contect != null) {
       throw const TonContractException(
-          'Use only content or metadata for jetton content');
+        'Use only content or metadata for jetton content',
+      );
     }
     return MinterWalletState._(
-        owner: owner,
-        totalSupply: totalSupply ?? BigInt.zero,
-        walletCode: walletCode,
-        content: contect ?? TokneMetadataUtils.encodeMetadata(metadata));
+      owner: owner,
+      totalSupply: totalSupply ?? BigInt.zero,
+      walletCode: walletCode,
+      content: contect ?? TokneMetadataUtils.encodeMetadata(metadata),
+    );
   }
   factory MinterWalletState.deserialize(Slice slice) {
     final BigInt totalSupply = slice.loadCoins();
@@ -69,10 +73,11 @@ class MinterWalletState extends ContractState {
     final Cell content = slice.loadRef();
     final Cell walletCode = slice.loadRef();
     return MinterWalletState._(
-        owner: owner,
-        totalSupply: totalSupply,
-        walletCode: walletCode,
-        content: content);
+      owner: owner,
+      totalSupply: totalSupply,
+      walletCode: walletCode,
+      content: content,
+    );
   }
 
   TokenMetadata get metadata => TokneMetadataUtils.loadContent(content);
@@ -80,8 +85,9 @@ class MinterWalletState extends ContractState {
   @override
   StateInit initialState({int? workchain}) {
     return StateInit(
-        data: initialData(),
-        code: JettonMinterConst.code(owner?.workChain ?? 0));
+      data: initialData(),
+      code: JettonMinterConst.code(owner?.workChain ?? 0),
+    );
   }
 
   @override

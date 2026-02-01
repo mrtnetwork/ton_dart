@@ -22,8 +22,11 @@ class TrustTypeResponse {
   static TrustTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No TrustTypeResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No TrustTypeResponse found with the provided name: $name',
+              ),
     );
   }
 }

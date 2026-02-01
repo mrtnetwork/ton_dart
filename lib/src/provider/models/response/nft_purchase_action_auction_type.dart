@@ -26,8 +26,11 @@ class NftPurchaseActionAuctionTypeResponse {
   static NftPurchaseActionAuctionTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No NftPurchaseActionAuctionTypeResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No NftPurchaseActionAuctionTypeResponse found with the provided name: $name',
+              ),
     );
   }
 }

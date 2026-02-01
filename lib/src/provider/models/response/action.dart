@@ -80,72 +80,97 @@ class ActionResponse with JsonSerialization {
     return ActionResponse(
       type: ActionTypeResponse.fromName(json['type']),
       status: ActionStatusResponse.fromName(json['status']),
-      tonTransfer: json['TonTransfer'] != null
-          ? TonTransferActionResponse.fromJson(json['TonTransfer'])
-          : null,
-      contractDeploy: json['ContractDeploy'] != null
-          ? ContractDeployActionResponse.fromJson(json['ContractDeploy'])
-          : null,
-      jettonTransfer: json['JettonTransfer'] != null
-          ? JettonTransferActionResponse.fromJson(json['JettonTransfer'])
-          : null,
-      jettonBurn: json['JettonBurn'] != null
-          ? JettonBurnActionResponse.fromJson(json['JettonBurn'])
-          : null,
-      jettonMint: json['JettonMint'] != null
-          ? JettonMintActionResponse.fromJson(json['JettonMint'])
-          : null,
-      nftItemTransfer: json['NftItemTransfer'] != null
-          ? NftItemTransferActionResponse.fromJson(json['NftItemTransfer'])
-          : null,
-      subscribe: json['Subscribe'] != null
-          ? SubscriptionActionResponse.fromJson(json['Subscribe'])
-          : null,
-      unSubscribe: json['UnSubscribe'] != null
-          ? UnSubscriptionActionResponse.fromJson(json['UnSubscribe'])
-          : null,
-      auctionBid: json['AuctionBid'] != null
-          ? AuctionBidActionResponse.fromJson(json['AuctionBid'])
-          : null,
-      nftPurchase: json['NftPurchase'] != null
-          ? NftPurchaseActionResponse.fromJson(json['NftPurchase'])
-          : null,
-      depositStake: json['DepositStake'] != null
-          ? DepositStakeActionResponse.fromJson(json['DepositStake'])
-          : null,
-      withdrawStake: json['WithdrawStake'] != null
-          ? WithdrawStakeActionResponse.fromJson(json['WithdrawStake'])
-          : null,
-      withdrawStakeRequest: json['WithdrawStakeRequest'] != null
-          ? WithdrawStakeRequestActionResponse.fromJson(
-              json['WithdrawStakeRequest'])
-          : null,
-      electionsDepositStake: json['ElectionsDepositStake'] != null
-          ? ElectionsDepositStakeActionResponse.fromJson(
-              json['ElectionsDepositStake'])
-          : null,
-      electionsRecoverStake: json['ElectionsRecoverStake'] != null
-          ? ElectionsRecoverStakeActionResponse.fromJson(
-              json['ElectionsRecoverStake'])
-          : null,
-      jettonSwap: json['JettonSwap'] != null
-          ? JettonSwapActionResponse.fromJson(json['JettonSwap'])
-          : null,
-      smartContractExec: json['SmartContractExec'] != null
-          ? SmartContractActionResponse.fromJson(json['SmartContractExec'])
-          : null,
-      domainRenew: json['DomainRenew'] != null
-          ? DomainRenewActionResponse.fromJson(json['DomainRenew'])
-          : null,
-      inscriptionTransfer: json['InscriptionTransfer'] != null
-          ? InscriptionTransferActionResponse.fromJson(
-              json['InscriptionTransfer'])
-          : null,
-      inscriptionMint: json['InscriptionMint'] != null
-          ? InscriptionMintActionResponse.fromJson(json['InscriptionMint'])
-          : null,
-      simplePreview:
-          ActionSimplePreviewResponse.fromJson(json['simple_preview']),
+      tonTransfer:
+          json['TonTransfer'] != null
+              ? TonTransferActionResponse.fromJson(json['TonTransfer'])
+              : null,
+      contractDeploy:
+          json['ContractDeploy'] != null
+              ? ContractDeployActionResponse.fromJson(json['ContractDeploy'])
+              : null,
+      jettonTransfer:
+          json['JettonTransfer'] != null
+              ? JettonTransferActionResponse.fromJson(json['JettonTransfer'])
+              : null,
+      jettonBurn:
+          json['JettonBurn'] != null
+              ? JettonBurnActionResponse.fromJson(json['JettonBurn'])
+              : null,
+      jettonMint:
+          json['JettonMint'] != null
+              ? JettonMintActionResponse.fromJson(json['JettonMint'])
+              : null,
+      nftItemTransfer:
+          json['NftItemTransfer'] != null
+              ? NftItemTransferActionResponse.fromJson(json['NftItemTransfer'])
+              : null,
+      subscribe:
+          json['Subscribe'] != null
+              ? SubscriptionActionResponse.fromJson(json['Subscribe'])
+              : null,
+      unSubscribe:
+          json['UnSubscribe'] != null
+              ? UnSubscriptionActionResponse.fromJson(json['UnSubscribe'])
+              : null,
+      auctionBid:
+          json['AuctionBid'] != null
+              ? AuctionBidActionResponse.fromJson(json['AuctionBid'])
+              : null,
+      nftPurchase:
+          json['NftPurchase'] != null
+              ? NftPurchaseActionResponse.fromJson(json['NftPurchase'])
+              : null,
+      depositStake:
+          json['DepositStake'] != null
+              ? DepositStakeActionResponse.fromJson(json['DepositStake'])
+              : null,
+      withdrawStake:
+          json['WithdrawStake'] != null
+              ? WithdrawStakeActionResponse.fromJson(json['WithdrawStake'])
+              : null,
+      withdrawStakeRequest:
+          json['WithdrawStakeRequest'] != null
+              ? WithdrawStakeRequestActionResponse.fromJson(
+                json['WithdrawStakeRequest'],
+              )
+              : null,
+      electionsDepositStake:
+          json['ElectionsDepositStake'] != null
+              ? ElectionsDepositStakeActionResponse.fromJson(
+                json['ElectionsDepositStake'],
+              )
+              : null,
+      electionsRecoverStake:
+          json['ElectionsRecoverStake'] != null
+              ? ElectionsRecoverStakeActionResponse.fromJson(
+                json['ElectionsRecoverStake'],
+              )
+              : null,
+      jettonSwap:
+          json['JettonSwap'] != null
+              ? JettonSwapActionResponse.fromJson(json['JettonSwap'])
+              : null,
+      smartContractExec:
+          json['SmartContractExec'] != null
+              ? SmartContractActionResponse.fromJson(json['SmartContractExec'])
+              : null,
+      domainRenew:
+          json['DomainRenew'] != null
+              ? DomainRenewActionResponse.fromJson(json['DomainRenew'])
+              : null,
+      inscriptionTransfer:
+          json['InscriptionTransfer'] != null
+              ? InscriptionTransferActionResponse.fromJson(
+                json['InscriptionTransfer'],
+              )
+              : null,
+      inscriptionMint:
+          json['InscriptionMint'] != null
+              ? InscriptionMintActionResponse.fromJson(json['InscriptionMint'])
+              : null,
+      simplePreview: ActionSimplePreviewResponse.fromJson(
+        json['simple_preview'],
+      ),
       baseTransactions: List<String>.from(json['base_transactions']),
     );
   }

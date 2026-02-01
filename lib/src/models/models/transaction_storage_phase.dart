@@ -14,21 +14,24 @@ class TransactionStoragePhase extends TonSerialization {
   final BigInt storageFeesCollected;
   final BigInt? storageFeesDue;
   final AccountStatusChange statusChange;
-  const TransactionStoragePhase(
-      {required this.storageFeesCollected,
-      required this.storageFeesDue,
-      required this.statusChange});
+  const TransactionStoragePhase({
+    required this.storageFeesCollected,
+    required this.storageFeesDue,
+    required this.statusChange,
+  });
   factory TransactionStoragePhase.deserialize(Slice slice) {
     return TransactionStoragePhase(
-        storageFeesCollected: slice.loadCoins(),
-        storageFeesDue: slice.loadBit().onTrue(() => slice.loadCoins()),
-        statusChange: AccountStatusChange.deserialize(slice));
+      storageFeesCollected: slice.loadCoins(),
+      storageFeesDue: slice.loadBit().onTrue(() => slice.loadCoins()),
+      statusChange: AccountStatusChange.deserialize(slice),
+    );
   }
   factory TransactionStoragePhase.fromJson(Map<String, dynamic> json) {
     return TransactionStoragePhase(
-        storageFeesCollected: BigintUtils.parse(json['storage_fees_collected']),
-        storageFeesDue: BigintUtils.tryParse(json['storage_fees_due']),
-        statusChange: AccountStatusChange.fromJson(json['status_change']));
+      storageFeesCollected: BigintUtils.parse(json['storage_fees_collected']),
+      storageFeesDue: BigintUtils.tryParse(json['storage_fees_due']),
+      statusChange: AccountStatusChange.fromJson(json['status_change']),
+    );
   }
 
   @override
@@ -46,7 +49,7 @@ class TransactionStoragePhase extends TonSerialization {
     return {
       'status_change': statusChange.toJson(),
       'storage_fees_due': storageFeesDue?.toString(),
-      'storage_fees_collected': storageFeesCollected.toString()
+      'storage_fees_collected': storageFeesCollected.toString(),
     };
   }
 }

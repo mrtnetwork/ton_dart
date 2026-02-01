@@ -26,16 +26,18 @@ class ComputePhaseResponse with JsonSerialization {
 
   factory ComputePhaseResponse.fromJson(Map<String, dynamic> json) {
     return ComputePhaseResponse(
-        skipped: json['skipped'],
-        skipReason: json['skip_reason'] != null
-            ? ComputeSkipReasonResponse.fromName(json['skip_reason'])
-            : null,
-        success: json['success'],
-        gasFees: BigintUtils.tryParse(json['gas_fees']),
-        gasUsed: BigintUtils.tryParse(json['gas_used']),
-        vmSteps: json['vm_steps'],
-        exitCode: json['exit_code'],
-        exitCodeDescription: json['exit_code_description']);
+      skipped: json['skipped'],
+      skipReason:
+          json['skip_reason'] != null
+              ? ComputeSkipReasonResponse.fromName(json['skip_reason'])
+              : null,
+      success: json['success'],
+      gasFees: BigintUtils.tryParse(json['gas_fees']),
+      gasUsed: BigintUtils.tryParse(json['gas_used']),
+      vmSteps: json['vm_steps'],
+      exitCode: json['exit_code'],
+      exitCodeDescription: json['exit_code_description'],
+    );
   }
 
   @override

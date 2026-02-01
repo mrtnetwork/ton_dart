@@ -38,7 +38,7 @@ class WalletDNSResponse with JsonSerialization {
       'is_wallet': isWallet,
       'has_method_pubkey': hasMethodPubkey,
       'has_method_seqno': hasMethodSeqno,
-      'names': names
+      'names': names,
     };
   }
 }

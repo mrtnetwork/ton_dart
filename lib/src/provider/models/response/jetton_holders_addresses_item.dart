@@ -13,7 +13,8 @@ class JettonHoldersAddressesItemResponse with JsonSerialization {
   });
 
   factory JettonHoldersAddressesItemResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return JettonHoldersAddressesItemResponse(
       address: json['address'],
       owner: AccountAddressResponse.fromJson(json['owner']),
@@ -22,6 +23,9 @@ class JettonHoldersAddressesItemResponse with JsonSerialization {
   }
 
   @override
-  Map<String, dynamic> toJson() =>
-      {'address': address, 'owner': owner.toJson(), 'balance': balance};
+  Map<String, dynamic> toJson() => {
+    'address': address,
+    'owner': owner.toJson(),
+    'balance': balance,
+  };
 }

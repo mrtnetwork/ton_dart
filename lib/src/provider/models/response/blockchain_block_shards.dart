@@ -8,16 +8,18 @@ class BlockchainBlockShardsResponse with JsonSerialization {
 
   factory BlockchainBlockShardsResponse.fromJson(Map<String, dynamic> json) {
     return BlockchainBlockShardsResponse(
-      shards: (json['shards'] as List<dynamic>)
-          .map((item) => BlockchainBlockShardsShardsItemResponse.fromJson(item))
-          .toList(),
+      shards:
+          (json['shards'] as List<dynamic>)
+              .map(
+                (item) =>
+                    BlockchainBlockShardsShardsItemResponse.fromJson(item),
+              )
+              .toList(),
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'shards': shards.map((shard) => shard.toJson()).toList(),
-    };
+    return {'shards': shards.map((shard) => shard.toJson()).toList()};
   }
 }

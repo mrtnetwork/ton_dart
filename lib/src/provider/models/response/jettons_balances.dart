@@ -8,9 +8,11 @@ class JettonsBalancesResponse with JsonSerialization {
 
   factory JettonsBalancesResponse.fromJson(Map<String, dynamic> json) {
     return JettonsBalancesResponse(
-        balances: (json['balances'] as List)
-            .map((balanceJson) => JettonBalanceResponse.fromJson(balanceJson))
-            .toList());
+      balances:
+          (json['balances'] as List)
+              .map((balanceJson) => JettonBalanceResponse.fromJson(balanceJson))
+              .toList(),
+    );
   }
 
   @override

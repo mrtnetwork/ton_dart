@@ -4,7 +4,7 @@ class Pruned {
   final List<int> hash;
   final int depth;
   Pruned({required List<int> hash, required this.depth})
-      : hash = BytesUtils.toBytes(hash, unmodifiable: true);
+    : hash = BytesUtils.toBytes(hash, unmodifiable: true);
 }
 
 class ExoticPruned {

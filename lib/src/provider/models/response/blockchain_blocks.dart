@@ -8,16 +8,15 @@ class BlockchainBlocksResponse with JsonSerialization {
 
   factory BlockchainBlocksResponse.fromJson(Map<String, dynamic> json) {
     return BlockchainBlocksResponse(
-      blocks: (json['blocks'] as List<dynamic>)
-          .map((item) => BlockchainBlockResponse.fromJson(item))
-          .toList(),
+      blocks:
+          (json['blocks'] as List<dynamic>)
+              .map((item) => BlockchainBlockResponse.fromJson(item))
+              .toList(),
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'blocks': blocks.map((block) => block.toJson()).toList(),
-    };
+    return {'blocks': blocks.map((block) => block.toJson()).toList()};
   }
 }

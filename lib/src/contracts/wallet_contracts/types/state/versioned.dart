@@ -17,20 +17,22 @@ abstract class VersionedWalletState implements ContractState {
     return StateInit(code: version.getCode(), data: initialData());
   }
 
-  VersionedWalletState(
-      {required List<int> publicKey,
-      required this.seqno,
-      required this.version})
-      : publicKey = TonPublicKey.fromBytes(publicKey);
+  VersionedWalletState({
+    required List<int> publicKey,
+    required this.seqno,
+    required this.version,
+  }) : publicKey = TonPublicKey.fromBytes(publicKey);
 
   @override
   Cell initialData();
 }
 
 class NoneSubWalletVersionedWalletState extends VersionedWalletState {
-  NoneSubWalletVersionedWalletState(
-      {required super.publicKey, int? seqno, required super.version})
-      : super(seqno: seqno ?? 0);
+  NoneSubWalletVersionedWalletState({
+    required super.publicKey,
+    int? seqno,
+    required super.version,
+  }) : super(seqno: seqno ?? 0);
 
   @override
   Cell initialData() {
@@ -69,7 +71,8 @@ class SubWalletVersionedWalletState extends VersionedWalletState {
             .endCell();
       default:
         throw const TonContractException(
-            'SubWalletVersionedWalletState only accept version 3 and 4');
+          'SubWalletVersionedWalletState only accept version 3 and 4',
+        );
     }
   }
 }
@@ -79,15 +82,15 @@ class V5VersionedWalletState extends VersionedWalletState {
   final bool setPubKeyEnabled;
   final List<TonAddress> extensionPubKeys;
 
-  V5VersionedWalletState(
-      {required super.publicKey,
-      int? seqno,
-      required this.context,
-      required super.version,
-      this.setPubKeyEnabled = true,
-      List<TonAddress> extensionPubKeys = const []})
-      : extensionPubKeys = List<TonAddress>.unmodifiable(extensionPubKeys),
-        super(seqno: seqno ?? 0);
+  V5VersionedWalletState({
+    required super.publicKey,
+    int? seqno,
+    required this.context,
+    required super.version,
+    this.setPubKeyEnabled = true,
+    List<TonAddress> extensionPubKeys = const [],
+  }) : extensionPubKeys = List<TonAddress>.unmodifiable(extensionPubKeys),
+       super(seqno: seqno ?? 0);
 
   @override
   Cell initialData() {

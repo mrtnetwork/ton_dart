@@ -13,8 +13,9 @@ class TonHelper {
   static const int nanoDecimalPlaces = 9;
 
   /// A constant representing the scaling factor for converting between nanoTONs and decimal strings.
-  static final BigRational _nanoDecimal =
-      BigRational(BigInt.from(10).pow(nanoDecimalPlaces));
+  static final BigRational _nanoDecimal = BigRational(
+    BigInt.from(10).pow(nanoDecimalPlaces),
+  );
 
   /// Converts a decimal string representation of a TON value to a BigInt in nanoTONs.
   ///
@@ -62,35 +63,42 @@ class TonHelper {
   static Cell toCell(String? data) {
     final toCell = tryToCell(data);
     if (toCell == null) {
-      throw TonDartPluginException('Invalid cell data.',
-          details: {'data': data});
+      throw TonDartPluginException(
+        'Invalid cell data.',
+        details: {'data': data},
+      );
     }
     return toCell;
   }
 
-  static MessageRelaxed internal(
-      {required TonAddress destination,
-      required BigInt amount,
-      Cell? body,
-      StateInit? initState,
-      String? memo,
-      bool bounce = false,
-      bool bounced = false}) {
-    assert(memo == null || body == null,
-        'You have to choose a memo or body for each message.');
+  static MessageRelaxed internal({
+    required TonAddress destination,
+    required BigInt amount,
+    Cell? body,
+    StateInit? initState,
+    String? memo,
+    bool bounce = false,
+    bool bounced = false,
+  }) {
+    assert(
+      memo == null || body == null,
+      'You have to choose a memo or body for each message.',
+    );
     return MessageRelaxed(
-        info: CommonMessageInfoRelaxedInternal(
-            ihrDisabled: true,
-            bounce: bounce,
-            bounced: bounced,
-            dest: destination,
-            value: CurrencyCollection(coins: amount),
-            ihrFee: BigInt.zero,
-            forwardFee: BigInt.zero,
-            createdLt: BigInt.zero,
-            createdAt: 0),
-        body: body ?? Cell.empty,
-        init: initState);
+      info: CommonMessageInfoRelaxedInternal(
+        ihrDisabled: true,
+        bounce: bounce,
+        bounced: bounced,
+        dest: destination,
+        value: CurrencyCollection(coins: amount),
+        ihrFee: BigInt.zero,
+        forwardFee: BigInt.zero,
+        createdLt: BigInt.zero,
+        createdAt: 0,
+      ),
+      body: body ?? Cell.empty,
+      init: initState,
+    );
   }
 
   static Cell buildMessageBody(String? memo) {

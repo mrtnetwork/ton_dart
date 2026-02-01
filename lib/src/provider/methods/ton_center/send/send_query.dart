@@ -11,11 +11,12 @@ class TonCenterSendQuery
   final String body;
   final String initCode;
   final String initData;
-  TonCenterSendQuery(
-      {required this.address,
-      required this.body,
-      required this.initCode,
-      required this.initData});
+  TonCenterSendQuery({
+    required this.address,
+    required this.body,
+    required this.initCode,
+    required this.initData,
+  });
 
   @override
   String get method => TonCenterMethods.sendQuery.name;
@@ -26,7 +27,7 @@ class TonCenterSendQuery
       'address': address,
       'body': body,
       'init_code': initCode,
-      'init_data': initData
+      'init_data': initData,
     };
   }
 

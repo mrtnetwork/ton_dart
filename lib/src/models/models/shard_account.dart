@@ -16,10 +16,11 @@ class ShardAccount extends TonSerialization {
 
   /// The logical time (LT) of the last transaction in this shard account.
   final BigInt lastTransactionLt;
-  const ShardAccount(
-      {this.account,
-      required this.lastTransactionHash,
-      required this.lastTransactionLt});
+  const ShardAccount({
+    this.account,
+    required this.lastTransactionHash,
+    required this.lastTransactionLt,
+  });
   factory ShardAccount.deserialize(Slice slice) {
     final accountRef = slice.loadRef();
     TonAccount? account;
@@ -38,7 +39,8 @@ class ShardAccount extends TonSerialization {
   factory ShardAccount.fromJson(Map<String, dynamic> json) {
     return ShardAccount(
       account: (json['account'] as Object?)?.convertTo<TonAccount, Map>(
-          (result) => TonAccount.fromJson(result.cast())),
+        (result) => TonAccount.fromJson(result.cast()),
+      ),
       lastTransactionHash: BigintUtils.parse(json['last_transaction_hash']),
       lastTransactionLt: BigintUtils.parse(json['last_transaction_lt']),
     );
@@ -63,7 +65,7 @@ class ShardAccount extends TonSerialization {
     return {
       'account': account?.toJson(),
       'last_transaction_hash': lastTransactionHash.toString(),
-      'last_transaction_lt': lastTransactionLt.toString()
+      'last_transaction_lt': lastTransactionLt.toString(),
     };
   }
 }

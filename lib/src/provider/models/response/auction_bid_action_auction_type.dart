@@ -18,7 +18,7 @@ class AuctionBidActionAuctionTypeResponse {
     dnsTon,
     dnsTg,
     numberTg,
-    getgems
+    getgems,
   ];
 
   String get value => _value;
@@ -26,8 +26,11 @@ class AuctionBidActionAuctionTypeResponse {
   static AuctionBidActionAuctionTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No AuctionBidActionAuctionTypeResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No AuctionBidActionAuctionTypeResponse found with the provided name: $name',
+              ),
     );
   }
 }

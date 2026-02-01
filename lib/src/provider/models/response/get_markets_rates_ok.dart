@@ -8,9 +8,11 @@ class MarketsRatesResponse with JsonSerialization {
 
   factory MarketsRatesResponse.fromJson(Map<String, dynamic> json) {
     return MarketsRatesResponse(
-        markets: (json['markets'] as List)
-            .map((i) => MarketTonRatesResponse.fromJson(i))
-            .toList());
+      markets:
+          (json['markets'] as List)
+              .map((i) => MarketTonRatesResponse.fromJson(i))
+              .toList(),
+    );
   }
 
   @override

@@ -36,10 +36,12 @@ class MessageRelaxed extends TonSerialization {
   }
   factory MessageRelaxed.fromJson(Map<String, dynamic> json) {
     return MessageRelaxed(
-        info: CommonMessageInfoRelaxed.fromJson(json['info']),
-        body: Cell.fromBase64(json['body']),
-        init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
-            (result) => StateInit.fromJson(result.cast())));
+      info: CommonMessageInfoRelaxed.fromJson(json['info']),
+      body: Cell.fromBase64(json['body']),
+      init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
+        (result) => StateInit.fromJson(result.cast()),
+      ),
+    );
   }
 
   @override
@@ -110,7 +112,7 @@ class MessageRelaxed extends TonSerialization {
     return {
       'info': info.toJson(),
       'init': init?.toJson(),
-      'body': body.toBase64()
+      'body': body.toBase64(),
     };
   }
 }

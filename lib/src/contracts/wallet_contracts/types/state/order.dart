@@ -20,27 +20,27 @@ class OrderContractState extends ContractState {
     final BigInt orderSeqno = slice.loadUint256();
     final threshold = slice.loadUint8();
     final executed = slice.loadBoolean();
-    final signers = Dictionary.loadDirect<int, TonAddress>(
-            key: DictionaryKey.uintCodec(8),
-            value: DictionaryValue.addressCodec(),
-            slice: slice.loadRef().beginParse())
-        .asMap
-        .values
-        .toList();
+    final signers =
+        Dictionary.loadDirect<int, TonAddress>(
+          key: DictionaryKey.uintCodec(8),
+          value: DictionaryValue.addressCodec(),
+          slice: slice.loadRef().beginParse(),
+        ).asMap.values.toList();
     final BigInt approvalsMask = slice.loadUint256();
     final int approvalsNum = slice.loadUint8();
     final BigInt expirationDate = slice.loadUintBig(48);
     final order = slice.loadRef();
     return OrderContractState(
-        multisig: multisig,
-        orderSeqno: orderSeqno,
-        threshold: threshold,
-        executed: executed,
-        signers: signers,
-        approvals: approvalsMask,
-        approvalsNum: approvalsNum,
-        expirationDate: expirationDate,
-        order: order);
+      multisig: multisig,
+      orderSeqno: orderSeqno,
+      threshold: threshold,
+      executed: executed,
+      signers: signers,
+      approvals: approvalsMask,
+      approvalsNum: approvalsNum,
+      expirationDate: expirationDate,
+      order: order,
+    );
   }
 
   OrderContractState({
@@ -58,8 +58,9 @@ class OrderContractState extends ContractState {
   @override
   StateInit initialState() {
     return StateInit(
-        code: Cell.fromHex(MultiOwnerContractConst.orderHashCode),
-        data: initialData());
+      code: Cell.fromHex(MultiOwnerContractConst.orderHashCode),
+      data: initialData(),
+    );
   }
 
   @override
@@ -80,7 +81,7 @@ class OrderContractState extends ContractState {
       'approvals': approvals,
       'approvalsNum': approvalsNum,
       'expirationDate': expirationDate,
-      'order': order?.toBase64()
+      'order': order?.toBase64(),
     };
   }
 }

@@ -8,8 +8,9 @@ class NftCollectionsResponse with JsonSerialization {
 
   factory NftCollectionsResponse.fromJson(Map<String, dynamic> json) {
     return NftCollectionsResponse(
-      nftCollections: List<NftCollectionResponse>.from(json['nft_collections']
-          .map((x) => NftCollectionResponse.fromJson(x))),
+      nftCollections: List<NftCollectionResponse>.from(
+        json['nft_collections'].map((x) => NftCollectionResponse.fromJson(x)),
+      ),
     );
   }
 

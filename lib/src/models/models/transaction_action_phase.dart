@@ -28,21 +28,22 @@ class TransactionActionPhase extends TonSerialization {
   final int messagesCreated;
   final BigInt actionListHash;
   final StorageUsedShort totalMessageSize;
-  const TransactionActionPhase(
-      {required this.success,
-      required this.valid,
-      required this.noFunds,
-      required this.statusChange,
-      required this.totalFwdFees,
-      required this.totalActionFees,
-      required this.resultCode,
-      required this.resultArg,
-      required this.totalActions,
-      required this.specActions,
-      required this.skippedActions,
-      required this.messagesCreated,
-      required this.actionListHash,
-      required this.totalMessageSize});
+  const TransactionActionPhase({
+    required this.success,
+    required this.valid,
+    required this.noFunds,
+    required this.statusChange,
+    required this.totalFwdFees,
+    required this.totalActionFees,
+    required this.resultCode,
+    required this.resultArg,
+    required this.totalActions,
+    required this.specActions,
+    required this.skippedActions,
+    required this.messagesCreated,
+    required this.actionListHash,
+    required this.totalMessageSize,
+  });
   factory TransactionActionPhase.deserialize(Slice slice) {
     return TransactionActionPhase(
       success: slice.loadBit(),
@@ -96,7 +97,7 @@ class TransactionActionPhase extends TonSerialization {
       'skipped_actions': skippedActions,
       'messages_created': messagesCreated,
       'action_list_hash': actionListHash.toString(),
-      'total_message_size': totalMessageSize.toJson()
+      'total_message_size': totalMessageSize.toJson(),
     };
   }
 

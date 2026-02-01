@@ -1,8 +1,9 @@
 import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/core/ton_center_v3_methods.dart';
 
-class TonCenterV3Account extends TonCenterV3RequestParam<Map<String, dynamic>,
-    Map<String, dynamic>> {
+class TonCenterV3Account
+    extends
+        TonCenterV3RequestParam<Map<String, dynamic>, Map<String, dynamic>> {
   final String address;
   TonCenterV3Account({required this.address});
 

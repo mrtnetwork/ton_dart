@@ -10,20 +10,24 @@ class WithdrawStakeRequestActionResponse with JsonSerialization {
   final AccountAddressResponse pool;
   final PoolImplementationTypeResponse implementation;
 
-  const WithdrawStakeRequestActionResponse(
-      {required this.amount,
-      required this.staker,
-      required this.pool,
-      required this.implementation});
+  const WithdrawStakeRequestActionResponse({
+    required this.amount,
+    required this.staker,
+    required this.pool,
+    required this.implementation,
+  });
 
   factory WithdrawStakeRequestActionResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return WithdrawStakeRequestActionResponse(
-        amount: BigintUtils.tryParse(json['amount']),
-        staker: AccountAddressResponse.fromJson(json['staker']),
-        pool: AccountAddressResponse.fromJson(json['pool']),
-        implementation:
-            PoolImplementationTypeResponse.fromName(json['implementation']));
+      amount: BigintUtils.tryParse(json['amount']),
+      staker: AccountAddressResponse.fromJson(json['staker']),
+      pool: AccountAddressResponse.fromJson(json['pool']),
+      implementation: PoolImplementationTypeResponse.fromName(
+        json['implementation'],
+      ),
+    );
   }
 
   @override
@@ -32,7 +36,7 @@ class WithdrawStakeRequestActionResponse with JsonSerialization {
       'amount': amount?.toString(),
       'staker': staker.toJson(),
       'pool': pool.toJson(),
-      'implementation': implementation.value
+      'implementation': implementation.value,
     };
   }
 }

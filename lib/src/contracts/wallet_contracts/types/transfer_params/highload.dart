@@ -8,9 +8,10 @@ class HighloadTransferParams implements WalletContractTransferParams {
   final List<OutActionSendMsg> messages;
   final BigInt queryId;
   final BigInt? value;
-  const HighloadTransferParams(
-      {required this.messages,
-      required this.queryId,
-      required this.signer,
-      this.value});
+  const HighloadTransferParams({
+    required this.messages,
+    required this.queryId,
+    required this.signer,
+    this.value,
+  });
 }

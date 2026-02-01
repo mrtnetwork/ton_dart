@@ -21,8 +21,8 @@ class Slice {
   /// [reader] The bit reader to read bits from.
   /// [refs] The list of cell references.
   Slice(BitReader reader, List<Cell> refs)
-      : _reader = reader.clone(),
-        _refs = List<Cell>.unmodifiable(refs);
+    : _reader = reader.clone(),
+      _refs = List<Cell>.unmodifiable(refs);
 
   /// Returns the number of remaining bits in the slice.
   int get remainingBits {
@@ -495,13 +495,17 @@ class Slice {
 
   /// Loads and returns a dictionary from the slice using the provided key and value serializers.
   Dictionary<K, V> loadDict<K extends Object, V>(
-      DictionaryKey<K> key, DictionaryValue<V> value) {
+    DictionaryKey<K> key,
+    DictionaryValue<V> value,
+  ) {
     return Dictionary.load<K, V>(key, value, this);
   }
 
   /// Loads and returns a dictionary directly from the slice using the provided key and value serializers.
   Dictionary<K, V> loadDictDirect<K extends Object, V>(
-      DictionaryKey<K> key, DictionaryValue<V> value) {
+    DictionaryKey<K> key,
+    DictionaryValue<V> value,
+  ) {
     return Dictionary.loadDirect<K, V>(key: key, value: value, slice: this);
   }
 

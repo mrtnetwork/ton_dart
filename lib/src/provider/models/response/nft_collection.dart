@@ -28,16 +28,19 @@ class NftCollectionResponse with JsonSerialization {
     return NftCollectionResponse(
       address: json['address'],
       nextItemIndex: BigintUtils.parse(json['next_item_index']),
-      owner: json['owner'] != null
-          ? AccountAddressResponse.fromJson(json['owner'])
-          : null,
+      owner:
+          json['owner'] != null
+              ? AccountAddressResponse.fromJson(json['owner'])
+              : null,
       rawCollectionContent: json['raw_collection_content'],
       metadata:
           json['metadata'] != null ? (json['metadata'] as Map).cast() : null,
-      previews: List<ImagePreviewResponse>.from((json['previews'] as List)
-          .map((x) => ImagePreviewResponse.fromJson(x))),
+      previews: List<ImagePreviewResponse>.from(
+        (json['previews'] as List).map((x) => ImagePreviewResponse.fromJson(x)),
+      ),
       approvedBy: List<NftApprovedByItemResponse>.from(
-          (json['approved_by'] as List).map((x) => x)),
+        (json['approved_by'] as List).map((x) => x),
+      ),
     );
   }
 

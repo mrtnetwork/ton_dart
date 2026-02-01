@@ -16,17 +16,22 @@ void _test() {
     final stored = beginCell();
     relaxed.store(stored);
     expect(stored.endCell(), cell);
-    expect(relaxed.body.toBase64(),
-        'te6cckEBAQEAWgAAsA+KfqUAAAAAAAAAAEO5rKAIAboVCXedy2J0RCseg4yfdNFtU8/BfiaHVEPkH/ze1W+fABicYUqh1j9Lnqv9ZhECm0XNPaB7/HcwoBb3AJnYYfqByAvrwgBtBtvs');
+    expect(
+      relaxed.body.toBase64(),
+      'te6cckEBAQEAWgAAsA+KfqUAAAAAAAAAAEO5rKAIAboVCXedy2J0RCseg4yfdNFtU8/BfiaHVEPkH/ze1W+fABicYUqh1j9Lnqv9ZhECm0XNPaB7/HcwoBb3AJnYYfqByAvrwgBtBtvs',
+    );
   });
 
   test('should store exotic message relaxed', () {
     const boc =
         'te6cckEBBgEApwAJRgMNtncFfUUJSR6XK02Y/bjHpB1pj8VtOlnKAxgDtajfKgACASIFgZABAwIoSAEBN4Yioo+yQnBEkgpN5SV1lnSGuoJhL3ShCi0dcMHbuFcAACIBIAUEAE2/fOtFTZyY8zlmFJ8dch//XZQ4QApiXOGPZXvjFv5j0LSgZ7ckWPAoSAEBr+h0Em3TbCgl+CpPMKKoQskNFu4vLU/8w4Zuaz7PRP8AAOG0rdg=';
     final message = MessageRelaxed(
-        info: CommonMessageInfoRelaxedExternalOut(
-            createdLt: BigInt.zero, createdAt: 0),
-        body: Cell.fromBase64(boc));
+      info: CommonMessageInfoRelaxedExternalOut(
+        createdLt: BigInt.zero,
+        createdAt: 0,
+      ),
+      body: Cell.fromBase64(boc),
+    );
     final payload = beginCell();
     message.store(payload);
     payload.endCell();

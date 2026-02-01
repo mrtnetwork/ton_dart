@@ -26,8 +26,9 @@ class JettonPreviewResponse with JsonSerialization {
       symbol: json['symbol'],
       decimals: json['decimals'],
       image: json['image'],
-      verification:
-          JettonVerificationTypeResponse.fromName(json['verification']),
+      verification: JettonVerificationTypeResponse.fromName(
+        json['verification'],
+      ),
     );
   }
 

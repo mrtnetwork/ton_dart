@@ -56,7 +56,7 @@ const List<String> _wallets = [
   'B5EE9C724101010100570000AAFF0020DD2082014C97BA9730ED44D0D70B1FE0A4F2608308D71820D31FD31F01F823BBF263ED44D0D31FD3FFD15131BAF2A103F901541042F910F2A2F800029320D74A96D307D402FB00E8D1A4C8CB1FCBFFC9ED54A1370BB6',
   'B5EE9C724101010100630000C2FF0020DD2082014C97BA218201339CBAB19C71B0ED44D0D31FD70BFFE304E0A4F2608308D71820D31FD31F01F823BBF263ED44D0D31FD3FFD15131BAF2A103F901541042F910F2A2F800029320D74A96D307D402FB00E8D1A4C8CB1FCBFFC9ED54044CD7A1',
   'B5EE9C724101010100620000C0FF0020DD2082014C97BA9730ED44D0D70B1FE0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED543FBE6EE0',
-  'B5EE9C724101010100710000DEFF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED5410BD6DAD'
+  'B5EE9C724101010100710000DEFF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED5410BD6DAD',
 ];
 
 void main() async {
@@ -191,31 +191,40 @@ void _emptyBits() {
     expect(cell.hash().toB64(), 'lqKW0iTyhcZ77pPDD4owkVfw2qNdxbh+QQt4YwoJz8c=');
 
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: false)
-            .toB64(),
-        'te6ccgEBAQEAAgAAAA==');
+      BocSerialization.serialize(root: cell, idx: false, crc32: false).toB64(),
+      'te6ccgEBAQEAAgAAAA==',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
-        'te6cckEBAQEAAgAAAEysuc0=');
+      BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
+      'te6cckEBAQEAAgAAAEysuc0=',
+    );
 
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
-        'te6ccoEBAQEAAgACAAA=');
+      BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
+      'te6ccoEBAQEAAgACAAA=',
+    );
 
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
-        'te6ccsEBAQEAAgACAAC4Afhr');
-    expect(BocSerialization.deserialize('te6ccgEBAQEAAgAAAA=='.fromB64())[0],
-        cell);
+      BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
+      'te6ccsEBAQEAAgACAAC4Afhr',
+    );
+    expect(
+      BocSerialization.deserialize('te6ccgEBAQEAAgAAAA=='.fromB64())[0],
+      cell,
+    );
 
     expect(
-        BocSerialization.deserialize('te6cckEBAQEAAgAAAEysuc0='.fromB64())[0],
-        cell);
-    expect(BocSerialization.deserialize('te6ccoEBAQEAAgACAAA='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6cckEBAQEAAgAAAEysuc0='.fromB64())[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize('te6ccsEBAQEAAgACAAC4Afhr'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6ccoEBAQEAAgACAAA='.fromB64())[0],
+      cell,
+    );
+    expect(
+      BocSerialization.deserialize('te6ccsEBAQEAAgACAAC4Afhr'.fromB64())[0],
+      cell,
+    );
   });
 }
 
@@ -225,32 +234,39 @@ void _byteAlignedBits() {
     expect(cell.toString(), 'x{075BCD15}');
     expect(cell.hash().toB64(), 'keNT38owvINaYYHwYjE1R8HYk0c1NSMH72u+/aMJ+1c=');
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: false)
-            .toB64(),
-        'te6ccgEBAQEABgAACAdbzRU=');
+      BocSerialization.serialize(root: cell, idx: false, crc32: false).toB64(),
+      'te6ccgEBAQEABgAACAdbzRU=',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
-        'te6cckEBAQEABgAACAdbzRVRblCS');
+      BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
+      'te6cckEBAQEABgAACAdbzRVRblCS',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
-        'te6ccoEBAQEABgAGAAgHW80V');
+      BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
+      'te6ccoEBAQEABgAGAAgHW80V',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
-        'te6ccsEBAQEABgAGAAgHW80ViGH1dQ==');
+      BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
+      'te6ccsEBAQEABgAGAAgHW80ViGH1dQ==',
+    );
     expect(
-        BocSerialization.deserialize('te6ccgEBAQEABgAACAdbzRU='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6ccgEBAQEABgAACAdbzRU='.fromB64())[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6cckEBAQEABgAACAdbzRVRblCS'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6cckEBAQEABgAACAdbzRVRblCS'.fromB64())[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize('te6ccoEBAQEABgAGAAgHW80V'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6ccoEBAQEABgAGAAgHW80V'.fromB64())[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccsEBAQEABgAGAAgHW80ViGH1dQ=='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccsEBAQEABgAGAAgHW80ViGH1dQ=='.fromB64(),
+      )[0],
+      cell,
+    );
   });
 }
 
@@ -260,33 +276,41 @@ void _notAlignedBits() {
     expect(cell.toString(), 'x{01D6F3456_}');
     expect(cell.hash().toB64(), 'Rk+nt8kkAyN9S1v4H0zwFbGs2INwpMHvESvPQbrI6d0=');
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: false)
-            .toB64(),
-        'te6ccgEBAQEABwAACQHW80Vg');
+      BocSerialization.serialize(root: cell, idx: false, crc32: false).toB64(),
+      'te6ccgEBAQEABwAACQHW80Vg',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
-        'te6cckEBAQEABwAACQHW80Vgb11ZoQ==');
+      BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
+      'te6cckEBAQEABwAACQHW80Vgb11ZoQ==',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
-        'te6ccoEBAQEABwAHAAkB1vNFYA==');
+      BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
+      'te6ccoEBAQEABwAHAAkB1vNFYA==',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
-        'te6ccsEBAQEABwAHAAkB1vNFYM0Si3w=');
+      BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
+      'te6ccsEBAQEABwAHAAkB1vNFYM0Si3w=',
+    );
     expect(
-        BocSerialization.deserialize('te6ccgEBAQEABwAACQHW80Vg'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6ccgEBAQEABwAACQHW80Vg'.fromB64())[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6cckEBAQEABwAACQHW80Vgb11ZoQ=='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6cckEBAQEABwAACQHW80Vgb11ZoQ=='.fromB64(),
+      )[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccoEBAQEABwAHAAkB1vNFYA=='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize('te6ccoEBAQEABwAHAAkB1vNFYA=='.fromB64())[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccsEBAQEABwAHAAkB1vNFYM0Si3w='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccsEBAQEABwAHAAkB1vNFYM0Si3w='.fromB64(),
+      )[0],
+      cell,
+    );
   });
 }
 
@@ -298,108 +322,139 @@ void _singleReference() {
     expect(cell.toString(), 'x{3ADE68B1}\n x{075BCD15}');
     expect(cell.hash().toB64(), 'goaQYcsXO2c/gd3qvMo3ncEjzpbU7urNQ7hPDo0qC1c=');
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: false)
-            .toB64(),
-        'te6ccgEBAgEADQABCDreaLEBAAgHW80V');
+      BocSerialization.serialize(root: cell, idx: false, crc32: false).toB64(),
+      'te6ccgEBAgEADQABCDreaLEBAAgHW80V',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
-        'te6cckEBAgEADQABCDreaLEBAAgHW80VSW/75w==');
+      BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
+      'te6cckEBAgEADQABCDreaLEBAAgHW80VSW/75w==',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
-        'te6ccoEBAgEADQAHDQEIOt5osQEACAdbzRU=');
+      BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
+      'te6ccoEBAgEADQAHDQEIOt5osQEACAdbzRU=',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
-        'te6ccsEBAgEADQAHDQEIOt5osQEACAdbzRUxP4cd');
+      BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
+      'te6ccsEBAgEADQAHDQEIOt5osQEACAdbzRUxP4cd',
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccgEBAgEADQABCDreaLEBAAgHW80V'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccgEBAgEADQABCDreaLEBAAgHW80V'.fromB64(),
+      )[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6cckEBAgEADQABCDreaLEBAAgHW80VSW/75w=='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6cckEBAgEADQABCDreaLEBAAgHW80VSW/75w=='.fromB64(),
+      )[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccoEBAgEADQAABwEIOt5osQEACAdbzRU='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccoEBAgEADQAABwEIOt5osQEACAdbzRU='.fromB64(),
+      )[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccsEBAgEADQAHDQEIOt5osQEACAdbzRUxP4cd'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccsEBAgEADQAHDQEIOt5osQEACAdbzRUxP4cd'.fromB64(),
+      )[0],
+      cell,
+    );
   });
 }
 
 void _multipleReferences() {
   test('should serialize single cell with multiple references', () {
     final refCell = beginCell().storeUint(123456789, 32).endCell();
-    final cell = beginCell()
-        .storeUint(987654321, 32)
-        .storeRef(refCell)
-        .storeRef(refCell)
-        .storeRef(refCell)
-        .endCell();
-    expect(cell.toString(),
-        'x{3ADE68B1}\n x{075BCD15}\n x{075BCD15}\n x{075BCD15}');
+    final cell =
+        beginCell()
+            .storeUint(987654321, 32)
+            .storeRef(refCell)
+            .storeRef(refCell)
+            .storeRef(refCell)
+            .endCell();
+    expect(
+      cell.toString(),
+      'x{3ADE68B1}\n x{075BCD15}\n x{075BCD15}\n x{075BCD15}',
+    );
     expect(cell.hash().toB64(), 'cks0wbfqFZE9/yb0sWMWQGoj0XBOLkUi+aX5xpJ6jjA=');
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: false)
-            .toB64(),
-        'te6ccgEBAgEADwADCDreaLEBAQEACAdbzRU=');
+      BocSerialization.serialize(root: cell, idx: false, crc32: false).toB64(),
+      'te6ccgEBAgEADwADCDreaLEBAQEACAdbzRU=',
+    );
 
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
-        'te6cckEBAgEADwADCDreaLEBAQEACAdbzRWpQD2p');
+      BocSerialization.serialize(root: cell, idx: false, crc32: true).toB64(),
+      'te6cckEBAgEADwADCDreaLEBAQEACAdbzRWpQD2p',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
-        'te6ccoEBAgEADwAJDwMIOt5osQEBAQAIB1vNFQ==');
+      BocSerialization.serialize(root: cell, idx: true, crc32: false).toB64(),
+      'te6ccoEBAgEADwAJDwMIOt5osQEBAQAIB1vNFQ==',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
-        'te6ccsEBAgEADwAJDwMIOt5osQEBAQAIB1vNFZz9usI=');
+      BocSerialization.serialize(root: cell, idx: true, crc32: true).toB64(),
+      'te6ccsEBAgEADwAJDwMIOt5osQEBAQAIB1vNFZz9usI=',
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccgEBAgEADwADCDreaLEBAQEACAdbzRU='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccgEBAgEADwADCDreaLEBAQEACAdbzRU='.fromB64(),
+      )[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6cckEBAgEADwADCDreaLEBAQEACAdbzRWpQD2p'.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6cckEBAgEADwADCDreaLEBAQEACAdbzRWpQD2p'.fromB64(),
+      )[0],
+      cell,
+    );
 
     expect(
-        BocSerialization.deserialize(
-            'te6ccoEBAgEADwAACQMIOt5osQEBAQAIB1vNFQ=='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccoEBAgEADwAACQMIOt5osQEBAQAIB1vNFQ=='.fromB64(),
+      )[0],
+      cell,
+    );
     expect(
-        BocSerialization.deserialize(
-            'te6ccsEBAgEADwAJDwMIOt5osQEBAQAIB1vNFZz9usI='.fromB64())[0],
-        cell);
+      BocSerialization.deserialize(
+        'te6ccsEBAgEADwAJDwMIOt5osQEBAQAIB1vNFZz9usI='.fromB64(),
+      )[0],
+      cell,
+    );
   });
 }
 
 void _libraryCell() {
   test('should deserialize/serialize library cell', () {
     final cell = Cell.fromBase64(
-        'te6ccgEBAgEALQABDv8AiNDtHtgBCEICGbgzd5nhZ9WhSM+4juFCvgMYJOtxthFdtTKIH6M/6SM=');
-    expect(cell.toString(),
-        'x{FF0088D0ED1ED8}\n x{0219B8337799E167D5A148CFB88EE142BE031824EB71B6115DB532881FA33FE923}');
+      'te6ccgEBAgEALQABDv8AiNDtHtgBCEICGbgzd5nhZ9WhSM+4juFCvgMYJOtxthFdtTKIH6M/6SM=',
+    );
     expect(
-        BocSerialization.serialize(root: cell, idx: false, crc32: false)
-            .toB64(),
-        'te6ccgEBAgEALQABDv8AiNDtHtgBCEICGbgzd5nhZ9WhSM+4juFCvgMYJOtxthFdtTKIH6M/6SM=');
+      cell.toString(),
+      'x{FF0088D0ED1ED8}\n x{0219B8337799E167D5A148CFB88EE142BE031824EB71B6115DB532881FA33FE923}',
+    );
+    expect(
+      BocSerialization.serialize(root: cell, idx: false, crc32: false).toB64(),
+      'te6ccgEBAgEALQABDv8AiNDtHtgBCEICGbgzd5nhZ9WhSM+4juFCvgMYJOtxthFdtTKIH6M/6SM=',
+    );
   });
 }
 
 void _bocWithIndex() {
   test('should serialize boc with index', () {
-    final cell = beginCell()
-        .storeUint(228, 32)
-        .storeRef(beginCell().storeUint(1337, 32).endCell())
-        .storeRef(beginCell().storeUint(1338, 32).endCell())
-        .endCell();
+    final cell =
+        beginCell()
+            .storeUint(228, 32)
+            .storeRef(beginCell().storeUint(1337, 32).endCell())
+            .storeRef(beginCell().storeUint(1338, 32).endCell())
+            .endCell();
 
     final serialized = cell.toBoc(idx: true, crc32: false).toHex();
     expect(cell.toString(), 'x{000000E4}\n x{00000539}\n x{0000053A}');
-    expect(serialized,
-        'b5ee9c7281010301001400080e140208000000e4010200080000053900080000053a');
+    expect(
+      serialized,
+      'b5ee9c7281010301001400080e140208000000e4010200080000053900080000053a',
+    );
   });
 }
 
@@ -411,16 +466,20 @@ void _block() {
   });
   test('block2', () {
     final cell = Cell.fromBase64(block2TestVector);
-    expect(cell.hash().toHex(),
-        '25e19f8c4574804a8cabade6bab736a27a67f4f6696a8a0feb93b3dfbfab7fcf');
+    expect(
+      cell.hash().toHex(),
+      '25e19f8c4574804a8cabade6bab736a27a67f4f6696a8a0feb93b3dfbfab7fcf',
+    );
   });
 }
 
 void _hasTxWithMrkleBody() {
   test('should hash tx with merkle body', () {
     final cell = Cell.fromBoc(merkleBodyTestVecotr.fromHex());
-    expect(cell[0].hash().toHex(),
-        'ca676f0f30d21c8828d1094424797085b603e991d26943ee17ee5d77ac4b0896');
+    expect(
+      cell[0].hash().toHex(),
+      'ca676f0f30d21c8828d1094424797085b603e991d26943ee17ee5d77ac4b0896',
+    );
   });
 }
 

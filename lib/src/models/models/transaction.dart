@@ -14,9 +14,10 @@ import 'hash_update.dart';
 class _TonTransactionUtils {
   static Dictionary<int, Message> dict({Map<int, Message> message = const {}}) {
     return Dictionary.fromEnteries(
-        key: DictionaryKey.uintCodec(15),
-        value: MessageCodec.codec,
-        map: message);
+      key: DictionaryKey.uintCodec(15),
+      value: MessageCodec.codec,
+      map: message,
+    );
   }
 }
 
@@ -43,21 +44,22 @@ class TonTransaction extends TonSerialization {
   final HashUpdate stateUpdate;
   final TransactionDescription description;
   final Cell raw;
-  const TonTransaction(
-      {required this.address,
-      required this.lt,
-      required this.prevTransactionHash,
-      required this.prevTransactionLt,
-      required this.now,
-      required this.outMessagesCount,
-      required this.oldStatus,
-      required this.endStatus,
-      this.inMessage,
-      required this.outMessages,
-      required this.totalFees,
-      required this.stateUpdate,
-      required this.description,
-      required this.raw});
+  const TonTransaction({
+    required this.address,
+    required this.lt,
+    required this.prevTransactionHash,
+    required this.prevTransactionLt,
+    required this.now,
+    required this.outMessagesCount,
+    required this.oldStatus,
+    required this.endStatus,
+    this.inMessage,
+    required this.outMessages,
+    required this.totalFees,
+    required this.stateUpdate,
+    required this.description,
+    required this.raw,
+  });
 
   factory TonTransaction.deserialize(Slice slice) {
     final raw = slice.asCell();
@@ -76,52 +78,56 @@ class TonTransaction extends TonSerialization {
     final AccountStatus endStatus = AccountStatus.deserialize(slice);
     final msgRef = slice.loadRef();
     final msgSlice = msgRef.beginParse();
-    final Message? inMessage = msgSlice
-        .loadBit()
-        .onTrue(() => Message.deserialize(msgSlice.loadRef().beginParse()));
+    final Message? inMessage = msgSlice.loadBit().onTrue(
+      () => Message.deserialize(msgSlice.loadRef().beginParse()),
+    );
     final Dictionary<int, Message> outMessages = _TonTransactionUtils.dict();
     outMessages.loadFromClice(msgSlice);
     msgSlice.endParse();
     final CurrencyCollection totalFees = CurrencyCollection.deserialize(slice);
-    final HashUpdate stateUpdate =
-        HashUpdate.deserialize(slice.loadRef().beginParse());
+    final HashUpdate stateUpdate = HashUpdate.deserialize(
+      slice.loadRef().beginParse(),
+    );
     final TransactionDescription description =
         TransactionDescription.deserialize(slice.loadRef().beginParse());
     return TonTransaction(
-        address: address,
-        lt: lt,
-        prevTransactionHash: prevTransactionHash,
-        prevTransactionLt: prevTransactionLt,
-        now: now,
-        outMessagesCount: outMessagesCount,
-        oldStatus: oldStatus,
-        endStatus: endStatus,
-        inMessage: inMessage,
-        outMessages: outMessages.asMap,
-        totalFees: totalFees,
-        stateUpdate: stateUpdate,
-        description: description,
-        raw: raw);
+      address: address,
+      lt: lt,
+      prevTransactionHash: prevTransactionHash,
+      prevTransactionLt: prevTransactionLt,
+      now: now,
+      outMessagesCount: outMessagesCount,
+      oldStatus: oldStatus,
+      endStatus: endStatus,
+      inMessage: inMessage,
+      outMessages: outMessages.asMap,
+      totalFees: totalFees,
+      stateUpdate: stateUpdate,
+      description: description,
+      raw: raw,
+    );
   }
   factory TonTransaction.fromJson(Map<String, dynamic> json) {
     return TonTransaction(
-        address: BigintUtils.parse(json['address']),
-        lt: BigintUtils.parse(json['lt']),
-        prevTransactionHash: BigintUtils.parse(json['prev_transaction_hash']),
-        prevTransactionLt: BigintUtils.parse(json['prev_transaction_lt']),
-        now: json['now'],
-        outMessagesCount: json['out_meessages_count'],
-        oldStatus: AccountStatus.fromJson(json['old_status']),
-        endStatus: AccountStatus.fromJson(json['end_status']),
-        inMessage: (json['in_message'] as Object?)?.convertTo<Message, Map>(
-            (result) => Message.fromJson(result.cast())),
-        outMessages: (json['out_messages'] as Map).map<int, Message>(
-            (key, value) =>
-                MapEntry(key, Message.fromJson((value as Map).cast()))),
-        totalFees: CurrencyCollection.fromJson(json['total_fees']),
-        stateUpdate: HashUpdate.fromJson(json['state_update']),
-        description: TransactionDescription.fromJson(json['description']),
-        raw: Cell.fromBase64(json['raw']));
+      address: BigintUtils.parse(json['address']),
+      lt: BigintUtils.parse(json['lt']),
+      prevTransactionHash: BigintUtils.parse(json['prev_transaction_hash']),
+      prevTransactionLt: BigintUtils.parse(json['prev_transaction_lt']),
+      now: json['now'],
+      outMessagesCount: json['out_meessages_count'],
+      oldStatus: AccountStatus.fromJson(json['old_status']),
+      endStatus: AccountStatus.fromJson(json['end_status']),
+      inMessage: (json['in_message'] as Object?)?.convertTo<Message, Map>(
+        (result) => Message.fromJson(result.cast()),
+      ),
+      outMessages: (json['out_messages'] as Map).map<int, Message>(
+        (key, value) => MapEntry(key, Message.fromJson((value as Map).cast())),
+      ),
+      totalFees: CurrencyCollection.fromJson(json['total_fees']),
+      stateUpdate: HashUpdate.fromJson(json['state_update']),
+      description: TransactionDescription.fromJson(json['description']),
+      raw: Cell.fromBase64(json['raw']),
+    );
   }
 
   @override
@@ -163,11 +169,12 @@ class TonTransaction extends TonSerialization {
       'end_status': endStatus.toJson(),
       'in_message': inMessage?.toJson(),
       'out_messages': outMessages.map<int, Map<String, dynamic>>(
-          (key, value) => MapEntry(key, value.toJson())),
+        (key, value) => MapEntry(key, value.toJson()),
+      ),
       'total_fees': totalFees.toJson(),
       'state_update': stateUpdate.toJson(),
       'description': description.toJson(),
-      'raw': raw.toBase64()
+      'raw': raw.toBase64(),
     };
   }
 

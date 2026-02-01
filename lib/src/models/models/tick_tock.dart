@@ -7,10 +7,7 @@ class TickTock extends TonSerialization {
   final bool tock;
   const TickTock({required this.tick, required this.tock});
   factory TickTock.deserialize(Slice slice) {
-    return TickTock(
-      tick: slice.loadBit(),
-      tock: slice.loadBit(),
-    );
+    return TickTock(tick: slice.loadBit(), tock: slice.loadBit());
   }
   factory TickTock.fromJson(Map<String, dynamic> json) {
     return TickTock(tick: json['tick'], tock: json['tock']);

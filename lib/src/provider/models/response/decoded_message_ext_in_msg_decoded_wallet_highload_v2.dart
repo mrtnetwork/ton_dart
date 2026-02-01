@@ -16,20 +16,22 @@ class DecodedMessageExtInMsgDecodedWalletHighloadV2Response
   });
 
   factory DecodedMessageExtInMsgDecodedWalletHighloadV2Response.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return DecodedMessageExtInMsgDecodedWalletHighloadV2Response(
       subwalletID: BigintUtils.parse(json['subwallet_id']),
       boundedQueryID: json['bounded_query_id'],
-      rawMessages: List<DecodedRawMessageResponse>.from(json['raw_messages']
-          .map((x) => DecodedRawMessageResponse.fromJson(x))),
+      rawMessages: List<DecodedRawMessageResponse>.from(
+        json['raw_messages'].map((x) => DecodedRawMessageResponse.fromJson(x)),
+      ),
     );
   }
 
   @override
   @override
   Map<String, dynamic> toJson() => {
-        'subwallet_id': subwalletID.toString(),
-        'bounded_query_id': boundedQueryID,
-        'raw_messages': List<dynamic>.from(rawMessages.map((x) => x.toJson())),
-      };
+    'subwallet_id': subwalletID.toString(),
+    'bounded_query_id': boundedQueryID,
+    'raw_messages': List<dynamic>.from(rawMessages.map((x) => x.toJson())),
+  };
 }

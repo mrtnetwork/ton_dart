@@ -16,10 +16,11 @@ class InscriptionBalanceResponse with JsonSerialization {
 
   factory InscriptionBalanceResponse.fromJson(Map<String, dynamic> json) {
     return InscriptionBalanceResponse(
-        type: InscriptionTypeResponse.fromName(json['type']),
-        ticker: json['ticker'],
-        balance: json['balance'],
-        decimals: json['decimals']);
+      type: InscriptionTypeResponse.fromName(json['type']),
+      ticker: json['ticker'],
+      balance: json['balance'],
+      decimals: json['decimals'],
+    );
   }
 
   @override
@@ -29,7 +30,7 @@ class InscriptionBalanceResponse with JsonSerialization {
       'type': type.value,
       'ticker': ticker,
       'balance': balance,
-      'decimals': decimals
+      'decimals': decimals,
     };
   }
 }

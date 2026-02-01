@@ -28,9 +28,10 @@ class SmartContractActionResponse with JsonSerialization {
       tonAttached: BigintUtils.parse(json['ton_attached']),
       operation: json['operation'],
       payload: json['payload'],
-      refund: json['refund'] != null
-          ? RefundResponse.fromJson(json['refund'])
-          : null,
+      refund:
+          json['refund'] != null
+              ? RefundResponse.fromJson(json['refund'])
+              : null,
     );
   }
 

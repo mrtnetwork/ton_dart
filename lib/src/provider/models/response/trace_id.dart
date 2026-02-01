@@ -9,7 +9,9 @@ class TraceIDResponse with JsonSerialization {
 
   factory TraceIDResponse.fromJson(Map<String, dynamic> json) {
     return TraceIDResponse(
-        id: json['id'] as String, utime: BigintUtils.parse(json['utime']));
+      id: json['id'] as String,
+      utime: BigintUtils.parse(json['utime']),
+    );
   }
 
   @override

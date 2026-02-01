@@ -107,8 +107,10 @@ class TupleUtils {
       case 'builder':
         return TupleItemBuilder(Cell.fromBase64((stacks[1] as Map)['bytes']));
       default:
-        throw TonDartPluginException('Unsuported tuple type.',
-            details: {'type': type});
+        throw TonDartPluginException(
+          'Unsuported tuple type.',
+          details: {'type': type},
+        );
     }
   }
 

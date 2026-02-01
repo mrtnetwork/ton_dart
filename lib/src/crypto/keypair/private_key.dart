@@ -16,15 +16,19 @@ class TonPrivateKey {
   /// Throws a KeyException if the provided bytes do not represent a valid Ed25519 private key.
   factory TonPrivateKey.fromBytes(List<int> keyBytes) {
     try {
-      return TonPrivateKey._(Ed25519PrivateKey.fromBytes(
-          keyBytes.sublist(0, Ed25519KeysConst.privKeyByteLen)));
+      return TonPrivateKey._(
+        Ed25519PrivateKey.fromBytes(
+          keyBytes.sublist(0, Ed25519KeysConst.privKeyByteLen),
+        ),
+      );
     } catch (e) {
       throw KeyException(
-          'Invalid Ton Private key. Key must be a valid Ed25519 private key.',
-          details: {
-            'key': BytesUtils.toHexString(keyBytes),
-            'error': e.toString()
-          });
+        'Invalid Ton Private key. Key must be a valid Ed25519 private key.',
+        details: {
+          'key': BytesUtils.toHexString(keyBytes),
+          'error': e.toString(),
+        },
+      );
     }
   }
 

@@ -17,10 +17,13 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
   }
 
   Future<T> readState(TonProvider rpc) async {
-    final stateData =
-        await ContractProvider.getActiveState(rpc: rpc, address: address);
-    final state =
-        HighloadWalletV3State.deserialize(stateData.data!.beginParse());
+    final stateData = await ContractProvider.getActiveState(
+      rpc: rpc,
+      address: address,
+    );
+    final state = HighloadWalletV3State.deserialize(
+      stateData.data!.beginParse(),
+    );
     return state as T;
   }
 
@@ -42,20 +45,23 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
     return reader.readNumber();
   }
 
-  Future<bool> getProcessed(
-      {required TonProvider rpc,
-      required int queryId,
-      bool needClean = true}) async {
+  Future<bool> getProcessed({
+    required TonProvider rpc,
+    required int queryId,
+    bool needClean = true,
+  }) async {
     final int clean = needClean ? 1 : 0;
     final result = await getStateStack(
-        rpc: rpc,
-        method: 'processed?',
-        stack: rpc.isTonCenter
-            ? [
+      rpc: rpc,
+      method: 'processed?',
+      stack:
+          rpc.isTonCenter
+              ? [
                 ['num', queryId],
-                ['num', clean]
+                ['num', clean],
               ]
-            : ['$queryId', '$clean']);
+              : ['$queryId', '$clean'],
+    );
     final reader = result.reader();
     return reader.readBoolean();
   }

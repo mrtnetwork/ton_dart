@@ -8,21 +8,24 @@ class RoyaltyParams extends TonSerialization {
   final int royaltyFactor;
   final int royaltyBase;
   final TonAddress address;
-  const RoyaltyParams(
-      {required this.royaltyFactor,
-      required this.royaltyBase,
-      required this.address});
+  const RoyaltyParams({
+    required this.royaltyFactor,
+    required this.royaltyBase,
+    required this.address,
+  });
   factory RoyaltyParams.deserialize(Slice slice) {
     return RoyaltyParams(
-        royaltyFactor: slice.loadUint16(),
-        royaltyBase: slice.loadUint16(),
-        address: slice.loadAddress());
+      royaltyFactor: slice.loadUint16(),
+      royaltyBase: slice.loadUint16(),
+      address: slice.loadAddress(),
+    );
   }
   factory RoyaltyParams.fromJson(Map<String, dynamic> json) {
     return RoyaltyParams(
-        royaltyFactor: IntUtils.parse(json['royaltyFactor']),
-        royaltyBase: IntUtils.parse(json['royaltyBase']),
-        address: TonAddress(json['address']));
+      royaltyFactor: IntUtils.parse(json['royaltyFactor']),
+      royaltyBase: IntUtils.parse(json['royaltyBase']),
+      address: TonAddress(json['address']),
+    );
   }
 
   @override
@@ -39,7 +42,7 @@ class RoyaltyParams extends TonSerialization {
     return {
       'royaltyFactor': royaltyFactor,
       'royaltyBase': royaltyBase,
-      'address': address.toRawAddress()
+      'address': address.toRawAddress(),
     };
   }
 }

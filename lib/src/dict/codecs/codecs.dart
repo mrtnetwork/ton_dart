@@ -137,12 +137,14 @@ class DictionaryCodecs {
             .loadUintBig(bits);
       },
       parse: (src) {
-        return int.parse(beginCell()
-            .storeUint(src, bits)
-            .endCell()
-            .beginParse()
-            .loadUint(bits)
-            .toString());
+        return int.parse(
+          beginCell()
+              .storeUint(src, bits)
+              .endCell()
+              .beginParse()
+              .loadUint(bits)
+              .toString(),
+        );
       },
     );
   }
@@ -181,8 +183,11 @@ class DictionaryCodecs {
     return DictionaryKey<BitString>(
       bits: bits,
       serialize: (src) {
-        final res =
-            beginCell().storeBits(src).endCell().beginParse().loadUintBig(bits);
+        final res = beginCell()
+            .storeBits(src)
+            .endCell()
+            .beginParse()
+            .loadUintBig(bits);
         return res;
       },
       parse: (src) {
@@ -349,9 +354,10 @@ class DictionaryCodecs {
   ///
   /// The `serialize` function stores the dictionary in the builder using the provided key and value codecs.
   /// The `parse` function retrieves the dictionary from the source using the provided key and value codecs.
-  static DictionaryValue<Dictionary<K, V>>
-      createDictionaryValue<K extends Object, V>(
-          DictionaryKey<K> key, DictionaryValue<V> value) {
+  static DictionaryValue<Dictionary<K, V>> createDictionaryValue<
+    K extends Object,
+    V
+  >(DictionaryKey<K> key, DictionaryValue<V> value) {
     return DictionaryValue<Dictionary<K, V>>(
       serialize: (src, builder) {
         src.store(builder);
@@ -370,8 +376,10 @@ class DictionaryCodecs {
     return DictionaryValue<List<int>>(
       serialize: (src, builder) {
         if (src.length != size) {
-          throw DictException('Invalid buffer size.',
-              details: {'size': size, 'source_length': src.length});
+          throw DictException(
+            'Invalid buffer size.',
+            details: {'size': size, 'source_length': src.length},
+          );
         }
         builder.storeBuffer(src);
       },
@@ -389,8 +397,10 @@ class DictionaryCodecs {
     return DictionaryValue<BitString>(
       serialize: (src, builder) {
         if (src.length != bits) {
-          throw DictException('Invalid BitString size.',
-              details: {'size': bits, 'source_length': src.length});
+          throw DictException(
+            'Invalid BitString size.',
+            details: {'size': bits, 'source_length': src.length},
+          );
         }
         builder.storeBits(src);
       },

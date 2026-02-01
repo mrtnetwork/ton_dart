@@ -23,8 +23,11 @@ class PoolImplementationTypeResponse {
   static PoolImplementationTypeResponse fromName(String? name) {
     return values.firstWhere(
       (element) => element.value == name,
-      orElse: () => throw TonDartPluginException(
-          'No PoolImplementationTypeResponse found with the provided name: $name'),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'No PoolImplementationTypeResponse found with the provided name: $name',
+              ),
     );
   }
 }

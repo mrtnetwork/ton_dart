@@ -8,18 +8,20 @@ class JettonMintActionResponse with JsonSerialization {
   final String amount;
   final JettonPreviewResponse jetton;
 
-  const JettonMintActionResponse(
-      {required this.recipient,
-      required this.recipientsWallet,
-      required this.amount,
-      required this.jetton});
+  const JettonMintActionResponse({
+    required this.recipient,
+    required this.recipientsWallet,
+    required this.amount,
+    required this.jetton,
+  });
 
   factory JettonMintActionResponse.fromJson(Map<String, dynamic> json) {
     return JettonMintActionResponse(
-        recipient: AccountAddressResponse.fromJson(json['recipient']),
-        recipientsWallet: json['recipients_wallet'],
-        amount: json['amount'],
-        jetton: JettonPreviewResponse.fromJson(json['jetton']));
+      recipient: AccountAddressResponse.fromJson(json['recipient']),
+      recipientsWallet: json['recipients_wallet'],
+      amount: json['amount'],
+      jetton: JettonPreviewResponse.fromJson(json['jetton']),
+    );
   }
 
   @override

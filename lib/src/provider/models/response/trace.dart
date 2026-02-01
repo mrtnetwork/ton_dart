@@ -7,19 +7,21 @@ class TraceResponse with JsonSerialization {
   final List<TraceResponse> children;
   final bool? emulated;
 
-  const TraceResponse(
-      {required this.transaction,
-      required this.interfaces,
-      required this.children,
-      this.emulated});
+  const TraceResponse({
+    required this.transaction,
+    required this.interfaces,
+    required this.children,
+    this.emulated,
+  });
 
   factory TraceResponse.fromJson(Map<String, dynamic> json) {
     return TraceResponse(
       transaction: TransactionResponse.fromJson(json['transaction']),
       interfaces: List<String>.from(json['interfaces']),
       children: List<TraceResponse>.from(
-          (json['children'] as List?)?.map((x) => TraceResponse.fromJson(x)) ??
-              []),
+        (json['children'] as List?)?.map((x) => TraceResponse.fromJson(x)) ??
+            [],
+      ),
       emulated: json['emulated'],
     );
   }
@@ -36,23 +38,26 @@ class TraceResponse with JsonSerialization {
 
   BigInt get internalStorageFeees {
     return children.fold(
-        BigInt.zero,
-        (previousValue, element) =>
-            element.transaction.storagePhase?.feesCollected ?? BigInt.zero);
+      BigInt.zero,
+      (previousValue, element) =>
+          element.transaction.storagePhase?.feesCollected ?? BigInt.zero,
+    );
   }
 
   BigInt get internalGasFees {
     return children.fold(
-        BigInt.zero,
-        (previousValue, element) =>
-            element.transaction.computePhase?.gasFees ?? BigInt.zero);
+      BigInt.zero,
+      (previousValue, element) =>
+          element.transaction.computePhase?.gasFees ?? BigInt.zero,
+    );
   }
 
   BigInt get internalActionFees {
     return children.fold(
-        BigInt.zero,
-        (previousValue, element) =>
-            element.transaction.actionPhase?.fwdFees ?? BigInt.zero);
+      BigInt.zero,
+      (previousValue, element) =>
+          element.transaction.actionPhase?.fwdFees ?? BigInt.zero,
+    );
   }
 
   BigInt get internalMessageFees {
@@ -76,8 +81,10 @@ class TraceResponse with JsonSerialization {
   BigInt get totalInternalFees {
     if (children.isEmpty) return BigInt.zero;
     final fee = internalMessageFees;
-    return children.fold(fee,
-        (previousValue, element) => previousValue + element.totalInternalFees);
+    return children.fold(
+      fee,
+      (previousValue, element) => previousValue + element.totalInternalFees,
+    );
   }
 
   BigInt get totalFee {

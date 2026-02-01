@@ -6,16 +6,18 @@ class UnSubscriptionActionResponse with JsonSerialization {
   final String subscription;
   final AccountAddressResponse beneficiary;
 
-  const UnSubscriptionActionResponse(
-      {required this.subscriber,
-      required this.subscription,
-      required this.beneficiary});
+  const UnSubscriptionActionResponse({
+    required this.subscriber,
+    required this.subscription,
+    required this.beneficiary,
+  });
 
   factory UnSubscriptionActionResponse.fromJson(Map<String, dynamic> json) {
     return UnSubscriptionActionResponse(
-        subscriber: AccountAddressResponse.fromJson(json['subscriber']),
-        subscription: json['subscription'],
-        beneficiary: AccountAddressResponse.fromJson(json['beneficiary']));
+      subscriber: AccountAddressResponse.fromJson(json['subscriber']),
+      subscription: json['subscription'],
+      beneficiary: AccountAddressResponse.fromJson(json['beneficiary']),
+    );
   }
 
   @override
@@ -23,7 +25,7 @@ class UnSubscriptionActionResponse with JsonSerialization {
     return {
       'subscriber': subscriber.toJson(),
       'subscription': subscription,
-      'beneficiary': beneficiary.toJson()
+      'beneficiary': beneficiary.toJson(),
     };
   }
 }

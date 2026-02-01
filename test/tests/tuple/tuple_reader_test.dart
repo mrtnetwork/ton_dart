@@ -15,9 +15,9 @@ void _test() {
         TupleItemInt(BigInt.one),
         TupleItemTuple([
           TupleItemInt(BigInt.two),
-          TupleItemTuple([TupleItemInt(BigInt.from(3)), const TupleItemNull()])
+          TupleItemTuple([TupleItemInt(BigInt.from(3)), const TupleItemNull()]),
         ]),
-      ])
+      ]),
     ];
     final r = TupleReader(cons);
 

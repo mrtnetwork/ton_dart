@@ -21,11 +21,10 @@ class BitReader {
   /// Skips the specified number of bits, advancing the offset.
   void skip(int bits) {
     if (bits < 0 || _offset + bits > _bits.length) {
-      throw BocException('Index out of bounds', details: {
-        'length': bits,
-        'offset': _offset,
-        'index': _offset + bits
-      });
+      throw BocException(
+        'Index out of bounds',
+        details: {'length': bits, 'offset': _offset, 'index': _offset + bits},
+      );
     }
     _offset += bits;
   }

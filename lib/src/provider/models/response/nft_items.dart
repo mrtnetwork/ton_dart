@@ -8,16 +8,15 @@ class NftItemsResponse with JsonSerialization {
 
   factory NftItemsResponse.fromJson(Map<String, dynamic> json) {
     return NftItemsResponse(
-      nftItems: (json['nft_items'] as List)
-          .map((item) => NftItemResponse.fromJson(item))
-          .toList(),
+      nftItems:
+          (json['nft_items'] as List)
+              .map((item) => NftItemResponse.fromJson(item))
+              .toList(),
     );
   }
 
   @override
   Map<String, dynamic> toJson() {
-    return {
-      'nft_items': nftItems.map((item) => item.toJson()).toList(),
-    };
+    return {'nft_items': nftItems.map((item) => item.toJson()).toList()};
   }
 }

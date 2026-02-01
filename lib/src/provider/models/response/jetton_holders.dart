@@ -7,17 +7,17 @@ class JettonHoldersResponse with JsonSerialization {
   final List<JettonHoldersAddressesItemResponse> addresses;
   final BigInt total;
 
-  const JettonHoldersResponse({
-    required this.addresses,
-    required this.total,
-  });
+  const JettonHoldersResponse({required this.addresses, required this.total});
 
   factory JettonHoldersResponse.fromJson(Map<String, dynamic> json) {
     return JettonHoldersResponse(
-        addresses: List<JettonHoldersAddressesItemResponse>.from(
-            (json['addresses'] as List)
-                .map((x) => JettonHoldersAddressesItemResponse.fromJson(x))),
-        total: BigintUtils.parse(json['total']));
+      addresses: List<JettonHoldersAddressesItemResponse>.from(
+        (json['addresses'] as List).map(
+          (x) => JettonHoldersAddressesItemResponse.fromJson(x),
+        ),
+      ),
+      total: BigintUtils.parse(json['total']),
+    );
   }
 
   @override

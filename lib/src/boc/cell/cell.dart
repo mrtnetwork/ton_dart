@@ -57,8 +57,10 @@ class Cell {
   factory Cell.fromBytes(List<int> src) {
     final parsed = Cell.fromBoc(src);
     if (parsed.length != 1) {
-      throw BocException('Deserialized more than one cell.',
-          details: {'cells': parsed});
+      throw BocException(
+        'Deserialized more than one cell.',
+        details: {'cells': parsed},
+      );
     }
     return parsed[0];
   }
@@ -85,27 +87,29 @@ class Cell {
   /// [mask] The level mask of the cell.
   /// [hashes] The list of hashes associated with the cell.
   /// [depths] The list of depths corresponding to each level.
-  Cell._(
-      {required this.type,
-      required this.bits,
-      required List<Cell> refs,
-      required this.mask,
-      required List<List<int>> hashes,
-      required List<int> depths})
-      : _hashes = List<List<int>>.unmodifiable(
-            hashes.map((e) => BytesUtils.toBytes(e, unmodifiable: true))),
-        _depths = List<int>.unmodifiable(depths),
-        refs = List<Cell>.unmodifiable(refs);
+  Cell._({
+    required this.type,
+    required this.bits,
+    required List<Cell> refs,
+    required this.mask,
+    required List<List<int>> hashes,
+    required List<int> depths,
+  }) : _hashes = List<List<int>>.unmodifiable(
+         hashes.map((e) => BytesUtils.toBytes(e, unmodifiable: true)),
+       ),
+       _depths = List<int>.unmodifiable(depths),
+       refs = List<Cell>.unmodifiable(refs);
 
   /// Factory constructor to create a `Cell` instance with optional exotic properties.
   ///
   /// [exotic] Indicates if the cell is exotic.
   /// [bits] The bit data of the cell.
   /// [refs] The references to other cells.
-  factory Cell(
-      {bool exotic = false,
-      BitString bits = BitString.empty,
-      List<Cell> refs = const []}) {
+  factory Cell({
+    bool exotic = false,
+    BitString bits = BitString.empty,
+    List<Cell> refs = const [],
+  }) {
     List<List<int>> hashes = [];
     List<int> depths = [];
     LevelMask mask;
@@ -123,8 +127,10 @@ class Cell {
         throw BocException('Invalid number of references');
       }
       if (bits.length > 1023) {
-        throw BocException('Bits overflow',
-            details: {'maximum_length': 1023, 'length': bits.length});
+        throw BocException(
+          'Bits overflow',
+          details: {'maximum_length': 1023, 'length': bits.length},
+        );
       }
 
       final wonders = CellUtils.wonderCalculator(type, bits, refs);
@@ -134,12 +140,13 @@ class Cell {
       hashes = wonders.hashes;
     }
     return Cell._(
-        type: type,
-        bits: bits,
-        refs: refs,
-        mask: mask,
-        hashes: hashes,
-        depths: depths);
+      type: type,
+      bits: bits,
+      refs: refs,
+      mask: mask,
+      hashes: hashes,
+      depths: depths,
+    );
   }
 
   /// Begins parsing the cell and returns a `Slice` for reading its contents.
@@ -190,8 +197,10 @@ class Cell {
   ///
   /// Returns a Base64 encoded string representing the serialized BOC.
   String toBase64({bool idx = false, bool crc32 = true, bool urlsafe = false}) {
-    return Base64Utils.encodeBase64(toBoc(idx: idx, crc32: crc32),
-        urlSafe: urlsafe);
+    return Base64Utils.encodeBase64(
+      toBoc(idx: idx, crc32: crc32),
+      urlSafe: urlsafe,
+    );
   }
 
   /// Serializes the cell to a hexadecimal string.

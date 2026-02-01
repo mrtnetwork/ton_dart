@@ -12,24 +12,27 @@ class TonCenterFullAccountStateResponse with JsonSerialization {
   final String frozenHash;
   final BigInt syncUtim;
   final AccountStatusResponse state;
-  const TonCenterFullAccountStateResponse(
-      {required this.blockId,
-      required this.balance,
-      required this.code,
-      required this.data,
-      required this.frozenHash,
-      required this.state,
-      required this.syncUtim});
+  const TonCenterFullAccountStateResponse({
+    required this.blockId,
+    required this.balance,
+    required this.code,
+    required this.data,
+    required this.frozenHash,
+    required this.state,
+    required this.syncUtim,
+  });
   factory TonCenterFullAccountStateResponse.fromJson(
-      Map<String, dynamic> json) {
+    Map<String, dynamic> json,
+  ) {
     return TonCenterFullAccountStateResponse(
-        blockId: BlockRawResponse.fromJson(json['block_id']),
-        balance: BigintUtils.parse(json['balance']),
-        code: json['code'],
-        data: json['data'],
-        frozenHash: json['frozen_hash'],
-        state: AccountStatusResponse.fromName(json['state']),
-        syncUtim: BigintUtils.parse(json['sync_utime']));
+      blockId: BlockRawResponse.fromJson(json['block_id']),
+      balance: BigintUtils.parse(json['balance']),
+      code: json['code'],
+      data: json['data'],
+      frozenHash: json['frozen_hash'],
+      state: AccountStatusResponse.fromName(json['state']),
+      syncUtim: BigintUtils.parse(json['sync_utime']),
+    );
   }
 
   @override
@@ -52,7 +55,9 @@ class TonCenterTransactionIdResponse with JsonSerialization {
   const TonCenterTransactionIdResponse({required this.lt, required this.hash});
   factory TonCenterTransactionIdResponse.fromJson(Map<String, dynamic> json) {
     return TonCenterTransactionIdResponse(
-        lt: BigintUtils.parse(json['lt']), hash: json['hash']);
+      lt: BigintUtils.parse(json['lt']),
+      hash: json['hash'],
+    );
   }
 
   @override

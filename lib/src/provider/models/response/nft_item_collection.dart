@@ -13,13 +13,17 @@ class NftItemCollectionResponse with JsonSerialization {
 
   factory NftItemCollectionResponse.fromJson(Map<String, dynamic> json) {
     return NftItemCollectionResponse(
-        address: json['address'],
-        name: json['name'],
-        description: json['description']);
+      address: json['address'],
+      name: json['name'],
+      description: json['description'],
+    );
   }
 
   @override
   @override
-  Map<String, dynamic> toJson() =>
-      {'address': address, 'name': name, 'description': description};
+  Map<String, dynamic> toJson() => {
+    'address': address,
+    'name': name,
+    'description': description,
+  };
 }

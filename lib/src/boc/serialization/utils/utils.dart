@@ -32,7 +32,7 @@ class CellUtils {
         allCells[hash] = {
           'cell': cell,
           'refs':
-              cell.refs.map((v) => BytesUtils.toHexString(v.hash())).toList()
+              cell.refs.map((v) => BytesUtils.toHexString(v.hash())).toList(),
         };
         for (final r in cell.refs) {
           pending.add(r);
@@ -71,8 +71,9 @@ class CellUtils {
     return sorted.reversed.map((e) {
       final Map<String, dynamic> cels = allCells[e]!;
       return CellTopoloigicalSort(
-          cell: cels['cell'],
-          refs: (cels['refs'] as List).map((v) => indexes[v]!).toList());
+        cell: cels['cell'],
+        refs: (cels['refs'] as List).map((v) => indexes[v]!).toList(),
+      );
     }).toList();
   }
 
@@ -87,12 +88,20 @@ class CellUtils {
     return ((len / 8).ceil() + (len / 8).floor()).toInt();
   }
 
-  static List<int> getRepr(BitString originalBits, BitString bits,
-      List<Cell> refs, int level, int levelMask, CellType type) {
+  static List<int> getRepr(
+    BitString originalBits,
+    BitString bits,
+    List<Cell> refs,
+    int level,
+    int levelMask,
+    CellType type,
+  ) {
     // Allocate
     final int bitsLen = (bits.length / 8).ceil();
-    final List<int> repr =
-        List<int>.filled(2 + bitsLen + (2 + 32) * refs.length, 0);
+    final List<int> repr = List<int>.filled(
+      2 + bitsLen + (2 + 32) * refs.length,
+      0,
+    );
 
     int reprCursor = 0;
     repr[reprCursor++] = getRefsDescriptor(refs, levelMask, type);
@@ -139,16 +148,21 @@ class CellUtils {
     const int size = 8 + 256;
 
     if (bits.length != size) {
-      throw BocException('Invalid Library cell bits length',
-          details: {'expected': '8 + 256', 'length': bits.length});
+      throw BocException(
+        'Invalid Library cell bits length',
+        details: {'expected': '8 + 256', 'length': bits.length},
+      );
     }
 
     final type = reader.loadUint(8);
     if (type != 2) {
-      throw BocException('Invalid Library cell type.', details: {
-        'expected': CellType.library,
-        'type': CellType.fromValue(type) ?? '$type'
-      });
+      throw BocException(
+        'Invalid Library cell type.',
+        details: {
+          'expected': CellType.library,
+          'type': CellType.fromValue(type) ?? '$type',
+        },
+      );
     }
   }
 
@@ -159,21 +173,28 @@ class CellUtils {
     const int size = 8 + 256 + 16;
 
     if (bits.length != size) {
-      throw BocException('Invalid Merkle Proof cell bits length.',
-          details: {'expected': size, 'length': bits.length});
+      throw BocException(
+        'Invalid Merkle Proof cell bits length.',
+        details: {'expected': size, 'length': bits.length},
+      );
     }
 
     if (refs.length != 1) {
-      throw BocException('Invalid Merkle Proof cell reference length.',
-          details: {'expected': 1, 'length': refs.length});
+      throw BocException(
+        'Invalid Merkle Proof cell reference length.',
+        details: {'expected': 1, 'length': refs.length},
+      );
     }
 
     final int type = reader.loadUint(8);
     if (type != 3) {
-      throw BocException('Merkle Proof cell type.', details: {
-        'expected': CellType.merkleProof,
-        'type': CellType.fromValue(type) ?? '$type'
-      });
+      throw BocException(
+        'Merkle Proof cell type.',
+        details: {
+          'expected': CellType.merkleProof,
+          'type': CellType.fromValue(type) ?? '$type',
+        },
+      );
     }
 
     final List<int> proofHash = reader.loadBuffer(32);
@@ -187,28 +208,37 @@ class CellUtils {
   }
 
   static ExoticMerkleUpdate exoticMerkleUpdate(
-      BitString bits, List<Cell> refs) {
+    BitString bits,
+    List<Cell> refs,
+  ) {
     final BitReader reader = BitReader(bits);
 
     // // type + hash + hash + depth + depth
     const int bitLengthSize = 8 + (2 * (256 + 16));
 
     if (bits.length != bitLengthSize) {
-      throw BocException('Invalid Merkle Update cell bits length.',
-          details: {'expected': bitLengthSize, 'length': bits.length});
+      throw BocException(
+        'Invalid Merkle Update cell bits length.',
+        details: {'expected': bitLengthSize, 'length': bits.length},
+      );
     }
 
     if (refs.length != 2) {
-      throw BocException('Invalid Merkle Update cell refs length.',
-          details: {'expected': 2, 'length': refs.length});
+      throw BocException(
+        'Invalid Merkle Update cell refs length.',
+        details: {'expected': 2, 'length': refs.length},
+      );
     }
 
     final int type = reader.loadUint(8);
     if (type != 4) {
-      throw BocException('Invalid Merkle Update cell type.', details: {
-        'expected': CellType.merkleUpdate,
-        'type': CellType.fromValue(type) ?? '$type'
-      });
+      throw BocException(
+        'Invalid Merkle Update cell type.',
+        details: {
+          'expected': CellType.merkleUpdate,
+          'type': CellType.fromValue(type) ?? '$type',
+        },
+      );
     }
 
     final List<int> proofHash1 = reader.loadBuffer(32);
@@ -230,10 +260,11 @@ class CellUtils {
       throw BocException('Invalid Merkle Update cell reference 2 hash.');
     }
     return ExoticMerkleUpdate(
-        depth1: proofDepth1,
-        depth2: proofDepth2,
-        proof1: proofHash1,
-        proof2: proofHash2);
+      depth1: proofDepth1,
+      depth2: proofDepth2,
+      proof1: proofHash1,
+      proof2: proofHash2,
+    );
   }
 
   static ExoticPruned exoticPruned(BitString bits, List<Cell> refs) {
@@ -241,10 +272,13 @@ class CellUtils {
 
     final int type = reader.loadUint(8);
     if (type != 1) {
-      throw BocException('Invalid Pruned branch cell type.', details: {
-        'expected': CellType.prunedBranch,
-        'type': CellType.fromValue(type) ?? '$type'
-      });
+      throw BocException(
+        'Invalid Pruned branch cell type.',
+        details: {
+          'expected': CellType.prunedBranch,
+          'type': CellType.fromValue(type) ?? '$type',
+        },
+      );
     }
 
     if (refs.isNotEmpty) {
@@ -259,17 +293,22 @@ class CellUtils {
       mask = LevelMask(mask: read8);
 
       if (mask.level < 1 || mask.level > 3) {
-        throw BocException('Invalid Pruned Branch cell level', details: {
-          'level': mask.level,
-          'expected': [1, 2, 3].join(', ')
-        });
+        throw BocException(
+          'Invalid Pruned Branch cell level',
+          details: {
+            'level': mask.level,
+            'expected': [1, 2, 3].join(', '),
+          },
+        );
       }
 
       final int size =
           8 + 8 + (mask.apply(mask.level - 1).hashCount * (256 + 16));
       if (bits.length != size) {
-        throw BocException('Invalid Pruned branch cell bits length.',
-            details: {'expected': size, 'length': bits.length});
+        throw BocException(
+          'Invalid Pruned branch cell bits length.',
+          details: {'expected': size, 'length': bits.length},
+        );
       }
     }
 
@@ -316,15 +355,24 @@ class CellUtils {
         depths = pruned.pruned.map((e) => e.depth).toList();
         break;
       default:
-        throw BocException('Invalid exotic cell type.',
-            details: {'type': type ?? '$typeTag'});
+        throw BocException(
+          'Invalid exotic cell type.',
+          details: {'type': type ?? '$typeTag'},
+        );
     }
     return ResolvedCellResult(
-        type: type!, hashes: hashes, depths: depths, mask: mask);
+      type: type!,
+      hashes: hashes,
+      depths: depths,
+      mask: mask,
+    );
   }
 
   static ResolvedCellResult wonderCalculator(
-      CellType type, BitString bits, List<Cell> refs) {
+    CellType type,
+    BitString bits,
+    List<Cell> refs,
+  ) {
     //
     // Resolving level mask
     //
@@ -349,8 +397,9 @@ class CellUtils {
         break;
       case CellType.merkleUpdate:
         exoticMerkleUpdate(bits, refs);
-        levelMask =
-            LevelMask(mask: (refs[0].mask.value | refs[1].mask.value) >> 1);
+        levelMask = LevelMask(
+          mask: (refs[0].mask.value | refs[1].mask.value) >> 1,
+        );
         break;
       case CellType.library:
         exoticLibrary(bits, refs);
@@ -382,14 +431,18 @@ class CellUtils {
       BitString currentBits;
       if (hashI == hashIOffset) {
         if (!(levelI == 0 || type == CellType.prunedBranch)) {
-          throw BocException('Invalid Level.',
-              details: {'level': levelI, 'type': type});
+          throw BocException(
+            'Invalid Level.',
+            details: {'level': levelI, 'type': type},
+          );
         }
         currentBits = bits;
       } else {
         if (!(levelI != 0 && type != CellType.prunedBranch)) {
-          throw BocException('Invalid Level.',
-              details: {'level': levelI, 'type': type});
+          throw BocException(
+            'Invalid Level.',
+            details: {'level': levelI, 'type': type},
+          );
         }
         currentBits = BitString(hashes[hashI - hashIOffset - 1], 0, 256);
       }
@@ -409,7 +462,13 @@ class CellUtils {
       }
 
       final List<int> repr = getRepr(
-          bits, currentBits, refs, levelI, levelMask.apply(levelI).value, type);
+        bits,
+        currentBits,
+        refs,
+        levelI,
+        levelMask.apply(levelI).value,
+        type,
+      );
       final List<int> hash = QuickCrypto.sha256Hash(repr);
 
       final int destI = hashI - hashIOffset;
@@ -445,9 +504,10 @@ class CellUtils {
     }
 
     return ResolvedCellResult(
-        type: type,
-        hashes: resolvedHashes,
-        depths: resolvedDepths,
-        mask: levelMask);
+      type: type,
+      hashes: resolvedHashes,
+      depths: resolvedDepths,
+      mask: levelMask,
+    );
   }
 }

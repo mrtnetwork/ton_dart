@@ -13,15 +13,19 @@ class TransactionComputePhaseType {
       TransactionComputePhaseType._('skipped');
 
   /// Predefined constant for the virtual machine (VM) phase of transaction computation.
-  static const TransactionComputePhaseType vm =
-      TransactionComputePhaseType._('vm');
+  static const TransactionComputePhaseType vm = TransactionComputePhaseType._(
+    'vm',
+  );
   static const List<TransactionComputePhaseType> values = [skipped, vm];
   factory TransactionComputePhaseType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw TonDartPluginException(
-          'Cannot find TransactionComputePhaseType from provided name',
-          details: {'name': name}),
+      orElse:
+          () =>
+              throw TonDartPluginException(
+                'Cannot find TransactionComputePhaseType from provided name',
+                details: {'name': name},
+              ),
     );
   }
   @override
@@ -76,20 +80,21 @@ class TransactionComputeVm extends TransactionComputePhase {
   final int vmSteps;
   final BigInt vmInitStateHash;
   final BigInt vmFinalStateHash;
-  const TransactionComputeVm(
-      {required this.success,
-      required this.messageStateUsed,
-      required this.accountActivated,
-      required this.gasFees,
-      required this.gasUsed,
-      required this.gasLimit,
-      required this.gasCredit,
-      required this.mode,
-      required this.exitCode,
-      required this.exitArg,
-      required this.vmSteps,
-      required this.vmInitStateHash,
-      required this.vmFinalStateHash});
+  const TransactionComputeVm({
+    required this.success,
+    required this.messageStateUsed,
+    required this.accountActivated,
+    required this.gasFees,
+    required this.gasUsed,
+    required this.gasLimit,
+    required this.gasCredit,
+    required this.mode,
+    required this.exitCode,
+    required this.exitArg,
+    required this.vmSteps,
+    required this.vmInitStateHash,
+    required this.vmFinalStateHash,
+  });
   factory TransactionComputeVm.deserialize(Slice slice) {
     final success = slice.loadBit();
     final messageStateUsed = slice.loadBit();
@@ -107,35 +112,37 @@ class TransactionComputeVm extends TransactionComputePhase {
     final vmInitStateHash = vmState.loadUintBig(256);
     final vmFinalStateHash = vmState.loadUintBig(256);
     return TransactionComputeVm(
-        success: success,
-        messageStateUsed: messageStateUsed,
-        accountActivated: accountActivated,
-        gasFees: gasFees,
-        gasUsed: gasUsed,
-        gasLimit: gasLimit,
-        gasCredit: gasCredit,
-        mode: mode,
-        exitCode: exitCode,
-        exitArg: exitArg,
-        vmSteps: vmSteps,
-        vmInitStateHash: vmInitStateHash,
-        vmFinalStateHash: vmFinalStateHash);
+      success: success,
+      messageStateUsed: messageStateUsed,
+      accountActivated: accountActivated,
+      gasFees: gasFees,
+      gasUsed: gasUsed,
+      gasLimit: gasLimit,
+      gasCredit: gasCredit,
+      mode: mode,
+      exitCode: exitCode,
+      exitArg: exitArg,
+      vmSteps: vmSteps,
+      vmInitStateHash: vmInitStateHash,
+      vmFinalStateHash: vmFinalStateHash,
+    );
   }
   factory TransactionComputeVm.fromJson(Map<String, dynamic> json) {
     return TransactionComputeVm(
-        success: json['success'],
-        messageStateUsed: json['message_state_used'],
-        accountActivated: json['account_activated'],
-        gasFees: BigintUtils.parse(json['gas_fees']),
-        gasUsed: BigintUtils.parse(json['gas_used']),
-        gasLimit: BigintUtils.parse(json['gas_limit']),
-        gasCredit: BigintUtils.tryParse(json['gas_credit']),
-        mode: json['mode'],
-        exitCode: json['exit_code'],
-        exitArg: json['exit_arg'],
-        vmSteps: json['vm_steps'],
-        vmInitStateHash: BigintUtils.parse(json['vm_init_state_hash']),
-        vmFinalStateHash: BigintUtils.parse(json['vm_final_state_hash']));
+      success: json['success'],
+      messageStateUsed: json['message_state_used'],
+      accountActivated: json['account_activated'],
+      gasFees: BigintUtils.parse(json['gas_fees']),
+      gasUsed: BigintUtils.parse(json['gas_used']),
+      gasLimit: BigintUtils.parse(json['gas_limit']),
+      gasCredit: BigintUtils.tryParse(json['gas_credit']),
+      mode: json['mode'],
+      exitCode: json['exit_code'],
+      exitArg: json['exit_arg'],
+      vmSteps: json['vm_steps'],
+      vmInitStateHash: BigintUtils.parse(json['vm_init_state_hash']),
+      vmFinalStateHash: BigintUtils.parse(json['vm_final_state_hash']),
+    );
   }
 
   @override
@@ -154,7 +161,7 @@ class TransactionComputeVm extends TransactionComputePhase {
       'vm_steps': vmSteps,
       'vm_init_state_hash': vmInitStateHash.toString(),
       'vm_final_state_hash': vmFinalStateHash.toString(),
-      'type': type.name
+      'type': type.name,
     };
   }
 
@@ -202,7 +209,8 @@ class TransactionComputeSkipped extends TransactionComputePhase {
   }
   factory TransactionComputeSkipped.fromJson(Map<String, dynamic> json) {
     return TransactionComputeSkipped(
-        ComputeSkipReason.fromJson(json['reason']));
+      ComputeSkipReason.fromJson(json['reason']),
+    );
   }
 
   @override

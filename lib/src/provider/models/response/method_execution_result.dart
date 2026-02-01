@@ -17,11 +17,13 @@ class MethodExecutionResultResponse with JsonSerialization {
 
   factory MethodExecutionResultResponse.fromJson(Map<String, dynamic> json) {
     return MethodExecutionResultResponse(
-        success: json['success'],
-        exitCode: json['exit_code'],
-        stack: List<TvmStackRecordResponse>.from((json['stack'] as List)
-            .map((x) => TvmStackRecordResponse.fromJson(x))),
-        decoded: json['decoded']);
+      success: json['success'],
+      exitCode: json['exit_code'],
+      stack: List<TvmStackRecordResponse>.from(
+        (json['stack'] as List).map((x) => TvmStackRecordResponse.fromJson(x)),
+      ),
+      decoded: json['decoded'],
+    );
   }
 
   @override

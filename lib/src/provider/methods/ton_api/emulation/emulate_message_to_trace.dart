@@ -11,8 +11,10 @@ class TonApiEmulateMessageToTrace
     extends TonApiPostRequest<TraceResponse, Map<String, dynamic>> {
   final String boc;
   final bool ignoreSignatureCheck;
-  TonApiEmulateMessageToTrace(
-      {required this.boc, required this.ignoreSignatureCheck});
+  TonApiEmulateMessageToTrace({
+    required this.boc,
+    required this.ignoreSignatureCheck,
+  });
   @override
   Map<String, dynamic> get body => {'boc': boc};
 
@@ -20,8 +22,9 @@ class TonApiEmulateMessageToTrace
   String get method => TonApiMethods.emulatemessagetotrace.url;
 
   @override
-  Map<String, dynamic> get queryParameters =>
-      {'ignore_signature_check': ignoreSignatureCheck.toString()};
+  Map<String, dynamic> get queryParameters => {
+    'ignore_signature_check': ignoreSignatureCheck.toString(),
+  };
 
   @override
   Map<String, String?> get headers => ServiceConst.defaultPostHeaders;
