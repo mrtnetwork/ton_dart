@@ -19,11 +19,16 @@ class WalletV1R2
           NoneSubWalletVersionedWalletState,
           VersionedTransferParams
         > {
-  WalletV1R2({super.stateInit, required super.address, super.chain})
-    : super(type: WalletVersion.v1R2);
+  WalletV1R2({
+    super.stateInit,
+    required super.address,
+    super.workchain,
+    required super.chainId,
+  }) : super(type: WalletVersion.v1R2);
 
   factory WalletV1R2.create({
-    required TonChainId chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId chainId = TonChainId.mainnet,
     required List<int> publicKey,
     bool bounceableAddress = false,
   }) {
@@ -34,17 +39,22 @@ class WalletV1R2
     return WalletV1R2(
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: chain.workchain,
-        bounceable: bounceableAddress,
+        config: TonAddressConfing.friendly(
+          workchain,
+          bounceable: bounceableAddress,
+          testOnly: chainId.isTestnet,
+        ),
       ),
       stateInit: state,
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
   }
   static Future<WalletV1R2> fromAddress({
     required TonAddress address,
     required TonProvider rpc,
-    TonChainId? chain,
+    TonWorkChain? workchain,
+    TonChainId? chainId,
   }) async {
     final data = await ContractProvider.getActiveState(
       rpc: rpc,
@@ -56,12 +66,24 @@ class WalletV1R2
       address: address,
       stateData: data.data,
       type: WalletVersion.v1R2,
-      chain: chain,
+      workchain: workchain,
     );
-    return WalletV1R2(address: address, stateInit: state);
+    return WalletV1R2(
+      address: address,
+      stateInit: state,
+      workchain: workchain,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 
-  factory WalletV1R2.watch(TonAddress address) {
-    return WalletV1R2(address: address);
+  factory WalletV1R2.watch(TonAddress address, {TonChainId? chainId}) {
+    return WalletV1R2(
+      address: address,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 }

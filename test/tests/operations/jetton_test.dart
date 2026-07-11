@@ -19,7 +19,7 @@ void _mint() {
     );
     expect(operation.type, JettonWalletOperationType.burn);
     final mint = operation.cast<JettonWalletBurn>();
-    expect(mint.burnAmount, TonHelper.toNano('333'));
+    expect(mint.burnAmount, TonHelper.toNanoGrams('333'));
   });
   test('Transfer', () {
     final body = Cell.fromBase64(
@@ -37,7 +37,7 @@ void _mint() {
       mint.destination,
       TonAddress('kf-8hbu-I3MF3i6noGsLW2WVcUucW9mpr4ADlig1BDFm2HQz'),
     );
-    expect(mint.amount, TonHelper.toNano('3'));
+    expect(mint.amount, TonHelper.toNanoGrams('3'));
     expect(mint.forwardTonAmount, BigInt.zero);
   });
   test('Mint', () {
@@ -56,9 +56,9 @@ void _mint() {
       mint.to,
       TonAddress('kf8zwuqZAqwRBAT_6LbrForAQbKursLYwh6Afmt_JlbxfGJm'),
     );
-    expect(mint.totalTonAmount, TonHelper.toNano('0.5'));
-    expect(mint.jettonAmount, TonHelper.toNano('100000'));
-    expect(mint.transfer.forwardTonAmount, TonHelper.toNano('0.01'));
+    expect(mint.totalTonAmount, TonHelper.toNanoGrams('0.5'));
+    expect(mint.jettonAmount, TonHelper.toNanoGrams('100000'));
+    expect(mint.transfer.forwardTonAmount, TonHelper.toNanoGrams('0.01'));
   });
   test('ChangeContent', () {
     final body = Cell.fromHex(

@@ -26,7 +26,10 @@ class GetJettonWalletResponse {
                           ?.map((e) => JetonWalletTokenInfo.fromJson(e))
                           .toList() ??
                       [],
-                  address: TonAddress(e.key),
+                  address: TonAddress(
+                    e.key,
+                    ovverideBounceableOnRawAddress: true,
+                  ),
                 ),
               )
               .toList(),
@@ -55,10 +58,13 @@ class JettonWalletsResponse with JsonSerialization {
 
   factory JettonWalletsResponse.fromJson(Map<String, dynamic> json) {
     return JettonWalletsResponse(
-      address: TonAddress(json['address']),
+      address: TonAddress(
+        json['address'],
+        ovverideBounceableOnRawAddress: true,
+      ),
       balance: BigintUtils.parse(json['balance']),
-      owner: TonAddress(json['owner']),
-      jetton: TonAddress(json['jetton']),
+      owner: TonAddress(json['owner'], ovverideBounceableOnRawAddress: false),
+      jetton: TonAddress(json['jetton'], ovverideBounceableOnRawAddress: true),
       lastTransactionLt: BigintUtils.parse(json['last_transaction_lt']),
       codeHash: json['code_hash'],
       dataHash: json['data_hash'],
@@ -68,10 +74,10 @@ class JettonWalletsResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'address': address.toFriendlyAddress(),
+      'address': address.address,
       'balance': balance.toString(),
-      'owner': owner.toFriendlyAddress(),
-      'jetton': jetton.toFriendlyAddress(),
+      'owner': owner.address,
+      'jetton': jetton.address,
       'last_transaction_lt': lastTransactionLt.toString(),
       'code_hash': codeHash,
       'data_hash': dataHash,
@@ -111,8 +117,7 @@ abstract class JetonWalletTokenInfo {
     if (!valid) {
       return JettonWalletTokenInfoUnknow(json: json);
     }
-    // print(type);
-    // print(json);
+
     switch (type) {
       case JettonWalletTokenInfoType.unknown:
         return JettonWalletTokenInfoUnknow(json: json);
@@ -159,8 +164,14 @@ class JettonWalletTokenInfoWallet extends JetonWalletTokenInfo {
   factory JettonWalletTokenInfoWallet.fromJson(Map<String, dynamic> json) {
     return JettonWalletTokenInfoWallet(
       balance: BigintUtils.parse(json["extra"]["balance"]),
-      jetton: TonAddress(json["extra"]["jetton"]),
-      owner: TonAddress(json["extra"]["owner"]),
+      jetton: TonAddress(
+        json["extra"]["jetton"],
+        ovverideBounceableOnRawAddress: true,
+      ),
+      owner: TonAddress(
+        json["extra"]["owner"],
+        ovverideBounceableOnRawAddress: false,
+      ),
       json: json,
     );
   }

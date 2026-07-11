@@ -1,3 +1,9 @@
+## 2.3.0
+- Updated dependencies.
+- Updated TonAddress to inherit from IAddress provided by blockchain_utils.
+- Removed workchainId from TonChainId and introduced a dedicated TonWorkChain class.
+- Breaking change: If you previously created a testnet wallet contract address using TonChainId.testnet, you must now pass TonWorkChain.masterchain to the wallet - - contract to generate the same address.
+
 ## 2.2.0
 
 - Update dependencies.

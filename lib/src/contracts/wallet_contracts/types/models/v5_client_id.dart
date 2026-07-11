@@ -1,25 +1,26 @@
+import 'package:blockchain_utils/utils/equatable/equatable.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
-abstract class V5R1Context extends TonSerialization {
-  const V5R1Context({required this.chain});
-  final TonChainId chain;
+abstract class V5R1Context extends TonSerialization with Equality {
+  const V5R1Context({required this.chainId});
+  final TonChainId chainId;
   abstract final int contextID;
   @override
   void store(Builder builder) {
-    final id = (BigInt.from(chain.id) ^ BigInt.from(contextID)).toInt();
+    final id = (BigInt.from(chainId.id) ^ BigInt.from(contextID)).toInt();
     builder.storeInt(id, 32);
   }
 }
 
 class V5R1CustomContext extends V5R1Context {
   final int context;
-  const V5R1CustomContext({required this.context, required super.chain});
+  const V5R1CustomContext({required this.context, required super.chainId});
 
   @override
   Map<String, dynamic> toJson() {
-    return {'context': context, 'networkGlobalId': chain.id};
+    return {'context': context, 'networkGlobalId': chainId.id};
   }
 
   @override
@@ -31,34 +32,33 @@ class V5R1CustomContext extends V5R1Context {
       .loadInt(32);
 
   @override
-  bool operator ==(other) {
-    if (other is! V5R1CustomContext) return false;
-    return other.context == context && other.chain == chain;
-  }
-
-  @override
-  int get hashCode => Object.hashAll([context, chain.id]);
+  List<dynamic> get variables => [context, chainId];
 }
 
 class V5R1ClientContext extends V5R1Context {
   final int walletVersion = 0;
   final int subwalletNumber;
+  final TonWorkChain workchain;
 
-  V5R1ClientContext({required this.subwalletNumber, required super.chain});
+  V5R1ClientContext({
+    required this.subwalletNumber,
+    required super.chainId,
+    required this.workchain,
+  });
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'networkGlobalId': chain.id,
+      'networkGlobalId': chainId.id,
       'subwalletNumber': subwalletNumber,
-      'workchain': chain.workchain,
+      'workchain': workchain.id,
     };
   }
 
   @override
   int get contextID => beginCell()
       .storeUint(1, 1)
-      .storeInt(chain.workchain, 8)
+      .storeInt(workchain.id, 8)
       .storeUint(walletVersion, 8)
       .storeUint(subwalletNumber, 15)
       .endCell()
@@ -66,11 +66,5 @@ class V5R1ClientContext extends V5R1Context {
       .loadInt(32);
 
   @override
-  bool operator ==(other) {
-    if (other is! V5R1ClientContext) return false;
-    return other.subwalletNumber == subwalletNumber && other.chain == chain;
-  }
-
-  @override
-  int get hashCode => Object.hashAll([subwalletNumber, chain.id]);
+  List<dynamic> get variables => [subwalletNumber, chainId, workchain];
 }

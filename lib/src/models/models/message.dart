@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:blockchain_utils/utils/string/string.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
@@ -6,10 +7,9 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/models/models/common_message_info.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class MessageCodec {
-  static final DictionaryValue<Message> codec = DictionaryValue(
+  static DictionaryValue<Message> get codec => DictionaryValue(
     serialize: (source, builder) {
       builder.storeRef(beginCell().store(source).endCell());
     },
@@ -48,8 +48,9 @@ class Message extends TonSerialization {
     return Message(
       info: CommonMessageInfo.fromJson(json['info']),
       body: json['body'],
-      init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
-        (result) => StateInit.fromJson(result.cast()),
+      init: json.valueTo<StateInit?, Map<String, dynamic>>(
+        key: "init",
+        parse: (v) => StateInit.fromJson(v),
       ),
     );
   }
@@ -102,7 +103,7 @@ class Message extends TonSerialization {
   }
 
   String get hash =>
-      StringUtils.decode(body.hash(), type: StringEncoding.base64);
+      StringUtils.decode(body.hash(), encoding: StringEncoding.base64);
 
   @override
   Map<String, dynamic> toJson() {

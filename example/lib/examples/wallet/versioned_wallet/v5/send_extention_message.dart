@@ -13,13 +13,13 @@ void main() async {
       messages: [
         TonHelper.internal(
             destination: wallet.address,
-            amount: TonHelper.toNano("0.5"),
+            amount: TonHelper.toNanoGrams("0.5"),
             body: wallet.wallet.createExtensionMessage(actions: [
               OutActionSendMsg(
                   outMessage: TonHelper.internal(
                       destination: TonAddress(
                           "Uf_BIyysClKPLd5MHuyWqIEVNQxQZTJQmHp4bybS_YuOIJBT"),
-                      amount: TonHelper.toNano("25")))
+                      amount: TonHelper.toNanoGrams("25")))
             ])),
       ],
       rpc: extensionWallet.rpc);

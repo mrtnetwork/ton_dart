@@ -1,4 +1,6 @@
-import 'package:ton_dart/src/exception/exception.dart';
+import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:ton_dart/src/serialization/identifiers.dart';
+import 'package:ton_dart/src/exception/ton.dart';
 
 /// the repository of exceptions
 class TonContractExceptionConst {
@@ -29,7 +31,7 @@ class TonContractExceptionConst {
     Map? data,
   }) => TonContractException(
     'Provided json is not valid for $name',
-    details: {'message': message, 'trace': trace, 'data': data}
+    details: {'message': message, 'trace': trace}
       ..removeWhere((k, v) => v == null),
   );
 
@@ -37,7 +39,7 @@ class TonContractExceptionConst {
   static TonContractException invalidOperationId({Object? tag}) =>
       TonContractException(
         'Unknow or unsupported operation.',
-        details: {'tag': tag},
+        details: {'tag': tag?.toString()},
       );
 
   /// operation is not valid
@@ -51,6 +53,25 @@ class TonContractExceptionConst {
 }
 
 /// exception related to ton contracts.
-class TonContractException extends TonDartPluginException {
+class TonContractException extends BaseTonDartPluginException {
   const TonContractException(super.message, {super.details});
+
+  factory TonContractException.deserialize({
+    List<int>? bytes,
+    CborObject? obj,
+  }) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: TonSerializationIdentifiers.tonContractError,
+      cborBytes: bytes,
+      cborObject: obj,
+    );
+    return TonContractException(
+      values.rawValueAt(0),
+      details: values.maybeRawMapAt<String, String?>(1),
+    );
+  }
+
+  @override
+  TonSerializationIdentifiers get serializationIdentifier =>
+      TonSerializationIdentifiers.tonContractError;
 }

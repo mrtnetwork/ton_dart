@@ -15,10 +15,9 @@ void main() async {
   await item.sendOperation(
       params: VersionedV5TransferParams.external(signer: wallet.signer),
       rpc: wallet.rpc,
-      amount: TonHelper.toNano("0.2"),
+      amount: TonHelper.toNanoGrams("0.2"),
       operation: NFTItemTransfer(
-          newOwnerAddress:
-              royalityParamsWallet.address.copyWith(bounceable: false),
+          newOwnerAddress: royalityParamsWallet.address,
           // responseDestination: responseDestination,
           forwardAmount: BigInt.zero));
   await Future.delayed(const Duration(seconds: 20));

@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
@@ -53,25 +54,31 @@ class StateInit extends TonSerialization {
   factory StateInit.fromJson(Map<String, dynamic> json) {
     return StateInit(
       splitDepth: json['splitDepth'],
-      special: (json['special'] as Object?)
-          ?.convertTo<TickTock, Map<String, dynamic>>(
-            (p0) => TickTock.fromJson(p0),
+      special: json.valueTo<TickTock?, Map<String, dynamic>>(
+        key: "special",
+        parse: (v) => TickTock.fromJson(v),
+      ),
+      code: json.valueTo<Cell?, String>(
+        key: "code",
+        parse: (v) => Cell.fromBase64(v),
+      ),
+      data: json.valueTo<Cell?, String>(
+        key: "data",
+        parse: (v) => Cell.fromBase64(v),
+      ),
+      libraries: json
+          .valueTo<Map<BigInt, SimpleLibrary>?, Map<String, dynamic>>(
+            key: "libraries",
+            parse:
+                (v) => v.map(
+                  (key, value) => MapEntry(
+                    JsonParser.valueAsBigInt(key),
+                    SimpleLibrary.fromJson(
+                      JsonParser.valueEnsureAsMap<String, dynamic>(value),
+                    ),
+                  ),
+                ),
           ),
-      code: (json['code'] as Object?)?.convertTo<Cell, String>(
-        (result) => Cell.fromBase64(result),
-      ),
-      data: (json['data'] as Object?)?.convertTo<Cell, String>(
-        (result) => Cell.fromBase64(result),
-      ),
-      libraries: (json['libraries'] as Object?)?.convertTo<
-        Map<BigInt, SimpleLibrary>,
-        Map<String, dynamic>
-      >((result) {
-        return result.map(
-          (key, value) =>
-              MapEntry(BigintUtils.parse(key), SimpleLibrary.fromJson(value)),
-        );
-      }),
     );
   }
 
@@ -91,11 +98,13 @@ class StateInit extends TonSerialization {
     }
     builder.storeMaybeRef(cell: code);
     builder.storeMaybeRef(cell: data);
-    final dict = libraries?.convertTo<
-      Dictionary<BigInt, SimpleLibrary>,
-      Map<BigInt, SimpleLibrary>
-    >((p0) => _StateInitUtils.libraryDict(map: p0));
-    builder.storeDict(dict: dict);
+    final libraries = this.libraries;
+    builder.storeDict(
+      dict:
+          libraries == null
+              ? null
+              : _StateInitUtils.libraryDict(map: libraries),
+    );
   }
 
   @override

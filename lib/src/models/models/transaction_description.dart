@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
 import 'package:ton_dart/src/exception/exception.dart';
@@ -171,23 +172,26 @@ class TransactionDescriptionGeneric extends TransactionDescription {
   factory TransactionDescriptionGeneric.fromJson(Map<String, dynamic> json) {
     return TransactionDescriptionGeneric(
       creditFirst: json['credit_first'],
-      storagePhase: (json['storage_phase'] as Object?)
-          ?.convertTo<TransactionStoragePhase, Map>(
-            (result) => TransactionStoragePhase.fromJson(result.cast()),
+      storagePhase: json
+          .valueTo<TransactionStoragePhase?, Map<String, dynamic>>(
+            key: "storage_phase",
+            parse: (v) => TransactionStoragePhase.fromJson(v),
           ),
-      creditPhase: (json['credit_phase'] as Object?)
-          ?.convertTo<TransactionCreditPhase, Map>(
-            (result) => TransactionCreditPhase.fromJson(result.cast()),
-          ),
+      creditPhase: json.valueTo<TransactionCreditPhase?, Map<String, dynamic>>(
+        key: "credit_phase",
+        parse: (v) => TransactionCreditPhase.fromJson(v),
+      ),
+
       computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
-      actionPhase: (json['action_phase'] as Object?)
-          ?.convertTo<TransactionActionPhase, Map>(
-            (result) => TransactionActionPhase.fromJson(result.cast()),
-          ),
-      bouncePhase: (json['bounce_phase'] as Object?)
-          ?.convertTo<TransactionBouncePhase, Map>(
-            (result) => TransactionBouncePhase.fromJson(result.cast()),
-          ),
+      actionPhase: json.valueTo<TransactionActionPhase?, Map<String, dynamic>>(
+        key: "action_phase",
+        parse: (v) => TransactionActionPhase.fromJson(v),
+      ),
+      bouncePhase: json.valueTo<TransactionBouncePhase?, Map<String, dynamic>>(
+        key: "bounce_phase",
+        parse: (v) => TransactionBouncePhase.fromJson(v),
+      ),
+
       aborted: json['aborted'],
       destroyed: json['destroyed'],
     );
@@ -300,10 +304,11 @@ class TransactionDescriptionTickTock extends TransactionDescription {
     return TransactionDescriptionTickTock(
       storagePhase: TransactionStoragePhase.fromJson(json['storage_phase']),
       computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
-      actionPhase: (json['action_phase'] as Object?)
-          ?.convertTo<TransactionActionPhase, Map>(
-            (result) => TransactionActionPhase.fromJson(result.cast()),
-          ),
+      actionPhase: json.valueTo<TransactionActionPhase?, Map<String, dynamic>>(
+        key: "action_phase",
+        parse: (v) => TransactionActionPhase.fromJson(v),
+      ),
+
       aborted: json['aborted'],
       destroyed: json['destroyed'],
       isTock: json['is_tock'],
@@ -386,15 +391,16 @@ class TransactionDescriptionSplitPrepare extends TransactionDescription {
   ) {
     return TransactionDescriptionSplitPrepare(
       splitInfo: SplitMergeInfo.fromJson(json['split_info']),
-      storagePhase: (json['storage_phase'] as Object?)
-          ?.convertTo<TransactionStoragePhase, Map>(
-            (result) => TransactionStoragePhase.fromJson(result.cast()),
+      storagePhase: json
+          .valueTo<TransactionStoragePhase?, Map<String, dynamic>>(
+            key: "storage_phase",
+            parse: (v) => TransactionStoragePhase.fromJson(v),
           ),
       computePhase: TransactionComputePhase.fromJson(json['compute_phase']),
-      actionPhase: (json['action_phase'] as Object?)
-          ?.convertTo<TransactionActionPhase, Map>(
-            (result) => TransactionActionPhase.fromJson(result.cast()),
-          ),
+      actionPhase: json.valueTo<TransactionActionPhase?, Map<String, dynamic>>(
+        key: "action_phase",
+        parse: (v) => TransactionActionPhase.fromJson(v),
+      ),
       aborted: json['aborted'],
       destroyed: json['destroyed'],
     );

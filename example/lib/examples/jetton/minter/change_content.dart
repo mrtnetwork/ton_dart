@@ -17,6 +17,6 @@ void main() async {
   await jetton.sendOperation(
       signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
       rpc: wallet.rpc,
-      amount: TonHelper.toNano("0.2"),
+      amount: TonHelper.toNanoGrams("0.2"),
       operation: JettonMinterChangeContent(content: metadata.toContent()));
 }

@@ -10,7 +10,7 @@ void main() async {
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination2.address,
-                amount: TonHelper.toNano("0.03")))
+                amount: TonHelper.toNanoGrams("0.03")))
       ]),
       rpc: wallet.rpc);
 

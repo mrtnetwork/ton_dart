@@ -16,8 +16,8 @@ void _mint() {
     final fromJson = StableJettonMinterOperation.fromJson(operation.toJson());
     expect(fromJson.type, StableJettonMinterOperationType.mint);
     final mint = fromJson as StableJettonMinterMint;
-    expect(mint.totalTonAmount, TonHelper.toNano('1'));
-    expect(mint.transfer.jettonAmount, TonHelper.toNano('241323123'));
+    expect(mint.totalTonAmount, TonHelper.toNanoGrams('1'));
+    expect(mint.transfer.jettonAmount, TonHelper.toNanoGrams('241323123'));
     expect(mint.transfer.forwardTonAmount, BigInt.zero);
   });
   test('mint', () {
@@ -30,9 +30,9 @@ void _mint() {
     final fromJson = StableJettonMinterOperation.fromJson(operation.toJson());
     expect(fromJson.type, StableJettonMinterOperationType.mint);
     final mint = fromJson as StableJettonMinterMint;
-    expect(mint.totalTonAmount, TonHelper.toNano('0.4'));
-    expect(mint.transfer.jettonAmount, TonHelper.toNano('11111'));
-    expect(mint.transfer.forwardTonAmount, TonHelper.toNano('0.1'));
+    expect(mint.totalTonAmount, TonHelper.toNanoGrams('0.4'));
+    expect(mint.transfer.jettonAmount, TonHelper.toNanoGrams('11111'));
+    expect(mint.transfer.forwardTonAmount, TonHelper.toNanoGrams('0.1'));
   });
 
   test('burn wallet token from minter', () {
@@ -51,7 +51,7 @@ void _mint() {
     );
     expect(callTo.operation.type, StableJettonWalletOperationType.burn);
     final callToOperation = callTo.operation.cast<StableJettonWalletBurn>();
-    expect(callToOperation.jettonAmount, TonHelper.toNano('111'));
+    expect(callToOperation.jettonAmount, TonHelper.toNanoGrams('111'));
   });
   test('transfer', () {
     final Cell cell = Cell.fromBase64(
@@ -67,8 +67,8 @@ void _mint() {
       callTo.to,
       TonAddress('EQD7h9ndCgjRR6Js6j8lNq6FHwkBM47O54dTaamsWGlI5CMv'),
     );
-    expect(callTo.jettonAmount, TonHelper.toNano('100'));
-    expect(callTo.forwardTonAmount, TonHelper.toNano('0.1'));
+    expect(callTo.jettonAmount, TonHelper.toNanoGrams('100'));
+    expect(callTo.forwardTonAmount, TonHelper.toNanoGrams('0.1'));
   });
 }
 

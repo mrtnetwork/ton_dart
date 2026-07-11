@@ -9,48 +9,19 @@ import 'package:ton_dart/src/models/models/send_mode.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'message_relaxed.dart';
 
-class OutActionType {
+enum OutActionType {
+  sendMsg(name: 'sendMsg', tag: 0x0ec3c86d),
+  multiSigSendMessage(name: 'multiSigSendMsg', tag: 0xf1381e5b),
+  updateMiltiSig(name: 'updateMultiSig', tag: 0x1d0cfbd3),
+
+  setCode(name: 'setCode', tag: 0xad4de08e),
+  addExtension(name: 'AddExtension', tag: 0x02),
+  removeExtension(tag: 0x03, name: 'RemoveExtension'),
+  setIsPublicKeyEnabled(tag: 0x04, name: 'SetIsPublicKeyEnabled');
+
   final String name;
   final int tag;
-  const OutActionType._({required this.name, required this.tag});
-  static const OutActionType sendMsg = OutActionType._(
-    name: 'sendMsg',
-    tag: 0x0ec3c86d,
-  );
-  static const OutActionType multiSigSendMessage = OutActionType._(
-    name: 'multiSigSendMsg',
-    tag: 0xf1381e5b,
-  );
-  static const OutActionType updateMiltiSig = OutActionType._(
-    name: 'updateMultiSig',
-    tag: 0x1d0cfbd3,
-  );
-
-  static const OutActionType setCode = OutActionType._(
-    name: 'setCode',
-    tag: 0xad4de08e,
-  );
-  static const OutActionType addExtension = OutActionType._(
-    name: 'AddExtension',
-    tag: 0x02,
-  );
-  static const OutActionType removeExtension = OutActionType._(
-    tag: 0x03,
-    name: 'RemoveExtension',
-  );
-  static const OutActionType setIsPublicKeyEnabled = OutActionType._(
-    tag: 0x04,
-    name: 'SetIsPublicKeyEnabled',
-  );
-  static const List<OutActionType> values = [
-    sendMsg,
-    setCode,
-    addExtension,
-    removeExtension,
-    setIsPublicKeyEnabled,
-    multiSigSendMessage,
-    updateMiltiSig,
-  ];
+  const OutActionType({required this.name, required this.tag});
   factory OutActionType.fromValue(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
@@ -69,7 +40,7 @@ class OutActionType {
           () =>
               throw TonDartPluginException(
                 'Cannot find OutActionType from provided tag',
-                details: {'tag': tag},
+                details: {'tag': tag?.toString()},
               ),
     );
   }
@@ -229,14 +200,6 @@ abstract class OutAction extends TonSerialization {
         return OutActionUpdateMultiSig.deserialize(slice);
       case OutActionType.multiSigSendMessage:
         return OutActionMultiSigSendMsg.deserialize(slice);
-      default:
-        throw TonDartPluginException(
-          'Invalid OutAction tag.',
-          details: {
-            'expected': OutActionType.values.map((e) => e.tag).join(', '),
-            'tag': tag,
-          },
-        );
     }
   }
   factory OutAction.fromJson(Map<String, dynamic> json) {
@@ -253,7 +216,7 @@ abstract class OutAction extends TonSerialization {
       case OutActionType.setCode:
         return OutActionSetCode.fromJson(json);
       default:
-        throw UnimplementedError('Invalid or unsupported OutActionType.');
+        throw TonDartPluginException('Invalid or unsupported OutActionType.');
     }
   }
 }
@@ -355,7 +318,7 @@ abstract class OutActionExtended extends OutActionWalletV5 {
       default:
         throw TonDartPluginException(
           'Invalid OutAction extended tag.',
-          details: {'tag': tag},
+          details: {'tag': tag?.toString()},
         );
     }
   }
@@ -382,7 +345,7 @@ class OutActionAddExtension extends OutActionExtended {
 
   @override
   Map<String, dynamic> toJson() {
-    return {'address': address.toFriendlyAddress()};
+    return {'address': address.address};
   }
 
   @override
@@ -412,7 +375,7 @@ class OutActionRemoveExtension extends OutActionExtended {
 
   @override
   Map<String, dynamic> toJson() {
-    return {'address': address.toFriendlyAddress()};
+    return {'address': address.address};
   }
 
   @override
@@ -561,8 +524,8 @@ class OutActionUpdateMultiSig extends OutActionMultiSig {
     return {
       'type': type.name,
       'threshold': threshold,
-      'signers': signers.map((e) => e.toFriendlyAddress()).toList(),
-      'proposers': proposers.map((e) => e.toFriendlyAddress()).toList(),
+      'signers': signers.map((e) => e.address).toList(),
+      'proposers': proposers.map((e) => e.address).toList(),
     };
   }
 

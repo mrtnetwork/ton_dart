@@ -5,6 +5,8 @@ import 'package:ton_dart/src/boc/bit/bit_reader.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'dart:math' show Random;
 
+import 'package:ton_dart/src/contracts/core/core.dart';
+
 final _random = Random.secure();
 
 int _generateRandom() {
@@ -112,8 +114,14 @@ void _test() {
       final a =
           i.isEven
               ? null
-              : TonAddress.fromBytes(-1, QuickCrypto.generateRandom());
-      final b = TonAddress.fromBytes(0, QuickCrypto.generateRandom());
+              : TonAddress.fromBytes(
+                hash: QuickCrypto.generateRandom(),
+                config: TonAddressConfing.friendly(TonWorkChain.masterchain),
+              );
+      final b = TonAddress.fromBytes(
+        hash: QuickCrypto.generateRandom(),
+        config: TonAddressConfing.friendly(TonWorkChain.basechain),
+      );
       final builder = beginCell();
       builder.storeAddress(a);
       builder.storeAddress(b);

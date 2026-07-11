@@ -19,11 +19,16 @@ class WalletV1R3
           NoneSubWalletVersionedWalletState,
           VersionedTransferParams
         > {
-  WalletV1R3({super.stateInit, required super.address, super.chain})
-    : super(type: WalletVersion.v1R3);
+  WalletV1R3({
+    super.stateInit,
+    required super.address,
+    super.workchain,
+    required super.chainId,
+  }) : super(type: WalletVersion.v1R3);
 
   factory WalletV1R3.create({
-    required TonChainId chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId chainId = TonChainId.mainnet,
     required List<int> publicKey,
     bool bounceableAddress = false,
   }) {
@@ -34,17 +39,22 @@ class WalletV1R3
     return WalletV1R3(
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: chain.workchain,
-        bounceable: bounceableAddress,
+        config: TonAddressConfing.friendly(
+          workchain,
+          bounceable: bounceableAddress,
+          testOnly: chainId.isTestnet,
+        ),
       ),
       stateInit: state,
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
   }
   static Future<WalletV1R3> fromAddress({
     required TonAddress address,
     required TonProvider rpc,
-    TonChainId? chain,
+    TonWorkChain? workchain,
+    TonChainId? chainId,
   }) async {
     final data = await ContractProvider.getActiveState(
       rpc: rpc,
@@ -56,8 +66,14 @@ class WalletV1R3
       address: address,
       stateData: data.data,
       type: WalletVersion.v1R3,
-      chain: chain,
+      workchain: workchain,
     );
-    return WalletV1R3(address: address, stateInit: state);
+    return WalletV1R3(
+      address: address,
+      stateInit: state,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 }

@@ -1,33 +1,35 @@
-import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:blockchain_utils/exception/exception/blockchain_utils.dart';
+import 'package:blockchain_utils/utils/equatable/equatable.dart';
 
 /// Represents a TON (The Open Network) blockchain network and its associated parameters.
 ///
 /// This class is used to define and work with different TON chains, such as the mainnet and testnet.
-class TonChainId {
-  /// workchain
-  final int workchain;
+enum TonChainId {
+  mainnet(-239),
+  testnet(-3);
 
-  /// global chain id
   final int id;
-  const TonChainId._(this.workchain, this.id);
-  static const TonChainId mainnet = TonChainId._(0, -239);
-  static const TonChainId testnet = TonChainId._(-1, -3);
-  static const List<TonChainId> values = [mainnet, testnet];
+  const TonChainId(this.id);
+  bool get isTestnet => this == testnet;
+  factory TonChainId.fromId(int? id) => values.firstWhere(
+    (e) => e.id == id,
+    orElse: () => throw ItemNotFoundException(value: id),
+  );
+}
 
-  /// pick chain from workchain
-  static TonChainId fromWorkchain(int? workchain) {
-    return values.firstWhere(
-      (e) => e.workchain == workchain,
-      orElse: () => throw const TonContractException('Invalid workchain.'),
-    );
-  }
-
-  @override
-  bool operator ==(other) {
-    if (other is! TonChainId) return false;
-    return workchain == other.workchain && id == other.id;
-  }
+class TonWorkChain with Equality {
+  final int id;
+  const TonWorkChain(this.id);
+  static const TonWorkChain masterchain = TonWorkChain(-1);
+  static const TonWorkChain basechain = TonWorkChain(0);
+  bool get isMasterchain => id == -1;
+  bool get isBasechain => !isMasterchain;
 
   @override
-  int get hashCode => workchain.hashCode ^ id.hashCode;
+  List<dynamic> get variables => [id];
+
+  @override
+  String toString() {
+    return "TonWorkChain($id)";
+  }
 }

@@ -25,11 +25,11 @@ void _test() {
     expect(msg.bounce, true);
     expect(msg.bounced, false);
     expect(
-      msg.src.toFriendlyAddress(),
+      msg.src.toFriendly().address,
       'EQD3Fj4sHCg7nmKcE_1DMzsHnhteKba21eoBXe3CvVVVMOGu',
     );
     expect(
-      msg.dest.toFriendlyAddress(),
+      msg.dest.toFriendly().address,
       'EQDKbjIcfM6ezt8KjKJJLshZJJSqX7XOA4ff-W72r5gqPrHF',
     );
     expect(msg.value.coins, BigInt.from(99986675000));

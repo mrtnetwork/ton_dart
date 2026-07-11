@@ -56,7 +56,7 @@ class AccountStatus extends TonSerialization {
           () =>
               throw TonDartPluginException(
                 'Cannot find AccountStatus from provided tag',
-                details: {'tag': tag},
+                details: {'tag': tag?.toString()},
               ),
     );
   }

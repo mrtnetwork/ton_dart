@@ -1,4 +1,5 @@
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
 
 class TonNftConst {
   static const int mintNFtOperationId = 1;
@@ -31,22 +32,22 @@ class TonNftConst {
   static const String _nftSale =
       'b5ee9c7241020a010001b4000114ff00f4a413f4bcf2c80b0102012003020004f2300201480504002fa03859da89a1f481f481f481f401a861a1f401f481f400610202cd080601f5d41081dcd650029285029185f7970e101e87d007d207d0018384008646582a804e78b28b9d090d0a85ad08a500afd010ae5b564b8fd80384008646582ac678b2803fd010b65b564b8fd80384008646582a802e78b00fd0109e5b564b8fd80381041082fe61e8a10c00c646582a802e78b117d010a65b509e58f8a407002acb3f22cf1658cf16ca0021fa02ca00c98100a0fb0001f7d00e8698180b8d8492f82707d201876a2687d207d207d207d006a18116ba4e10159c71d991b1b2990e382c92f837028916382f970fa01698fc1080289c6c8895d7970fae99f98fd2018201a642802e78b2801e78b00e78b00fd016664f6aa701363804c9b081b2299823878027003698fe99f9810e000c92f857010c0900c8c0029a3110471036454012f004e032363704c0038e4782103b9aca0015bef2e1c95312c70559c705b1f2e1ca702082105fcc3d14218010c8cb055006cf1622fa0215cb6a14cb1f14cb3f21cf1601cf16ca0021fa02ca00c98100a0fb00e05f06840ff2f0064ec29e';
 
-  static Cell nftCollectionCode(int workchain) {
-    if (workchain.isNegative) {
+  static Cell nftCollectionCode({TonWorkChain? workchain}) {
+    if (workchain?.isMasterchain ?? false) {
       return Cell.fromHex(_nftCollectionTestnet);
     }
     return Cell.fromHex(_nftCollectionMainnet);
   }
 
-  static Cell nftItemCode(int workchain) {
-    if (workchain.isNegative) {
+  static Cell nftItemCode({TonWorkChain? workchain}) {
+    if (workchain?.isMasterchain ?? false) {
       return Cell.fromHex(_nftItemTestnet);
     }
     return Cell.fromHex(_nftItemMainnet);
   }
 
-  static Cell nftEditableCollectionCode(int workchain) {
-    if (workchain.isNegative) {
+  static Cell nftEditableCollectionCode({TonWorkChain? workchain}) {
+    if (workchain?.isMasterchain ?? false) {
       return Cell.fromHex(_nftCollectionEditableTestnet);
     }
     return Cell.fromHex(_nftCollectionEditableMainnet);

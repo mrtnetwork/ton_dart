@@ -3,7 +3,7 @@ import 'package:ton_dart/ton_dart.dart';
 
 void main() async {
   final wallet = TestWallet<WalletV5R1>(
-      version: WalletVersion.v5R1, chain: TonChainId.mainnet);
+      version: WalletVersion.v5R1, chainId: TonChainId.mainnet);
   final stableJetton = StableJettonMinter.create(
       owner: wallet.wallet,
       state: StableTokenMinterState(
@@ -14,5 +14,5 @@ void main() async {
   await stableJetton.deploy(
       params: VersionedV5TransferParams.external(signer: wallet.signer),
       rpc: wallet.rpc,
-      amount: TonHelper.toNano("0.3"));
+      amount: TonHelper.toNanoGrams("0.3"));
 }

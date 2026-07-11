@@ -17,9 +17,6 @@ import 'cell_type.dart';
 /// Cells can be ordinary or exotic, with exotic cells having additional characteristics
 /// that are resolved using utility methods.
 class Cell {
-  /// Represents an empty cell with default values.
-  static final Cell empty = Cell();
-
   /// The type of the cell, indicating its kind or usage.
   final CellType type;
 
@@ -57,10 +54,7 @@ class Cell {
   factory Cell.fromBytes(List<int> src) {
     final parsed = Cell.fromBoc(src);
     if (parsed.length != 1) {
-      throw BocException(
-        'Deserialized more than one cell.',
-        details: {'cells': parsed},
-      );
+      throw BocException('Deserialized more than one cell.');
     }
     return parsed[0];
   }
@@ -129,7 +123,10 @@ class Cell {
       if (bits.length > 1023) {
         throw BocException(
           'Bits overflow',
-          details: {'maximum_length': 1023, 'length': bits.length},
+          details: {
+            'maximum_length': 1023.toString(),
+            'length': bits.length.toString(),
+          },
         );
       }
 

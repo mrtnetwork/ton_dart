@@ -22,13 +22,16 @@ class HighloadQueryId {
   ) {
     if (shift < BigInt.zero ||
         shift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-      throw TonContractException('Invalid shift', details: {'shift': shift});
+      throw TonContractException(
+        'Invalid shift',
+        details: {'shift': shift.toString()},
+      );
     }
     if (bitNumber < BigInt.zero ||
         bitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
       throw TonContractException(
         'Invalid bitNumber',
-        details: {'bitNumber': bitNumber},
+        details: {'bitNumber': bitNumber.toString()},
       );
     }
     return HighloadQueryId._(shift, bitNumber);

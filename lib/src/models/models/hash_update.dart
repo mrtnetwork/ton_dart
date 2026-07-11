@@ -21,7 +21,10 @@ class HashUpdate extends TonSerialization {
     if (prefix != _HashUpdateConst.prefix) {
       throw TonDartPluginException(
         'Invalid HashUpdate prefix.',
-        details: {'expected': _HashUpdateConst.prefix, 'prefix': prefix},
+        details: {
+          'expected': _HashUpdateConst.prefix.toString(),
+          'prefix': prefix.toString(),
+        },
       );
     }
     return HashUpdate(

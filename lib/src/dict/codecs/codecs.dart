@@ -97,7 +97,10 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (src.isNegative) {
-          throw DictException('Key is negative.', details: {'key': src});
+          throw DictException(
+            'Key is negative.',
+            details: {'key': src.toString()},
+          );
         }
         return beginCell()
             .storeUint(src, bits)
@@ -128,7 +131,10 @@ class DictionaryCodecs {
           throw DictException('Key is not a safe integer.');
         }
         if (src.isNegative) {
-          throw DictException('Key is negative.', details: {'key': src});
+          throw DictException(
+            'Key is negative.',
+            details: {'key': src.toString()},
+          );
         }
         return beginCell()
             .storeUint(src, bits)
@@ -378,7 +384,10 @@ class DictionaryCodecs {
         if (src.length != size) {
           throw DictException(
             'Invalid buffer size.',
-            details: {'size': size, 'source_length': src.length},
+            details: {
+              'size': size.toString(),
+              'source_length': src.length.toString(),
+            },
           );
         }
         builder.storeBuffer(src);
@@ -399,7 +408,10 @@ class DictionaryCodecs {
         if (src.length != bits) {
           throw DictException(
             'Invalid BitString size.',
-            details: {'size': bits, 'source_length': src.length},
+            details: {
+              'size': bits.toString(),
+              'source_length': src.length.toString(),
+            },
           );
         }
         builder.storeBits(src);

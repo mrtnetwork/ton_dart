@@ -13,7 +13,7 @@ abstract class VersionedWalletState implements ContractState {
   final WalletVersion version;
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(code: version.getCode(), data: initialData());
   }
 
@@ -24,7 +24,7 @@ abstract class VersionedWalletState implements ContractState {
   }) : publicKey = TonPublicKey.fromBytes(publicKey);
 
   @override
-  Cell initialData();
+  Cell initialData({TonWorkChain? workchain});
 }
 
 class NoneSubWalletVersionedWalletState extends VersionedWalletState {
@@ -35,7 +35,7 @@ class NoneSubWalletVersionedWalletState extends VersionedWalletState {
   }) : super(seqno: seqno ?? 0);
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     return beginCell()
         .storeUint(0, 32)
         .storeBuffer(publicKey.toBytes())
@@ -53,7 +53,7 @@ class SubWalletVersionedWalletState extends VersionedWalletState {
   }) : super(seqno: seqno ?? 0);
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     switch (version) {
       case WalletVersion.v3R1:
       case WalletVersion.v3R2:
@@ -93,7 +93,7 @@ class V5VersionedWalletState extends VersionedWalletState {
        super(seqno: seqno ?? 0);
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     return beginCell()
         .storeUint(1, 1)
         .storeUint(0, 32)

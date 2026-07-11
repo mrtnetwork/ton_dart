@@ -14,7 +14,7 @@ class MinterWalletState extends ContractState {
   final Cell? walletCode;
   Map<String, dynamic> toJson() {
     return {
-      'owner': owner?.toFriendlyAddress(),
+      'owner': owner?.address,
       'content': content.toBase64(),
       'totalSupply': totalSupply,
       'walletCode': walletCode?.toBase64(),
@@ -49,7 +49,7 @@ class MinterWalletState extends ContractState {
   });
   factory MinterWalletState({
     required TonAddress owner,
-    required TonChainId chain,
+
     TokenMetadata? metadata,
     Cell? contect,
     Cell? walletCode,
@@ -83,17 +83,18 @@ class MinterWalletState extends ContractState {
   TokenMetadata get metadata => TokneMetadataUtils.loadContent(content);
 
   @override
-  StateInit initialState({int? workchain}) {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(
       data: initialData(),
-      code: JettonMinterConst.code(owner?.workChain ?? 0),
+      code: JettonMinterConst.code(workchain: workchain ?? owner?.workchain),
     );
   }
 
   @override
-  Cell initialData({int? workchain}) {
+  Cell initialData({TonWorkChain? workchain}) {
     final Cell code =
-        walletCode ?? JettonWalletConst.code(owner?.workChain ?? 0);
+        walletCode ??
+        JettonWalletConst.code(workchain: workchain ?? owner?.workchain);
     return beginCell()
         .storeCoins(totalSupply)
         .storeAddress(owner)

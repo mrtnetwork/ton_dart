@@ -35,7 +35,7 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
       owner: owner,
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: owner.address.workChain,
+        config: TonAddressConfing.friendly(owner.address.workchain),
       ),
       state: state,
     );

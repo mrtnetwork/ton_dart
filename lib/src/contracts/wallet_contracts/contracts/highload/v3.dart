@@ -13,16 +13,20 @@ import 'package:ton_dart/src/contracts/wallet_contracts/provider/impl/highload.d
 
 class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     with HighloadWalletV3ProviderImpl<HighloadWalletV3State> {
-  HighloadWalletV3({required super.address, super.stateInit});
+  HighloadWalletV3({
+    required super.address,
+    super.stateInit,
+    required super.chainId,
+  });
 
   factory HighloadWalletV3.create({
-    required TonChainId chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId chainId = TonChainId.mainnet,
     required List<int> publicKey,
     int? subWalletId,
     int timeout = HighloadWalletConst.defaultTimeout,
   }) {
-    subWalletId ??=
-        HighloadWalletConst.defaultHighLoadSubWallet + chain.workchain;
+    subWalletId ??= HighloadWalletConst.defaultHighLoadSubWallet + workchain.id;
     final stateInit = HighloadWalletV3State(
       publicKey: publicKey,
       timeout: timeout,
@@ -30,13 +34,22 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     );
     final state = stateInit.initialState();
     return HighloadWalletV3(
-      address: TonAddress.fromState(state: state, workChain: chain.workchain),
+      address: TonAddress.fromState(
+        state: state,
+        config: TonAddressConfing.friendly(
+          workchain,
+          testOnly: chainId.isTestnet,
+        ),
+      ),
       stateInit: stateInit,
+      chainId: chainId,
     );
   }
   static Future<HighloadWalletV3> fromAddress({
     required TonAddress address,
     required TonProvider rpc,
+    TonChainId? chainId,
+    TonWorkChain? workchain,
   }) async {
     final st2 = await ContractProvider.getActiveState(
       rpc: rpc,
@@ -45,7 +58,10 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     final state = HighloadWalletV3State.deserialize(st2.data!.beginParse());
     final walletAddress = TonAddress.fromState(
       state: state.initialState(),
-      workChain: address.workChain,
+      config: TonAddressConfing.friendly(
+        address.workchain,
+        testOnly: address.config.testOnly,
+      ),
     );
     if (walletAddress != address) {
       throw TonContractException(
@@ -53,11 +69,17 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
         details: {
           'expected': walletAddress.toRawAddress(),
           'address': address.toRawAddress(),
-          'workChain': address.workChain,
+          'workChain': address.workchain.toString(),
         },
       );
     }
-    return HighloadWalletV3(address: address, stateInit: state);
+    return HighloadWalletV3(
+      address: address,
+      stateInit: state,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 
   Cell createInternalTransferBody({

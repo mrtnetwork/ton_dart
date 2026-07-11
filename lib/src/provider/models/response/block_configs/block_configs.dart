@@ -26,14 +26,17 @@ class _ConfigParserUtils {
         if (header != _ConfigConst.header18) {
           throw TonDartPluginException(
             'Invalid header for config 18.',
-            details: {'expected': _ConfigConst.header18, 'header': header},
+            details: {
+              'expected': _ConfigConst.header18.toString(),
+              'header': header.toString(),
+            },
           );
         }
 
         return BlockchainConfig18StoragePricesItem.fromCell(slice);
       },
     );
-    final dic = slice.loadDictDirect(DictionaryKey.bufferCodec(4), valueCodec);
+    final dic = slice.loadDictDirect(DictionaryKey.uintCodec(32), valueCodec);
     return dic.asMap.values.toList();
   }
 }

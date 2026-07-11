@@ -8,6 +8,10 @@ class TonCenterMethods {
   static const TonCenterMethods getAddressInformation = TonCenterMethods._(
     'getAddressInformation',
   );
+
+  static const TonCenterMethods getShardAccountCell = TonCenterMethods._(
+    'getShardAccountCell',
+  );
   static const TonCenterMethods getExtendedAddressInformation =
       TonCenterMethods._('getExtendedAddressInformation');
   static const TonCenterMethods getWalletInformation = TonCenterMethods._(

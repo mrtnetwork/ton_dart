@@ -1,8 +1,8 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
-import 'package:ton_dart/src/address/address/address.dart';
-import 'package:ton_dart/src/boc/bit/bit_string.dart';
+
 import 'package:ton_dart/src/dict/utils/utils.dart';
+import 'package:ton_dart/ton_dart.dart';
 
 void main() {
   group('dict keys', () => _test());
@@ -41,10 +41,22 @@ void _test() {
   });
   test('should serialize addresses', () {
     final cs = [
-      TonAddress.fromBytes(0, QuickCrypto.generateRandom()),
-      TonAddress.fromBytes(-1, QuickCrypto.generateRandom()),
-      TonAddress.fromBytes(0, QuickCrypto.generateRandom()),
-      TonAddress.fromBytes(0, QuickCrypto.generateRandom()),
+      TonAddress.fromBytes(
+        hash: QuickCrypto.generateRandom(),
+        config: TonAddressConfing.friendly(TonWorkChain.basechain),
+      ),
+      TonAddress.fromBytes(
+        hash: QuickCrypto.generateRandom(),
+        config: TonAddressConfing.friendly(TonWorkChain.masterchain),
+      ),
+      TonAddress.fromBytes(
+        hash: QuickCrypto.generateRandom(),
+        config: TonAddressConfing.friendly(TonWorkChain.basechain),
+      ),
+      TonAddress.fromBytes(
+        hash: QuickCrypto.generateRandom(),
+        config: TonAddressConfing.friendly(TonWorkChain.basechain),
+      ),
     ];
     for (final c in cs) {
       expect(

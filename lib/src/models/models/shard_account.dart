@@ -2,7 +2,6 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/models/models/account.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L256
 /// account_descr$_ account:^Account last_trans_hash:bits256
@@ -38,8 +37,9 @@ class ShardAccount extends TonSerialization {
   }
   factory ShardAccount.fromJson(Map<String, dynamic> json) {
     return ShardAccount(
-      account: (json['account'] as Object?)?.convertTo<TonAccount, Map>(
-        (result) => TonAccount.fromJson(result.cast()),
+      account: json.valueTo<TonAccount?, Map<String, dynamic>>(
+        key: "account",
+        parse: (v) => TonAccount.fromJson(v),
       ),
       lastTransactionHash: BigintUtils.parse(json['last_transaction_hash']),
       lastTransactionLt: BigintUtils.parse(json['last_transaction_lt']),

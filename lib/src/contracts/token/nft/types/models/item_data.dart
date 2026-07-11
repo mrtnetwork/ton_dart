@@ -44,8 +44,8 @@ class NFTItemData with JsonSerialization {
     return {
       'init': init,
       'index': index.toString(),
-      'collection_address': collectionAddress?.toFriendlyAddress(),
-      'owner_address': ownerAddress?.toFriendlyAddress(),
+      'collection_address': collectionAddress?.address,
+      'owner_address': ownerAddress?.address,
       'content': content?.toBase64(),
     };
   }

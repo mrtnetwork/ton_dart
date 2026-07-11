@@ -105,7 +105,7 @@ class TokneMetadataUtils {
     return builder.endCell();
   }
 
-  static final DictionaryValue _onChainMetadataValueCodec = DictionaryValue(
+  static DictionaryValue get onChainMetadataValueCodec => DictionaryValue(
     serialize: (source, builder) {
       final Builder ref = beginCell();
       if (source is String) {
@@ -155,7 +155,7 @@ class TokneMetadataUtils {
   ) {
     final dict = Dictionary.fromEnteries<List<int>, dynamic>(
       key: DictionaryKey.bufferCodec(32),
-      value: _onChainMetadataValueCodec,
+      value: onChainMetadataValueCodec,
       map: content.map(
         (key, value) => MapEntry(BytesUtils.fromHexString(key), value),
       ),

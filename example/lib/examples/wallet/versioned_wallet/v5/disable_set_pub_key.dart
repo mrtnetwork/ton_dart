@@ -13,7 +13,7 @@ void main() async {
       messages: [
         TonHelper.internal(
             destination: wallet.address,
-            amount: TonHelper.toNano("0.1"),
+            amount: TonHelper.toNanoGrams("0.1"),
             body: wallet.wallet.createExtensionMessage(
                 actions: [const OutActionSetIsPublicKeyEnabled(false)])),
       ],

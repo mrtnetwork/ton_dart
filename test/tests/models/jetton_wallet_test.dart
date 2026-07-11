@@ -11,7 +11,7 @@ void main() {
       );
       expect(decode.type, JettonWalletOperationType.transfer);
       final transfer = decode.cast<JettonWalletTransfer>();
-      expect(transfer.amount, TonHelper.toNano('234'));
+      expect(transfer.amount, TonHelper.toNanoGrams('234'));
       expect(transfer.forwardTonAmount, BigInt.zero);
       expect(decode.serialize().toHex(), body);
     });

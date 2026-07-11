@@ -6,35 +6,20 @@ import 'package:ton_dart/src/models/models.dart';
 
 /// A utility class for handling TON (The Open Network) specific operations.
 ///
-/// This class provides methods for converting between nanoTONs and decimal strings,
+/// This class provides methods for converting between nanoGrams and decimal strings,
 /// parsing cell data from strings, and converting strings to cells.
 class TonHelper {
-  /// The number of decimal places for nanoTON values.
-  static const int nanoDecimalPlaces = 9;
+  // /// The number of decimal places for naoGrams values.
+  static const int nanoGramsDecimalPlaces = 9;
 
-  /// A constant representing the scaling factor for converting between nanoTONs and decimal strings.
-  static final BigRational _nanoDecimal = BigRational(
-    BigInt.from(10).pow(nanoDecimalPlaces),
-  );
-
-  /// Converts a decimal string representation of a TON value to a BigInt in nanoTONs.
-  ///
-  /// [ton] - The decimal string representing the TON value.
-  ///
-  /// Returns the equivalent value in nanoTONs as a [BigInt].
-  static BigInt toNano(String ton) {
-    final parse = BigRational.parseDecimal(ton);
-    return (parse * _nanoDecimal).toBigInt();
+  /// Returns the equivalent value in nanoGrams as a [BigInt].
+  static BigInt toNanoGrams(String gram) {
+    return AmountConverter.gram.toUnit(gram);
   }
 
-  /// Converts a value in nanoTONs to a decimal string representation.
-  ///
-  /// [nanotons] - The value in nanoTONs as a [BigInt].
-  ///
   /// Returns the equivalent decimal string representation.
-  static String fromNano(BigInt nanotons) {
-    final parse = BigRational(nanotons);
-    return (parse / _nanoDecimal).toDecimal(digits: nanoDecimalPlaces);
+  static String fromNanoGrams(BigInt nanograms) {
+    return AmountConverter.gram.toAmount(nanograms);
   }
 
   /// Attempts to parse a string into a [Cell] object.
@@ -96,7 +81,7 @@ class TonHelper {
         createdLt: BigInt.zero,
         createdAt: 0,
       ),
-      body: body ?? Cell.empty,
+      body: body ?? Cell(),
       init: initState,
     );
   }
@@ -105,6 +90,6 @@ class TonHelper {
     if (memo != null) {
       return beginCell().storeUint(0, 32).storeStringTail(memo).endCell();
     }
-    return Cell.empty;
+    return Cell();
   }
 }

@@ -4,9 +4,9 @@ import 'package:ton_dart/ton_dart.dart';
 /// index: 96, v5
 void main() async {
   final wallet = TestWallet<WalletV5R1>(
-      version: WalletVersion.v5R1, chain: TonChainId.mainnet);
+      version: WalletVersion.v5R1, chainId: TonChainId.mainnet);
   final receiver = TestWallet<WalletV5R1>(
-      version: WalletVersion.v5R1, chain: TonChainId.mainnet, index: 2);
+      version: WalletVersion.v5R1, chainId: TonChainId.mainnet, index: 2);
   final stableJetton = StableJettonMinter.create(
       owner: wallet.wallet,
       state: StableTokenMinterState(
@@ -21,9 +21,9 @@ void main() async {
       signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
       rpc: wallet.rpc,
       operation: StableJettonWalletTransfer(
-          jettonAmount: TonHelper.toNano("100"),
+          jettonAmount: TonHelper.toNanoGrams("100"),
           to: receiver.address,
-          forwardTonAmount: TonHelper.toNano("0.1")),
-      amount: TonHelper.toNano("0.4"),
+          forwardTonAmount: TonHelper.toNanoGrams("0.1")),
+      amount: TonHelper.toNanoGrams("0.4"),
       bounce: false);
 }

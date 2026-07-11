@@ -3,7 +3,6 @@ import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/shard_accounts.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 import 'master_chain_state_extra.dart';
 import 'shard_ident.dart';
@@ -112,19 +111,20 @@ class ShardStateUnsplit extends TonSerialization {
       genLt: BigintUtils.parse(json['gen_lt']),
       minRefMcSeqno: json['min_ref_mc_seqno'],
       beforeSplit: json['before_split'],
-      accounts: ((json['accounts'] as Object?)?.convertTo<ShardAccounts, Map>(
-        (result) => ShardAccounts.fromJson(result.cast()),
-      )),
-      extras: (json['extras'] as Object?)
-          ?.convertTo<MasterchainStateExtra, Map>(
-            (result) => MasterchainStateExtra.fromJson(result.cast()),
-          ),
+      accounts: json.valueTo<ShardAccounts?, Map<String, dynamic>>(
+        key: "accounts",
+        parse: (v) => ShardAccounts.fromJson(v),
+      ),
+      extras: json.valueTo<MasterchainStateExtra?, Map<String, dynamic>>(
+        key: "extras",
+        parse: (v) => MasterchainStateExtra.fromJson(v),
+      ),
     );
   }
 
   @override
   void store(Builder builder) {
-    throw UnimplementedError();
+    throw UnsupportedError("Not implemented");
   }
 
   @override

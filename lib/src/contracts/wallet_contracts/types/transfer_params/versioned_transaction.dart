@@ -1,7 +1,7 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/models/models.dart';
-import 'package:ton_dart/src/utils/utils.dart';
 
 abstract class VersionedWalletTransaction {}
 
@@ -168,7 +168,8 @@ class VersionedWalletTransactionV5Internal
   }) : outActions = outActions.immutable;
   factory VersionedWalletTransactionV5Internal.deserialize({
     required Slice slice,
-    required TonChainId chain,
+    required TonChainId chainId,
+    required TonWorkChain workchain,
   }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.internal.tag) {
@@ -178,7 +179,8 @@ class VersionedWalletTransactionV5Internal
     }
     final context = VersionedWalletUtils.loadV5Context(
       contextBytes: slice.loadBuffer(4),
-      chain: chain,
+      chainId: chainId,
+      workchain: workchain,
     );
     final int timeOut = slice.loadUint32();
     final int accountSeqno = slice.loadUint32();
@@ -209,7 +211,8 @@ class VersionedWalletTransactionV5External
   }) : outActions = outActions.immutable;
   factory VersionedWalletTransactionV5External.deserialize({
     required Slice slice,
-    required TonChainId chain,
+    required TonChainId chainId,
+    required TonWorkChain workchain,
   }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
@@ -219,7 +222,8 @@ class VersionedWalletTransactionV5External
     }
     final context = VersionedWalletUtils.loadV5Context(
       contextBytes: slice.loadBuffer(4),
-      chain: chain,
+      chainId: chainId,
+      workchain: workchain,
     );
     final int timeOut = slice.loadUint32();
     final int accountSeqno = slice.loadUint32();

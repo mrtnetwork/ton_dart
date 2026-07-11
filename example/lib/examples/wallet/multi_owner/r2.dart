@@ -16,18 +16,16 @@ void main() async {
       params: MultiOwnerTransferParams(
           params: VersionedTransferParams(privateKey: wallet.proposerKey),
           expirationDate: BigInt.from(expire),
-          amount: TonHelper.toNano("0.5"),
+          amount: TonHelper.toNanoGrams("0.5"),
           messages: [
             OutActionMultiSigSendMsg(
                 outMessage: TonHelper.internal(
-                    destination:
-                        destination1.address.copyWith(bounceable: false),
-                    amount: TonHelper.toNano("0.01"))),
+                    destination: destination1.address,
+                    amount: TonHelper.toNanoGrams("0.01"))),
             OutActionMultiSigSendMsg(
                 outMessage: TonHelper.internal(
-                    destination:
-                        destination2.address.copyWith(bounceable: false),
-                    amount: TonHelper.toNano("0.01"))),
+                    destination: destination2.address,
+                    amount: TonHelper.toNanoGrams("0.01"))),
           ]),
       rpc: wallet.rpc);
 
@@ -50,7 +48,7 @@ void main() async {
     await orderContract.sendApprove(
         params: VersionedV5TransferParams.external(signer: wallet.signers[i]),
         rpc: wallet.rpc,
-        amount: TonHelper.toNano("0.3"));
+        amount: TonHelper.toNanoGrams("0.3"));
     if (i + 1 == wallet.thereshHold) {
       await Future.delayed(const Duration(seconds: 30));
       final state = await orderContract.getOrderData(wallet.rpc);

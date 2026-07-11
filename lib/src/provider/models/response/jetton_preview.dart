@@ -21,7 +21,10 @@ class JettonPreviewResponse with JsonSerialization {
 
   factory JettonPreviewResponse.fromJson(Map<String, dynamic> json) {
     return JettonPreviewResponse(
-      address: TonAddress(json['address'], bounceable: true),
+      address: TonAddress(
+        json['address'],
+        ovverideBounceableOnRawAddress: true,
+      ),
       name: json['name'],
       symbol: json['symbol'],
       decimals: json['decimals'],

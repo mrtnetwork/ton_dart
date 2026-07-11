@@ -40,7 +40,7 @@ void _collection() {
     expect(operation.type, NFTCollectionOperationType.mint);
     final mint = operation.cast<NFTCollectionMint>();
     expect(mint.mint.itemIndex, BigInt.zero);
-    expect(mint.mint.initAmount, TonHelper.toNano('0.5'));
+    expect(mint.mint.initAmount, TonHelper.toNanoGrams('0.5'));
     expect(
       mint.mint.ownerAddress,
       TonAddress('kf8zwuqZAqwRBAT_6LbrForAQbKursLYwh6Afmt_JlbxfGJm'),
@@ -61,7 +61,7 @@ void _collection() {
     expect(operation.type, NFTCollectionOperationType.mint);
     final mint = operation.cast<NFTCollectionMint>();
     expect(mint.mint.itemIndex, BigInt.one);
-    expect(mint.mint.initAmount, TonHelper.toNano('0.2'));
+    expect(mint.mint.initAmount, TonHelper.toNanoGrams('0.2'));
     expect(
       mint.mint.ownerAddress,
       TonAddress('kf8zwuqZAqwRBAT_6LbrForAQbKursLYwh6Afmt_JlbxfGJm'),
@@ -86,7 +86,7 @@ void _collection() {
       final nft = mint.nfts[i];
       final itemIndex = BigInt.two + BigInt.from(i);
       expect(nft.itemIndex, itemIndex);
-      expect(nft.initAmount, TonHelper.toNano('0.2'));
+      expect(nft.initAmount, TonHelper.toNanoGrams('0.2'));
       expect(
         nft.ownerAddress,
         TonAddress('kf8zwuqZAqwRBAT_6LbrForAQbKursLYwh6Afmt_JlbxfGJm'),

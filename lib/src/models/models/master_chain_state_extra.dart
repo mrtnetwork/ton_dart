@@ -4,7 +4,6 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class _MasterchainStateExtraUtils {
   static Dictionary<int, Cell> dict({Map<int, String>? config}) {
@@ -45,7 +44,7 @@ class MasterchainStateExtra extends TonSerialization {
     required this.configAddress,
     required Map<int, Cell> config,
     required this.globalBalance,
-  }) : config = config.mutabl;
+  }) : config = config.immutable;
   factory MasterchainStateExtra.deserialize(Slice slice) {
     // Check magic
     if (slice.loadUint(16) != _MasterChainStateExtraConst.magic) {
@@ -82,7 +81,7 @@ class MasterchainStateExtra extends TonSerialization {
 
   @override
   void store(Builder builder) {
-    throw UnimplementedError();
+    throw UnsupportedError("Not implemented.");
   }
 
   @override

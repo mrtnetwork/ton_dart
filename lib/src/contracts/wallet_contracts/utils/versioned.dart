@@ -12,7 +12,8 @@ class VersionedWalletUtils {
   static VersionedWalletState readState({
     required Cell? stateData,
     required WalletVersion type,
-    required TonChainId chain,
+    required TonWorkChain workchain,
+    required TonChainId chainId,
   }) {
     if (stateData == null) {
       throw TonContractExceptionConst.stateIsInactive;
@@ -43,7 +44,8 @@ class VersionedWalletUtils {
           seqno = cell.loadUint32();
           final context = loadV5Context(
             contextBytes: cell.loadBuffer(4),
-            chain: chain,
+            workchain: workchain,
+            chainId: chainId,
           );
           pubkeyBytes = cell.loadBuffer(32);
           List<TonAddress> extensionPubkeys = [];
@@ -56,7 +58,12 @@ class VersionedWalletUtils {
             );
             extensionPubkeys =
                 items.keys
-                    .map((e) => TonAddress.fromBytes(chain.workchain, e))
+                    .map(
+                      (e) => TonAddress.fromBytes(
+                        hash: e,
+                        config: TonAddressConfing.friendly(workchain),
+                      ),
+                    )
                     .toList();
           }
 
@@ -68,8 +75,6 @@ class VersionedWalletUtils {
             setPubKeyEnabled: pubKeyEnabled,
             extensionPubKeys: extensionPubkeys,
           );
-        default:
-          throw UnimplementedError();
       }
       if (subWallet == null) {
         return NoneSubWalletVersionedWalletState(
@@ -91,47 +96,59 @@ class VersionedWalletUtils {
 
   static V5R1Context loadV5Context({
     required List<int> contextBytes,
-    required TonChainId chain,
+    required TonChainId chainId,
+    TonWorkChain? workchain,
   }) {
     final contextId = BitReader(BitString(contextBytes, 0, 32)).loadInt(32);
-    final context = BigInt.from(contextId) ^ BigInt.from(chain.id);
+    final context = BigInt.from(contextId) ^ BigInt.from(chainId.id);
     final slice = beginCell().storeInt(context, 32).endCell().beginParse();
     final isClientContext = slice.loadBoolean();
     if (isClientContext) {
-      final workchain = slice.loadInt(8);
+      final wc = slice.loadInt(8);
       final walletVersionRaw = slice.loadUint(8);
       if (walletVersionRaw != 0) {
         throw const TonContractException('Invalid wallet contract v5 version.');
       }
       final subwalletNumber = slice.loadUint(15);
-      if (chain.workchain != workchain) {
+      if (workchain != null && workchain.id != wc) {
         throw TonContractException(
           'Incorrect workchain.',
-          details: {'expected': workchain, 'got': chain.workchain},
+          details: {'expected': workchain.id.toString(), 'got': wc.toString()},
         );
       }
-      return V5R1ClientContext(chain: chain, subwalletNumber: subwalletNumber);
+      return V5R1ClientContext(
+        chainId: chainId,
+        workchain: workchain ?? TonWorkChain(wc),
+        subwalletNumber: subwalletNumber,
+      );
     }
-    return V5R1CustomContext(context: slice.loadUint(31), chain: chain);
+    return V5R1CustomContext(context: slice.loadUint(31), chainId: chainId);
   }
 
   static T buildFromAddress<T extends VersionedWalletState>({
     required Cell? stateData,
     required WalletVersion type,
     required TonAddress address,
-    required TonChainId? chain,
+    required TonWorkChain? workchain,
+    TonChainId? chainId,
   }) {
     final state = readState(
       stateData: stateData,
       type: type,
-      chain: chain ?? TonChainId.fromWorkchain(address.workChain),
+      workchain: workchain ?? address.workchain,
+      chainId:
+          chainId ??
+          switch (address.config.testOnly) {
+            true => TonChainId.testnet,
+            false => TonChainId.mainnet,
+          },
     );
     final StateInit currentState = state.initialState();
     final currentAddress = TonAddress.fromState(
       state: currentState,
-      workChain: address.workChain,
+      config: TonAddressConfing.friendly(address.workchain),
     );
-    if (currentAddress.toRawAddress() != address.toRawAddress()) {
+    if (currentAddress != address) {
       throw TonContractException(
         'Invalid wallet address. state gives a different address',
         details: {

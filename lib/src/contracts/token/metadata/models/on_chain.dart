@@ -2,7 +2,6 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
-import 'package:ton_dart/src/contracts/token/metadata/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 class _JettonOnChainMetadataUtils {
@@ -23,7 +22,6 @@ class _JettonOnChainMetadataUtils {
     } catch (e) {
       throw TokenMetadataException(
         'Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>',
-        details: {'content': content},
       );
     }
     final fixKeys = metadata.map(

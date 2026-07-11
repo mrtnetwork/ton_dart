@@ -11,11 +11,11 @@ void main() async {
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination.address,
-                amount: TonHelper.toNano("0.5"))),
+                amount: TonHelper.toNanoGrams("0.5"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination2.address,
-                amount: TonHelper.toNano("0.4")))
+                amount: TonHelper.toNanoGrams("0.4")))
       ]),
       rpc: wallet.rpc);
   await wallet.wallet.getBalance(wallet.rpc);

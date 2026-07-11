@@ -203,7 +203,7 @@ class Builder {
     if (_refs.length >= 4) {
       throw BocException(
         'Too many references.',
-        details: {'maximum': 4, 'refrence': _refs.length},
+        details: {'maximum': 4.toString(), 'refrence': _refs.length.toString()},
       );
     }
     _refs.add(cell);

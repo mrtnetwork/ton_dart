@@ -21,39 +21,39 @@ void main() async {
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination2.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination3.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination4.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination5.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination6.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination7.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination8.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination9.address,
-                amount: TonHelper.toNano("0.01"))),
+                amount: TonHelper.toNanoGrams("0.01"))),
       ]),
       rpc: wallet.rpc);
   await wallet.wallet.getBalance(wallet.rpc);

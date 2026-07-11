@@ -21,16 +21,21 @@ class WalletV4
           SubWalletVersionedWalletState,
           VersionedTransferParams
         > {
-  WalletV4({super.stateInit, required super.address, super.chain})
-    : super(type: WalletVersion.v4);
+  WalletV4({
+    super.stateInit,
+    required super.address,
+    super.workchain,
+    required super.chainId,
+  }) : super(type: WalletVersion.v4);
 
   factory WalletV4.create({
-    required TonChainId chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId chainId = TonChainId.mainnet,
     required List<int> publicKey,
     int? subWalletId,
     bool bounceableAddress = false,
   }) {
-    subWalletId ??= VersionedWalletConst.defaultSubWalletId + chain.workchain;
+    subWalletId ??= VersionedWalletConst.defaultSubWalletId + workchain.id;
     final state = SubWalletVersionedWalletState(
       publicKey: publicKey,
       version: WalletVersion.v4,
@@ -39,18 +44,23 @@ class WalletV4
     return WalletV4(
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: chain.workchain,
-        bounceable: bounceableAddress,
+        config: TonAddressConfing.friendly(
+          workchain,
+          bounceable: bounceableAddress,
+          testOnly: chainId.isTestnet,
+        ),
       ),
       stateInit: state,
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
   }
 
   static Future<WalletV4> fromAddress({
     required TonAddress address,
     required TonProvider rpc,
-    TonChainId? chain,
+    TonWorkChain? workchain,
+    TonChainId? chainId,
   }) async {
     final data = await ContractProvider.getActiveState(
       rpc: rpc,
@@ -61,12 +71,24 @@ class WalletV4
           address: address,
           stateData: data.data,
           type: WalletVersion.v4,
-          chain: chain,
+          workchain: workchain,
         );
-    return WalletV4(address: address, stateInit: state, chain: chain);
+    return WalletV4(
+      address: address,
+      stateInit: state,
+      workchain: workchain,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 
-  factory WalletV4.watch(TonAddress address) {
-    return WalletV4(address: address);
+  factory WalletV4.watch(TonAddress address, {TonChainId? chainId}) {
+    return WalletV4(
+      address: address,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 }

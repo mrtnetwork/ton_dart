@@ -117,8 +117,9 @@ class TonTransaction extends TonSerialization {
       outMessagesCount: json['out_meessages_count'],
       oldStatus: AccountStatus.fromJson(json['old_status']),
       endStatus: AccountStatus.fromJson(json['end_status']),
-      inMessage: (json['in_message'] as Object?)?.convertTo<Message, Map>(
-        (result) => Message.fromJson(result.cast()),
+      inMessage: json.valueTo<Message?, Map<String, dynamic>>(
+        key: "in_message",
+        parse: (v) => Message.fromJson(v),
       ),
       outMessages: (json['out_messages'] as Map).map<int, Message>(
         (key, value) => MapEntry(key, Message.fromJson((value as Map).cast())),

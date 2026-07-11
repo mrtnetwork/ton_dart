@@ -19,16 +19,21 @@ class WalletV3R1
           SubWalletVersionedWalletState,
           VersionedTransferParams
         > {
-  WalletV3R1({super.stateInit, required super.address, super.chain})
-    : super(type: WalletVersion.v3R1);
+  WalletV3R1({
+    super.stateInit,
+    required super.address,
+    super.workchain,
+    required super.chainId,
+  }) : super(type: WalletVersion.v3R1);
 
   factory WalletV3R1.create({
-    required TonChainId chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId chainId = TonChainId.mainnet,
     required List<int> publicKey,
     int? subWalletId,
     bool bounceableAddress = false,
   }) {
-    subWalletId ??= VersionedWalletConst.defaultSubWalletId + chain.workchain;
+    subWalletId ??= VersionedWalletConst.defaultSubWalletId + workchain.id;
     final state = SubWalletVersionedWalletState(
       publicKey: publicKey,
       version: WalletVersion.v3R1,
@@ -38,16 +43,21 @@ class WalletV3R1
       stateInit: state,
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: chain.workchain,
-        bounceable: bounceableAddress,
+        config: TonAddressConfing.friendly(
+          workchain,
+          bounceable: bounceableAddress,
+          testOnly: chainId.isTestnet,
+        ),
       ),
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
   }
   static Future<WalletV3R1> fromAddress({
     required TonAddress address,
     required TonProvider rpc,
-    TonChainId? chain,
+    TonWorkChain? workchain,
+    TonChainId? chainId,
   }) async {
     final data = await ContractProvider.getActiveState(
       rpc: rpc,
@@ -58,12 +68,24 @@ class WalletV3R1
           address: address,
           stateData: data.data,
           type: WalletVersion.v3R1,
-          chain: chain,
+          workchain: workchain,
+          chainId: chainId,
         );
-    return WalletV3R1(address: address, stateInit: state);
+    return WalletV3R1(
+      address: address,
+      stateInit: state,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 
-  factory WalletV3R1.watch(TonAddress address) {
-    return WalletV3R1(address: address);
+  factory WalletV3R1.watch(TonAddress address, {TonChainId? chainId}) {
+    return WalletV3R1(
+      address: address,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 }

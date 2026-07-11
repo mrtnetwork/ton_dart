@@ -13,6 +13,6 @@ void main() async {
           ownerAddress: wallet.address));
   await nftItem.deploy(
       params: VersionedV5TransferParams.external(signer: wallet.signer),
-      amount: TonHelper.toNano("0.3"),
+      amount: TonHelper.toNanoGrams("0.3"),
       rpc: wallet.rpc);
 }

@@ -72,7 +72,7 @@ class SendMode {
           () =>
               throw TonDartPluginException(
                 'Cannot find SendMode from provided mode',
-                details: {'mode': mode},
+                details: {'mode': mode?.toString()},
               ),
     );
   }

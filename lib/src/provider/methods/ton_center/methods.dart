@@ -8,6 +8,7 @@ export 'account/get_token_data.dart';
 export 'account/get_wallet_information.dart';
 export 'account/pack_address.dart';
 export 'account/unpack_address.dart';
+export 'account/get_shard_account_cell.dart';
 
 /// block
 export 'block/get_block_header.dart';

@@ -42,7 +42,7 @@ class StableTokenWalletStatus {
               throw TonContractException(
                 'Invalid stable token wallet status.',
                 details: {
-                  'tag': tag,
+                  'tag': tag.toString(),
                   'availableTags': values.map((e) => e.id).join(', '),
                 },
               ),
@@ -128,16 +128,22 @@ class StableJettonWalletState extends ContractState {
   }
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     final Cell code =
-        walletCode ?? JettonWalletConst.stableCode(ownerAddress.workChain);
+        walletCode ??
+        JettonWalletConst.stableCode(
+          workchain: workchain ?? ownerAddress.workchain,
+        );
     return StateInit(data: initialData(), code: code);
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     final Cell code =
-        walletCode ?? JettonWalletConst.stableCode(ownerAddress.workChain);
+        walletCode ??
+        JettonWalletConst.stableCode(
+          workchain: workchain ?? ownerAddress.workchain,
+        );
     return beginCell()
         .storeUint4(0)
         .storeCoins(BigInt.zero)

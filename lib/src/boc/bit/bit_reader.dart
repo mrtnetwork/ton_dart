@@ -1,5 +1,6 @@
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/exception/exception.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
 import 'bit_string.dart';
 
 /// A reader for handling bit-level operations on a `BitString`.
@@ -23,7 +24,11 @@ class BitReader {
     if (bits < 0 || _offset + bits > _bits.length) {
       throw BocException(
         'Index out of bounds',
-        details: {'length': bits, 'offset': _offset, 'index': _offset + bits},
+        details: {
+          'length': bits.toString(),
+          'offset': _offset.toString(),
+          'index': (_offset + bits).toString(),
+        },
       );
     }
     _offset += bits;
@@ -228,7 +233,10 @@ class BitReader {
   /// Loads bits, taking into account padding (ensures byte-aligned).
   BitString loadPaddedBits(int bits) {
     if (bits % 8 != 0) {
-      throw BocException('Invalid number of bits', details: {'bits': bits});
+      throw BocException(
+        'Invalid number of bits',
+        details: {'bits': bits.toString()},
+      );
     }
 
     int length = bits;
@@ -309,7 +317,10 @@ class BitReader {
 
     _offset += 267;
 
-    return TonAddress.fromBytes(wc, hash);
+    return TonAddress.fromBytes(
+      hash: hash,
+      config: TonAddressConfing.friendly(TonWorkChain(wc)),
+    );
   }
 
   ExternalAddress _loadExternalAddress() {

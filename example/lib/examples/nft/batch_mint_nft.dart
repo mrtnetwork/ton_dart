@@ -31,15 +31,15 @@ void main() async {
   await nftCollection.sendOperation(
     params: VersionedV5TransferParams.external(signer: wallet.signer),
     rpc: wallet.rpc,
-    amount: TonHelper.toNano("1"),
+    amount: TonHelper.toNanoGrams("1"),
     operation: NFTCollectionBatchMint(
         nfts: List.generate(3, (index) {
       final itemIndex = BigInt.two + BigInt.from(index);
       return NFTMintParams(
-          ownerAddress: wallet.address.copyWith(bounceable: false),
+          ownerAddress: wallet.address,
           content: NFTItemMetadata("/?filename=nft$itemIndex.json")
               .toContent(collectionless: false),
-          initAmount: TonHelper.toNano("0.2"),
+          initAmount: TonHelper.toNanoGrams("0.2"),
           itemIndex: itemIndex);
     })),
   );

@@ -51,7 +51,10 @@ class GasLimitPricesResponse with JsonSerialization {
     if (tag != _GasLimitPricesResponseConst.tag) {
       throw TonDartPluginException(
         'Invalid gas limit price tag.',
-        details: {'expected': _GasLimitPricesResponseConst.tag, 'tag': tag},
+        details: {
+          'expected': _GasLimitPricesResponseConst.tag.toString(),
+          'tag': tag.toString(),
+        },
       );
     }
     final BigInt flatGasLimit = slice.loadUint64();
@@ -61,8 +64,8 @@ class GasLimitPricesResponse with JsonSerialization {
       throw TonDartPluginException(
         'Invalid gas limit price interal tag.',
         details: {
-          'expected': _GasLimitPricesResponseConst.internalTags,
-          'tag': tag,
+          'expected': _GasLimitPricesResponseConst.internalTags.join(","),
+          'tag': tag.toString(),
         },
       );
     }

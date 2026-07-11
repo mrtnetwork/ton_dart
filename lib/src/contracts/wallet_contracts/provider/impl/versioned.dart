@@ -42,7 +42,8 @@ mixin VerionedProviderImpl<
     final stateData = VersionedWalletUtils.readState(
       stateData: state.data,
       type: type,
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
 
     if (stateData is! C) {
@@ -60,7 +61,8 @@ mixin VerionedProviderImpl<
     final stateData = VersionedWalletUtils.readState(
       stateData: state.data,
       type: type,
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
     if (stateData is! C) {
       throw TonContractException(

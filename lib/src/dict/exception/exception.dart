@@ -1,5 +1,22 @@
-import 'package:ton_dart/src/exception/exception.dart';
+import 'package:blockchain_utils/cbor/cbor.dart';
+import 'package:ton_dart/src/serialization/identifiers.dart';
+import 'package:ton_dart/src/exception/ton.dart';
 
-class DictException extends TonDartPluginException {
-  DictException(super.message, {super.details});
+class DictException extends BaseTonDartPluginException {
+  const DictException(super.message, {super.details});
+  factory DictException.deserialize({List<int>? bytes, CborObject? obj}) {
+    final values = CborTagSerializable.decodeTaggedValue(
+      identifier: TonSerializationIdentifiers.tonDictError,
+      cborBytes: bytes,
+      cborObject: obj,
+    );
+    return DictException(
+      values.rawValueAt(0),
+      details: values.maybeRawMapAt<String, String?>(1),
+    );
+  }
+
+  @override
+  TonSerializationIdentifiers get serializationIdentifier =>
+      TonSerializationIdentifiers.tonDictError;
 }

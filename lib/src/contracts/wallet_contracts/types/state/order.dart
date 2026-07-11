@@ -56,7 +56,7 @@ class OrderContractState extends ContractState {
   }) : signers = List<TonAddress>.unmodifiable(signers);
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(
       code: Cell.fromHex(MultiOwnerContractConst.orderHashCode),
       data: initialData(),
@@ -64,7 +64,7 @@ class OrderContractState extends ContractState {
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     return beginCell()
         .storeAddress(multisig)
         .storeUint256(orderSeqno)
@@ -73,11 +73,11 @@ class OrderContractState extends ContractState {
 
   Map<String, dynamic> toJson() {
     return {
-      'multisig': multisig.toFriendlyAddress(),
+      'multisig': multisig.address,
       'orderSeqno': orderSeqno.toString(),
       'threshold': threshold,
       'executed': executed,
-      'signers': signers.map((e) => e.toFriendlyAddress()).toList(),
+      'signers': signers.map((e) => e.address).toList(),
       'approvals': approvals,
       'approvalsNum': approvalsNum,
       'expirationDate': expirationDate,

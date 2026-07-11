@@ -19,19 +19,23 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   MultiOwnerContract({
     required super.address,
     required this.owner,
+    required super.chainId,
     MultiOwnerWalletState? stateInit,
-  }) : super(
-         state: stateInit,
-         chain: TonChainId.fromWorkchain(address.workChain),
-       );
+  }) : super(state: stateInit, workchain: address.workchain);
   MultiOwnerContract<T> changeOwnerWallet<
     T extends WalletContractTransferParams
   >(WalletContract<ContractState, T> owner) {
-    return MultiOwnerContract(address: address, owner: owner, stateInit: state);
+    return MultiOwnerContract(
+      address: address,
+      owner: owner,
+      stateInit: state,
+      chainId: chainId,
+    );
   }
 
   factory MultiOwnerContract.create({
-    required TonChainId chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId chainId = TonChainId.mainnet,
     required WalletContract<ContractState, E> owner,
     required int threshold,
     required List<TonAddress> signers,
@@ -44,19 +48,24 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       proposers: proposers,
       signers: signers,
     );
-    final state = stateInit.initialState(chain: chain);
+    final state = stateInit.initialState(workchain: workchain);
     return MultiOwnerContract(
+      chainId: chainId,
       address: TonAddress.fromState(
         state: state,
-        workChain: chain.workchain,
-        bounceable: false,
+        config: TonAddressConfing.friendly(
+          workchain,
+          bounceable: false,
+          testOnly: chainId.isTestnet,
+        ),
       ),
       stateInit: stateInit,
       owner: owner,
     );
   }
   static Future<MultiOwnerContract> fromAddress({
-    required TonChainId chain,
+    TonChainId? chainId,
+    TonWorkChain? workchain,
     required WalletContract<ContractState, MultiOwnerTransferParams> owner,
     required TonAddress address,
     required TonProvider provider,
@@ -68,7 +77,14 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     final state = MultiOwnerWalletState.deserialize(
       stateData.data!.beginParse(),
     );
-    return MultiOwnerContract(address: address, stateInit: state, owner: owner);
+    return MultiOwnerContract(
+      address: address,
+      stateInit: state,
+      owner: owner,
+      chainId:
+          chainId ??
+          (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet),
+    );
   }
 
   Cell initMessageBody() {
@@ -133,7 +149,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       body: initMessageBody(),
       bounce: bounce,
       bounced: bounced,
-      state: state!.initialState(chain: owner.chain),
+      state: state!.initialState(workchain: owner.workchain),
       timeout: timeout,
       onEstimateFee: onEstimateFee,
     );
@@ -255,10 +271,13 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     BigInt? orderId,
     BigInt? queryId,
   }) {
+    final BigInt defaultOrderId = BigInt.parse(
+      '115792089237316195423570985008687907853269984665640564039457584007913129639935',
+    );
     final msgBody = beginCell()
         .storeUint32(MultiOwnerContractConst.newOrderOperation)
         .storeUint64(queryId ?? BigInt.zero)
-        .storeUint256(orderId ?? MultiOwnerContractConst.defaultOrderId)
+        .storeUint256(orderId ?? defaultOrderId)
         .storeBitBolean(isSigner)
         .storeUint8(addrIdx)
         .storeUint(expirationDate, 48);
@@ -299,7 +318,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       actionCell = packLarge(
         actions: messages,
         address: address,
-        amount: TonHelper.toNano('0.01'),
+        amount: TonHelper.toNanoGrams('0.01'),
       );
     } else {
       actionCell = packOrder(messages);
@@ -318,7 +337,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       rpc: rpc,
       amount: amount,
       body: body,
-      state: active ? null : state!.initialState(chain: owner.chain),
+      state: active ? null : state!.initialState(workchain: owner.workchain),
       action: action,
     );
   }

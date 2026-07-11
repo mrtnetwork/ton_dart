@@ -1,5 +1,6 @@
 import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
+import 'package:ton_dart/src/contracts/core/core/chain.dart';
 
 class JettonMinterConst {
   static const String _code =
@@ -33,26 +34,17 @@ class JettonMinterConst {
   /// deploy operation id
   static const int deployOperation = 0xd372158c;
 
-  /// mint operation id
-  static const int stableMintOperation = 0x642b7d07;
-
-  /// internal transfer operation iod
-  static const int stableInternalTranfer = 0x178d4519;
-
-  /// provider wallet address operation id
-  static const int stableProvideWalletAddress = 0x2c76b973;
-
   /// the code of contract
-  static Cell code(int workchain) {
-    if (workchain < 0) {
+  static Cell code({TonWorkChain? workchain}) {
+    if (workchain?.isMasterchain ?? false) {
       return Cell.fromBytes(BytesUtils.fromHexString(_testnetWorkChain));
     }
     return Cell.fromBytes(BytesUtils.fromHexString(_code));
   }
 
   /// the code of stable token contract.
-  static Cell stableCode(int workchain) {
-    if (workchain < 0) {
+  static Cell stableCode({TonWorkChain? workchain}) {
+    if (workchain?.isMasterchain ?? false) {
       return Cell.fromBytes(BytesUtils.fromHexString(_stableMinterTestnet));
     }
     return Cell.fromBytes(BytesUtils.fromHexString(_stableMinter));

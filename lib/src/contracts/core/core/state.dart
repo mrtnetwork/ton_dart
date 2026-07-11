@@ -1,4 +1,5 @@
 import 'package:ton_dart/src/boc/cell/cell.dart';
+import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 
 /// An abstract base class representing the state of a contract.
@@ -13,12 +14,12 @@ abstract class ContractState {
   /// This method provides the initial state configuration required when deploying
   /// a contract. The `StateInit` object represents the initialization parameters or
   /// settings needed for the contract.
-  StateInit initialState();
+  StateInit initialState({TonWorkChain? workchain});
 
   /// Returns the initial data associated with the contract.
   ///
   /// This method provides the initial data that the contract will operate on
   /// when it is deployed. The `Cell` object represents a cell of data in the
   /// TON blockchain format.
-  Cell initialData();
+  Cell initialData({TonWorkChain? workchain});
 }

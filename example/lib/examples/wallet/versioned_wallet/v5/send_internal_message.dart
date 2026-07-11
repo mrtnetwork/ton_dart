@@ -9,7 +9,7 @@ void main() async {
       messages: [
         TonHelper.internal(
             destination: wallet.address,
-            amount: TonHelper.toNano("0.1"),
+            amount: TonHelper.toNanoGrams("0.1"),
             body: await wallet.wallet.createAndSignInternalMessage(
                 signer: wallet.signer,
                 rpc: wallet.rpc,
@@ -19,7 +19,7 @@ void main() async {
                       outMessage: TonHelper.internal(
                           destination: TonAddress(
                               "Uf_BIyysClKPLd5MHuyWqIEVNQxQZTJQmHp4bybS_YuOIJBT"),
-                          amount: TonHelper.toNano("0.12123")))
+                          amount: TonHelper.toNanoGrams("0.12123")))
                 ]))
       ],
       rpc: wallet.rpc);

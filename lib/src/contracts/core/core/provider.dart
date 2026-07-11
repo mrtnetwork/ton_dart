@@ -1,4 +1,5 @@
 import 'package:blockchain_utils/exception/exceptions.dart';
+import 'package:blockchain_utils/networks/types/network.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/contracts/exception/exception.dart';
@@ -48,13 +49,14 @@ mixin ContractProvider {
     }
     if (throwOnFail && response.exitCode != 0) {
       throw RPCError(
+        relatedNetwork: BlockchainNetwork.ton,
         message: 'Run method failed with exit code ${response.exitCode}',
         errorCode: response.exitCode,
         request: {
           'method': method,
           'address': address?.toString() ?? this.address.toString(),
         },
-        details: {'error': response.items.map((e) => e.toJson()).toList()},
+        jsonRpcErrpr: {'error': response.items.map((e) => e.toJson()).toList()},
       );
     }
     return response;
@@ -87,7 +89,7 @@ mixin ContractProvider {
         state: state.status,
       );
     } on RPCError catch (e) {
-      if (e.message == ApiProviderConst.tonApiNotiFoundError) {
+      if (e.message == ApiProviderConst.tonApiEntityNotFound) {
         return AccountStateResponse(
           balance: BigInt.zero,
           code: null,
@@ -134,7 +136,7 @@ mixin ContractProvider {
         TonApiSendBlockchainMessage(batch: [], boc: boc.toBase64()),
       );
     }
-    return StringUtils.decode(boc.hash(), type: StringEncoding.base64);
+    return StringUtils.decode(boc.hash(), encoding: StringEncoding.base64);
   }
 
   /// check if contract is initialized.

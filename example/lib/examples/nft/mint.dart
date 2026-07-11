@@ -31,13 +31,13 @@ void main() async {
   await nftCollection.sendOperation(
     params: VersionedV5TransferParams.external(signer: wallet.signer),
     rpc: wallet.rpc,
-    amount: TonHelper.toNano("0.4"),
+    amount: TonHelper.toNanoGrams("0.4"),
     operation: NFTCollectionMint(
         mint: NFTMintParams(
-            ownerAddress: wallet.address.copyWith(bounceable: false),
+            ownerAddress: wallet.address,
             content: const NFTItemMetadata("/?filename=nft2.json")
                 .toContent(collectionless: false),
-            initAmount: TonHelper.toNano("0.2"),
+            initAmount: TonHelper.toNanoGrams("0.2"),
             itemIndex: BigInt.one)),
   );
   await Future.delayed(const Duration(seconds: 30));

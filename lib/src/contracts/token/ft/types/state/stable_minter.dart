@@ -84,17 +84,22 @@ class StableTokenMinterState extends ContractState {
       StableJettonOffChainMetadata.deserialize(content.beginParse());
 
   @override
-  StateInit initialState({int? workchain}) {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(
       data: initialData(),
-      code: JettonMinterConst.stableCode(adminAddress.workChain),
+      code: JettonMinterConst.stableCode(
+        workchain: workchain ?? adminAddress.workchain,
+      ),
     );
   }
 
   @override
-  Cell initialData({int? workchain}) {
+  Cell initialData({TonWorkChain? workchain}) {
     final Cell code =
-        walletCode ?? JettonWalletConst.stableCode(adminAddress.workChain);
+        walletCode ??
+        JettonWalletConst.stableCode(
+          workchain: workchain ?? adminAddress.workchain,
+        );
     return beginCell()
         .storeCoins(totalSupply)
         .storeAddress(adminAddress)

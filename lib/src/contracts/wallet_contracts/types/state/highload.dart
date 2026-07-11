@@ -1,4 +1,5 @@
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:ton_dart/src/contracts/core/core/chain.dart';
 import 'package:ton_dart/src/contracts/core/core/state.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/constant/constant.dart';
 import 'package:ton_dart/src/crypto/keypair/public_key.dart';
@@ -25,12 +26,12 @@ class HighloadWalletV3State implements ContractState {
   }
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(code: HighloadWalletConst.code(), data: initialData());
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     return beginCell()
         .storeBuffer(publicKey.toBytes())
         .storeUint(subWalletId, 32)

@@ -1,3 +1,4 @@
+import 'package:blockchain_utils/helper/helper.dart';
 import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
@@ -55,7 +56,7 @@ class TupleReader {
     if (popped is! TupleItemInt) {
       throw TupleException(
         'Invalid integer tuple item.',
-        details: {'value': popped},
+        details: {'value': popped.runtimeType.toString()},
       );
     }
     return popped.value;
@@ -64,8 +65,7 @@ class TupleReader {
   /// Reads a BigInt from the next tuple item and returns it as a hexadecimal string.
   String readBigNumberAsHex() {
     final BigInt value = readBigNumber();
-    final List<int> toBytes = BigintUtils.toBytes(
-      value,
+    final List<int> toBytes = value.toBeBytes(
       length: BigintUtils.bitlengthInBytes(value),
     );
     return BytesUtils.toHexString(toBytes);
@@ -81,7 +81,7 @@ class TupleReader {
     if (popped is! TupleItemInt) {
       throw TupleException(
         'Invalid integer tuple item.',
-        details: {'value': popped},
+        details: {'value': popped.runtimeType.toString()},
       );
     }
     return popped.value;
@@ -135,7 +135,10 @@ class TupleReader {
   Cell readCell() {
     final TupleItem popped = pop();
     if (popped is TupleItemCell) return popped.cell;
-    throw TupleException('Invalid tuple cell.', details: {'value': popped});
+    throw TupleException(
+      'Invalid tuple cell.',
+      details: {'value': popped.runtimeType.toString()},
+    );
   }
 
   /// Reads an optional cell from the next tuple item.
@@ -146,7 +149,10 @@ class TupleReader {
       return null;
     }
     if (popped is TupleItemCell) return popped.cell;
-    throw TupleException('Invalid tuple cell.', details: {'value': popped});
+    throw TupleException(
+      'Invalid tuple cell.',
+      details: {'value': popped.runtimeType.toString()},
+    );
   }
 
   /// Reads a tuple from the next tuple item and returns a new TupleReader for the tuple.
@@ -154,7 +160,10 @@ class TupleReader {
   TupleReader readTuple() {
     final TupleItem popped = pop();
     if (popped is! TupleItemTuple) {
-      throw TupleException('Invalid tuple type.', details: {'value': popped});
+      throw TupleException(
+        'Invalid tuple type.',
+        details: {'value': popped.runtimeType.toString()},
+      );
     }
     return TupleReader(popped.items);
   }
@@ -167,7 +176,10 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemTuple) {
-      throw TupleException('Invalid tuple type.', details: {'value': popped});
+      throw TupleException(
+        'Invalid tuple type.',
+        details: {'value': popped.runtimeType.toString()},
+      );
     }
     return TupleReader(popped.items);
   }

@@ -13,7 +13,7 @@ void main() async {
   await jetton.sendOperation(
       signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
       rpc: wallet.rpc,
-      amount: TonHelper.toNano("0.1"),
+      amount: TonHelper.toNanoGrams("0.1"),
       operation: JettonMinterChangeAdmin(newOwner: newOwner.address),
       bounce: false);
   await Future.delayed(const Duration(seconds: 20));

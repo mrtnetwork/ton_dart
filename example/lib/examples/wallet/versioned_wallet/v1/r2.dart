@@ -10,7 +10,7 @@ void main() async {
         OutActionSendMsg(
             outMessage: TonHelper.internal(
                 destination: destination.address,
-                amount: TonHelper.toNano("4.3")))
+                amount: TonHelper.toNanoGrams("4.3")))
       ]),
       rpc: wallet.rpc);
   final publicKey = await wallet.wallet.getPublicKey(wallet.rpc);

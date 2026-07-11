@@ -1,10 +1,8 @@
+import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 
 class TupleSerialization {
-  static final _int64Min = BigInt.parse('-9223372036854775808');
-  static final _int64Max = BigInt.parse('9223372036854775807');
-
   /// Serializes a [TupleItem] into a [Builder].
   static void serializeItem(TupleItem src, Builder builder) {
     switch (src.type) {
@@ -16,7 +14,8 @@ class TupleSerialization {
         break;
       case TupleItemTypes.intItem:
         final num = src as TupleItemInt;
-        if (num.value <= _int64Max && num.value >= _int64Min) {
+        if (num.value <= BinaryOps.maxInt64 &&
+            num.value >= BinaryOps.minInt64) {
           builder.storeUint(0x01, 8);
           builder.storeInt(num.value, 64);
         } else {

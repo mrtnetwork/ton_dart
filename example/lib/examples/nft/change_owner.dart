@@ -14,7 +14,7 @@ void main() async {
   await nftCollection.sendOperation(
     params: VersionedV5TransferParams.external(signer: wallet.signer),
     rpc: wallet.rpc,
-    amount: TonHelper.toNano("0.1"),
+    amount: TonHelper.toNanoGrams("0.1"),
     operation:
         NFTCollectionChangeOwner(newOwnerAddress: royalityParamsWallet.address),
   );

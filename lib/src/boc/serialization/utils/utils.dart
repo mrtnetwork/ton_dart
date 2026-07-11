@@ -150,7 +150,7 @@ class CellUtils {
     if (bits.length != size) {
       throw BocException(
         'Invalid Library cell bits length',
-        details: {'expected': '8 + 256', 'length': bits.length},
+        details: {'expected': '8 + 256', 'length': bits.length.toString()},
       );
     }
 
@@ -158,10 +158,7 @@ class CellUtils {
     if (type != 2) {
       throw BocException(
         'Invalid Library cell type.',
-        details: {
-          'expected': CellType.library,
-          'type': CellType.fromValue(type) ?? '$type',
-        },
+        details: {'expected': CellType.library.name},
       );
     }
   }
@@ -175,14 +172,17 @@ class CellUtils {
     if (bits.length != size) {
       throw BocException(
         'Invalid Merkle Proof cell bits length.',
-        details: {'expected': size, 'length': bits.length},
+        details: {
+          'expected': size.toString(),
+          'length': bits.length.toString(),
+        },
       );
     }
 
     if (refs.length != 1) {
       throw BocException(
         'Invalid Merkle Proof cell reference length.',
-        details: {'expected': 1, 'length': refs.length},
+        details: {'expected': "1", 'length': refs.length.toString()},
       );
     }
 
@@ -190,10 +190,7 @@ class CellUtils {
     if (type != 3) {
       throw BocException(
         'Merkle Proof cell type.',
-        details: {
-          'expected': CellType.merkleProof,
-          'type': CellType.fromValue(type) ?? '$type',
-        },
+        details: {'expected': CellType.merkleProof.name},
       );
     }
 
@@ -219,14 +216,17 @@ class CellUtils {
     if (bits.length != bitLengthSize) {
       throw BocException(
         'Invalid Merkle Update cell bits length.',
-        details: {'expected': bitLengthSize, 'length': bits.length},
+        details: {
+          'expected': bitLengthSize.toString(),
+          'length': bits.length.toString(),
+        },
       );
     }
 
     if (refs.length != 2) {
       throw BocException(
         'Invalid Merkle Update cell refs length.',
-        details: {'expected': 2, 'length': refs.length},
+        details: {'expected': "2", 'length': refs.length.toString()},
       );
     }
 
@@ -234,10 +234,7 @@ class CellUtils {
     if (type != 4) {
       throw BocException(
         'Invalid Merkle Update cell type.',
-        details: {
-          'expected': CellType.merkleUpdate,
-          'type': CellType.fromValue(type) ?? '$type',
-        },
+        details: {'expected': CellType.merkleUpdate.name, 'type': '$type'},
       );
     }
 
@@ -274,10 +271,7 @@ class CellUtils {
     if (type != 1) {
       throw BocException(
         'Invalid Pruned branch cell type.',
-        details: {
-          'expected': CellType.prunedBranch,
-          'type': CellType.fromValue(type) ?? '$type',
-        },
+        details: {'expected': CellType.prunedBranch.name, 'type': '$type'},
       );
     }
 
@@ -296,7 +290,7 @@ class CellUtils {
         throw BocException(
           'Invalid Pruned Branch cell level',
           details: {
-            'level': mask.level,
+            'level': mask.level.toString(),
             'expected': [1, 2, 3].join(', '),
           },
         );
@@ -307,7 +301,10 @@ class CellUtils {
       if (bits.length != size) {
         throw BocException(
           'Invalid Pruned branch cell bits length.',
-          details: {'expected': size, 'length': bits.length},
+          details: {
+            'expected': size.toString(),
+            'length': bits.length.toString(),
+          },
         );
       }
     }
@@ -357,7 +354,7 @@ class CellUtils {
       default:
         throw BocException(
           'Invalid exotic cell type.',
-          details: {'type': type ?? '$typeTag'},
+          details: {'type': type?.name ?? '$typeTag'},
         );
     }
     return ResolvedCellResult(
@@ -406,7 +403,10 @@ class CellUtils {
         levelMask = LevelMask();
         break;
       default:
-        throw BocException('Unsupported exotic type', details: {'type': type});
+        throw BocException(
+          'Unsupported exotic type',
+          details: {'type': type.name},
+        );
     }
     //
     // Calculate hashes and depths
@@ -433,7 +433,7 @@ class CellUtils {
         if (!(levelI == 0 || type == CellType.prunedBranch)) {
           throw BocException(
             'Invalid Level.',
-            details: {'level': levelI, 'type': type},
+            details: {'level': levelI.toString(), 'type': type.name},
           );
         }
         currentBits = bits;
@@ -441,7 +441,7 @@ class CellUtils {
         if (!(levelI != 0 && type != CellType.prunedBranch)) {
           throw BocException(
             'Invalid Level.',
-            details: {'level': levelI, 'type': type},
+            details: {'level': levelI.toString(), 'type': type.name},
           );
         }
         currentBits = BitString(hashes[hashI - hashIOffset - 1], 0, 256);

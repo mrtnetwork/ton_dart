@@ -18,7 +18,10 @@ class AccountAddressResponse with JsonSerialization {
 
   factory AccountAddressResponse.fromJson(Map<String, dynamic> json) {
     return AccountAddressResponse(
-      address: TonAddress(json['address'], bounceable: true),
+      address: TonAddress(
+        json['address'],
+        ovverideBounceableOnRawAddress: false,
+      ),
       name: json['name'],
       isScam: json['is_scam'],
       icon: json['icon'],
@@ -29,7 +32,7 @@ class AccountAddressResponse with JsonSerialization {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'address': address.toFriendlyAddress(),
+      'address': address.address,
       'name': name,
       'is_scam': isScam,
       'icon': icon,

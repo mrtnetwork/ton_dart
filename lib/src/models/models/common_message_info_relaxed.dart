@@ -3,7 +3,6 @@ import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 import 'currency_collection.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L132
@@ -136,8 +135,9 @@ class CommonMessageInfoRelaxedInternal extends CommonMessageInfoRelaxed {
       ihrDisabled: json['ihrDisabled'],
       bounce: json['bounce'],
       bounced: json['bounced'],
-      src: (json['src'] as Object?)?.convertTo<TonAddress, String>(
-        (result) => TonAddress(result),
+      src: json.valueTo<TonAddress?, String>(
+        key: "src",
+        parse: (v) => TonAddress(v),
       ),
       dest: TonAddress(json['dest']),
       value: CurrencyCollection.fromJson(json['value']),
@@ -213,13 +213,15 @@ class CommonMessageInfoRelaxedExternalOut extends CommonMessageInfoRelaxed {
     Map<String, dynamic> json,
   ) {
     return CommonMessageInfoRelaxedExternalOut(
-      src: (json['src'] as Object?)?.convertTo<TonAddress, String>(
-        (result) => TonAddress(result),
+      src: json.valueTo<TonAddress?, String>(
+        key: "src",
+        parse: (v) => TonAddress(v),
       ),
       createdLt: BigintUtils.parse(json['createdLt']),
       createdAt: json['createdAt'],
-      dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
-        (p0) => ExternalAddress.fromJson(p0.cast()),
+      dest: json.valueTo<ExternalAddress?, Map<String, dynamic>>(
+        key: "dest",
+        parse: (v) => ExternalAddress.fromJson(v),
       ),
     );
   }

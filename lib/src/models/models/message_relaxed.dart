@@ -1,10 +1,10 @@
+import 'package:blockchain_utils/utils/json/extension/json.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
 import 'package:ton_dart/src/models/models/common_message_info_relaxed.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 /// Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L151
 /// message$_ {X:Type} info:CommonMsgInfoRelaxed
@@ -38,8 +38,9 @@ class MessageRelaxed extends TonSerialization {
     return MessageRelaxed(
       info: CommonMessageInfoRelaxed.fromJson(json['info']),
       body: Cell.fromBase64(json['body']),
-      init: (json['init'] as Object?)?.convertTo<StateInit, Map>(
-        (result) => StateInit.fromJson(result.cast()),
+      init: json.valueTo<StateInit?, Map<String, dynamic>>(
+        key: "init",
+        parse: (v) => StateInit.fromJson(v),
       ),
     );
   }

@@ -6,6 +6,7 @@ import 'package:ton_dart/src/contracts/utils/serialization_utils.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/types.dart';
 import 'package:ton_dart/src/crypto/crypto.dart';
+import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
@@ -19,17 +20,28 @@ class WalletV5R1
           V5VersionedWalletState,
           VersionedV5TransferParams
         > {
-  WalletV5R1({super.stateInit, required super.address, super.chain})
-    : super(type: WalletVersion.v5R1);
+  WalletV5R1({
+    super.stateInit,
+    required super.address,
+    super.workchain,
+    required super.chainId,
+  }) : super(type: WalletVersion.v5R1);
 
   factory WalletV5R1.create({
     required V5R1Context context,
     required List<int> publicKey,
-    TonChainId? chain,
+    TonWorkChain workchain = TonWorkChain.basechain,
+    TonChainId? chainId,
     bool bounceableAddress = false,
   }) {
-    if (context is V5R1ClientContext) {
-      chain = context.chain;
+    if (context case V5R1ClientContext()) {
+      workchain = context.workchain;
+    }
+    chainId ??= context.chainId;
+    if (chainId != context.chainId) {
+      throw TonDartPluginException(
+        "Missmatch chain id between context and wallet.",
+      );
     }
     final state = V5VersionedWalletState(
       publicKey: publicKey,
@@ -38,10 +50,14 @@ class WalletV5R1
     );
     return WalletV5R1(
       stateInit: state,
+      chainId: chainId,
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: chain?.workchain ?? 0,
-        bounceable: bounceableAddress,
+        config: TonAddressConfing.friendly(
+          workchain,
+          bounceable: bounceableAddress,
+          testOnly: chainId.isTestnet,
+        ),
       ),
     );
   }
@@ -49,8 +65,10 @@ class WalletV5R1
   static Future<WalletV5R1> fromAddress({
     required TonAddress address,
     required TonProvider rpc,
-    TonChainId? chain,
+    TonWorkChain? workchain,
+    TonChainId? chainId,
   }) async {
+    chainId ??= (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet);
     final data = await ContractProvider.getActiveState(
       rpc: rpc,
       address: address,
@@ -59,13 +77,20 @@ class WalletV5R1
       address: address,
       stateData: data.data,
       type: WalletVersion.v5R1,
-      chain: chain,
+      workchain: workchain,
+      chainId: chainId,
     );
-    return WalletV5R1(address: address, stateInit: state, chain: chain);
+    return WalletV5R1(
+      address: address,
+      stateInit: state,
+      workchain: workchain,
+      chainId: chainId,
+    );
   }
 
-  factory WalletV5R1.watch(TonAddress address) {
-    return WalletV5R1(address: address);
+  factory WalletV5R1.watch(TonAddress address, {TonChainId? chainId}) {
+    chainId ??= (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet);
+    return WalletV5R1(address: address, chainId: chainId);
   }
 
   static List<OutActionSendMsg> messageRelaxedToActions({

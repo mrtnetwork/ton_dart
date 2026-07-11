@@ -37,15 +37,17 @@ class NFTItemState extends ContractState {
   }
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(
-      code: TonNftConst.nftItemCode(ownerAddress.workChain),
+      code: TonNftConst.nftItemCode(
+        workchain: workchain ?? ownerAddress.workchain,
+      ),
       data: initialData(),
     );
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     final builder = beginCell();
     builder.storeUint64(index);
     builder.storeAddress(collectionAddress);
@@ -60,46 +62,10 @@ class NFTItemState extends ContractState {
   Map<String, dynamic> toJson() {
     return {
       'index': index,
-      'collectionAddress': collectionAddress?.toFriendlyAddress(),
-      'ownerAddress': ownerAddress.toFriendlyAddress(),
+      'collectionAddress': collectionAddress?.address,
+      'ownerAddress': ownerAddress.address,
       'content': content.toBase64(),
       'metadata': metadata.toJson(),
     };
   }
 }
-
-// import 'package:ton_dart/src/address/address/address.dart';
-// import 'package:ton_dart/src/boc/bit/builder.dart';
-// import 'package:ton_dart/src/boc/boc.dart';
-// import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
-// import 'package:ton_dart/src/serialization/serialization.dart';
-
-// class NFTItemState extends TonSerialization {
-//   final BigInt index;
-//   final TonAddress? collectionAddress;
-//   final TonAddress ownerAddress;
-//   final Cell content;
-//   const NFTItemState(
-//       {required this.index,
-//       this.collectionAddress,
-//       required this.ownerAddress,
-//       required this.content});
-
-//   // @override
-//   // void store(Builder builder) {
-// builder.storeUint64(index);
-// builder.storeAddress(collectionAddress);
-// builder.storeAddress(ownerAddress);
-// content.store(builder, collectionLess: collectionAddress == null);
-//   // }
-
-//   // @override
-//   // Map<String, dynamic> toJson() {
-//   //   return {
-//   //     "index": index.toString(),
-//   //     "collection_address": collectionAddress?.toFriendlyAddress(),
-//   //     "owner_address": ownerAddress?.toFriendlyAddress(),
-//   //     "content": content.toJson()
-//   //   };
-//   // }
-// }

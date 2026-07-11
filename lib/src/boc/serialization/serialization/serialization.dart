@@ -125,8 +125,8 @@ class _BocSerializationUtils {
           throw BocException(
             'Invalid CRC32C',
             details: {
-              'crc32': crc32,
-              'expected': src.sublist(0, src.length - 4),
+              'crc32': crc32.join(","),
+              'expected': src.sublist(0, src.length - 4).join(","),
             },
           );
         }
@@ -172,8 +172,8 @@ class _BocSerializationUtils {
             throw BocException(
               'Invalid CRC32C',
               details: {
-                'crc32': crc32,
-                'expected': src.sublist(0, src.length - 4),
+                'crc32': crc32.join(","),
+                'expected': src.sublist(0, src.length - 4).join(","),
               },
             );
           }
@@ -196,7 +196,7 @@ class _BocSerializationUtils {
         throw BocException(
           'Invalid magic number.',
           details: {
-            'magic': magic,
+            'magic': magic.toString(),
             'expected': [
               bocMagicNumber,
               customFormatMagic,
@@ -353,7 +353,10 @@ class BocSerialization {
     if (res.length != totalSize ~/ 8) {
       throw BocException(
         'Serialization cannot verify length.',
-        details: {'expected': totalSize ~/ 8, 'length': res.length},
+        details: {
+          'expected': (totalSize ~/ 8).toString(),
+          'length': res.length.toString(),
+        },
       );
     }
     return res;

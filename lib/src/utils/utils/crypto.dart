@@ -1,7 +1,5 @@
-import 'dart:typed_data' show Endian;
-
-import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
+import 'package:blockchain_utils/utils/binary/binary_operation.dart';
 
 class CryptoUtils {
   static const int _crc32cPoly = 0x82f63b78;
@@ -20,6 +18,6 @@ class CryptoUtils {
     }
     crc ^= BinaryOps.mask32;
 
-    return IntUtils.toBytes(crc, length: 4, byteOrder: Endian.little);
+    return crc.toU32LeBytes();
   }
 }

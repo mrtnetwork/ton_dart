@@ -9,10 +9,12 @@ import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'bit_string.dart';
 
 class _BitBuilderUtils {
-  static final mask8Big = BigInt.from(0xff);
   static void validateBits(int bits) {
     if (bits < 0) {
-      throw BocException('Invalid bit length.', details: {'length': bits});
+      throw BocException(
+        'Invalid bit length.',
+        details: {'length': bits.toString()},
+      );
     }
   }
 
@@ -30,7 +32,10 @@ class _BitBuilderUtils {
       val = value;
     }
     if (!sign && val.isNegative) {
-      throw BocException('Invalid unsigned integer.', details: {'value': val});
+      throw BocException(
+        'Invalid unsigned integer.',
+        details: {'value': val.toString()},
+      );
     }
     return val;
   }
@@ -54,7 +59,10 @@ class BitBuilder {
     if (_length > _bytes.length * 8) {
       throw BocException(
         'Overflow bytes',
-        details: {'offset': _length, 'length': _bytes.length * 8},
+        details: {
+          'offset': _length.toString(),
+          'length': (_bytes.length * 8).toString(),
+        },
       );
     }
     if (value) {
@@ -80,8 +88,8 @@ class BitBuilder {
         throw BocException(
           'Overflow bytes',
           details: {
-            'offset': _length + src.length * 8,
-            'length': _bytes.length * 8,
+            'offset': (_length + src.length * 8).toString(),
+            'length': (_bytes.length * 8).toString(),
           },
         );
       }
@@ -103,7 +111,7 @@ class BitBuilder {
       if (v != BigInt.zero) {
         throw BocException(
           'value is not zero for $bits bits.',
-          details: {'value': v},
+          details: {'value': v.toString()},
         );
       } else {
         return;
@@ -113,7 +121,11 @@ class BitBuilder {
     if (v.bitLength > bits) {
       throw BocException(
         'BitLength is too small for a value.',
-        details: {'value': v, 'bits': bits, 'value_bitLength': v.bitLength},
+        details: {
+          'value': v.toString(),
+          'bits': bits.toString(),
+          'value_bitLength': v.bitLength.toString(),
+        },
       );
     }
 
@@ -137,13 +149,11 @@ class BitBuilder {
     bits -= tillByte;
     while (bits > 0) {
       if (bits >= 8) {
-        _bytes[_length ~/ 8] =
-            ((v >> (bits - 8)) & _BitBuilderUtils.mask8Big).toInt();
+        _bytes[_length ~/ 8] = ((v >> (bits - 8)) & BinaryOps.maskBig8).toInt();
         _length += 8;
         bits -= 8;
       } else {
-        _bytes[_length ~/ 8] =
-            ((v << (8 - bits)) & _BitBuilderUtils.mask8Big).toInt();
+        _bytes[_length ~/ 8] = ((v << (8 - bits)) & BinaryOps.maskBig8).toInt();
         _length += bits;
         bits = 0;
       }
@@ -159,7 +169,7 @@ class BitBuilder {
       if (value != BigInt.zero) {
         throw BocException(
           'value is not zero for $bits bits.',
-          details: {'value': v},
+          details: {'value': v.toString()},
         );
       } else {
         return;
@@ -170,7 +180,7 @@ class BitBuilder {
       if (value != -BigInt.one && value != BigInt.zero) {
         throw BocException(
           'value is not zero or -1 for $bits bits.',
-          details: {'value': v},
+          details: {'value': v.toString()},
         );
       } else {
         writeBit(value == -BigInt.one);
@@ -182,7 +192,7 @@ class BitBuilder {
     if (v < -vBits || v >= vBits) {
       throw BocException(
         'Out of range.',
-        details: {'value': v, 'length': bits},
+        details: {'value': v.toString(), 'length': bits.toString()},
       );
     }
 
@@ -241,7 +251,7 @@ class BitBuilder {
     } else if (address is TonAddress) {
       writeUint(2, 2);
       writeUint(0, 1);
-      writeInt(address.workChain, 8);
+      writeInt(address.workchain.id, 8);
       writeBuffer(address.hash);
     } else {
       final ExternalAddress extAddress = address as ExternalAddress;

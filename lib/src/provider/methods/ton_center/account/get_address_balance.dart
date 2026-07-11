@@ -2,7 +2,7 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:ton_dart/src/provider/core/core.dart';
 import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 
-/// Get balance (in nanotons) of a given address.
+/// Get balance (in nanograms) of a given address.
 /// https://toncenter.com/api/v2/#/accounts/get_address_balance_getAddressBalance_get
 class TonCenterGetAddressBalance extends TonCenterPostRequest<BigInt, String> {
   /// Identifier of target TON account in any form.

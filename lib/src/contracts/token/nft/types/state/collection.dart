@@ -14,7 +14,7 @@ class NftCollectionState extends ContractState {
   Map<String, dynamic> toJson() {
     return {
       'royaltyParams': royaltyParams.toJson(),
-      'ownerAddress': ownerAddress.toFriendlyAddress(),
+      'ownerAddress': ownerAddress.address,
       'content': content.toBase64(),
       'nftItemCode': nftItemCode.toBase64(),
       'nextItemIndex': nextItemIndex,
@@ -42,7 +42,8 @@ class NftCollectionState extends ContractState {
       content: metadata.toContent(),
       nextItemIndex: nextItemIndex ?? BigInt.zero,
       nftItemCode:
-          nftItemCode ?? TonNftConst.nftItemCode(ownerAddress.workChain),
+          nftItemCode ??
+          TonNftConst.nftItemCode(workchain: ownerAddress.workchain),
     );
   }
   factory NftCollectionState.deserialize(Slice slice) {
@@ -56,15 +57,17 @@ class NftCollectionState extends ContractState {
   }
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(
-      code: TonNftConst.nftCollectionCode(ownerAddress.workChain),
+      code: TonNftConst.nftCollectionCode(
+        workchain: workchain ?? ownerAddress.workchain,
+      ),
       data: initialData(),
     );
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     final builder = beginCell();
     builder.storeAddress(ownerAddress);
     builder.storeUint64(nextItemIndex);
@@ -96,7 +99,8 @@ class NftEditableCollectionState extends NftCollectionState {
       content: metadata.toContent(),
       nextItemIndex: nextItemIndex ?? BigInt.zero,
       nftItemCode:
-          nftItemCode ?? TonNftConst.nftItemCode(ownerAddress.workChain),
+          nftItemCode ??
+          TonNftConst.nftItemCode(workchain: ownerAddress.workchain),
     );
   }
   factory NftEditableCollectionState.deserialize(Slice slice) {
@@ -110,9 +114,11 @@ class NftEditableCollectionState extends NftCollectionState {
   }
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     return StateInit(
-      code: TonNftConst.nftEditableCollectionCode(ownerAddress.workChain),
+      code: TonNftConst.nftEditableCollectionCode(
+        workchain: workchain ?? ownerAddress.workchain,
+      ),
       data: initialData(),
     );
   }

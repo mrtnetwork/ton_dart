@@ -6,3 +6,4 @@ export 'models/nft_item_metadata.dart';
 export 'models/nft_raw_metadata.dart';
 export 'utils/metadata.dart';
 export 'models/of_chain_stable_token_metadata.dart';
+export 'exception/exception.dart';

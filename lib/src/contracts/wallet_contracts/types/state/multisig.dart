@@ -50,9 +50,9 @@ class MultiOwnerWalletState extends ContractState {
        signersNum = signersNum ?? signers.length;
 
   @override
-  StateInit initialState({TonChainId? chain}) {
+  StateInit initialState({TonWorkChain? workchain}) {
     Cell? code;
-    if (chain == TonChainId.testnet) {
+    if (workchain?.isMasterchain ?? false) {
       code = Cell.fromHex(MultiOwnerContractConst.multiSigCodeTestNet);
     }
     code ??= Cell.fromHex(MultiOwnerContractConst.multisigCode);
@@ -60,7 +60,7 @@ class MultiOwnerWalletState extends ContractState {
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     final signersDict = Dictionary.fromEnteries<int, TonAddress>(
       key: DictionaryKey.uintCodec(8),
       value: DictionaryValue.addressCodec(),
@@ -84,8 +84,8 @@ class MultiOwnerWalletState extends ContractState {
   Map<String, dynamic> toJson() {
     return {
       'threshold': threshold,
-      'signers': signers.map((e) => e.toFriendlyAddress()).toList(),
-      'proposers': proposers.map((e) => e.toFriendlyAddress()).toList(),
+      'signers': signers.map((e) => e.address).toList(),
+      'proposers': proposers.map((e) => e.address).toList(),
       'nextOrderSeqno': nextOrderSeqno.toString(),
       'allowArbitrarySeqno': allowArbitrarySeqno,
       'signersNum': signersNum,

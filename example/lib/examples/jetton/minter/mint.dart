@@ -14,18 +14,17 @@ void main() async {
       owner: wallet.wallet,
       state: MinterWalletState(
         owner: wallet.address,
-        chain: TonChainId.testnet,
         metadata: metadata,
       ));
   await jetton.sendOperation(
       signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
       rpc: wallet.rpc,
-      amount: TonHelper.toNano("0.9"),
+      amount: TonHelper.toNanoGrams("0.9"),
       operation: JettonMinterMint(
-          totalTonAmount: TonHelper.toNano("0.5"),
+          totalTonAmount: TonHelper.toNanoGrams("0.5"),
           to: wallet.address,
           transfer: JettonMinterInternalTransfer(
-              jettonAmount: TonHelper.toNano("100000"),
-              forwardTonAmount: TonHelper.toNano("0.01")),
-          jettonAmount: TonHelper.toNano("100000")));
+              jettonAmount: TonHelper.toNanoGrams("100000"),
+              forwardTonAmount: TonHelper.toNanoGrams("0.01")),
+          jettonAmount: TonHelper.toNanoGrams("100000")));
 }

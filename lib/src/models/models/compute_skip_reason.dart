@@ -54,7 +54,7 @@ class ComputeSkipReason extends TonSerialization {
           () =>
               throw TonDartPluginException(
                 'Cannot find ComputeSkipReason from provided tag',
-                details: {'tag': tag},
+                details: {'tag': tag?.toString()},
               ),
     );
   }

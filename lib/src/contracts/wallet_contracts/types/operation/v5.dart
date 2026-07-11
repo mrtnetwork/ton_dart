@@ -1,10 +1,10 @@
+import 'package:blockchain_utils/helper/extensions/extensions.dart';
 import 'package:blockchain_utils/utils/binary/utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 
 class VersionedWalletV5OperaionType extends ContractOperationType {
   const VersionedWalletV5OperaionType._({
@@ -35,7 +35,7 @@ class VersionedWalletV5OperaionType extends ContractOperationType {
 abstract class VersionedWalletV5Operaion extends TonSerialization
     implements ContractOperation {
   @override
-  Cell contractCode(TonChainId chain) {
+  Cell contractCode({TonWorkChain? workchain}) {
     return WalletVersion.v5R1.getCode();
   }
 
@@ -47,7 +47,8 @@ abstract class VersionedWalletV5Operaion extends TonSerialization
   String get contractName => 'Wallet V5R1';
   factory VersionedWalletV5Operaion.deserialize({
     required Slice slice,
-    required TonChainId chain,
+    TonWorkChain? workchain,
+    required TonChainId chainId,
   }) {
     final type = VersionedWalletV5OperaionType.fromOperation(
       slice.tryPreloadUint32(),
@@ -58,7 +59,8 @@ abstract class VersionedWalletV5Operaion extends TonSerialization
       default:
         return VersionedWalletV5Internal.deserialize(
           slice: slice,
-          chain: chain,
+          workchain: workchain,
+          chainId: chainId,
         );
     }
   }
@@ -112,7 +114,8 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
   }) : actions = actions.immutable;
   factory VersionedWalletV5InternalMessage.deserialize({
     required Slice slice,
-    required TonChainId chain,
+    TonWorkChain? workchain,
+    required TonChainId chainId,
   }) {
     return TonModelParser.parseBoc(
       parse: () {
@@ -120,7 +123,8 @@ class VersionedWalletV5InternalMessage extends TonSerialization {
         return VersionedWalletV5InternalMessage(
           walletId: VersionedWalletUtils.loadV5Context(
             contextBytes: slice.loadBuffer(4),
-            chain: chain,
+            chainId: chainId,
+            workchain: workchain,
           ),
           timeout: slice.loadUint32(),
           accountSeqno: slice.loadUint32(),
@@ -167,14 +171,16 @@ class VersionedWalletV5Internal extends VersionedWalletV5Operaion {
        super(type: VersionedWalletV5OperaionType.internal);
   factory VersionedWalletV5Internal.deserialize({
     required Slice slice,
-    required TonChainId chain,
+    TonWorkChain? workchain,
+    required TonChainId chainId,
   }) {
     return TonModelParser.parseBoc(
       parse: () {
         return VersionedWalletV5Internal(
           message: VersionedWalletV5InternalMessage.deserialize(
             slice: slice,
-            chain: chain,
+            workchain: workchain,
+            chainId: chainId,
           ),
           signature: slice.loadBuffer(64),
         );

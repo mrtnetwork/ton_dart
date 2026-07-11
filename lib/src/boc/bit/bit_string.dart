@@ -7,14 +7,22 @@ class _BitStringUtils {
     if (offset.isNegative) {
       throw BocException(
         'Offset is out of bounds',
-        details: {'offset': offset, 'length': length, 'at': at},
+        details: {
+          'offset': offset.toString(),
+          'length': length.toString(),
+          'at': at.toString(),
+        },
       );
     }
     final int index = offset + (at ?? 0);
     if (index > length) {
       throw BocException(
         'Offset is out of bounds',
-        details: {'offset': index, 'length': length, 'at': at},
+        details: {
+          'offset': index.toString(),
+          'length': length.toString(),
+          'at': at.toString(),
+        },
       );
     }
   }
@@ -42,7 +50,7 @@ class BitString {
     if (length < 0) {
       throw BocException(
         'Length is out of bounds',
-        details: {'length': length},
+        details: {'length': length.toString()},
       );
     }
     return BitString._(
@@ -64,7 +72,7 @@ class BitString {
     if (index >= _length) {
       throw BocException(
         'index is out of bounds',
-        details: {'index': index, 'length': length},
+        details: {'index': index.toString(), 'length': length.toString()},
       );
     }
 

@@ -78,8 +78,8 @@ abstract class NFTItemOperation extends TonSerialization
     : queryId = queryId ?? BigInt.zero;
 
   @override
-  Cell contractCode(TonChainId chain) {
-    return TonNftConst.nftItemCode(chain.workchain);
+  Cell contractCode({TonWorkChain? workchain}) {
+    return TonNftConst.nftItemCode(workchain: workchain);
   }
 
   Cell toBody() => beginCell().store(this).endCell();
@@ -144,7 +144,7 @@ class NFTItemTransfer extends NFTItemOperation {
   // /// optional custom data.
   // final Cell? customPayload;
 
-  /// the amount of nanotons to be sent to the new owner.
+  /// the amount of naograms to be sent to the new owner.
   final BigInt forwardAmount;
 
   /// optional custom data that should be sent to the new owner.
@@ -210,8 +210,8 @@ class NFTItemTransfer extends NFTItemOperation {
   Map<String, dynamic> toJson() {
     return {
       'queryId': queryId.toString(),
-      'newOwnerAddress': newOwnerAddress.toFriendlyAddress(),
-      'responseDestination': responseDestination?.toFriendlyAddress(),
+      'newOwnerAddress': newOwnerAddress.address,
+      'responseDestination': responseDestination?.address,
       'forwardAmount': forwardAmount.toString(),
       'forwardPayload': forwardPayload?.toBase64(),
       'type': type.name,
@@ -343,8 +343,8 @@ abstract class NFTCollectionOperation extends TonSerialization
   String get contractName => 'NFT Collection';
 
   @override
-  Cell contractCode(TonChainId chain) {
-    return TonNftConst.nftCollectionCode(chain.workchain);
+  Cell contractCode({TonWorkChain? workchain}) {
+    return TonNftConst.nftCollectionCode(workchain: workchain);
   }
 
   NFTCollectionOperation({required this.type, BigInt? queryId})
@@ -446,7 +446,7 @@ class NFTCollectionMint extends NFTCollectionOperation {
 }
 
 class _BatchNFTsMintParamsUtils {
-  static final DictionaryValue<NFTMintParams> nftBatchMintsCodec =
+  static DictionaryValue<NFTMintParams> get nftBatchMintsCodec =>
       DictionaryValue(
         serialize: (source, builder) {
           builder.storeCoins(source.initAmount);

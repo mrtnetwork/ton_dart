@@ -3,7 +3,6 @@ import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/utils/utils/extensions.dart';
 import 'currency_collection.dart';
 
 class CommonMessageInfoType {
@@ -193,9 +192,10 @@ class CommonMessageInfoExternalIn extends CommonMessageInfo {
     return CommonMessageInfoExternalIn(
       dest: TonAddress(json['dest']),
       importFee: BigintUtils.parse(json['importFee']),
-      src: (json['src'] as Object?)?.convertTo<ExternalAddress, Map>((p0) {
-        return ExternalAddress.fromJson(p0.cast());
-      }),
+      src: json.valueTo<ExternalAddress?, Map<String, dynamic>>(
+        key: "src",
+        parse: (v) => ExternalAddress.fromJson(v),
+      ),
     );
   }
 
@@ -250,8 +250,9 @@ class CommonMessageInfoExternalOut extends CommonMessageInfo {
       src: TonAddress(json['src']),
       createdLt: BigintUtils.parse(json['createdLt']),
       createdAt: json['createdAt'],
-      dest: (json['dest'] as Object?)?.convertTo<ExternalAddress, Map>(
-        (p0) => ExternalAddress.fromJson(p0.cast()),
+      dest: json.valueTo<ExternalAddress?, Map<String, dynamic>>(
+        key: "dest",
+        parse: (v) => ExternalAddress.fromJson(v),
       ),
     );
   }

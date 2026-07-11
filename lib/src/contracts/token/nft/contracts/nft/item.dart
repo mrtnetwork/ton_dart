@@ -21,7 +21,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
     return NFTItemContract(
       address: TonAddress.fromState(
         state: state.initialState(),
-        workChain: owner.address.workChain,
+        config: TonAddressConfing.friendly(owner.address.workchain),
       ),
       owner: owner,
       state: state,

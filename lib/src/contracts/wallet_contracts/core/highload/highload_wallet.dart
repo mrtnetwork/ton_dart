@@ -4,9 +4,9 @@ import 'package:ton_dart/src/contracts/wallet_contracts/core/core/core.dart';
 
 abstract class HighloadWallets<T extends ContractState>
     extends WalletContract<T, HighloadTransferParams> {
-  HighloadWallets({required T? stateInit, required super.address})
-    : super(
-        chain: TonChainId.fromWorkchain(address.workChain),
-        state: stateInit,
-      );
+  HighloadWallets({
+    required T? stateInit,
+    required super.address,
+    required super.chainId,
+  }) : super(workchain: address.workchain, state: stateInit);
 }

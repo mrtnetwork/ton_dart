@@ -35,16 +35,18 @@ class JettonWalletState extends ContractState {
   }
 
   @override
-  StateInit initialState() {
+  StateInit initialState({TonWorkChain? workchain}) {
     final Cell code =
-        walletCode ?? JettonWalletConst.code(minterAddress.workChain);
+        walletCode ??
+        JettonWalletConst.code(workchain: workchain ?? minterAddress.workchain);
     return StateInit(data: initialData(), code: code);
   }
 
   @override
-  Cell initialData() {
+  Cell initialData({TonWorkChain? workchain}) {
     final Cell code =
-        walletCode ?? JettonWalletConst.code(minterAddress.workChain);
+        walletCode ??
+        JettonWalletConst.code(workchain: workchain ?? minterAddress.workchain);
     return beginCell()
         .storeCoins(BigInt.zero)
         .storeAddress(owanetOfJettonWallet)

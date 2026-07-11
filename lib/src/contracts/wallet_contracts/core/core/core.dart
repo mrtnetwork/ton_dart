@@ -23,14 +23,16 @@ abstract class WalletContract<
   const WalletContract({
     required this.state,
     required this.address,
-    required this.chain,
+    required this.workchain,
+    required this.chainId,
   });
   @override
   final C? state;
 
   @override
   final TonAddress address;
-  final TonChainId chain;
+  final TonWorkChain workchain;
+  final TonChainId chainId;
 
   Future<String> sendTransfer({
     required T params,

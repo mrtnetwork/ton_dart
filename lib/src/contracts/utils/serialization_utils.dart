@@ -2,6 +2,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/models/models.dart';
+import 'package:ton_dart/ton_dart.dart' show TonDartPluginException;
 
 class TonSerializationUtils {
   static Dictionary<BigInt, V> arrayToDict<V>({
@@ -58,54 +59,54 @@ class TonSerializationUtils {
     return signingMessage.endCell();
   }
 
-  static Cell sseralizeV5({
-    required OutActionsV5 actions,
-    required WalletV5AuthType type,
-    int? accountSeqno,
-    V5R1Context? context,
-    int? timeout,
-    BigInt? queryId,
-  }) {
-    if (type != WalletV5AuthType.extension) {
-      if (accountSeqno == null || context == null) {
-        throw const TonContractException(
-          'accountSeqno and context required for build wallet message v5.',
-        );
-      }
-    }
-    if (type == WalletV5AuthType.extension) {
-      return beginCell()
-          .storeUint32(type.tag)
-          .storeUint64(queryId ?? 0)
-          .store(actions)
-          .endCell();
-    }
-    if (type == WalletV5AuthType.external) {
-      final List<OutActionWalletV5> fixedMode = [];
-      for (final i in actions.actions) {
-        if (i.type != OutActionType.sendMsg) {
-          fixedMode.add(i);
-          continue;
-        }
-        final sendMessage = (i as OutActionSendMsg).copyWith(
-          mode: i.mode | SendMode.ignoreErrors.mode,
-        );
-        fixedMode.add(sendMessage);
-      }
-      actions = OutActionsV5(actions: fixedMode);
-    }
-    final signingMessage = beginCell().storeUint32(type.tag).store(context!);
-    timeout ??= (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 60;
-    if (accountSeqno == 0) {
-      for (int i = 0; i < 32; i++) {
-        signingMessage.storeBit(1);
-      }
-    } else {
-      signingMessage.storeUint32(timeout);
-    }
-    signingMessage.storeUint(accountSeqno, 32).store(actions);
-    return signingMessage.endCell();
-  }
+  // static Cell sseralizeV5({
+  //   required OutActionsV5 actions,
+  //   required WalletV5AuthType type,
+  //   int? accountSeqno,
+  //   V5R1Context? context,
+  //   int? timeout,
+  //   BigInt? queryId,
+  // }) {
+  //   if (type != WalletV5AuthType.extension) {
+  //     if (accountSeqno == null || context == null) {
+  //       throw const TonContractException(
+  //         'accountSeqno and context required for build wallet message v5.',
+  //       );
+  //     }
+  //   }
+  //   if (type == WalletV5AuthType.extension) {
+  //     return beginCell()
+  //         .storeUint32(type.tag)
+  //         .storeUint64(queryId ?? 0)
+  //         .store(actions)
+  //         .endCell();
+  //   }
+  //   if (type == WalletV5AuthType.external) {
+  //     final List<OutActionWalletV5> fixedMode = [];
+  //     for (final i in actions.actions) {
+  //       if (i.type != OutActionType.sendMsg) {
+  //         fixedMode.add(i);
+  //         continue;
+  //       }
+  //       final sendMessage = (i as OutActionSendMsg).copyWith(
+  //         mode: i.mode | SendMode.ignoreErrors.mode,
+  //       );
+  //       fixedMode.add(sendMessage);
+  //     }
+  //     actions = OutActionsV5(actions: fixedMode);
+  //   }
+  //   final signingMessage = beginCell().storeUint32(type.tag).store(context!);
+  //   timeout ??= (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 60;
+  //   if (accountSeqno == 0) {
+  //     for (int i = 0; i < 32; i++) {
+  //       signingMessage.storeBit(1);
+  //     }
+  //   } else {
+  //     signingMessage.storeUint32(timeout);
+  //   }
+  //   signingMessage.storeUint(accountSeqno, 32).store(actions);
+  //   return signingMessage.endCell();
+  // }
 
   static Cell serializeV2({
     required List<OutActionSendMsg> messages,
@@ -209,7 +210,7 @@ class TonSerializationUtils {
           timeout: timeout,
         );
       default:
-        throw UnimplementedError();
+        throw TonDartPluginException('Use serializeV1 for v1 messages.');
     }
   }
 }

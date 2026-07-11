@@ -11,8 +11,8 @@ void main() {
       );
       expect(decode.type, JettonMinterOperationType.mint);
       final mint = decode.cast<JettonMinterMint>();
-      final forwardAmount = TonHelper.toNano('0.3');
-      final totalAmount = TonHelper.toNano('0.4');
+      final forwardAmount = TonHelper.toNanoGrams('0.3');
+      final totalAmount = TonHelper.toNanoGrams('0.4');
       final jettonAmountForMint = BigInt.parse("1${"0" * 15}");
 
       expect(mint.transfer.forwardTonAmount, forwardAmount);
