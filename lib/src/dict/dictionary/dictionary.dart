@@ -1,5 +1,5 @@
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/dict/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/dict/serialization/serialization.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
 import 'key.dart';
@@ -118,7 +118,7 @@ class Dictionary<K extends Object, V> {
   }
 
   /// Serializes the dictionary and stores it in the given `Builder`.
-  /// Throws `DictException` if the key or value serializers are not defined.
+  /// Throws [BuError] if the key or value serializers are not defined.
   void store(
     Builder builder, {
     DictionaryKey<K>? key,
@@ -130,10 +130,10 @@ class Dictionary<K extends Object, V> {
       final resolvedKey = key ?? _key;
       final resolvedValue = value ?? _value;
       if (resolvedKey == null) {
-        throw DictException('Key serializer is not defined');
+        throw BuError(DefaultErrorType.invalidState, 'Key serializer is not defined');
       }
       if (resolvedValue == null) {
-        throw DictException('Value serializer is not defined');
+        throw BuError(DefaultErrorType.invalidState, 'Value serializer is not defined');
       }
 
       final prepared = Map<BigInt, V>.fromEntries(
@@ -160,23 +160,23 @@ class Dictionary<K extends Object, V> {
   }
 
   /// Serializes the dictionary directly into the `Builder`.
-  /// Throws `DictException` if the dictionary is empty or if key/value serializers are not defined.
+  /// Throws [BuError] if the dictionary is empty or if key/value serializers are not defined.
   void storeDirect(
     Builder builder, {
     DictionaryKey<K>? key,
     DictionaryValue<V>? value,
   }) {
     if (_map.isEmpty) {
-      throw DictException('Cannot store empty dictionary directly');
+      throw BuError(DefaultErrorType.invalidArgument, 'Cannot store empty dictionary directly');
     }
 
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {
-      throw DictException('Key serializer is not defined');
+      throw BuError(DefaultErrorType.invalidState, 'Key serializer is not defined');
     }
     if (resolvedValue == null) {
-      throw DictException('Value serializer is not defined');
+      throw BuError(DefaultErrorType.invalidState, 'Value serializer is not defined');
     }
     final prepared = Map<BigInt, V>.fromEntries(
       _map.entries.map(
@@ -205,7 +205,7 @@ class Dictionary<K extends Object, V> {
       DictionaryUtils.generateMerkleUpdate<K, V>(this, key, _key!, newValue);
 
   /// Loads dictionary entries from a `Slice` and updates the dictionary.
-  /// Throws `DictException` if key or value serializers are not defined.
+  /// Throws [BuError] if key or value serializers are not defined.
   void loadFromClice(
     Slice slice, {
     DictionaryKey<K>? key,
@@ -214,10 +214,10 @@ class Dictionary<K extends Object, V> {
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {
-      throw DictException('Key serializer is not defined');
+      throw BuError(DefaultErrorType.invalidState, 'Key serializer is not defined');
     }
     if (resolvedValue == null) {
-      throw DictException('Value serializer is not defined');
+      throw BuError(DefaultErrorType.invalidState, 'Value serializer is not defined');
     }
     final load = slice.loadDict(resolvedKey, resolvedValue);
     for (final i in load.entries) {

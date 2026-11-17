@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:example/examples/wallet/test_wallet.dart';
 import 'package:ton_dart/ton_dart.dart';
 
@@ -18,13 +18,14 @@ void main() async {
                     destination: destination.address,
                     amount: TonHelper.toNanoGrams("0.1"))),
           ]),
-      rpc: wallet.rpc);
-  await wallet.wallet.getBalance(wallet.rpc);
-  final publicKey = await wallet.wallet.getPublicKey(wallet.rpc);
+      client: wallet.client);
+  await wallet.wallet.getBalance(wallet.client);
+  final publicKey = await wallet.wallet.getPublicKey(wallet.client);
   assert(publicKey == wallet.signer.toPublicKey().toHex());
-  final state = await wallet.wallet.readState(wallet.rpc);
+  final state = await wallet.wallet.readState(wallet.client);
   assert(BytesUtils.bytesEqual(
       state.publicKey.toBytes(), wallet.signer.toPublicKey().toBytes()));
   assert(state.subWalletId == wallet.wallet.state!.subWalletId);
-  await HighloadWalletV3.fromAddress(address: wallet.address, rpc: wallet.rpc);
+  await HighloadWalletV3.fromAddress(
+      address: wallet.address, client: wallet.client);
 }

@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/utils/json/extension/json.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/split_merge_info.dart';
 import 'package:ton_dart/src/models/models/transaction.dart';
 import 'package:ton_dart/src/models/models/transaction_bounce_phase.dart';
@@ -44,7 +43,7 @@ class TransactionDescriptionType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw TonDartPluginException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find TransactionDescriptionType from provided name',
                 details: {'name': name},
               ),
@@ -99,7 +98,10 @@ abstract class TransactionDescription extends TonSerialization {
       case 0x05:
         return TransactionDescriptionSplitInstall.deserialize(slice);
       default:
-        throw const TonDartPluginException('Unsuported Transaction.');
+        throw BuError(DefaultErrorType.unsupported, 
+          'Unsupported transaction description.',
+          details: {'type': '$type'},
+        );
     }
   }
   factory TransactionDescription.fromJson(Map<String, dynamic> json) {
@@ -116,7 +118,10 @@ abstract class TransactionDescription extends TonSerialization {
       case TransactionDescriptionType.splitInstall:
         return TransactionDescriptionSplitInstall.fromJson(json);
       default:
-        throw const TonDartPluginException('Unsuported Transaction.');
+        throw BuError(DefaultErrorType.unsupported, 
+          'Unsupported transaction description.',
+          details: {'type': type.name},
+        );
     }
   }
 }

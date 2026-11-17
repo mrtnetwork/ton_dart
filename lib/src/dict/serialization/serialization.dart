@@ -1,5 +1,5 @@
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/dict/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
 import 'package:ton_dart/src/utils/utils/math.dart';
 
@@ -43,7 +43,7 @@ class _DictSerializationUtils {
     int prefixLen,
   ) {
     if (src.isEmpty) {
-      throw DictException('Internal inconsistency');
+      throw BuError(DefaultErrorType.internal, 'Internal inconsistency');
     }
     final left = <String, T>{};
     final right = <String, T>{};
@@ -57,17 +57,17 @@ class _DictSerializationUtils {
       }
     }
     if (left.isEmpty) {
-      throw DictException('Internal inconsistency. Left emtpy.');
+      throw BuError(DefaultErrorType.internal, 'Internal inconsistency. Left empty.');
     }
     if (right.isEmpty) {
-      throw DictException('Internal inconsistency. Right emtpy.');
+      throw BuError(DefaultErrorType.internal, 'Internal inconsistency. Right empty.');
     }
     return (left, right);
   }
 
   static _Node<T> buildNode<T>(Map<String, T> src, int prefixLen) {
     if (src.isEmpty) {
-      throw DictException('Internal inconsistency');
+      throw BuError(DefaultErrorType.internal, 'Internal inconsistency');
     }
     if (src.length == 1) {
       return _Node.leaf(src.values.first);
@@ -80,7 +80,7 @@ class _DictSerializationUtils {
 
   static _Edge<T> buildEdge<T>(Map<String, T> src, [int prefixLen = 0]) {
     if (src.isEmpty) {
-      throw DictException('Internal inconsistency');
+      throw BuError(DefaultErrorType.internal, 'Internal inconsistency');
     }
     final label = DictionaryUtils.findCommonPrefix(
       src.keys.toList(),

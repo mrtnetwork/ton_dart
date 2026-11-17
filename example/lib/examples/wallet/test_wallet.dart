@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:example/examples/http.dart';
 import 'package:ton_dart/ton_dart.dart';
@@ -10,12 +8,14 @@ class TestWallet<T extends VersionedWalletContract> {
   final TonProvider rpc;
   final String? name;
   final TonChainId chainId;
-  const TestWallet._(
+  final TonQuickClient client;
+  TestWallet._(
       {required this.wallet,
       required this.signer,
       required this.rpc,
       this.name,
-      required this.chainId});
+      required this.chainId})
+      : client = DefaultTonQuickClient(provider: rpc);
   TonAddress get address => wallet.address;
   TonAddress getAddress({bool bounceableAddress = true}) {
     return TonAddress(
@@ -59,7 +59,7 @@ class TestWallet<T extends VersionedWalletContract> {
         .childKey(Bip32KeyIndex.hardenIndex(index));
     // final hdWallet = Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 56))
     //     .childKey(Bip32KeyIndex.hardenIndex(index));
-    final privateKey = TonPrivateKey.fromBytes(hdWallet.privateKey.raw);
+    final privateKey = TonPrivateKey.fromBytes(hdWallet.privateKey.toBytes());
     final List<int> publicKey = privateKey.toPublicKey().toBytes();
     VersionedWalletContract contract;
     switch (version) {
@@ -151,12 +151,14 @@ class TestWalletHighLoadWallet {
   final TonProvider rpc;
   final String? name;
   final TonChainId chainId;
-  const TestWalletHighLoadWallet._(
+  final TonQuickClient client;
+  TestWalletHighLoadWallet._(
       {required this.wallet,
       required this.signer,
       required this.rpc,
       this.name,
-      required this.chainId});
+      required this.chainId})
+      : client = DefaultTonQuickClient(provider: rpc);
   TonAddress get address => wallet.address;
   TonAddress getAddress({bool bounceableAddress = true}) {
     return TonAddress(
@@ -197,7 +199,7 @@ class TestWalletHighLoadWallet {
         rpcApiUse);
     final hdWallet = Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 25))
         .childKey(Bip32KeyIndex.hardenIndex(index));
-    final privateKey = TonPrivateKey.fromBytes(hdWallet.privateKey.raw);
+    final privateKey = TonPrivateKey.fromBytes(hdWallet.privateKey.toBytes());
     final List<int> publicKey = privateKey.toPublicKey().toBytes();
     final wallet = TestWalletHighLoadWallet._(
         signer: privateKey,
@@ -225,7 +227,8 @@ class TestWalletMultiOwner {
   final String? name;
   final TonChainId chainId;
   final TonWorkChain workchainn;
-  const TestWalletMultiOwner._(
+  final TonQuickClient client;
+  TestWalletMultiOwner._(
       {required this.wallet,
       required this.proposerKey,
       required this.signerWalletes,
@@ -235,7 +238,8 @@ class TestWalletMultiOwner {
       required this.thereshHold,
       required this.workchainn,
       required this.chainId,
-      this.name});
+      this.name})
+      : client = DefaultTonQuickClient(provider: rpc);
   TonAddress get address => wallet.address;
   TonAddress getAddress({bool bounceableAddress = true}) {
     return TonAddress(
@@ -281,7 +285,7 @@ class TestWalletMultiOwner {
         Bip32Slip10Ed25519.fromSeed(List<int>.filled(32, 25))
             .childKey(Bip32KeyIndex.hardenIndex(proposIndex));
     final proposerPrivateKey =
-        TonPrivateKey.fromBytes(proposerHdWallet.privateKey.raw);
+        TonPrivateKey.fromBytes(proposerHdWallet.privateKey.toBytes());
     final proposer = WalletV4.create(
         publicKey: proposerPrivateKey.toPublicKey().toBytes(),
         workchain: workchain);
@@ -289,7 +293,7 @@ class TestWalletMultiOwner {
     final List<TonPrivateKey> signers = [];
     for (int i = 0; i < threshHold; i++) {
       final hdWallet = masterWallet.childKey(Bip32KeyIndex.hardenIndex(i));
-      final privateKey = TonPrivateKey.fromBytes(hdWallet.privateKey.raw);
+      final privateKey = TonPrivateKey.fromBytes(hdWallet.privateKey.toBytes());
 
       final List<int> publicKey = privateKey.toPublicKey().toBytes();
       final walletV5 = WalletV5R1.create(

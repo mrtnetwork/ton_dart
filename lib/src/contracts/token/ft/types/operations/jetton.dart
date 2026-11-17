@@ -2,7 +2,6 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/minter.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/wallet.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
@@ -56,13 +55,13 @@ class JettonWalletOperationType extends ContractOperationType {
       (e) => e.operation == operation,
       orElse:
           () =>
-              throw TonContractExceptionConst.invalidOperationId(
+              throw TonContractErrors.invalidOperationId(
                 tag: operation,
               ),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -78,11 +77,11 @@ class JettonWalletOperationType extends ContractOperationType {
     final type = values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw TonContractExceptionConst.invalidOperationId(tag: name),
+          () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -120,7 +119,9 @@ abstract class JettonWalletOperation extends TonSerialization
       case JettonWalletOperationType.withdrawJetton:
         return JettonWalletWithdrawJetton.deserialize(slice);
       default:
-        throw const TonContractException('unsuported jetton wallet operation.');
+        throw BuError(DefaultErrorType.unsupported, 
+          'Unsupported jetton wallet operation.',
+        );
     }
   }
   factory JettonWalletOperation.fromJson(Map<String, dynamic>? json) {
@@ -135,12 +136,14 @@ abstract class JettonWalletOperation extends TonSerialization
       case JettonWalletOperationType.withdrawJetton:
         return JettonWalletWithdrawJetton.fromJson(json!);
       default:
-        throw const TonContractException('unsuported jetton wallet operation.');
+        throw BuError(DefaultErrorType.unsupported, 
+          'Unsupported jetton wallet operation.',
+        );
     }
   }
   T cast<T extends JettonWalletOperation>() {
     if (this is! T) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect Jetton wallet casting. expected: $runtimeType got: $T',
       );
     }
@@ -510,13 +513,13 @@ class JettonMinterOperationType extends ContractOperationType {
       (e) => e.operation == operation,
       orElse:
           () =>
-              throw TonContractExceptionConst.invalidOperationId(
+              throw TonContractErrors.invalidOperationId(
                 tag: operation,
               ),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -532,11 +535,11 @@ class JettonMinterOperationType extends ContractOperationType {
     final type = values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw TonContractExceptionConst.invalidOperationId(tag: name),
+          () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -585,7 +588,7 @@ abstract class JettonMinterOperation extends TonSerialization
             return JettonMinterInternalTransfer.deserialize(slice);
 
           default:
-            throw TonContractException(
+            throw BuError(DefaultErrorType.invalidArgument, 
               'Invalid Minter operation type.',
               details: {'type': type.name},
             );
@@ -610,7 +613,7 @@ abstract class JettonMinterOperation extends TonSerialization
           case JettonMinterOperationType.internalTransfer:
             return JettonMinterInternalTransfer.fromJson(json!);
           default:
-            throw TonContractException(
+            throw BuError(DefaultErrorType.invalidArgument, 
               'Invalid Minter operation type.',
               details: {'type': type.name},
             );
@@ -621,7 +624,7 @@ abstract class JettonMinterOperation extends TonSerialization
   }
   T cast<T extends JettonMinterOperation>() {
     if (this is! T) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect JettonMinterOperation casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );

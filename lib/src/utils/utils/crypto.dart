@@ -1,5 +1,5 @@
 import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/utils/binary/binary_operation.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 
 class CryptoUtils {
   static const int _crc32cPoly = 0x82f63b78;

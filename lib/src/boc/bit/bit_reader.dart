@@ -1,5 +1,5 @@
 import 'package:ton_dart/src/address/address.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
 import 'bit_string.dart';
 
@@ -22,7 +22,7 @@ class BitReader {
   /// Skips the specified number of bits, advancing the offset.
   void skip(int bits) {
     if (bits < 0 || _offset + bits > _bits.length) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Index out of bounds',
         details: {
           'length': bits.toString(),
@@ -169,7 +169,7 @@ class BitReader {
 
   /// Preloads a variable-length signed integer (BigInt).
   BigInt preloadVarIntBig(int bits) {
-    final int size = _preloadInt(bits, offset).toInt();
+    final int size = _preloadUint(bits, offset).toInt();
     return _preloadInt(size * 8, offset + bits);
   }
 
@@ -224,16 +224,16 @@ class BitReader {
     } else if (type == 1) {
       return _loadExternalAddress();
     } else if (type == 3) {
-      throw BocException('Unsupported adress type.');
+      throw BuError(DefaultErrorType.unsupported, 'Unsupported address type.');
     } else {
-      throw BocException('Invalid address type.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid address type.');
     }
   }
 
   /// Loads bits, taking into account padding (ensures byte-aligned).
   BitString loadPaddedBits(int bits) {
     if (bits % 8 != 0) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid number of bits',
         details: {'bits': bits.toString()},
       );
@@ -305,11 +305,11 @@ class BitReader {
   TonAddress _loadInternalAddress() {
     final int type = preloadUint(2);
     if (type != 2) {
-      throw BocException('Invalid address.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid address.');
     }
 
     if (_preloadUint(1, _offset + 2) != BigInt.zero) {
-      throw BocException('Invalid address.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid address.');
     }
 
     final int wc = _preloadInt(8, _offset + 3).toInt();
@@ -326,7 +326,7 @@ class BitReader {
   ExternalAddress _loadExternalAddress() {
     final int type = preloadUint(2);
     if (type != 1) {
-      throw BocException('Invalid extenal address.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid external address.');
     }
 
     final int bits = _preloadUint(9, _offset + 2).toInt();

@@ -1,7 +1,7 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core/chain.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/models/v5_client_id.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
@@ -16,7 +16,7 @@ class VersionedWalletUtils {
     required TonChainId chainId,
   }) {
     if (stateData == null) {
-      throw TonContractExceptionConst.stateIsInactive;
+      throw TonContractErrors.stateIsInactive;
     }
     try {
       final cell = stateData.beginParse();
@@ -90,7 +90,7 @@ class VersionedWalletUtils {
         version: type,
       );
     } catch (e) {
-      throw TonContractException('Invalid ${type.name} state account data.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid ${type.name} state account data.');
     }
   }
 
@@ -107,11 +107,11 @@ class VersionedWalletUtils {
       final wc = slice.loadInt(8);
       final walletVersionRaw = slice.loadUint(8);
       if (walletVersionRaw != 0) {
-        throw const TonContractException('Invalid wallet contract v5 version.');
+        throw BuError(DefaultErrorType.invalidArgument, 'Invalid wallet contract v5 version.');
       }
       final subwalletNumber = slice.loadUint(15);
       if (workchain != null && workchain.id != wc) {
-        throw TonContractException(
+        throw BuError(DefaultErrorType.invalidArgument, 
           'Incorrect workchain.',
           details: {'expected': workchain.id.toString(), 'got': wc.toString()},
         );
@@ -149,7 +149,7 @@ class VersionedWalletUtils {
       config: TonAddressConfing.friendly(address.workchain),
     );
     if (currentAddress != address) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid wallet address. state gives a different address',
         details: {
           'expected': currentAddress.toRawAddress(),
@@ -158,7 +158,7 @@ class VersionedWalletUtils {
       );
     }
     if (state is! T) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incurrect state casting.',
         details: {'expected': state.toString(), 'got': '$T'},
       );

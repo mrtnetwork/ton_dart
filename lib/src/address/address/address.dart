@@ -64,7 +64,7 @@ sealed class TonAddressConfing with CborTagSerializable, Equality {
       TonSerializationIdentifiers.tornAddressraw =>
         TonAddressConfingRaw.deserialize(obj: values.tag),
       _ =>
-        throw CborSerializableException.incorrectTagValue(tag: values.tag.tags),
+        throw CoreErrors.incorrectTagValue(tag: values.tag.tags),
     };
   }
   factory TonAddressConfing.friendly(
@@ -407,7 +407,7 @@ class TonAddress
   BlockchainNetwork get blockchainNetwork => BlockchainNetwork.ton;
 
   @override
-  List<int> encodeAsIAddress() {
+  BuBytes encodeAsIAddress() {
     return toCbor().encode();
   }
 
@@ -437,7 +437,7 @@ extension _TOCONFIG on DecodeAddressResult {
     return TonAddressConfing.friendly(
       workchain,
       bounceable: isBounceable,
-      noPadding: !isPaded,
+      noPadding: !isPadded,
       testOnly: isTestOnly,
       urlSafe: isUrlSafe,
     );

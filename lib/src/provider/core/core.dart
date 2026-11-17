@@ -1,11 +1,4 @@
-import 'package:blockchain_utils/cbor/cbor.dart';
-import 'package:blockchain_utils/exception/exceptions.dart';
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/networks/types/network.dart';
-import 'package:blockchain_utils/service/const/constant.dart';
-import 'package:blockchain_utils/service/models/params.dart';
-import 'package:blockchain_utils/utils/utils.dart';
-import 'package:ton_dart/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/provider/core/ton_center_methods.dart';
 import 'package:ton_dart/src/provider/utils/utils.dart';
 
@@ -22,14 +15,14 @@ enum TonApiType {
   factory TonApiType.fromId(int? id) {
     return values.firstWhere(
       (element) => element.id == id,
-      orElse: () => throw ItemNotFoundException(name: "TonApiType"),
+      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TonApiType found for the given value. null"),
     );
   }
 
   factory TonApiType.fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw ItemNotFoundException(name: "TonApiType"),
+      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TonApiType found for the given value. null"),
     );
   }
 }
@@ -50,12 +43,16 @@ abstract class TonApiRequest<RESULT, RESPONSE>
   /// map of header
   final Map<String, String?> headers = {};
 
+  String? get path => null;
+  dynamic body() => null;
+  String? get jsonRpcMethod => method;
+
   /// Converts the request parameters to [TonRequestDetails] with a unique identifier.
   @override
   TonRequestDetails buildRequest(int v) {
     final pathParams = TonApiUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid Path Parameters.',
         details: {
           'pathParams': pathParameters.join(","),
@@ -69,12 +66,20 @@ abstract class TonApiRequest<RESULT, RESPONSE>
       params = params.replaceFirst(pathParams[i], pathParameters[i]);
     }
     if (queryParameters.isNotEmpty) {
-      final Map<String, dynamic> queries = Map<String, dynamic>.from(
-        queryParameters,
-      )..removeWhere((key, value) => value == null);
-      for (final i in queries.entries) {
-        if (i.value is List) continue;
-        queries[i.key] = i.value.toString();
+      final Map<String, dynamic> queries = {};
+      for (final MapEntry<String, dynamic> i in queryParameters.entries) {
+        final Object? value = i.value;
+        if (value == null) continue;
+        if (value is Iterable) {
+          final List<String> items = <String>[
+            for (final Object? e in value)
+              if (e != null) e.toString(),
+          ];
+          if (items.isEmpty) continue;
+          queries[i.key] = items;
+        } else {
+          queries[i.key] = value.toString();
+        }
       }
       if (queries.isNotEmpty) {
         params = Uri(path: params, queryParameters: queries).toString();
@@ -94,15 +99,14 @@ abstract class TonApiRequest<RESULT, RESPONSE>
 /// An abstract class representing post request parameters for TonApi API calls.
 abstract class TonApiPostRequest<RESULT, RESPONSE>
     extends TonApiRequest<RESULT, RESPONSE> {
-  abstract final Map<String, dynamic>? body;
-
   @override
-  RequestMethod get requestMethod => RequestMethod.post;
+  dynamic body({JsonifyConfig config = DefaultJsonifyConfig.defaultConfig}) =>
+      null;
 
   @override
   TonRequestDetails buildRequest(int v) {
     final request = super.buildRequest(v);
-    final body = this.body;
+    final body = this.body();
     return request.copyWith(
       bodyString: body == null ? null : StringUtils.fromJson(body),
       requestMethod: requestMethod,
@@ -111,7 +115,7 @@ abstract class TonApiPostRequest<RESULT, RESPONSE>
   }
 }
 
-/// An abstract class representing post request parameters for TonApi API calls.
+/// An abstract class representing post request parameters for TonCenter API calls.
 abstract class TonCenterPostRequest<RESULT, RESPONSE>
     extends TonApiRequest<RESULT, RESPONSE> {
   Map<String, dynamic> params();
@@ -137,7 +141,7 @@ abstract class TonCenterPostRequest<RESULT, RESPONSE>
   }
 }
 
-/// An abstract class representing request parameters for TonApi API calls.
+/// An abstract class representing request parameters for TonCenter V3 API calls.
 abstract class TonCenterV3RequestParam<RESULT, RESPONSE>
     extends TonApiRequest<RESULT, RESPONSE> {
   @override

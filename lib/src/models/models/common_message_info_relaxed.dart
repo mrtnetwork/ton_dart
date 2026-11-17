@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'currency_collection.dart';
 
@@ -33,7 +32,7 @@ class CommonMessageInfoRelaxedType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw TonDartPluginException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find CommonMessageInfoRelaxedType from provided name',
                 details: {'name': name},
               ),
@@ -54,7 +53,7 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
       return CommonMessageInfoRelaxedInternal.deserialize(slice);
     }
     if (!slice.loadBit()) {
-      throw const TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid CommonMessageInfoRelaxed Slice',
       );
     }
@@ -72,7 +71,7 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
 
   T cast<T extends CommonMessageInfoRelaxed>() {
     if (this is! T) {
-      throw TonDartPluginException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect message relaxed casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );

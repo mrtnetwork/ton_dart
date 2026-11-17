@@ -1,8 +1,7 @@
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/wallet.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple_reader.dart';
@@ -39,7 +38,7 @@ class StableTokenWalletStatus {
       (e) => e.id == tag,
       orElse:
           () =>
-              throw TonContractException(
+              throw BuError(DefaultErrorType.invalidState, 
                 'Invalid stable token wallet status.',
                 details: {
                   'tag': tag.toString(),
@@ -54,7 +53,7 @@ class StableTokenWalletStatus {
       (e) => e.name == name,
       orElse:
           () =>
-              throw TonContractException(
+              throw BuError(DefaultErrorType.invalidState, 
                 'Invalid stable token wallet status.',
                 details: {
                   'name': name,

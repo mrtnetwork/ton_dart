@@ -1,11 +1,12 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:test/test.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/bit/bit_builder.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
+import '../../utils.dart';
 
-void main() {
+void bitStringTest() {
   group('bit string', () => _test());
 }
 
@@ -59,7 +60,7 @@ void _test() {
   });
   test('should OOB when offset is on the end of bitsring and length > 0', () {
     final bs = BitString([1, 2, 3, 4, 5, 6, 7, 8], 0, 64);
-    expect(() => bs.substring(bs.length, 1), throwsA(isA<BocException>()));
+    expect(() => bs.substring(bs.length, 1), throwsA(isA<BuError>()));
   });
   test('should do empty subbuffers with requested length 0', () {
     final bs = new BitString([1, 2, 3, 4, 5, 6, 7, 8], 0, 64);
@@ -68,17 +69,17 @@ void _test() {
   });
   test('should OOB when offset is on the end of buffer and length > 0', () {
     final bs = BitString([1, 2, 3, 4, 5, 6, 7, 8], 0, 64);
-    expect(() => bs.subbuffer(bs.length, 1), throwsA(isA<BocException>()));
+    expect(() => bs.subbuffer(bs.length, 1), throwsA(isA<BuError>()));
   });
   test('should OOB when substring offset is out of bounds', () {
     final bs = BitString([1, 2, 3, 4, 5, 6, 7, 8], 0, 64);
-    expect(() => bs.substring(bs.length + 1, 0), throwsA(isA<BocException>()));
-    expect(() => bs.substring(-1, 0), throwsA(isA<BocException>()));
+    expect(() => bs.substring(bs.length + 1, 0), throwsA(isA<BuError>()));
+    expect(() => bs.substring(-1, 0), throwsA(isA<BuError>()));
   });
   test('should OOB when subbuffer offset is out of bounds', () {
     final bs = new BitString([1, 2, 3, 4, 5, 6, 7, 8], 0, 64);
-    expect(() => bs.subbuffer(bs.length + 1, 0), throwsA(isA<BocException>()));
-    expect(() => bs.subbuffer(-1, 0), throwsA(isA<BocException>()));
+    expect(() => bs.subbuffer(bs.length + 1, 0), throwsA(isA<BuError>()));
+    expect(() => bs.subbuffer(-1, 0), throwsA(isA<BuError>()));
   });
 
   test('should process monkey strings', () {
@@ -151,4 +152,8 @@ void _test() {
       expect(r.toString(), c[1]);
     }
   });
+}
+
+void main() {
+  TonTestApi.runTest(bitStringTest, 'Bit String');
 }

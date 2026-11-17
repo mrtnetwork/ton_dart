@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
+import '../../utils.dart';
 
-void main() {
+void findCommonPrefixTest() {
   group('find common prefix', () => _test());
 }
 
@@ -20,4 +21,8 @@ void _test() {
       '',
     );
   });
+}
+
+void main() {
+  TonTestApi.runTest(findCommonPrefixTest, 'Find Common Prefix');
 }

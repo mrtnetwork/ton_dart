@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void jettonMinterDataTest() {
   group('Token data', () {
     test('Mint', () {
       const body =
@@ -59,3 +60,7 @@ void main() {
 }
 
 ///
+
+void main() {
+  TonTestApi.runTest(jettonMinterDataTest, 'Jetton Minter Data');
+}

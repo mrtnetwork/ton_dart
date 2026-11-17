@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/utils/utils.dart';
 import 'package:example/examples/wallet/test_wallet.dart';
 import 'package:ton_dart/ton_dart.dart';
 
@@ -12,13 +12,13 @@ void main() async {
                 destination: destination.address,
                 amount: TonHelper.toNanoGrams("4.3")))
       ]),
-      rpc: wallet.rpc);
-  final publicKey = await wallet.wallet.getPublicKey(wallet.rpc);
+      client: wallet.client);
+  final publicKey = await wallet.wallet.getPublicKey(wallet.client);
   assert(publicKey == wallet.signer.toPublicKey().toHex());
-  final state = await wallet.wallet.readState(wallet.rpc);
+  final state = await wallet.wallet.readState(wallet.client);
   assert(BytesUtils.bytesEqual(
       state.publicKey.toBytes(), wallet.signer.toPublicKey().toBytes()));
-  await WalletV1R2.fromAddress(address: wallet.address, rpc: wallet.rpc);
+  await WalletV1R2.fromAddress(address: wallet.address, client: wallet.client);
 
   /// https://testnet.tonscan.org/address/kf9PppquOLEHxw89z20d_aRKhRuVN3po1FnNmxoTwpI6TjNo
   /// te6cckECBAEAAR4AA9GJ/p9NNVxxYg+OHnue2jv7SJUKNypu9NGos5s2NCeFJHScEZ4+wlW9RyWOJ//yi4pbFZIAzrES/1KBtv4QAHdlissp5Bt9XlkrImuNzj0wnIW1JjYx0JHl5t8EEK6vdTe/LcCgAAAAADABAgMAov8AIN0gggFMl7qXMO1E0NcLH+Ck8mCBAgDXGCDXCx/tRNDTH9P/0VESuvKhIvkBVBBE+RDyovgAAdMfMSDXSpbTB9QC+wDe0aTIyx/L/8ntVABIAAAAAKtgoEJ1ZN5Mh+qkE6uI0oqj1O+J3xvj4fEVxGNbJdrrAGpCf+T222vdI+gGe/iYGArf7PUYvXHt1PIr1bG3SupogDWdKAgCZlgAAAAAAAAAAAAAAAAAAIDYq7Q=

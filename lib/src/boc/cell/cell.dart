@@ -5,7 +5,6 @@ import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/serialization/models/level_mask.dart';
 import 'package:ton_dart/src/boc/serialization/serialization/serialization.dart';
 import 'package:ton_dart/src/boc/serialization/utils/utils.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/cell/slice.dart';
 import 'package:ton_dart/src/utils/utils/math.dart';
 import 'package:ton_dart/src/utils/utils/base64.dart';
@@ -54,7 +53,7 @@ class Cell {
   factory Cell.fromBytes(List<int> src) {
     final parsed = Cell.fromBoc(src);
     if (parsed.length != 1) {
-      throw BocException('Deserialized more than one cell.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Deserialized more than one cell.');
     }
     return parsed[0];
   }
@@ -118,10 +117,10 @@ class Cell {
     } else {
       // Check correctness
       if (refs.length > 4) {
-        throw BocException('Invalid number of references');
+        throw BuError(DefaultErrorType.invalidArgument, 'Invalid number of references');
       }
       if (bits.length > 1023) {
-        throw BocException(
+        throw BuError(DefaultErrorType.invalidLength, 
           'Bits overflow',
           details: {
             'maximum_length': 1023.toString(),
@@ -153,7 +152,7 @@ class Cell {
   /// Returns a `Slice` object to read the cell's bit data and references.
   Slice beginParse({bool allowExotic = false}) {
     if (isExotic && !allowExotic) {
-      throw BocException('Exotic cells cannot be parsed');
+      throw BuError(DefaultErrorType.unsupported, 'Exotic cells cannot be parsed');
     }
     return Slice(BitReader(bits), refs);
   }

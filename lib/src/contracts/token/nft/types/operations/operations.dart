@@ -1,8 +1,7 @@
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/contracts/token/nft/constant/constant.dart';
 import 'package:ton_dart/src/contracts/token/nft/types/types.dart';
@@ -29,13 +28,13 @@ class NFTItemOperationType extends ContractOperationType {
       (e) => e.operation == operation,
       orElse:
           () =>
-              throw TonContractExceptionConst.invalidOperationId(
+              throw TonContractErrors.invalidOperationId(
                 tag: operation,
               ),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -51,11 +50,11 @@ class NFTItemOperationType extends ContractOperationType {
     final type = values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw TonContractExceptionConst.invalidOperationId(tag: name),
+          () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -93,7 +92,7 @@ abstract class NFTItemOperation extends TonSerialization
           case NFTItemOperationType.getStaticData:
             return NFTItemGetStaticData.deserialize(slice);
           default:
-            throw TonContractException(
+            throw BuError(DefaultErrorType.invalidArgument, 
               'Invalid NFT Item operation type.',
               details: {'type': type.name},
             );
@@ -112,7 +111,7 @@ abstract class NFTItemOperation extends TonSerialization
           case NFTItemOperationType.getStaticData:
             return NFTItemGetStaticData.fromJson(json!);
           default:
-            throw TonContractException(
+            throw BuError(DefaultErrorType.invalidArgument, 
               'Invalid NFT Item operation type.',
               details: {'type': type.name},
             );
@@ -124,7 +123,7 @@ abstract class NFTItemOperation extends TonSerialization
 
   T cast<T extends NFTItemOperation>() {
     if (this is! T) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect NFTItemOperation casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );
@@ -293,13 +292,13 @@ class NFTCollectionOperationType extends ContractOperationType {
       (e) => e.operation == operation,
       orElse:
           () =>
-              throw TonContractExceptionConst.invalidOperationId(
+              throw TonContractErrors.invalidOperationId(
                 tag: operation,
               ),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -315,11 +314,11 @@ class NFTCollectionOperationType extends ContractOperationType {
     final type = values.firstWhere(
       (e) => e.name == name,
       orElse:
-          () => throw TonContractExceptionConst.invalidOperationId(tag: name),
+          () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
-        throw TonContractExceptionConst.incorrectOperation(
+        throw TonContractErrors.incorrectOperation(
           expected: expected.name,
           got: type.name,
         );
@@ -366,7 +365,7 @@ abstract class NFTCollectionOperation extends TonSerialization
           case NFTCollectionOperationType.mint:
             return NFTCollectionMint.deserialize(slice);
           default:
-            throw TonContractException(
+            throw BuError(DefaultErrorType.invalidArgument, 
               'Invalid NFT Collection operation type.',
               details: {'type': type.name},
             );
@@ -389,7 +388,7 @@ abstract class NFTCollectionOperation extends TonSerialization
           case NFTCollectionOperationType.mint:
             return NFTCollectionMint.fromJson(json!);
           default:
-            throw TonContractException(
+            throw BuError(DefaultErrorType.invalidArgument, 
               'Invalid NFT Collection operation type.',
               details: {'type': type.name},
             );
@@ -400,7 +399,7 @@ abstract class NFTCollectionOperation extends TonSerialization
   }
   T cast<T extends NFTCollectionOperation>() {
     if (this is! T) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect NFTCollectionOperation casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );

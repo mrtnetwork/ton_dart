@@ -1,8 +1,8 @@
 import 'package:ton_dart/src/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/ft/contract/wallet/stable_jetton_wallet.dart';
 import 'package:ton_dart/src/contracts/token/ft/types/models/stable_minter_data.dart';
 import 'package:ton_dart/src/contracts/token/ft/types/state/stable_minter.dart';
@@ -11,8 +11,8 @@ import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
-import 'package:ton_dart/src/provider/provider/provider.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant/minter.dart';
+import 'package:ton_dart/src/tuple/tuple.dart';
 
 class StableJettonMinter<E extends WalletContractTransferParams>
     extends TonContract<StableTokenMinterState>
@@ -50,10 +50,10 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   fromAddress<E extends WalletContractTransferParams>({
     required WalletContract<dynamic, E> owner,
     required TonAddress address,
-    required TonProvider rpc,
+    required TonQuickClient client,
   }) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = StableTokenMinterState.deserialize(
@@ -65,7 +65,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -88,7 +88,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
           bounce: bounce ?? address.isBounceable,
         ),
       ],
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       onEstimateFee: onEstimateFee,
@@ -98,7 +98,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
 
   Future<String> deploy({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -106,18 +106,18 @@ class StableJettonMinter<E extends WalletContractTransferParams>
     bool bounced = false,
     OnEstimateFee? onEstimateFee,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
     if (active) {
-      throw const TonContractException('Account is already active.');
+      throw BuError(DefaultErrorType.invalidState, 'Account is already active.');
     }
     if (state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'For deploy minter please use create constructor to build state',
       );
     }
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body:
@@ -139,13 +139,13 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   /// to contract.
   ///
   /// - `params`: owner wallet specify parameters for transfer.
-  /// - `rpc`: The RPC provider used to interact with the blockchain.
+  /// - `client`: The RPC provider used to interact with the blockchain.
   /// - `amount`: The amount of cryptocurrency to be sent in the transaction.
   /// - `operation`: The operation to be executed as part of the transaction, encapsulated in a [StableJettonMinterOperation] object.
   /// - `sendMode`: Specifies how the transaction fees are handled. The default is [SendModeConst.payGasSeparately].
   Future<String> sendOperation({
     required E signerParams,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required StableJettonMinterOperation operation,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
@@ -156,7 +156,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   }) async {
     return _sendTransaction(
       params: signerParams,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: operation.toBody(),
@@ -168,24 +168,21 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   }
 
   /// jetton data
-  Future<StableTokenMinterData> getJettonData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: 'get_jetton_data');
+  Future<StableTokenMinterData> getJettonData(TonQuickClient client) async {
+    final data = await getStateStack(client: client, method: 'get_jetton_data');
     return StableTokenMinterData.fromTuple(data.reader());
   }
 
   /// get jetton wallet address
   Future<TonAddress> getWalletAddress({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required TonAddress owner,
   }) async {
     final data = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_wallet_address',
       stack: [
-        if (rpc.isTonCenter)
-          ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
-        else
-          owner.toString(),
+        TupleItemSlice(beginCell().storeAddress(owner).endCell()),
       ],
     );
     return data.reader().readAddress();
@@ -194,46 +191,40 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   /// get jetton wallet contract
   Future<StableJettonWallet<T>>
   getJettonWalletContract<T extends WalletContractTransferParams>({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required WalletContract<ContractState, T> owner,
   }) async {
     final data = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_wallet_address',
       stack: [
-        if (rpc.isTonCenter)
-          [
-            'tvm.Slice',
-            beginCell().storeAddress(owner.address).endCell().toBase64(),
-          ]
-        else
-          owner.address.toString(),
+        TupleItemSlice(beginCell().storeAddress(owner.address).endCell()),
       ],
     );
     final address = data.reader().readAddress();
     return StableJettonWallet.fromAddress(
       address: address,
       owner: owner,
-      rpc: rpc,
+      client: client,
     );
   }
 
   /// total supply
-  Future<BigInt> totalSupply(TonProvider rpc) async {
-    final data = await getJettonData(rpc);
+  Future<BigInt> totalSupply(TonQuickClient client) async {
+    final data = await getJettonData(client);
     return data.totalSupply;
   }
 
   /// jetton admin address
-  Future<TonAddress?> adminAddress(TonProvider rpc) async {
-    final data = await getJettonData(rpc);
+  Future<TonAddress?> adminAddress(TonQuickClient client) async {
+    final data = await getJettonData(client);
     return data.adminAddress;
   }
 
   /// get next admin address
-  Future<TonAddress?> getNextAdminAddress(TonProvider rpc) async {
+  Future<TonAddress?> getNextAdminAddress(TonQuickClient client) async {
     final data = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_next_admin_address',
     );
     return data.reader().readAddressOpt();

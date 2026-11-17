@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 import 'currency_collection.dart';
 
@@ -33,7 +32,7 @@ class CommonMessageInfoType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw TonDartPluginException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find CommonMessageInfoType from provided name',
                 details: {'name': name},
               ),

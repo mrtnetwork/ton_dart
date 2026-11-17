@@ -1,5 +1,5 @@
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
 import 'package:ton_dart/src/contracts/token/token.dart';
 
@@ -19,7 +19,7 @@ class NFTCollectionMetadata extends NFTMetadata {
     final collectionCell = slice.loadRef().beginParse();
     final tag = collectionCell.loadUint8();
     if (tag != TonMetadataConstant.ftMetadataOffChainTag) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid nft offchain collection metadata',
       );
     }

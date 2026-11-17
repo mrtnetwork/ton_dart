@@ -1,8 +1,9 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void addressTest() {
   group('address', () {
     _testAddress();
     _frindlyForm();
@@ -194,4 +195,8 @@ void _equalAddresses() {
     expect(address2 == address3, false);
     expect(address4 == address3, false);
   });
+}
+
+void main() {
+  TonTestApi.runTest(addressTest, 'Address');
 }

@@ -1,4 +1,4 @@
-import 'package:ton_dart/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class AccountStatusResponse {
   final String _value;
@@ -30,7 +30,7 @@ class AccountStatusResponse {
       (element) => element.value == name,
       orElse:
           () =>
-              throw TonDartPluginException(
+              throw BuError(DefaultErrorType.notFound, 
                 'No AccountStatusResponse found with the provided name: $name',
               ),
     );

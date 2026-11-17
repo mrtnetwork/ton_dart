@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void stableTokenTest() {
   _mint();
 }
 
@@ -73,3 +74,7 @@ void _mint() {
 }
 
 /// te6cckEBAQEAOgAAbw+KfqUAAAAAAAAAAFF0h26ACAH3D7O6FBGij0TZ1H5KbV0KPhICZx2dzw6m01NYsNKRyBAX14QB1Igwsw==
+
+void main() {
+  TonTestApi.runTest(stableTokenTest, 'Stable Token');
+}

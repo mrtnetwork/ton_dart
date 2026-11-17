@@ -9,14 +9,14 @@ void main() async {
   final jetton = await JettonMinter.fromAddress(
       owner: wallet.wallet,
       address: TonAddress("Ef9sa8u1xuh6V5-ueNUEEiOYIjxxAQlqRAZ__7GGc_yJ5Lqf"),
-      rpc: wallet.rpc);
+      client: wallet.client);
   await jetton.sendOperation(
       signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
-      rpc: wallet.rpc,
+      client: wallet.client,
       amount: TonHelper.toNanoGrams("0.1"),
       operation: JettonMinterChangeAdmin(newOwner: newOwner.address),
       bounce: false);
   await Future.delayed(const Duration(seconds: 20));
-  final state = await jetton.getJettonData(wallet.rpc);
+  final state = await jetton.getJettonData(wallet.client);
   assert(state.owner == newOwner.address);
 }

@@ -4,7 +4,6 @@ import 'package:ton_dart/src/boc/bit/bit_reader.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/boc/serialization/utils/utils.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
 import 'package:ton_dart/src/utils/utils/crypto.dart';
 
@@ -122,7 +121,7 @@ class _BocSerializationUtils {
           CryptoUtils.crc32c(src.sublist(0, src.length - 4)),
           crc32,
         )) {
-          throw BocException(
+          throw BuError(DefaultErrorType.invalidChecksum, 
             'Invalid CRC32C',
             details: {
               'crc32': crc32.join(","),
@@ -169,7 +168,7 @@ class _BocSerializationUtils {
             CryptoUtils.crc32c(src.sublist(0, src.length - 4)),
             crc32,
           )) {
-            throw BocException(
+            throw BuError(DefaultErrorType.invalidChecksum, 
               'Invalid CRC32C',
               details: {
                 'crc32': crc32.join(","),
@@ -193,7 +192,7 @@ class _BocSerializationUtils {
           magicNumber: magic,
         );
       default:
-        throw BocException(
+        throw BuError(DefaultErrorType.invalidArgument, 
           'Invalid magic number.',
           details: {
             'magic': magic.toString(),
@@ -351,7 +350,7 @@ class BocSerialization {
     // Sanity Check
     final List<int> res = builder.buffer();
     if (res.length != totalSize ~/ 8) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidLength, 
         'Serialization cannot verify length.',
         details: {
           'expected': (totalSize ~/ 8).toString(),
@@ -380,9 +379,15 @@ class BocSerialization {
       final List<Cell> refs = [];
       final cell = cells[i];
       for (final int r in cell.refsList) {
+        if (r < 0 || r >= cells.length) {
+          throw BuError(DefaultErrorType.invalidArgument, 
+            'Invalid BOC file.',
+            details: {'ref': '$r', 'cells': '${cells.length}'},
+          );
+        }
         final result = cells[r].result;
         if (result == null) {
-          throw BocException('Invalid BOC file');
+          throw BuError(DefaultErrorType.invalidArgument, 'Invalid BOC file');
         }
         refs.add(result);
       }
@@ -392,7 +397,18 @@ class BocSerialization {
     /// Load roots
     final List<Cell> roots = [];
     for (int i = 0; i < boc.root.length; i++) {
-      roots.add(cells.elementAt(boc.root[i]).result!);
+      final int r = boc.root[i];
+      if (r < 0 || r >= cells.length) {
+        throw BuError(DefaultErrorType.invalidArgument, 
+          'Invalid BOC file.',
+          details: {'root': '$r', 'cells': '${cells.length}'},
+        );
+      }
+      final Cell? result = cells.elementAt(r).result;
+      if (result == null) {
+        throw BuError(DefaultErrorType.invalidArgument, 'Invalid BOC file');
+      }
+      roots.add(result);
     }
 
     return roots;

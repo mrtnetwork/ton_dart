@@ -1,8 +1,7 @@
-import 'package:blockchain_utils/utils/numbers/utils/bigint_utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/ft/constants/constant.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
 import 'package:ton_dart/src/models/models/state_init.dart';
@@ -53,7 +52,7 @@ class StableTokenMinterState extends ContractState {
     BigInt? totalSupply,
   }) {
     if (metadata != null && contect != null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Use only content or metadata for jetton content',
       );
     }

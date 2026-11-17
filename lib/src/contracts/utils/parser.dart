@@ -1,4 +1,5 @@
-import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:ton_dart/src/error/ton_error.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class TonModelParser {
   static T parseJson<T>({
@@ -8,10 +9,10 @@ class TonModelParser {
   }) {
     try {
       return parse();
-    } on TonContractException {
+    } on BuError {
       rethrow;
     } catch (e, t) {
-      throw TonContractExceptionConst.invalidJson(
+      throw TonContractErrors.invalidJson(
         name,
         data: data,
         message: e.toString(),
@@ -27,10 +28,10 @@ class TonModelParser {
   }) {
     try {
       return parse();
-    } on TonContractException {
+    } on BuError {
       rethrow;
     } catch (e, t) {
-      throw TonContractExceptionConst.unknownBody(
+      throw TonContractErrors.unknownBody(
         name,
         message: e.toString(),
         trace: t.toString(),

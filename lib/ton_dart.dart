@@ -12,5 +12,6 @@ export 'src/models/models.dart';
 export 'src/utils/utils/fee.dart';
 export 'src/serialization/serialization.dart';
 export 'src/serialization/identifiers.dart';
-export 'src/exception/exception.dart';
-export 'src/exception/ton.dart';
+export 'src/error/ton_error.dart';
+export 'src/ton_connect/ton_connect.dart';
+export 'src/unfreeze/unfreeze.dart';

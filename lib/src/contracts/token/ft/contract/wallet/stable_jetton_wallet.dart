@@ -31,10 +31,10 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   fromAddress<E extends WalletContractTransferParams>({
     required TonAddress address,
     required WalletContract<ContractState, E> owner,
-    required TonProvider rpc,
+    required TonQuickClient client,
   }) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = StableJettonWalletState.deserialize(
@@ -45,7 +45,7 @@ class StableJettonWallet<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -67,7 +67,7 @@ class StableJettonWallet<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
       messages: [message],
       params: params,
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       onEstimateFee: onEstimateFee,
@@ -81,13 +81,13 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   /// to contract.
   ///
   /// - `params`: owner wallet specify parameters for transfer.
-  /// - `rpc`: The RPC provider used to interact with the blockchain.
+  /// - `client`: The RPC provider used to interact with the blockchain.
   /// - `amount`: The amount of cryptocurrency to be sent in the transaction.
   /// - `operation`: The operation to be executed as part of the transaction, encapsulated in a [StableJettonWalletOperation] object.
   /// - `sendMode`: Specifies how the transaction fees are handled. The default is [SendModeConst.payGasSeparately].
   Future<String> sendOperation({
     required E signerParams,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required StableJettonWalletOperation operation,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
@@ -99,7 +99,7 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   }) async {
     return _sendTransaction(
       params: signerParams,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: operation.toBody(),
@@ -112,20 +112,20 @@ class StableJettonWallet<E extends WalletContractTransferParams>
   }
 
   /// get contract balance
-  Future<BigInt> getBalance(TonProvider rpc) async {
-    final data = await getWalletData(rpc);
+  Future<BigInt> getBalance(TonQuickClient client) async {
+    final data = await getWalletData(client);
     return data.balance;
   }
 
   /// get wallet data
-  Future<StableJettonWalletState> getWalletData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: 'get_wallet_data');
+  Future<StableJettonWalletState> getWalletData(TonQuickClient client) async {
+    final data = await getStateStack(client: client, method: 'get_wallet_data');
     return StableJettonWalletState.fromTuple(data.reader());
   }
 
   /// get wallet status
-  Future<StableTokenWalletStatus> getStatus(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: 'get_status');
+  Future<StableTokenWalletStatus> getStatus(TonQuickClient client) async {
+    final data = await getStateStack(client: client, method: 'get_status');
     return StableTokenWalletStatus.fromTag(data.reader().readNumber());
   }
 }

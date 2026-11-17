@@ -1,9 +1,8 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary/dictionary.dart';
 import 'package:ton_dart/src/dict/dictionary/key.dart';
-import 'package:ton_dart/src/dict/exception/exception.dart';
 import 'package:ton_dart/src/utils/utils/math.dart';
 
 class DictionaryUtils {
@@ -32,7 +31,7 @@ class DictionaryUtils {
   static String serializeInternalKey(dynamic value) {
     if (value is int) {
       if (!value.isFinite) {
-        throw DictException('Invalid key type. not a safe integer.');
+        throw BuError(DefaultErrorType.invalidArgument, 'Invalid key type. not a safe integer.');
       }
       return 'n:${value.toString()}';
     } else if (value is BigInt) {
@@ -44,7 +43,7 @@ class DictionaryUtils {
     } else if (value is BitString) {
       return 'B:${value.toString()}';
     } else {
-      throw DictException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid key type.',
         details: {'key': value, 'type': value.runtimeType.toString()},
       );
@@ -54,7 +53,7 @@ class DictionaryUtils {
   static T deserializeInternalKey<T>(String value) {
     final decode = _deserializeInternalKey(value);
     if (decode is! T) {
-      throw DictException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid key type.',
         details: {
           'value': decode,
@@ -71,9 +70,9 @@ class DictionaryUtils {
     final v = value.substring(2);
     switch (k) {
       case 'n:':
-        return int.parse(v);
+        return IntUtils.parse(v);
       case 'b:':
-        return BigInt.parse(v);
+        return BigintUtils.parse(v);
       case 'a:':
         return TonAddress(v);
       case 'f:':
@@ -99,7 +98,7 @@ class DictionaryUtils {
           return BitString(BytesUtils.fromHexString(v), 0, v.length << 2);
         }
       default:
-        throw DictException(
+        throw BuError(DefaultErrorType.invalidArgument, 
           'Invalid key type.',
           details: {'key': k, 'type': k.runtimeType.toString()},
         );

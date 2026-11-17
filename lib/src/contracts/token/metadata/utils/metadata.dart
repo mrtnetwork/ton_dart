@@ -1,9 +1,7 @@
-import 'package:blockchain_utils/crypto/quick_crypto.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
 import 'package:ton_dart/src/contracts/token/metadata/core/metadata.dart';
-import 'package:ton_dart/src/contracts/token/metadata/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/metadata/models/on_chain.dart';
 import 'package:ton_dart/src/contracts/token/metadata/models/off_chain.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
@@ -116,7 +114,7 @@ class TokneMetadataUtils {
         try {
           castMap = Map<int, String>.from(source);
         } catch (e) {
-          throw TokenMetadataException(
+          throw BuError(DefaultErrorType.invalidArgument, 
             'Invalid metadata value. value must be string or chunked format(Map<int,String>)',
             details: {'value': source},
           );
@@ -145,7 +143,7 @@ class TokneMetadataUtils {
         );
         return result.asMap.values.map((e) => e.beginParse().loadStringTail());
       }
-      throw const TokenMetadataException(
+      throw BuError(DefaultErrorType.unsupported, 
         'Invalid or Unsuported metadata type.',
       );
     },

@@ -3,7 +3,7 @@ import 'package:ton_dart/ton_dart.dart';
 
 void main() async {
   final wallet = TestWallet<WalletV5R1>(version: WalletVersion.v5R1);
-  final state = await wallet.wallet.readState(wallet.rpc);
+  final state = await wallet.wallet.readState(wallet.client);
   await wallet.wallet.sendTransfer(
       params: VersionedV5TransferParams.external(signer: wallet.signer),
       messages: [
@@ -12,7 +12,7 @@ void main() async {
             amount: TonHelper.toNanoGrams("0.1"),
             body: await wallet.wallet.createAndSignInternalMessage(
                 signer: wallet.signer,
-                rpc: wallet.rpc,
+                client: wallet.client,
                 accountSeqno: state.seqno + 1,
                 v5Messages: [
                   OutActionSendMsg(
@@ -22,5 +22,5 @@ void main() async {
                           amount: TonHelper.toNanoGrams("0.12123")))
                 ]))
       ],
-      rpc: wallet.rpc);
+      client: wallet.client);
 }

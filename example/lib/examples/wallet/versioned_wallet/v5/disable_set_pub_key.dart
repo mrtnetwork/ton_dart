@@ -17,5 +17,5 @@ void main() async {
             body: wallet.wallet.createExtensionMessage(
                 actions: [const OutActionSetIsPublicKeyEnabled(false)])),
       ],
-      rpc: extensionWallet.rpc);
+      client: extensionWallet.client);
 }

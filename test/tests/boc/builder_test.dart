@@ -6,27 +6,28 @@ import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'dart:math' show Random;
 
 import 'package:ton_dart/src/contracts/core/core.dart';
+import '../../utils.dart';
 
 final _random = Random.secure();
 
 int _generateRandom() {
   final len = _random.nextInt(6) + 1;
   assert(len > 0 && len <= 6);
-  final rand = QuickCrypto.generateRandom(len);
+  final rand = QuickCrypto.generateRandom(length: len);
   return IntUtils.fromBytes(rand);
 }
 
 int _generateRandomSign() {
   final len = _random.nextInt(6) + 1;
   assert(len > 0 && len <= 6);
-  final rand = QuickCrypto.generateRandom(len);
+  final rand = QuickCrypto.generateRandom(length: len);
   final sign = _random.nextBool();
   final num = IntUtils.fromBytes(rand);
   if (sign) return -num;
   return num;
 }
 
-void main() {
+void builderTest() {
   _test();
 }
 
@@ -135,10 +136,10 @@ void _test() {
   test('should read string tails from builder', () {
     for (int i = 0; i < 1000; i++) {
       final a = BytesUtils.toHexString(
-        QuickCrypto.generateRandom(_random.nextInt(1023)),
+        QuickCrypto.generateRandom(length: _random.nextInt(1023)),
       );
       final b = BytesUtils.toHexString(
-        QuickCrypto.generateRandom(_random.nextInt(1023)),
+        QuickCrypto.generateRandom(length: _random.nextInt(1023)),
       );
       final builder = beginCell();
       builder.storeStringRefTail(a);
@@ -148,4 +149,8 @@ void _test() {
       expect(sc.loadStringTail(), b);
     }
   });
+}
+
+void main() {
+  TonTestApi.runTest(builderTest, 'Builder');
 }

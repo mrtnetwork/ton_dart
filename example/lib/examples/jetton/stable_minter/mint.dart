@@ -14,7 +14,7 @@ void main() async {
       ));
   await stableJetton.sendOperation(
       signerParams: VersionedV5TransferParams.external(signer: wallet.signer),
-      rpc: wallet.rpc,
+      client: wallet.client,
       operation: StableJettonMinterMint(
           totalTonAmount: TonHelper.toNanoGrams("0.4"),
           to: wallet.address,

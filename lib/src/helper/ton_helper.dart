@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models.dart';
 
 /// A utility class for handling TON (The Open Network) specific operations.
@@ -44,11 +43,11 @@ class TonHelper {
   /// [data] - The string data that represents a cell in hex or base64 format.
   ///
   /// Returns the parsed [Cell].
-  /// Throws a [TonDartPluginException] if the data is invalid or cannot be parsed.
+  /// Throws a [BuError] if the data is invalid or cannot be parsed.
   static Cell toCell(String? data) {
     final toCell = tryToCell(data);
     if (toCell == null) {
-      throw TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid cell data.',
         details: {'data': data},
       );

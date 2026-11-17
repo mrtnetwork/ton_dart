@@ -2,8 +2,9 @@ import 'package:blockchain_utils/utils/utils.dart';
 import 'package:test/test.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
+import '../../utils.dart';
 
-void main() {
+void serializeDictTest() {
   group('serialize dict', () => _test());
 }
 
@@ -29,4 +30,8 @@ void _test() {
       'c8c0ca7071eabf18a71adcbb398d1d2164b1378b9ae70c00510049fb865aec6a',
     );
   });
+}
+
+void main() {
+  TonTestApi.runTest(serializeDictTest, 'Serialize Dict');
 }

@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void messageTest() {
   group('Message', () => _test());
 }
 
@@ -38,4 +39,8 @@ void _test() {
     expect(msg.createdLt, BigInt.from(6000001));
     expect(msg.createdAt, 1705524415);
   });
+}
+
+void main() {
+  TonTestApi.runTest(messageTest, 'Message');
 }

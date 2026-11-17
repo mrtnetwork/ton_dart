@@ -1,8 +1,8 @@
 import 'package:ton_dart/src/dict/dictionary.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/models/models.dart';
-import 'package:ton_dart/ton_dart.dart' show TonDartPluginException;
 
 class TonSerializationUtils {
   static Dictionary<BigInt, V> arrayToDict<V>({
@@ -25,7 +25,7 @@ class TonSerializationUtils {
     int? timeout,
   }) {
     if (type == WalletV5AuthType.extension) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Please use `createExtensionMessage` for create extension message body.',
       );
     }
@@ -69,7 +69,7 @@ class TonSerializationUtils {
   // }) {
   //   if (type != WalletV5AuthType.extension) {
   //     if (accountSeqno == null || context == null) {
-  //       throw const TonContractException(
+  //       throw BuError(TonErrorType.contract, 
   //         'accountSeqno and context required for build wallet message v5.',
   //       );
   //     }
@@ -179,7 +179,7 @@ class TonSerializationUtils {
     int? timeout,
   }) {
     if (actions.length > state.version.maxMessageLength) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}',
       );
     }
@@ -210,7 +210,7 @@ class TonSerializationUtils {
           timeout: timeout,
         );
       default:
-        throw TonDartPluginException('Use serializeV1 for v1 messages.');
+        throw BuError(DefaultErrorType.invalidArgument, 'Use serializeV1 for v1 messages.');
     }
   }
 }

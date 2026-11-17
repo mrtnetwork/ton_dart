@@ -85,3 +85,13 @@ class OrderContractState extends ContractState {
     };
   }
 }
+
+/// An order account address paired with its on-chain order state, as
+/// returned by indexer-backed listings ([TonQuickClientApi.getMultisigOrders]).
+/// Unlike seqno scanning, indexers report every order regardless of seqno
+/// gaps (arbitrary `order_id` when the multisig allows it).
+class MultisigOrderInfo {
+  final TonAddress address;
+  final OrderContractState state;
+  const MultisigOrderInfo({required this.address, required this.state});
+}

@@ -3,8 +3,9 @@ import 'package:test/test.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/utils/utils.dart';
 import 'dict_test.dart';
+import '../../utils.dart';
 
-void main() {
+void parseDictTest() {
   group('parse dict', () => _test());
 }
 
@@ -92,4 +93,8 @@ void _test() {
       '75741add82edc3448ef8b6e83a4b9a356ea61f7a53bf166d71b3e8f1bf52de97',
     );
   });
+}
+
+void main() {
+  TonTestApi.runTest(parseDictTest, 'Parse Dict');
 }

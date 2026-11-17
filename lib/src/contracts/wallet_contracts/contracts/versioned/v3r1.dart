@@ -55,12 +55,12 @@ class WalletV3R1
   }
   static Future<WalletV3R1> fromAddress({
     required TonAddress address,
-    required TonProvider rpc,
+    required TonQuickClient client,
     TonWorkChain? workchain,
     TonChainId? chainId,
   }) async {
     final data = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state =

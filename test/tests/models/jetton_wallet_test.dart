@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void jettonWalletTest() {
   group('Jetton wallet', () {
     test('Transfer', () {
       const body =
@@ -16,4 +17,8 @@ void main() {
       expect(decode.serialize().toHex(), body);
     });
   });
+}
+
+void main() {
+  TonTestApi.runTest(jettonWalletTest, 'Jetton Wallet');
 }

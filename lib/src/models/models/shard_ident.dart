@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 // Source: https://github.com/ton-blockchain/ton/blob/24dc184a2ea67f9c47042b4104bbb4d82289fac1/crypto/block/block.tlb#L384
@@ -18,7 +17,7 @@ class ShardIdent extends TonSerialization {
   factory ShardIdent.deserialize(Slice slice) {
     final shardIdent = slice.loadUint(2);
     if (shardIdent != 0) {
-      throw const TonDartPluginException('Invalid ShardIdent slice.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid ShardIdent slice.');
     }
     return ShardIdent(
       shardPrefixBits: slice.loadUint(6),

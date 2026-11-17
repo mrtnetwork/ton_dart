@@ -16,11 +16,16 @@ class MultiOwnerContractUtils {
 
   static List<TonAddress> signerCellToList<V>(Cell? cell) {
     if (cell == null) return [];
-    final dict = Dictionary.empty<int, TonAddress>(
+    // Signer dicts are direct-layout cells (inline hashmap root) everywhere
+    // the contracts carry them: `packOrder`/`packUpdateRequest` store them
+    // with `storeDictDirect`, the multisig state deserializer reads them
+    // with `loadRef` + direct parse, and `get_order_data` returns them as
+    // an inline root. Parsing them as maybe-layout (`loadFromClice`) throws
+    // `BuError: No more references` on real chain responses.
+    return Dictionary.loadDirect<int, TonAddress>(
       key: DictionaryKey.uintCodec(8),
       value: DictionaryValue.addressCodec(),
-    );
-    dict.loadFromClice(cell.beginParse());
-    return dict.asMap.values.whereType<TonAddress>().toList();
+      slice: cell.beginParse(),
+    ).asMap.values.whereType<TonAddress>().toList();
   }
 }

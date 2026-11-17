@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void nftTest() {
   _collection();
   _item();
 }
@@ -115,3 +116,7 @@ void _collection() {
 }
 
 /// te6cckEBDAEA5QABGQAAAAIAAAAAAAAAAMABAgPPYAIJAgFYAwYBCRAvrwgCBAFDn+Z4XVMgVYIggJ/9Ft1i0VgINlXV2FsYQ9APzW/kyt4vkAUAKC8/ZmlsZW5hbWU9bmZ0Mi5qc29uAQkQL68IAgcBQ5/meF1TIFWCIICf/RbdYtFYCDZV1dhbGEPQD81v5MreL5AIACgvP2ZpbGVuYW1lPW5mdDMuanNvbgEL0gX14QBACgFDn+Z4XVMgVYIggJ/9Ft1i0VgINlXV2FsYQ9APzW/kyt4vkAsAKC8/ZmlsZW5hbWU9bmZ0NC5qc29uHm0KPQ==
+
+void main() {
+  TonTestApi.runTest(nftTest, 'Nft');
+}

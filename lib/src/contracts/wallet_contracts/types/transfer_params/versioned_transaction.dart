@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/models/models.dart';
@@ -138,7 +138,7 @@ class VersionedWalletTransactionV5Extension
   factory VersionedWalletTransactionV5Extension.deserialize(Slice slice) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Incorrect Wallet Version V5 Extension body',
       );
     }
@@ -173,7 +173,7 @@ class VersionedWalletTransactionV5Internal
   }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.internal.tag) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Incorrect Wallet Version V5 Internal body',
       );
     }
@@ -216,7 +216,7 @@ class VersionedWalletTransactionV5External
   }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Incorrect Wallet Version V5 External body',
       );
     }

@@ -22,5 +22,5 @@ void main() async {
                       amount: TonHelper.toNanoGrams("25")))
             ])),
       ],
-      rpc: extensionWallet.rpc);
+      client: extensionWallet.client);
 }

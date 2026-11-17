@@ -1,7 +1,7 @@
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/constant/constants/mutli_owner.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/contracts/multi_owner/order.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
@@ -11,6 +11,7 @@ import 'package:ton_dart/src/dict/dictionary.dart';
 import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
+import 'package:ton_dart/src/tuple/tuple.dart';
 
 class MultiOwnerContract<E extends WalletContractTransferParams>
     extends WalletContract<MultiOwnerWalletState, MultiOwnerTransferParams<E>> {
@@ -68,10 +69,10 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     TonWorkChain? workchain,
     required WalletContract<ContractState, MultiOwnerTransferParams> owner,
     required TonAddress address,
-    required TonProvider provider,
+    required TonQuickClient client,
   }) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: provider,
+      client: client,
       address: address,
     );
     final state = MultiOwnerWalletState.deserialize(
@@ -93,7 +94,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -116,7 +117,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
           bounce: bounce ?? address.isBounceable,
         ),
       ],
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       onEstimateFee: onEstimateFee,
@@ -126,7 +127,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
 
   Future<String> deploy({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -134,16 +135,16 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     bool bounced = false,
     OnEstimateFee? onEstimateFee,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
     if (active) {
-      throw const TonContractException('Account is already active.');
+      throw BuError(DefaultErrorType.invalidState, 'Account is already active.');
     }
     if (state == null) {
-      throw const TonContractException('cannot deploy with watch only wallet.');
+      throw BuError(DefaultErrorType.invalidState, 'cannot deploy with watch only wallet.');
     }
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: initMessageBody(),
@@ -190,7 +191,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       value: DictionaryValue.cellCodec(),
     );
     if (actions.length > 255) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'For action chains above 255, use packLarge method',
       );
     } else {
@@ -255,7 +256,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     }
 
     if (tailChunk == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.internal, 
         'Something went wrong during large order pack',
       );
     }
@@ -285,7 +286,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   }
 
   Future<String> sendNewOrder({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required E params,
     required BigInt expirationDate,
     required BigInt amount,
@@ -294,20 +295,21 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     BigInt? queryId,
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
+    final state = this.state;
     if (state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'Cannot create new order with watch only wallet',
       );
     }
-    int addrIdx = state!.signers.indexOf(owner.address);
+    int addrIdx = state.signers.indexOf(owner.address);
     bool isSigner;
     if (addrIdx >= 0) {
       isSigner = true;
     } else {
-      addrIdx = state!.proposers.indexOf(owner.address);
+      addrIdx = state.proposers.indexOf(owner.address);
       if (addrIdx < 0) {
-        throw const TonContractException(
+        throw BuError(DefaultErrorType.invalidArgument, 
           'the owner is not a signer or proposer.',
         );
       }
@@ -334,58 +336,48 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
 
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       body: body,
-      state: active ? null : state!.initialState(workchain: owner.workchain),
+      state: active ? null : state.initialState(workchain: address.workchain),
       action: action,
     );
   }
 
-  Future<MultiOwnerWalletState> getStateData(TonProvider rpc) async {
+  Future<MultiOwnerWalletState> getStateData(TonQuickClient client) async {
     final state = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     return MultiOwnerWalletState.deserialize(state.data!.beginParse());
   }
 
   Future<TonAddress> orderAddress({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt seqno,
   }) async {
     final call = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_order_address',
-      stack: [
-        if (rpc.isTonCenter) ...[
-          ['num', seqno.toString()],
-        ] else
-          seqno.toString(),
-      ],
+      stack: [TupleItemInt(seqno)],
     );
     return call.reader().readAddress();
   }
 
   Future<OrderContract<T>>
   getOrderContract<T extends WalletContractTransferParams>({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt seqno,
     required WalletContract<ContractState, T> signerWallet,
   }) async {
     final call = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_order_address',
-      stack: [
-        if (rpc.isTonCenter) ...[
-          ['num', seqno.toString()],
-        ] else
-          seqno.toString(),
-      ],
+      stack: [TupleItemInt(seqno)],
     );
     final orderAddress = call.reader().readAddress();
     final orderState = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: orderAddress,
     );
     final state = OrderContractState.deserialize(orderState.data!.beginParse());
@@ -400,7 +392,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   Future<String> sendTransfer({
     required MultiOwnerTransferParams<E> params,
     List<MessageRelaxed> messages = const [],
-    required TonProvider rpc,
+    required TonQuickClient client,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
     OnEstimateFee? onEstimateFee,
@@ -411,7 +403,7 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
             .map((e) => OutActionMultiSigSendMsg(outMessage: e, mode: sendMode))
             .toList();
     return sendNewOrder(
-      rpc: rpc,
+      client: client,
       params: params.params,
       amount: params.amount,
       expirationDate: params.expirationDate,

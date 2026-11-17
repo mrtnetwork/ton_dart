@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void nftDataTest() {
   group('NFT body', () {
     test('edit content', () {
       const body =
@@ -90,4 +91,8 @@ void main() {
       expect(decode.serialize().toHex(), body);
     });
   });
+}
+
+void main() {
+  TonTestApi.runTest(nftDataTest, 'Nft Data');
 }

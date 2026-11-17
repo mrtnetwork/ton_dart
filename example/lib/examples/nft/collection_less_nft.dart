@@ -14,5 +14,5 @@ void main() async {
   await nftItem.deploy(
       params: VersionedV5TransferParams.external(signer: wallet.signer),
       amount: TonHelper.toNanoGrams("0.3"),
-      rpc: wallet.rpc);
+      client: wallet.client);
 }

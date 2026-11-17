@@ -1,7 +1,5 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
-import 'package:ton_dart/src/tuple/exception/exception.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 
 class TupleUtils {
@@ -66,7 +64,7 @@ class TupleUtils {
       }
       return TupleItemTuple(items);
     } else {
-      throw TupleException('Unsupported stack item');
+      throw BuError(DefaultErrorType.unsupported, 'Unsupported stack item');
     }
   }
 
@@ -85,7 +83,7 @@ class TupleUtils {
 
   static TupleItem _parseStackItemAsList(List<dynamic> stacks) {
     if (stacks.isEmpty) {
-      throw TupleException('Invali stack list item');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid stack list item');
     }
     final type = stacks[0];
     switch (type) {
@@ -107,8 +105,8 @@ class TupleUtils {
       case 'builder':
         return TupleItemBuilder(Cell.fromBase64((stacks[1] as Map)['bytes']));
       default:
-        throw TonDartPluginException(
-          'Unsuported tuple type.',
+        throw BuError(DefaultErrorType.unsupported, 
+          'Unsupported tuple type.',
           details: {'type': type},
         );
     }

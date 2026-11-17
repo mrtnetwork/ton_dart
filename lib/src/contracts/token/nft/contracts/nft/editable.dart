@@ -1,7 +1,7 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/token/nft/types/types.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/helper/ton_helper.dart';
@@ -34,10 +34,10 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
   fromAddress<E extends WalletContractTransferParams>({
     required WalletContract<dynamic, E> owner,
     required TonAddress address,
-    required TonProvider rpc,
+    required TonQuickClient client,
   }) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = NftEditableCollectionState.deserialize(
@@ -52,7 +52,7 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -62,9 +62,9 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
     OnEstimateFee? onEstimateFee,
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
     if (!active && state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'The account is inactive and requires state initialization.',
       );
     }
@@ -79,7 +79,7 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
       messages: [message],
       params: params,
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       action: action,
@@ -90,7 +90,7 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
   @override
   Future<String> sendOperation({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     required NFTCollectionOperation operation,
     int sendMode = SendModeConst.payGasSeparately,
@@ -101,7 +101,7 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
   }) {
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: operation.toBody(),

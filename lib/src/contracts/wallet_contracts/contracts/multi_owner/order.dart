@@ -1,7 +1,7 @@
 import 'package:ton_dart/src/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/constant/constants/mutli_owner.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/order.dart';
@@ -48,7 +48,7 @@ class OrderContract<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -71,7 +71,7 @@ class OrderContract<E extends WalletContractTransferParams>
           bounce: bounce ?? address.isBounceable,
         ),
       ],
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       onEstimateFee: onEstimateFee,
@@ -114,7 +114,7 @@ class OrderContract<E extends WalletContractTransferParams>
 
   Future<String> sendApprove({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int? signerIdx,
     BigInt? queryId,
@@ -125,26 +125,26 @@ class OrderContract<E extends WalletContractTransferParams>
     OnEstimateFee? onEstimateFee,
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
     if (!active) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'canoot send approve before deploying contarct. please first use deply method for deploying.',
       );
     }
     if (signerIdx == null) {
       if (state == null) {
-        throw const TonContractException(
+        throw BuError(DefaultErrorType.invalidState, 
           'cannot send approve without known signer index. please first use deply method for deploying.',
         );
       }
       signerIdx = state!.signers.indexOf(owner.address);
     }
     if (signerIdx < 0) {
-      throw const TonContractException('cannot find signer.');
+      throw BuError(DefaultErrorType.notFound, 'cannot find signer.');
     }
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: approveMessageBody(signerIdx: signerIdx, queryId: queryId),
@@ -156,9 +156,9 @@ class OrderContract<E extends WalletContractTransferParams>
     );
   }
 
-  Future<OrderContractState> getOrderData(TonProvider rpc) async {
+  Future<OrderContractState> getOrderData(TonQuickClient client) async {
     final state = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_order_data',
       stack: [],
     );

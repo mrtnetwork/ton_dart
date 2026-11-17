@@ -7,27 +7,28 @@ import 'package:ton_dart/src/boc/bit/bit_reader.dart';
 import 'dart:math' show Random;
 
 import 'package:ton_dart/src/contracts/core/core/chain.dart';
+import '../../utils.dart';
 
 final _random = Random.secure();
 
 int _generateRandom() {
   final len = _random.nextInt(6) + 1;
   assert(len > 0 && len <= 6);
-  final rand = QuickCrypto.generateRandom(len);
+  final rand = QuickCrypto.generateRandom(length: len);
   return IntUtils.fromBytes(rand);
 }
 
 int _generateRandomSign() {
   final len = _random.nextInt(6) + 1;
   assert(len > 0 && len <= 6);
-  final rand = QuickCrypto.generateRandom(len);
+  final rand = QuickCrypto.generateRandom(length: len);
   final sign = _random.nextBool();
   final num = IntUtils.fromBytes(rand);
   if (sign) return -num;
   return num;
 }
 
-void main() {
+void bitReaderTest() {
   group('bit reader', () => _test());
 }
 
@@ -177,4 +178,8 @@ void _test() {
       expect(reader.loadMaybeExternalAddress().toString(), b.toString());
     }
   });
+}
+
+void main() {
+  TonTestApi.runTest(bitReaderTest, 'Bit Reader');
 }

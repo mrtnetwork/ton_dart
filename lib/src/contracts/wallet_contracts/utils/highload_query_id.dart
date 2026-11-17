@@ -1,4 +1,4 @@
-import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class _HighloadQueryIdConst {
   static const int bitNumberSize = 10; // 10 bit
@@ -22,14 +22,14 @@ class HighloadQueryId {
   ) {
     if (shift < BigInt.zero ||
         shift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid shift',
         details: {'shift': shift.toString()},
       );
     }
     if (bitNumber < BigInt.zero ||
         bitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid bitNumber',
         details: {'bitNumber': bitNumber.toString()},
       );
@@ -55,14 +55,28 @@ class HighloadQueryId {
 
     if (newShift == BigInt.from(_HighloadQueryIdConst.maxShift) &&
         newBitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber - 1)) {
-      throw const TonContractException('Overload');
+      throw BuError(DefaultErrorType.invalidState, 
+        'HighloadQueryId overflow: no next id.',
+        details: {
+          'shift': '$newShift',
+          'bitNumber': '$newBitNumber',
+          'maxShift': '${_HighloadQueryIdConst.maxShift}',
+          'maxBitNumber': '${_HighloadQueryIdConst.maxBitNumber}',
+        },
+      );
     }
 
     if (newBitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
       newBitNumber = BigInt.zero;
       newShift += BigInt.one;
       if (newShift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-        throw const TonContractException('Overload');
+        throw BuError(DefaultErrorType.invalidState, 
+          'HighloadQueryId overflow: no next id.',
+          details: {
+            'shift': '$newShift',
+            'maxShift': '${_HighloadQueryIdConst.maxShift}',
+          },
+        );
       }
     }
 

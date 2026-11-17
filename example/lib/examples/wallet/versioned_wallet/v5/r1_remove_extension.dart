@@ -9,5 +9,5 @@ void main() async {
       params: VersionedV5TransferParams.external(
           signer: wallet.signer,
           messages: [OutActionRemoveExtension(newExtension.address)]),
-      rpc: wallet.rpc);
+      client: wallet.client);
 }

@@ -1,7 +1,6 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/currency_collection.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
@@ -48,7 +47,7 @@ class MasterchainStateExtra extends TonSerialization {
   factory MasterchainStateExtra.deserialize(Slice slice) {
     // Check magic
     if (slice.loadUint(16) != _MasterChainStateExtraConst.magic) {
-      throw const TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid MasterchainStateExtra slice data',
       );
     }
@@ -81,7 +80,9 @@ class MasterchainStateExtra extends TonSerialization {
 
   @override
   void store(Builder builder) {
-    throw UnsupportedError("Not implemented.");
+    throw BuError(DefaultErrorType.unsupported, 
+      'MasterchainStateExtra.store is not implemented.',
+    );
   }
 
   @override

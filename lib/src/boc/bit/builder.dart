@@ -1,6 +1,6 @@
 import 'package:ton_dart/src/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
 import 'package:ton_dart/src/dict/dictionary/dictionary.dart';
 import 'package:ton_dart/src/dict/dictionary/key.dart';
@@ -198,10 +198,10 @@ class Builder {
     return this;
   }
 
-  /// Stores a reference (cell). Throws [BocException] if more than 4 references are added.
+  /// Stores a reference (cell). Throws [BuError] if more than 4 references are added.
   Builder storeRef(Cell cell) {
     if (_refs.length >= 4) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Too many references.',
         details: {'maximum': 4.toString(), 'refrence': _refs.length.toString()},
       );

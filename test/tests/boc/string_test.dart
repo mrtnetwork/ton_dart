@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
+import '../../utils.dart';
 
-void main() {
+void stringTest() {
   _test();
 }
 
@@ -22,4 +23,8 @@ void _test() {
       expect(BocUtils.readString(cell.beginParse().skip(32)), i);
     }
   });
+}
+
+void main() {
+  TonTestApi.runTest(stringTest, 'String');
 }

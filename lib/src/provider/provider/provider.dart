@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'package:blockchain_utils/chain/networks.dart';
 import 'package:blockchain_utils/exception/exception/rpc_error.dart';
-import 'package:blockchain_utils/networks/types/network.dart';
 import 'package:blockchain_utils/service/service.dart';
 import 'package:blockchain_utils/utils/json/json.dart';
 import 'package:ton_dart/src/provider/core/core.dart';
@@ -110,7 +110,7 @@ class TonProvider<SERVICE extends IServiceProvider>
       request,
       timeout: timeout,
     );
-    return request.onResonse(r);
+    return request.onResponse(r);
   }
 
   /// Sends a request to the service using the specified [request] parameter.
@@ -122,7 +122,7 @@ class TonProvider<SERVICE extends IServiceProvider>
     IServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request, {
     Duration? timeout,
   }) async {
-    final params = request.buildRequest(_id++);
+    final params = await request.buildRequest(_id++);
     if (params.isJsonRpc) {
       final response = await service.doRequest(params, timeout: timeout);
       return _findError<SERVICERESPONSE>(response, params);

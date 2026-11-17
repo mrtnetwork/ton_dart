@@ -30,7 +30,7 @@ void main() async {
 
   await nftCollection.sendOperation(
     params: VersionedV5TransferParams.external(signer: wallet.signer),
-    rpc: wallet.rpc,
+    client: wallet.client,
     amount: TonHelper.toNanoGrams("1"),
     operation: NFTCollectionBatchMint(
         nfts: List.generate(3, (index) {
@@ -47,7 +47,7 @@ void main() async {
   for (int i = 0; i < 3; i++) {
     final itemIndex = BigInt.two + BigInt.from(i);
     final collectionData = await nftCollection.getNFTItemContractByIndex(
-        rpc: wallet.rpc, index: itemIndex, owner: wallet.wallet);
+        client: wallet.client, index: itemIndex, owner: wallet.wallet);
     assert(collectionData.state?.ownerAddress == wallet.address);
     assert(
         collectionData.state?.metadata.uri == "/?filename=nft$itemIndex.json");

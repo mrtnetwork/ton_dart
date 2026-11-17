@@ -9,16 +9,16 @@ void main() async {
   final nftCollection = await NFTCollectionContract.fromAddress(
       owner: wallet.wallet,
       address: TonAddress("Ef-CHcyJannW7zf8pNeqV_6egmdu5nLOZfsxHSAqAOd9tQc7"),
-      rpc: wallet.rpc);
+      client: wallet.client);
 
   await nftCollection.sendOperation(
     params: VersionedV5TransferParams.external(signer: wallet.signer),
-    rpc: wallet.rpc,
+    client: wallet.client,
     amount: TonHelper.toNanoGrams("0.1"),
     operation:
         NFTCollectionChangeOwner(newOwnerAddress: royalityParamsWallet.address),
   );
   await Future.delayed(const Duration(seconds: 10));
-  final data = await nftCollection.getCollectionData(wallet.rpc);
+  final data = await nftCollection.getCollectionData(wallet.client);
   assert(data.ownerAddress == royalityParamsWallet.address);
 }

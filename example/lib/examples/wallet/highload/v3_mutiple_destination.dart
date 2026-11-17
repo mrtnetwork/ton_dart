@@ -56,5 +56,5 @@ void main() async {
                     destination: destination9.address,
                     amount: TonHelper.toNanoGrams("0.01"))),
           ]),
-      rpc: wallet.rpc);
+      client: wallet.client);
 }

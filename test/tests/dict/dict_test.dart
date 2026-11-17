@@ -7,6 +7,7 @@ import 'package:ton_dart/src/boc/serialization/utils/utils.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
 
 import 'config_test_vector.dart';
+import '../../utils.dart';
 
 Builder storeBits(Builder builder, String src) {
   for (final s in src.runes) {
@@ -19,7 +20,7 @@ Builder storeBits(Builder builder, String src) {
   return builder;
 }
 
-void main() async {
+void dictTest() {
   group('dict', () => _test());
 }
 
@@ -229,4 +230,8 @@ void _test() {
     expect(testDict.keys.first, BigInt.from(123));
     expect(testDict[BigInt.from(123)]?.length, 0);
   });
+}
+
+void main() {
+  TonTestApi.runTest(dictTest, 'Dict');
 }

@@ -3,8 +3,9 @@ import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple_reader.dart';
 
 import 'tuple_json_test_vector.dart';
+import '../../utils.dart';
 
-void main() {
+void tupleReaderTest() {
   group('tuple reader', () => _test());
 }
 
@@ -57,4 +58,8 @@ void _test() {
     r = TupleReader(cons);
     expect(r.readLispListDirect(), []);
   });
+}
+
+void main() {
+  TonTestApi.runTest(tupleReaderTest, 'Tuple Reader');
 }

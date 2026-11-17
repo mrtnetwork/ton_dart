@@ -1,11 +1,10 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
 
 class _BitStringUtils {
   static void validateOffset(int offset, int length, {int? at}) {
     if (offset.isNegative) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Offset is out of bounds',
         details: {
           'offset': offset.toString(),
@@ -16,7 +15,7 @@ class _BitStringUtils {
     }
     final int index = offset + (at ?? 0);
     if (index > length) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Offset is out of bounds',
         details: {
           'offset': index.toString(),
@@ -45,10 +44,10 @@ class BitString {
   const BitString._(this._data, this._offset, this._length);
 
   /// Constructs a `BitString` from raw data, with an offset and length.
-  /// Throws a [BocException] if the length is out of bounds.
+  /// Throws a [BuError] if the length is out of bounds.
   factory BitString(List<int> data, int offset, int length) {
     if (length < 0) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidLength, 
         'Length is out of bounds',
         details: {'length': length.toString()},
       );
@@ -66,11 +65,11 @@ class BitString {
   }
 
   /// Returns the value of the bit at the specified index.
-  /// Throws a [BocException] if the index is out of bounds.
+  /// Throws a [BuError] if the index is out of bounds.
   bool at(int index) {
     _BitStringUtils.validateOffset(index, _length);
     if (index >= _length) {
-      throw BocException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'index is out of bounds',
         details: {'index': index.toString(), 'length': length.toString()},
       );
@@ -85,7 +84,7 @@ class BitString {
   /// Checks if the specified index is within the bitstring's length.
   /// Returns `true` if the bit exists, `false` otherwise.
   bool hasBit(int index) {
-    if (index >= _length) {
+    if (index < 0 || index >= _length) {
       return false;
     }
     return true;

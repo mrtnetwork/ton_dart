@@ -1,6 +1,6 @@
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/contracts/core/core/transfer_params.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/utils/serialization_utils.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/versioned.dart';
@@ -15,30 +15,30 @@ mixin VerionedProviderImpl<
 >
     on WalletContract<C, TRANSFERPARAMS> {
   WalletVersion get type;
-  Future<int> getSeqno(TonProvider rpc) async {
+  Future<int> getSeqno(TonQuickClient client) async {
     try {
-      final state = await readState(rpc);
+      final state = await readState(client);
       return state.seqno;
-    } on TonContractException catch (e) {
-      if (e == TonContractExceptionConst.stateIsInactive) {
+    } on BuError catch (e) {
+      if (e == TonContractErrors.stateIsInactive) {
         return 0;
       }
       rethrow;
     }
   }
 
-  Future<BigInt> getBalance(TonProvider rpc) async {
-    final state = await getState(rpc: rpc);
+  Future<BigInt> getBalance(TonQuickClient client) async {
+    final state = await getState(client: client);
     return state.balance;
   }
 
-  Future<String> getPublicKey(TonProvider rpc) async {
-    final state = await readState(rpc);
+  Future<String> getPublicKey(TonQuickClient client) async {
+    final state = await readState(client);
     return state.publicKey.toHex();
   }
 
-  Future<C> readState(TonProvider rpc) async {
-    final state = await getState(rpc: rpc);
+  Future<C> readState(TonQuickClient client) async {
+    final state = await getState(client: client);
     final stateData = VersionedWalletUtils.readState(
       stateData: state.data,
       type: type,
@@ -47,7 +47,7 @@ mixin VerionedProviderImpl<
     );
 
     if (stateData is! C) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect state data.',
         details: {'expected': '$C', 'got': '${stateData.runtimeType}'},
       );
@@ -55,8 +55,8 @@ mixin VerionedProviderImpl<
     return stateData;
   }
 
-  Future<C?> getContractState(TonProvider rpc) async {
-    final state = await getState(rpc: rpc);
+  Future<C?> getContractState(TonQuickClient client) async {
+    final state = await getState(client: client);
     if (!state.state.isActive) return null;
     final stateData = VersionedWalletUtils.readState(
       stateData: state.data,
@@ -65,7 +65,7 @@ mixin VerionedProviderImpl<
       chainId: chainId,
     );
     if (stateData is! C) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Incorrect state data.',
         details: {'expected': '$C', 'got': '${stateData.runtimeType}'},
       );
@@ -76,7 +76,7 @@ mixin VerionedProviderImpl<
   @override
   Future<String> sendTransfer({
     required TRANSFERPARAMS params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     List<MessageRelaxed> messages = const [],
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -84,7 +84,7 @@ mixin VerionedProviderImpl<
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     if (params is! VersionedTransferParams) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Invalid transaction params',
         details: {
           'expected': 'VersionedTransferParams',
@@ -92,9 +92,9 @@ mixin VerionedProviderImpl<
         },
       );
     }
-    final VersionedWalletState? state = await getContractState(rpc);
+    final VersionedWalletState? state = await getContractState(client);
     if (this.state == null && state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'cannot send transaction with watch only wallet',
       );
     }
@@ -122,19 +122,19 @@ mixin VerionedProviderImpl<
     if (onEstimateFee != null) {
       await onEstimateFee(ext);
     }
-    if (action.isBroadcast) return sendMessage(rpc: rpc, exMessage: ext);
+    if (action.isBroadcast) return sendMessage(client: client, exMessage: ext);
     return ext.serialize().toBase64();
   }
 
   Future<String> deploy({
     required TRANSFERPARAMS params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
     bool? bounce,
     bool bounced = false,
     Cell? body,
   }) async {
-    return sendTransfer(params: params, rpc: rpc, messages: []);
+    return sendTransfer(params: params, client: client, messages: []);
   }
 }

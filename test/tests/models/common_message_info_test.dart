@@ -3,8 +3,9 @@ import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
 import 'package:ton_dart/src/models/models/common_message_info.dart';
 import 'package:ton_dart/src/models/models/currency_collection.dart';
+import '../../utils.dart';
 
-void main() {
+void commonMessageInfoTest() {
   group('CommonMessageInfo', () => _test());
 }
 
@@ -172,4 +173,8 @@ void _test() {
     final json = decode.toJson();
     CommonMessageInfo.fromJson(json);
   });
+}
+
+void main() {
+  TonTestApi.runTest(commonMessageInfoTest, 'Common Message Info');
 }

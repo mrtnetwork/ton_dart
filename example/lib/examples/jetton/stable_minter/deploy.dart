@@ -13,6 +13,6 @@ void main() async {
       ));
   await stableJetton.deploy(
       params: VersionedV5TransferParams.external(signer: wallet.signer),
-      rpc: wallet.rpc,
+      client: wallet.client,
       amount: TonHelper.toNanoGrams("0.3"));
 }

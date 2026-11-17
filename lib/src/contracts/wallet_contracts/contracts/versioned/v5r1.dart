@@ -1,12 +1,11 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/utils/serialization_utils.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/types.dart';
 import 'package:ton_dart/src/crypto/crypto.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/utils/versioned.dart';
@@ -39,7 +38,7 @@ class WalletV5R1
     }
     chainId ??= context.chainId;
     if (chainId != context.chainId) {
-      throw TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         "Missmatch chain id between context and wallet.",
       );
     }
@@ -64,13 +63,13 @@ class WalletV5R1
 
   static Future<WalletV5R1> fromAddress({
     required TonAddress address,
-    required TonProvider rpc,
+    required TonQuickClient client,
     TonWorkChain? workchain,
     TonChainId? chainId,
   }) async {
     chainId ??= (address.isTestOnly ? TonChainId.testnet : TonChainId.mainnet);
     final data = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = VersionedWalletUtils.buildFromAddress<V5VersionedWalletState>(
@@ -113,7 +112,7 @@ class WalletV5R1
       return createExtensionMessage(actions: actions, queryId: queryId);
     }
     if (accountSeqno == null || state?.context == null) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'accountSeqno and wallet context required for build wallet message v5R1 in $type type.',
       );
     }
@@ -139,16 +138,16 @@ class WalletV5R1
 
   Future<Cell> createAndSignInternalMessage({
     required TonPrivateKey signer,
-    required TonProvider rpc,
+    required TonQuickClient client,
     List<MessageRelaxed> messages = const [],
     List<OutActionWalletV5> v5Messages = const [],
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
     int? accountSeqno,
   }) async {
-    final VersionedWalletState? state = await getContractState(rpc);
+    final VersionedWalletState? state = await getContractState(client);
     if (state == null && this.state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'cannot send transaction with watch only wallet',
       );
     }
@@ -160,7 +159,7 @@ class WalletV5R1
       (e) => e.outMessage.info.dest == address && e.outMessage.init != null,
     );
     if (state != null && hasDeploy) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'Account is already active. should not add init state to message with with destination address $address',
       );
     }
@@ -179,7 +178,7 @@ class WalletV5R1
   @override
   Future<String> sendTransfer({
     required VersionedV5TransferParams params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     List<MessageRelaxed> messages = const [],
     List<OutActionWalletV5> v5Messages = const [],
     int sendMode = SendModeConst.payGasSeparately,
@@ -187,9 +186,9 @@ class WalletV5R1
     OnEstimateFee? onEstimateFee,
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
-    final VersionedWalletState? state = await getContractState(rpc);
+    final VersionedWalletState? state = await getContractState(client);
     if (state == null && this.state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'cannot send transaction with watch only wallet',
       );
     }
@@ -202,7 +201,7 @@ class WalletV5R1
       (e) => e.outMessage.info.dest == address && e.outMessage.init != null,
     );
     if (state != null && hasDeploy) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'Account is already active. should not add init state to message with with destination address $address',
       );
     }
@@ -226,14 +225,14 @@ class WalletV5R1
     if (onEstimateFee != null) {
       await onEstimateFee(ext);
     }
-    if (action.isBroadcast) return sendMessage(rpc: rpc, exMessage: ext);
+    if (action.isBroadcast) return sendMessage(client: client, exMessage: ext);
     return ext.serialize().toBase64();
   }
 
   Future<String> sendRemoveExtension({
     required VersionedV5TransferParams params,
     required TonPrivateKey privateKey,
-    required TonProvider rpc,
+    required TonQuickClient client,
     int sendMode = SendModeConst.payGasSeparately,
     WalletV5AuthType type = WalletV5AuthType.external,
     int? timeout,
@@ -243,7 +242,7 @@ class WalletV5R1
     return sendActionRequest(
       actions: [OutActionRemoveExtension(address)],
       params: params,
-      rpc: rpc,
+      client: client,
       sendMode: sendMode,
       timeout: timeout,
       onEstimateFee: onEstimateFee,
@@ -253,7 +252,7 @@ class WalletV5R1
 
   Future<String> sendActionRequest({
     required VersionedV5TransferParams params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     List<OutActionWalletV5> actions = const [],
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -261,18 +260,18 @@ class WalletV5R1
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     if (params.type == WalletV5AuthType.extension) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'use create request instead sendActionRequest for build message body.',
       );
     }
     if (state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'cannot create request with watch only wallet.',
       );
     }
     return sendTransfer(
       params: params,
-      rpc: rpc,
+      client: client,
       messages: const [],
       v5Messages: actions,
       onEstimateFee: onEstimateFee,
@@ -282,13 +281,13 @@ class WalletV5R1
     );
   }
 
-  Future<List<TonAddress>> getExtensions(TonProvider rpc) async {
-    final state = await readState(rpc);
+  Future<List<TonAddress>> getExtensions(TonQuickClient client) async {
+    final state = await readState(client);
     return state.extensionPubKeys;
   }
 
-  Future<bool> setPubKeyEnabled(TonProvider rpc) async {
-    final state = await readState(rpc);
+  Future<bool> setPubKeyEnabled(TonQuickClient client) async {
+    final state = await readState(client);
     return state.setPubKeyEnabled;
   }
 }

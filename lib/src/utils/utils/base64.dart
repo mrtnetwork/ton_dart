@@ -1,5 +1,4 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 
 class Base64Utils {
   static String encodeBase64(List<int> bytes, {bool urlSafe = false}) {
@@ -21,7 +20,7 @@ class Base64Utils {
         validateB64Padding: false,
       );
     } catch (e) {
-      throw TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid base64 string.',
         details: {'value': base64},
       );

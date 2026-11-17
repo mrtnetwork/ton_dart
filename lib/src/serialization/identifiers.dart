@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/cbor/serialization/cbor/tag.dart';
-import 'package:blockchain_utils/exception/exception/blockchain_utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 enum TonSerializationIdentifiers implements SerializationIdentifier {
   tornAddressfriendly(18001),
@@ -10,7 +9,10 @@ enum TonSerializationIdentifiers implements SerializationIdentifier {
   tonContractError(18006),
   tonBocError(18007),
   tonTokenMetadataError(18008),
-  tonTuppleError(18009);
+  tonTuppleError(18009),
+  tonConnectRequest(18010),
+  tonConnectEvent(18011),
+  tonConnectSubscription(18012);
 
   @override
   final int id;
@@ -21,7 +23,7 @@ enum TonSerializationIdentifiers implements SerializationIdentifier {
       (e) => e.id == value,
       orElse:
           () =>
-              throw ItemNotFoundException(name: "TonSerializationIdentifiers"),
+              throw BuError(DefaultErrorType.notFound, "No matching TonSerializationIdentifiers found for the given value. null"),
     );
   }
 

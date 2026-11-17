@@ -3,8 +3,9 @@ import 'package:test/test.dart';
 
 import 'package:ton_dart/src/dict/utils/utils.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void internalKeySerializerTest() {
   group('dict keys', () => _test());
 }
 
@@ -100,4 +101,8 @@ void _test() {
       }
     }
   });
+}
+
+void main() {
+  TonTestApi.runTest(internalKeySerializerTest, 'Internal Key Serializer');
 }

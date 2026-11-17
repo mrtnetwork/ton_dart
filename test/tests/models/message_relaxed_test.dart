@@ -2,8 +2,9 @@ import 'package:test/test.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/models/models/common_message_info_relaxed.dart';
 import 'package:ton_dart/src/models/models/message_relaxed.dart';
+import '../../utils.dart';
 
-void main() {
+void messageRelaxedTest() {
   group('Message Relaxed', () => _test());
 }
 
@@ -36,4 +37,8 @@ void _test() {
     message.store(payload);
     payload.endCell();
   });
+}
+
+void main() {
+  TonTestApi.runTest(messageRelaxedTest, 'Message Relaxed');
 }

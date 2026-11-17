@@ -8,6 +8,7 @@ import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
 import 'package:ton_dart/src/provider/provider.dart';
+import 'package:ton_dart/src/tuple/tuple.dart';
 
 class JettonWallet<E extends WalletContractTransferParams>
     extends TonContract<JettonWalletState> {
@@ -31,10 +32,10 @@ class JettonWallet<E extends WalletContractTransferParams>
   fromAddress<E extends WalletContractTransferParams>({
     required TonAddress address,
     required WalletContract<ContractState, E> owner,
-    required TonProvider rpc,
+    required TonQuickClient client,
   }) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = JettonWalletState.deserialize(stateData.data!.beginParse());
@@ -43,7 +44,7 @@ class JettonWallet<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -65,7 +66,7 @@ class JettonWallet<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
       messages: [message],
       params: params,
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       onEstimateFee: onEstimateFee,
@@ -79,13 +80,13 @@ class JettonWallet<E extends WalletContractTransferParams>
   /// to contract.
   ///
   /// - `params`: owner wallet specify parameters for transfer.
-  /// - `rpc`: The RPC provider used to interact with the blockchain.
+  /// - `client`: The RPC provider used to interact with the blockchain.
   /// - `amount`: The amount of cryptocurrency to be sent in the transaction.
   /// - `operation`: The operation to be executed as part of the transaction, encapsulated in a [JettonWalletOperation] object.
   /// - `sendMode`: Specifies how the transaction fees are handled. The default is [SendModeConst.payGasSeparately].
   Future<String> sendOperation({
     required E signerParams,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required JettonWalletOperation operation,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
@@ -97,7 +98,7 @@ class JettonWallet<E extends WalletContractTransferParams>
   }) async {
     return _sendTransaction(
       params: signerParams,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: operation.toBody(),
@@ -110,39 +111,36 @@ class JettonWallet<E extends WalletContractTransferParams>
   }
 
   /// get contract balance
-  Future<BigInt> getBalance(TonProvider rpc) async {
-    final data = await getWalletData(rpc);
+  Future<BigInt> getBalance(TonQuickClient client) async {
+    final data = await getWalletData(client);
     return data.balance;
   }
 
   /// get wallet data
-  Future<JettonWalletState> getWalletData(TonProvider rpc) async {
-    final data = await getStateStack(rpc: rpc, method: 'get_wallet_data');
+  Future<JettonWalletState> getWalletData(TonQuickClient client) async {
+    final data = await getStateStack(client: client, method: 'get_wallet_data');
     return JettonWalletState.fromTuple(data.reader());
   }
 
   /// get wallet address
   Future<TonAddress> getWalletAddress({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required TonAddress owner,
   }) async {
     final data = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'get_wallet_address',
       stack: [
-        if (rpc.isTonCenter)
-          ['tvm.Slice', beginCell().storeAddress(owner).endCell().toBase64()]
-        else
-          owner.toString(),
+        TupleItemSlice(beginCell().storeAddress(owner).endCell()),
       ],
     );
     return data.reader().readAddress();
   }
 
   /// read current contract state
-  Future<JettonWalletState> readState(TonProvider rpc) async {
+  Future<JettonWalletState> readState(TonQuickClient client) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     return JettonWalletState.deserialize(stateData.data!.beginParse());

@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/service/models/params.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/provider/core/core.dart';
 
 typedef TonServiceResponse = BaseServiceResponse;
@@ -27,7 +27,7 @@ mixin TonServiceProvider
     request,
     Duration? timeout,
   }) {
-    throw UnsupportedError(
+    throw BuError(DefaultErrorType.unsupported, 
       "Subscribtion requests are not supported by this service.",
     );
   }
@@ -37,7 +37,9 @@ mixin TonServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw BuError(DefaultErrorType.unsupported, 
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -45,7 +47,9 @@ mixin TonServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw BuError(DefaultErrorType.unsupported, 
+      "gRPC requests are not supported by this service.",
+    );
   }
 
   @override
@@ -53,6 +57,8 @@ mixin TonServiceProvider
     BaseGRPCServiceRequestParams params, {
     Duration? timeout,
   }) {
-    throw UnsupportedError("gRPC requests are not supported by this service.");
+    throw BuError(DefaultErrorType.unsupported, 
+      "gRPC requests are not supported by this service.",
+    );
   }
 }

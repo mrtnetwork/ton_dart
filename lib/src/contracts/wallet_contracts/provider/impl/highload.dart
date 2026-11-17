@@ -2,23 +2,24 @@ import 'package:ton_dart/src/contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/highload/highload_wallet.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/types.dart';
 import 'package:ton_dart/src/provider/provider.dart';
+import 'package:ton_dart/src/tuple/tuple.dart';
 
 mixin HighloadWalletV3ProviderImpl<T extends ContractState>
     on HighloadWallets<T> {
-  Future<String> getPublicKey(TonProvider rpc) async {
-    final result = await getStateStack(rpc: rpc, method: 'get_public_key');
+  Future<String> getPublicKey(TonQuickClient client) async {
+    final result = await getStateStack(client: client, method: 'get_public_key');
     final reader = result.reader();
     return reader.readBigNumberAsHex();
   }
 
-  Future<BigInt> getBalance(TonProvider rpc) async {
-    final result = await getState(rpc: rpc);
+  Future<BigInt> getBalance(TonQuickClient client) async {
+    final result = await getState(client: client);
     return result.balance;
   }
 
-  Future<T> readState(TonProvider rpc) async {
+  Future<T> readState(TonQuickClient client) async {
     final stateData = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = HighloadWalletV3State.deserialize(
@@ -27,40 +28,37 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
     return state as T;
   }
 
-  Future<int> getSubwalletId({required TonProvider rpc}) async {
-    final result = await getStateStack(rpc: rpc, method: 'get_subwallet_id');
+  Future<int> getSubwalletId({required TonQuickClient client}) async {
+    final result = await getStateStack(client: client, method: 'get_subwallet_id');
     final reader = result.reader();
     return reader.readNumber();
   }
 
-  Future<int> getTimeout({required TonProvider rpc}) async {
-    final result = await getStateStack(rpc: rpc, method: 'get_timeout');
+  Future<int> getTimeout({required TonQuickClient client}) async {
+    final result = await getStateStack(client: client, method: 'get_timeout');
     final reader = result.reader();
     return reader.readNumber();
   }
 
-  Future<int> getLastCleaned({required TonProvider rpc}) async {
-    final result = await getStateStack(rpc: rpc, method: 'get_last_clean_time');
+  Future<int> getLastCleaned({required TonQuickClient client}) async {
+    final result = await getStateStack(client: client, method: 'get_last_clean_time');
     final reader = result.reader();
     return reader.readNumber();
   }
 
   Future<bool> getProcessed({
-    required TonProvider rpc,
+    required TonQuickClient client,
     required int queryId,
     bool needClean = true,
   }) async {
     final int clean = needClean ? 1 : 0;
     final result = await getStateStack(
-      rpc: rpc,
+      client: client,
       method: 'processed?',
-      stack:
-          rpc.isTonCenter
-              ? [
-                ['num', queryId],
-                ['num', clean],
-              ]
-              : ['$queryId', '$clean'],
+      stack: [
+        TupleItemInt(BigInt.from(queryId)),
+        TupleItemInt(BigInt.from(clean)),
+      ],
     );
     final reader = result.reader();
     return reader.readBoolean();

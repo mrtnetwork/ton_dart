@@ -1,9 +1,10 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/models/models.dart';
-import 'package:ton_dart/src/provider/provider/provider.dart';
+import 'package:ton_dart/src/provider/provider.dart';
 
 /// https://github.com/ton-blockchain/TEPs/blob/master/text/0062-nft-standard.md
 class NFTItemContract<E extends WalletContractTransferParams>
@@ -31,11 +32,11 @@ class NFTItemContract<E extends WalletContractTransferParams>
   fromAddress<E extends WalletContractTransferParams>({
     required WalletContract<dynamic, E> owner,
     required TonAddress address,
-    required TonProvider rpc,
+    required TonQuickClient client,
   }) async {
     final stateData = await ContractProvider.getActiveState(
       address: address,
-      rpc: rpc,
+      client: client,
     );
     final state = NFTItemState.deserialize(stateData.data!.beginParse());
     return NFTItemContract(address: address, owner: owner, state: state);
@@ -49,7 +50,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
 
   Future<String> _sendTransaction({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -59,9 +60,9 @@ class NFTItemContract<E extends WalletContractTransferParams>
     OnEstimateFee? onEstimateFee,
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
     if (!active && state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'The account is inactive and requires state initialization.',
       );
     }
@@ -76,7 +77,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
     return await owner.sendTransfer(
       params: params,
       messages: [message],
-      rpc: rpc,
+      client: client,
       timeout: timeout,
       sendMode: sendMode,
       action: action,
@@ -86,7 +87,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
 
   Future<String> deploy({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     int sendMode = SendModeConst.payGasSeparately,
     int? timeout,
@@ -96,7 +97,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
   }) async {
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: body,
@@ -108,7 +109,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
 
   Future<String> sendOperation({
     required E params,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt amount,
     required NFTItemOperation operation,
     int sendMode = SendModeConst.payGasSeparately,
@@ -119,7 +120,7 @@ class NFTItemContract<E extends WalletContractTransferParams>
   }) async {
     return _sendTransaction(
       params: params,
-      rpc: rpc,
+      client: client,
       amount: amount,
       sendMode: sendMode,
       body: operation.toBody(),
@@ -129,8 +130,8 @@ class NFTItemContract<E extends WalletContractTransferParams>
     );
   }
 
-  Future<NFTItemData> getNftData(TonProvider rpc) async {
-    final result = await getStateStack(rpc: rpc, method: 'get_nft_data');
+  Future<NFTItemData> getNftData(TonQuickClient client) async {
+    final result = await getStateStack(client: client, method: 'get_nft_data');
     final reader = result.reader();
     final bool init = reader.readNumber() != 0;
     final index = reader.readBigNumber();

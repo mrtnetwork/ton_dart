@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void auctionTest() {
   _v5R1Actions();
 }
 
@@ -171,4 +172,8 @@ void _v5R1Actions() {
     final deserialize = OutActionsV5.deserialize(boc.beginParse());
     expect(deserialize.serialize().toBase64(), boc.toBase64());
   });
+}
+
+void main() {
+  TonTestApi.runTest(auctionTest, 'Auction');
 }

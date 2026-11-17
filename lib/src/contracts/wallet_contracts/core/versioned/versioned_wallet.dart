@@ -1,6 +1,6 @@
 import 'package:ton_dart/src/boc/boc.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/constant/constant.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/versioned.dart';
@@ -73,7 +73,7 @@ enum WalletVersion {
       (element) => element.name == name,
       orElse:
           () =>
-              throw TonContractException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find WalletVersion from provided status',
                 details: {'name': name},
               ),

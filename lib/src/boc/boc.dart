@@ -5,6 +5,6 @@ export 'bit/builder.dart';
 export 'cell/cell.dart';
 export 'cell/cell_type.dart';
 export 'cell/slice.dart';
-export 'exception/exception.dart';
+export '../error/ton_error.dart';
 export 'serialization/serialization.dart';
 export 'utils/utils.dart';

@@ -5,8 +5,9 @@ import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/tuple/serialization/serialization.dart';
 import 'package:ton_dart/src/tuple/tuple/tuple.dart';
 import 'package:ton_dart/src/tuple/utils/utils.dart';
+import '../../utils.dart';
 
-void main() {
+void tupleTest() {
   group('tuple', () => _test());
 }
 
@@ -91,4 +92,8 @@ void _test() {
     final cell = Cell.fromBase64(boc);
     TupleUtils.parse(cell);
   });
+}
+
+void main() {
+  TonTestApi.runTest(tupleTest, 'Tuple');
 }

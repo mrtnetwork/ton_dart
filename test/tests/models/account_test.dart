@@ -2,8 +2,9 @@ import 'package:test/test.dart';
 import 'package:ton_dart/src/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/models/models.dart';
+import '../../utils.dart';
 
-void main() {
+void accountTest() {
   group('Account', () => _test());
 }
 
@@ -243,4 +244,8 @@ void _test() {
     expect(json.storageStats.duePayment, BigInt.from(100));
     expect(json.storageStats.lastPaid, 12);
   });
+}
+
+void main() {
+  TonTestApi.runTest(accountTest, 'Account');
 }

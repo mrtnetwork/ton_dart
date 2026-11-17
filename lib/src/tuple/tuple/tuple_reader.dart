@@ -1,8 +1,6 @@
-import 'package:blockchain_utils/helper/helper.dart';
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/tuple/exception/exception.dart';
 import 'tuple.dart';
 
 /// A class for reading and manipulating tuple items from a list.
@@ -21,19 +19,19 @@ class TupleReader {
   }
 
   /// Peeks at the next tuple item without removing it from the list.
-  /// Throws a TupleException if there are no more items.
+  /// Throws a [BuError] if there are no more items.
   TupleItem peek() {
     if (_items.isEmpty) {
-      throw TupleException('EOF');
+      throw BuError(DefaultErrorType.invalidArgument, 'TupleReader.peek: no more items (EOF).');
     }
     return _items[0];
   }
 
   /// Removes and returns the next tuple item from the list.
-  /// Throws a TupleException if there are no more items.
+  /// Throws a [BuError] if there are no more items.
   TupleItem pop() {
     if (_items.isEmpty) {
-      throw TupleException('EOF');
+      throw BuError(DefaultErrorType.invalidArgument, 'TupleReader.pop: no more items (EOF).');
     }
     final TupleItem res = _items[0];
     _items.removeAt(0);
@@ -50,11 +48,11 @@ class TupleReader {
   }
 
   /// Reads a BigInt from the next tuple item.
-  /// Throws a TupleException if the item is not an integer.
+  /// Throws a [BuError] if the item is not an integer.
   BigInt readBigNumber() {
     final TupleItem popped = pop();
     if (popped is! TupleItemInt) {
-      throw TupleException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid integer tuple item.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -79,7 +77,7 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemInt) {
-      throw TupleException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid integer tuple item.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -131,11 +129,11 @@ class TupleReader {
   }
 
   /// Reads a cell from the next tuple item.
-  /// Throws a TupleException if the item is not a cell.
+  /// Throws a [BuError] if the item is not a cell.
   Cell readCell() {
     final TupleItem popped = pop();
     if (popped is TupleItemCell) return popped.cell;
-    throw TupleException(
+    throw BuError(DefaultErrorType.invalidArgument, 
       'Invalid tuple cell.',
       details: {'value': popped.runtimeType.toString()},
     );
@@ -149,18 +147,18 @@ class TupleReader {
       return null;
     }
     if (popped is TupleItemCell) return popped.cell;
-    throw TupleException(
+    throw BuError(DefaultErrorType.invalidArgument, 
       'Invalid tuple cell.',
       details: {'value': popped.runtimeType.toString()},
     );
   }
 
   /// Reads a tuple from the next tuple item and returns a new TupleReader for the tuple.
-  /// Throws a TupleException if the item is not a tuple.
+  /// Throws a [BuError] if the item is not a tuple.
   TupleReader readTuple() {
     final TupleItem popped = pop();
     if (popped is! TupleItemTuple) {
-      throw TupleException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid tuple type.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -176,7 +174,7 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemTuple) {
-      throw TupleException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid tuple type.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -194,7 +192,7 @@ class TupleReader {
       if (tail._items.isEmpty ||
           (tail._items[0] is! TupleItemTuple &&
               tail._items[0] is! TupleItemNull)) {
-        throw TupleException(
+        throw BuError(DefaultErrorType.invalidArgument, 
           'Lisp list consists only from (any, tuple) elements and ends with null',
         );
       }
@@ -220,14 +218,14 @@ class TupleReader {
   }
 
   /// Reads a buffer of bytes from the next cell item.
-  /// Throws a TupleException if the buffer length or bit alignment is invalid.
+  /// Throws a [BuError] if the buffer length or bit alignment is invalid.
   List<int> readBuffer() {
     final Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
-      throw TupleException('Invalid buffer length.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer: unexpected cell references.');
     }
     if (s.remainingBits % 8 != 0) {
-      throw TupleException('Invalid buffer length.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer length: bits not byte-aligned.');
     }
     return s.loadBuffer(s.remainingBits ~/ 8);
   }
@@ -235,16 +233,16 @@ class TupleReader {
   /// Reads an optional buffer of bytes from the next cell item.
   /// Returns null if the item is null, otherwise reads the buffer.
   List<int>? readBufferOpt() {
-    final TupleItem popped = peek();
+    final TupleItem popped = pop();
     if (popped is TupleItemNull) {
       return null;
     }
     final Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
-      throw TupleException('Invalid buffer length.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer: unexpected cell references.');
     }
     if (s.remainingBits % 8 != 0) {
-      throw TupleException('Invalid buffer length.');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer length: bits not byte-aligned.');
     }
     return s.loadBuffer(s.remainingBits ~/ 8);
   }
@@ -258,7 +256,7 @@ class TupleReader {
   /// Reads an optional string from the next cell item.
   /// Returns null if the item is null, otherwise reads the string.
   String? readStringOpt() {
-    final TupleItem popped = peek();
+    final TupleItem popped = pop();
     if (popped is TupleItemNull) {
       return null;
     }

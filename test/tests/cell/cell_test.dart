@@ -11,6 +11,7 @@ import 'test_vectors.dart';
 import 'very_large_boc_test_vector.dart';
 import 'dart:math' show Random;
 import 'package:blockchain_utils/blockchain_utils.dart';
+import '../../utils.dart';
 
 extension QuickBytesDecode on List<int> {
   String toB64({bool urlSafe = false}) {
@@ -36,14 +37,14 @@ final random = Random.secure();
 int generateRandom() {
   final len = random.nextInt(6) + 1;
   assert(len > 0 && len <= 6);
-  final rand = QuickCrypto.generateRandom(len);
+  final rand = QuickCrypto.generateRandom(length: len);
   return IntUtils.fromBytes(rand);
 }
 
 int generateRandomSign() {
   final len = random.nextInt(6) + 1;
   assert(len > 0 && len <= 6);
-  final rand = QuickCrypto.generateRandom(len);
+  final rand = QuickCrypto.generateRandom(length: len);
   final sign = random.nextBool();
   final num = IntUtils.fromBytes(rand);
   if (sign) return -num;
@@ -60,7 +61,7 @@ const List<String> _wallets = [
   'B5EE9C724101010100710000DEFF0020DD2082014C97BA218201339CBAB19F71B0ED44D0D31FD31F31D70BFFE304E0A4F2608308D71820D31FD31FD31FF82313BBF263ED44D0D31FD31FD3FFD15132BAF2A15144BAF2A204F901541055F910F2A3F8009320D74A96D307D402FB00E8D101A4C8CB1FCB1FCBFFC9ED5410BD6DAD',
 ];
 
-void main() async {
+void cellTest() {
   group('Cell', () {
     _parseWalletCode();
     _largeBoc();
@@ -492,4 +493,8 @@ void _veryLarge() {
     final c2 = BocSerialization.deserialize(b)[0];
     expect(c2, c);
   });
+}
+
+void main() {
+  TonTestApi.runTest(cellTest, 'Cell');
 }

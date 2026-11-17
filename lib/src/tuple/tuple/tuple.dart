@@ -2,7 +2,6 @@ import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/helper/ton_helper.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
-import 'package:ton_dart/src/tuple/exception/exception.dart';
 
 /// Represents the types of tuple items with associated string names.
 class TupleItemTypes {
@@ -48,13 +47,13 @@ class TupleItemTypes {
       (element) => element.name == n,
       orElse:
           () =>
-              throw TupleException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find tuple type from provided type.',
                 details: {'value': name},
               ),
     );
     if (expected != null && expected != type) {
-      throw TupleException('Incorrect tuple type expected $expected got $type');
+      throw BuError(DefaultErrorType.castFailed, 'Incorrect tuple type expected $expected got $type');
     }
     return type;
   }
@@ -133,7 +132,7 @@ class TupleItemTuple extends TupleItem {
   factory TupleItemTuple.fromTvm(Map<String, dynamic> json) {
     TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.tupleItem);
     return TupleItemTuple(
-      (json['items'] as List).map((e) => TupleItem.fromJson(e)).toList(),
+      (json['items'] as List).map((e) => TupleItem.fromTvm(e)).toList(),
     );
   }
   @override
@@ -241,7 +240,7 @@ class TupleItemCell extends TupleItem {
     TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.cellItem);
     final cell = TonHelper.tryToCell(json['cell']);
     if (cell == null) {
-      throw TupleException('Invalid Slice string hex or base64');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid Cell string hex or base64');
     }
     return TupleItemCell(cell);
   }
@@ -249,9 +248,9 @@ class TupleItemCell extends TupleItem {
     TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.cellItem);
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
-      throw TupleException('Invalid Slice string hex or base64');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid Cell string hex or base64');
     }
-    return TupleItemSlice(cell);
+    return TupleItemCell(cell);
   }
 
   @override
@@ -281,7 +280,7 @@ class TupleItemSlice extends TupleItemCell {
     TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.sliceItem);
     final cell = TonHelper.tryToCell(json['cell']);
     if (cell == null) {
-      throw TupleException('Invalid Slice string hex or base64');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid Slice string hex or base64');
     }
     return TupleItemSlice(cell);
   }
@@ -289,7 +288,7 @@ class TupleItemSlice extends TupleItemCell {
     TupleItemTypes.fromName(json['@type'], expected: TupleItemTypes.sliceItem);
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
-      throw TupleException('Invalid Slice string hex or base64');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid Slice string hex or base64');
     }
     return TupleItemSlice(cell);
   }
@@ -315,7 +314,7 @@ class TupleItemBuilder extends TupleItemCell {
     TupleItemTypes.fromName(json['type'], expected: TupleItemTypes.builderItem);
     final cell = TonHelper.tryToCell(json['cell']);
     if (cell == null) {
-      throw TupleException('Invalid builder string hex or base64');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid builder string hex or base64');
     }
     return TupleItemBuilder(cell);
   }
@@ -326,7 +325,7 @@ class TupleItemBuilder extends TupleItemCell {
     );
     final cell = TonHelper.tryToCell(json['bytes']);
     if (cell == null) {
-      throw TupleException('Invalid builder string hex or base64');
+      throw BuError(DefaultErrorType.invalidArgument, 'Invalid builder string hex or base64');
     }
     return TupleItemBuilder(cell);
   }

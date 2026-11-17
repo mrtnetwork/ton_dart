@@ -1,8 +1,8 @@
 import 'package:ton_dart/src/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/bit/bit_reader.dart';
 import 'package:ton_dart/src/boc/bit/bit_string.dart';
 import 'package:ton_dart/src/boc/bit/builder.dart';
-import 'package:ton_dart/src/boc/exception/exception.dart';
 import 'package:ton_dart/src/boc/utils/utils.dart';
 import 'package:ton_dart/src/dict/dictionary/dictionary.dart';
 import 'package:ton_dart/src/dict/dictionary/key.dart';
@@ -131,7 +131,7 @@ class Slice {
   int? tryLoadUint8() {
     try {
       return _reader.loadUint(8);
-    } on BocException {
+    } on BuError {
       return null;
     }
   }
@@ -164,7 +164,7 @@ class Slice {
   int? tryLoadUint32() {
     try {
       return _reader.loadUint(32);
-    } on BocException {
+    } on BuError {
       return null;
     }
   }
@@ -173,7 +173,7 @@ class Slice {
   int? tryPreLoadUint8() {
     try {
       return _reader.preloadUint(8);
-    } on BocException {
+    } on BuError {
       return null;
     }
   }
@@ -182,7 +182,7 @@ class Slice {
   int? tryPreloadUint32() {
     try {
       return _reader.preloadUint(32);
-    } on BocException {
+    } on BuError {
       return null;
     }
   }
@@ -400,20 +400,20 @@ class Slice {
 
   /// Loads and returns a `Cell` reference from the slice.
   ///
-  /// Throws a `BocException` if there are no more references available.
+  /// Throws a [BuError] if there are no more references available.
   Cell loadRef() {
     if (_refsOffset >= _refs.length) {
-      throw BocException('No more references');
+      throw BuError(DefaultErrorType.invalidArgument, 'No more references (loadRef).');
     }
     return _refs[_refsOffset++];
   }
 
   /// Peeks at and returns a `Cell` reference from the slice without advancing the reader.
   ///
-  /// Throws a `BocException` if there are no more references available.
+  /// Throws a [BuError] if there are no more references available.
   Cell preloadRef() {
     if (_refsOffset >= _refs.length) {
-      throw BocException('No more references');
+      throw BuError(DefaultErrorType.invalidArgument, 'No more references (preloadRef).');
     }
     return _refs[_refsOffset];
   }
@@ -435,7 +435,7 @@ class Slice {
       } else {
         return null;
       }
-    } on BocException {
+    } on BuError {
       return null;
     }
   }
@@ -511,10 +511,10 @@ class Slice {
 
   /// Checks if the slice is fully parsed (i.e., all bits and references have been consumed).
   ///
-  /// Throws a `BocException` if there are remaining bits or references.
+  /// Throws a [BuError] if there are remaining bits or references.
   void endParse() {
     if (remainingBits > 0 || remainingRefs > 0) {
-      throw BocException('Slice is not empty');
+      throw BuError(DefaultErrorType.invalidArgument, 'Slice is not empty');
     }
   }
 

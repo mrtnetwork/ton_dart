@@ -1,7 +1,7 @@
 import 'package:ton_dart/src/address/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/core/core.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/core/core.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/transfer_params/highload.dart';
 import 'package:ton_dart/src/contracts/wallet_contracts/types/state/highload.dart';
@@ -47,12 +47,12 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
   }
   static Future<HighloadWalletV3> fromAddress({
     required TonAddress address,
-    required TonProvider rpc,
+    required TonQuickClient client,
     TonChainId? chainId,
     TonWorkChain? workchain,
   }) async {
     final st2 = await ContractProvider.getActiveState(
-      rpc: rpc,
+      client: client,
       address: address,
     );
     final state = HighloadWalletV3State.deserialize(st2.data!.beginParse());
@@ -64,7 +64,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
       ),
     );
     if (walletAddress != address) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Incorrect state address.',
         details: {
           'expected': walletAddress.toRawAddress(),
@@ -88,7 +88,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
   }) {
     final Cell actionsCell;
     if (acctions.length > 254) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Max allowed action count is 254. Use packActions instead.',
       );
     }
@@ -222,16 +222,16 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     required TonPrivateKey signer,
     required List<OutActionSendMsg> messages,
     required BigInt queryId,
-    required TonProvider rpc,
+    required TonQuickClient client,
     required BigInt value,
     required OnEstimateFee? onEstimateFee,
     SendMode mode = SendMode.carryAllRemainingBalance,
     TonTransactionAction action = TonTransactionAction.broadcast,
     int? createAt,
   }) async {
-    final active = await isActive(rpc);
+    final active = await isActive(client);
     if (!active && state == null) {
-      throw const TonContractException(
+      throw BuError(DefaultErrorType.invalidState, 
         'Cannot Send Batch Transaction with watch only wallet',
       );
     }
@@ -246,7 +246,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     if (onEstimateFee != null) {
       await onEstimateFee(extMessage);
     }
-    if (action.isBroadcast) return sendMessage(rpc: rpc, exMessage: extMessage);
+    if (action.isBroadcast) return sendMessage(client: client, exMessage: extMessage);
     return extMessage.serialize().toBase64();
   }
 
@@ -254,7 +254,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
   Future<String> sendTransfer({
     required HighloadTransferParams params,
     List<MessageRelaxed> messages = const [],
-    required TonProvider rpc,
+    required TonQuickClient client,
     int sendMode = SendModeConst.payGasSeparately,
     TonTransactionAction action = TonTransactionAction.broadcast,
     int? timeout,
@@ -269,7 +269,7 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
       onEstimateFee: onEstimateFee,
       messages: [...params.messages, ...actions],
       queryId: params.queryId,
-      rpc: rpc,
+      client: client,
       value: params.value ?? BigInt.zero,
       action: action,
     );

@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/models/models/transaction.dart';
+import '../../utils.dart';
 
-void main() {
+void transactionTest() {
   _test();
 }
 
@@ -71,4 +72,8 @@ void _test() {
     expect(cell, cell2);
     expect(tx.toJson(), decode.toJson());
   });
+}
+
+void main() {
+  TonTestApi.runTest(transactionTest, 'Transaction');
 }

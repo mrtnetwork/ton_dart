@@ -1,4 +1,4 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/cell/cell.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/contracts/token/metadata/constant/constant.dart';
@@ -20,7 +20,7 @@ class _JettonOnChainMetadataUtils {
         format = OnChainMetadataFormat.chunked;
       }
     } catch (e) {
-      throw TokenMetadataException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>',
       );
     }
@@ -149,7 +149,7 @@ class JettonOnChainMetadata extends TokenMetadata with JsonSerialization {
       image: _JettonOnChainMetadataUtils.key('image', data),
       imageData: _JettonOnChainMetadataUtils.key('image_data', data),
       symbol: _JettonOnChainMetadataUtils.key('symbol', data),
-      decimals: int.tryParse(
+      decimals: IntUtils.tryParse(
         _JettonOnChainMetadataUtils.key('decimals', data) ?? '',
       ),
       amountStyle: _JettonOnChainMetadataUtils.key('amount_style', data),

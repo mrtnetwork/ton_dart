@@ -1,8 +1,9 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/src/address/address/address.dart';
 import 'package:ton_dart/src/boc/bit/bit_builder.dart';
+import '../../utils.dart';
 
-void main() {
+void bitBuilderTest() {
   group('bit builder', () {
     _serializeUint();
     _serializeInt();
@@ -411,4 +412,8 @@ void _serializeAddress() {
       expect(bits.toString(), c[1]);
     }
   });
+}
+
+void main() {
+  TonTestApi.runTest(bitBuilderTest, 'Bit Builder');
 }

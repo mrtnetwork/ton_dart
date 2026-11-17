@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/exception/exception/blockchain_utils.dart';
-import 'package:blockchain_utils/utils/equatable/equatable.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 /// Represents a TON (The Open Network) blockchain network and its associated parameters.
 ///
@@ -13,7 +12,7 @@ enum TonChainId {
   bool get isTestnet => this == testnet;
   factory TonChainId.fromId(int? id) => values.firstWhere(
     (e) => e.id == id,
-    orElse: () => throw ItemNotFoundException(value: id),
+    orElse: () => throw BuError(DefaultErrorType.notFound, "No matching item found for the given value. $id"),
   );
 }
 

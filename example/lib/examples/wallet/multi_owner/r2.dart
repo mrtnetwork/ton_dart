@@ -27,13 +27,13 @@ void main() async {
                     destination: destination2.address,
                     amount: TonHelper.toNanoGrams("0.01"))),
           ]),
-      rpc: wallet.rpc);
+      client: wallet.client);
 
   /// wait transaction confirmed
   await Future.delayed(const Duration(seconds: 30));
 
   /// get wallet state
-  final state = await wallet.wallet.getStateData(wallet.rpc);
+  final state = await wallet.wallet.getStateData(wallet.client);
 
   /// get previous seqno
   final seqno = state.nextOrderSeqno - BigInt.one;
@@ -42,16 +42,18 @@ void main() async {
 
     /// get order contract
     final orderContract = await wallet.wallet.getOrderContract(
-        rpc: wallet.rpc, seqno: seqno, signerWallet: signerWalletContract);
+        client: wallet.client,
+        seqno: seqno,
+        signerWallet: signerWalletContract);
 
     /// approve order
     await orderContract.sendApprove(
         params: VersionedV5TransferParams.external(signer: wallet.signers[i]),
-        rpc: wallet.rpc,
+        client: wallet.client,
         amount: TonHelper.toNanoGrams("0.3"));
     if (i + 1 == wallet.thereshHold) {
       await Future.delayed(const Duration(seconds: 30));
-      final state = await orderContract.getOrderData(wallet.rpc);
+      final state = await orderContract.getOrderData(wallet.client);
       assert(state.executed == true);
     }
   }

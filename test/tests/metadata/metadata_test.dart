@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void metadataTest() {
   group('metadata', () => _test());
 }
 
@@ -43,4 +44,8 @@ void _test() {
       'ipfs://bafkreiast4fqlkp4upyu2cvo7fn7aabjusx765yzvqitsr4rpwfvhjguhy',
     );
   });
+}
+
+void main() {
+  TonTestApi.runTest(metadataTest, 'Metadata');
 }

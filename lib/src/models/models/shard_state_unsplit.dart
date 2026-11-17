@@ -1,6 +1,5 @@
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/models/models/shard_accounts.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
@@ -52,7 +51,7 @@ class ShardStateUnsplit extends TonSerialization {
   });
   factory ShardStateUnsplit.deserialize(Slice slice) {
     if (slice.loadUint(32) != _ShardStateUnsplitConst.magic) {
-      throw const TonDartPluginException(
+      throw BuError(DefaultErrorType.invalidArgument, 
         'Invalid ShardStateUnsplit slice data.',
       );
     }
@@ -124,7 +123,9 @@ class ShardStateUnsplit extends TonSerialization {
 
   @override
   void store(Builder builder) {
-    throw UnsupportedError("Not implemented");
+    throw BuError(DefaultErrorType.unsupported, 
+      'ShardStateUnsplit.store is not implemented.',
+    );
   }
 
   @override

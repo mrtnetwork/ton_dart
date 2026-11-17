@@ -1,6 +1,9 @@
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/models/models/message_relaxed.dart';
-import 'package:ton_dart/src/provider/models/models.dart';
+import 'package:ton_dart/src/provider/models/response/account_storage_info.dart';
+import 'package:ton_dart/src/provider/models/response/block_configs/block_configs.dart';
+import 'package:ton_dart/src/provider/models/response/gas_limit_prices.dart';
+import 'package:ton_dart/src/provider/models/response/msg_forward_prices.dart';
 
 class StorageStat {
   int cells;

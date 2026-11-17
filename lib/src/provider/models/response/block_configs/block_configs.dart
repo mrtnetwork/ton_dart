@@ -1,7 +1,6 @@
-import 'package:blockchain_utils/utils/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/provider/models/response/block_limits.dart';
 import 'package:ton_dart/src/provider/models/response/config_proposal_setup.dart';
 import 'package:ton_dart/src/provider/models/response/gas_limit_prices.dart';
@@ -24,7 +23,7 @@ class _ConfigParserUtils {
       parse: (slice) {
         final header = slice.loadUint(8);
         if (header != _ConfigConst.header18) {
-          throw TonDartPluginException(
+          throw BuError(DefaultErrorType.invalidArgument, 
             'Invalid header for config 18.',
             details: {
               'expected': _ConfigConst.header18.toString(),

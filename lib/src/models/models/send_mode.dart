@@ -1,4 +1,4 @@
-import 'package:ton_dart/src/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 
 class SendModeConst {
   static const int carryAllRemainingBalance = 128;
@@ -59,7 +59,7 @@ class SendMode {
       (element) => element.name == name,
       orElse:
           () =>
-              throw TonDartPluginException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find SendMode from provided name',
                 details: {'name': name},
               ),
@@ -70,7 +70,7 @@ class SendMode {
       (element) => element.mode == mode,
       orElse:
           () =>
-              throw TonDartPluginException(
+              throw BuError(DefaultErrorType.notFound, 
                 'Cannot find SendMode from provided mode',
                 details: {'mode': mode?.toString()},
               ),

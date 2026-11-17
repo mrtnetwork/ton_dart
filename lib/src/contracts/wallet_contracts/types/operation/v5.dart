@@ -1,5 +1,4 @@
-import 'package:blockchain_utils/helper/extensions/extensions.dart';
-import 'package:blockchain_utils/utils/binary/utils.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/contracts/contracts.dart';
 import 'package:ton_dart/src/contracts/utils/parser.dart';
@@ -25,7 +24,7 @@ class VersionedWalletV5OperaionType extends ContractOperationType {
       (e) => e.operation == operation,
       orElse:
           () =>
-              throw TonContractExceptionConst.invalidOperationId(
+              throw TonContractErrors.invalidOperationId(
                 tag: operation,
               ),
     );

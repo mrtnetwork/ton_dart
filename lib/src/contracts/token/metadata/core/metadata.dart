@@ -1,7 +1,6 @@
 import 'package:ton_dart/src/boc/boc.dart';
-import 'package:ton_dart/src/contracts/exception/exception.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/contracts/token/metadata/metadata.dart';
-import 'package:ton_dart/src/exception/exception.dart';
 import 'package:ton_dart/src/serialization/serialization.dart';
 
 enum TokenContentType { unknown, offchain, onchain }
@@ -12,7 +11,7 @@ abstract class TokenMetadata with JsonSerialization {
   Cell toContent();
   T cast<T extends TokenMetadata>() {
     if (this is! T) {
-      throw TonDartPluginException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Invalid token metadata casting. expected: $runtimeType got: $T',
       );
     }
@@ -36,7 +35,7 @@ abstract class NFTMetadata extends TonSerialization {
   }
   T cast<T extends NFTMetadata>() {
     if (this is! T) {
-      throw TonContractException(
+      throw BuError(DefaultErrorType.castFailed, 
         'Invalid metadata casting. expected: $runtimeType got: $T',
       );
     }

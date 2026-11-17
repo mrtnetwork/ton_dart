@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void walletContextTest() {
   group('Wallet V5 context', () {
     _walletV5ClientContext();
     _walletV5ClientContextDeserialize();
@@ -123,4 +124,8 @@ void _deserializeWalletCustomWalletContext() {
     );
     expect(walletContext, load);
   });
+}
+
+void main() {
+  TonTestApi.runTest(walletContextTest, 'Wallet Context');
 }

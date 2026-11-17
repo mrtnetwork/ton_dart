@@ -1,9 +1,9 @@
 import 'package:ton_dart/src/address/address.dart';
+import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/boc/boc.dart';
 import 'package:ton_dart/src/dict/dictionary/dictionary.dart';
 import 'package:ton_dart/src/dict/dictionary/key.dart';
 import 'package:ton_dart/src/dict/dictionary/value.dart';
-import 'package:ton_dart/src/dict/exception/exception.dart';
 
 /// Provides factory methods for creating `DictionaryKey` and `DictionaryValue`
 /// instances for various data types, used in serialization and deserialization
@@ -69,7 +69,7 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (!src.isFinite) {
-          throw DictException('Key is not a safe integer.');
+          throw BuError(DefaultErrorType.invalidArgument, 'Key is not a safe integer.');
         }
         return beginCell()
             .storeInt(src, bits)
@@ -97,7 +97,7 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (src.isNegative) {
-          throw DictException(
+          throw BuError(DefaultErrorType.invalidArgument, 
             'Key is negative.',
             details: {'key': src.toString()},
           );
@@ -128,10 +128,10 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (!src.isFinite) {
-          throw DictException('Key is not a safe integer.');
+          throw BuError(DefaultErrorType.invalidArgument, 'Key is not a safe integer.');
         }
         if (src.isNegative) {
-          throw DictException(
+          throw BuError(DefaultErrorType.invalidArgument, 
             'Key is negative.',
             details: {'key': src.toString()},
           );
@@ -143,14 +143,11 @@ class DictionaryCodecs {
             .loadUintBig(bits);
       },
       parse: (src) {
-        return int.parse(
-          beginCell()
-              .storeUint(src, bits)
-              .endCell()
-              .beginParse()
-              .loadUint(bits)
-              .toString(),
-        );
+        return beginCell()
+            .storeUint(src, bits)
+            .endCell()
+            .beginParse()
+            .loadUint(bits);
       },
     );
   }
@@ -164,6 +161,12 @@ class DictionaryCodecs {
     return DictionaryKey<List<int>>(
       bits: bytes * 8,
       serialize: (src) {
+        if (src.length != bytes) {
+          throw BuError(DefaultErrorType.invalidLength, 
+            'Invalid buffer key length.',
+            details: {'expected': '$bytes', 'actual': '${src.length}'},
+          );
+        }
         return beginCell()
             .storeBuffer(src)
             .endCell()
@@ -189,6 +192,12 @@ class DictionaryCodecs {
     return DictionaryKey<BitString>(
       bits: bits,
       serialize: (src) {
+        if (src.length != bits) {
+          throw BuError(DefaultErrorType.invalidLength, 
+            'Invalid bitstring key length.',
+            details: {'expected': '$bits', 'actual': '${src.length}'},
+          );
+        }
         final res = beginCell()
             .storeBits(src)
             .endCell()
@@ -236,10 +245,10 @@ class DictionaryCodecs {
     );
   }
 
-  /// Creates a `DictionaryValue` for `BigInt` with a specified bit length using variable-length encoding.
+  /// Creates a `DictionaryValue` for signed `BigInt` with a specified bit length using variable-length encoding.
   ///
-  /// The `serialize` function stores the big integer in a builder with variable-length encoding.
-  /// The `parse` function retrieves the big integer from the source using variable-length encoding.
+  /// The `serialize` function stores the signed big integer in a builder with variable-length encoding.
+  /// The `parse` function retrieves the signed big integer from the source using variable-length encoding.
   static DictionaryValue<BigInt> createBigVarIntValue(int bits) {
     return DictionaryValue<BigInt>(
       serialize: (src, builder) {
@@ -251,10 +260,10 @@ class DictionaryCodecs {
     );
   }
 
-  /// Creates a `DictionaryValue` for `BigInt` with a specified bit length using variable-length encoding.
+  /// Creates a `DictionaryValue` for unsigned `BigInt` with a specified bit length using variable-length encoding.
   ///
-  /// The `serialize` function stores the big integer in a builder with variable-length encoding.
-  /// The `parse` function retrieves the big integer from the source using variable-length encoding.
+  /// The `serialize` function stores the unsigned big integer in a builder with variable-length encoding.
+  /// The `parse` function retrieves the unsigned big integer from the source using variable-length encoding.
   static DictionaryValue<BigInt> createBigVarUintValue(int bits) {
     return DictionaryValue<BigInt>(
       serialize: (src, builder) {
@@ -382,7 +391,7 @@ class DictionaryCodecs {
     return DictionaryValue<List<int>>(
       serialize: (src, builder) {
         if (src.length != size) {
-          throw DictException(
+          throw BuError(DefaultErrorType.invalidLength, 
             'Invalid buffer size.',
             details: {
               'size': size.toString(),
@@ -406,7 +415,7 @@ class DictionaryCodecs {
     return DictionaryValue<BitString>(
       serialize: (src, builder) {
         if (src.length != bits) {
-          throw DictException(
+          throw BuError(DefaultErrorType.invalidLength, 
             'Invalid BitString size.',
             details: {
               'size': bits.toString(),

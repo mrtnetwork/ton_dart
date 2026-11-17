@@ -1,7 +1,8 @@
 import 'package:test/test.dart';
 import 'package:ton_dart/ton_dart.dart';
+import '../../utils.dart';
 
-void main() {
+void jettonTest() {
   _mint();
 }
 
@@ -104,3 +105,7 @@ void _mint() {
 }
 
 /// b5ee9c7241010101003000005b0000000300000000000000009fe6785d5320558220809ffd16dd62d158083655d5d85b1843d00fcd6fe4cade2f90f7aa6ca5
+
+void main() {
+  TonTestApi.runTest(jettonTest, 'Jetton');
+}
