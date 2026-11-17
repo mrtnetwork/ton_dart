@@ -121,7 +121,8 @@ class _BocSerializationUtils {
           CryptoUtils.crc32c(src.sublist(0, src.length - 4)),
           crc32,
         )) {
-          throw BuError(DefaultErrorType.invalidChecksum, 
+          throw BuError(
+            DefaultErrorType.invalidChecksum,
             'Invalid CRC32C',
             details: {
               'crc32': crc32.join(","),
@@ -168,7 +169,8 @@ class _BocSerializationUtils {
             CryptoUtils.crc32c(src.sublist(0, src.length - 4)),
             crc32,
           )) {
-            throw BuError(DefaultErrorType.invalidChecksum, 
+            throw BuError(
+              DefaultErrorType.invalidChecksum,
               'Invalid CRC32C',
               details: {
                 'crc32': crc32.join(","),
@@ -192,7 +194,8 @@ class _BocSerializationUtils {
           magicNumber: magic,
         );
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid magic number.',
           details: {
             'magic': magic.toString(),
@@ -350,7 +353,8 @@ class BocSerialization {
     // Sanity Check
     final List<int> res = builder.buffer();
     if (res.length != totalSize ~/ 8) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Serialization cannot verify length.',
         details: {
           'expected': (totalSize ~/ 8).toString(),
@@ -380,7 +384,8 @@ class BocSerialization {
       final cell = cells[i];
       for (final int r in cell.refsList) {
         if (r < 0 || r >= cells.length) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid BOC file.',
             details: {'ref': '$r', 'cells': '${cells.length}'},
           );
@@ -399,7 +404,8 @@ class BocSerialization {
     for (int i = 0; i < boc.root.length; i++) {
       final int r = boc.root[i];
       if (r < 0 || r >= cells.length) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid BOC file.',
           details: {'root': '$r', 'cells': '${cells.length}'},
         );

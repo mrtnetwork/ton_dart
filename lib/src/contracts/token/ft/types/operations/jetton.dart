@@ -53,11 +53,7 @@ class JettonWalletOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
     if (expected != null) {
       if (type != expected) {
@@ -76,8 +72,7 @@ class JettonWalletOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.name == name,
-      orElse:
-          () => throw TonContractErrors.invalidOperationId(tag: name),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
@@ -119,7 +114,8 @@ abstract class JettonWalletOperation extends TonSerialization
       case JettonWalletOperationType.withdrawJetton:
         return JettonWalletWithdrawJetton.deserialize(slice);
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported jetton wallet operation.',
         );
     }
@@ -136,14 +132,16 @@ abstract class JettonWalletOperation extends TonSerialization
       case JettonWalletOperationType.withdrawJetton:
         return JettonWalletWithdrawJetton.fromJson(json!);
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported jetton wallet operation.',
         );
     }
   }
   T cast<T extends JettonWalletOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect Jetton wallet casting. expected: $runtimeType got: $T',
       );
     }
@@ -511,11 +509,7 @@ class JettonMinterOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
     if (expected != null) {
       if (type != expected) {
@@ -534,8 +528,7 @@ class JettonMinterOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.name == name,
-      orElse:
-          () => throw TonContractErrors.invalidOperationId(tag: name),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
@@ -588,7 +581,8 @@ abstract class JettonMinterOperation extends TonSerialization
             return JettonMinterInternalTransfer.deserialize(slice);
 
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid Minter operation type.',
               details: {'type': type.name},
             );
@@ -613,7 +607,8 @@ abstract class JettonMinterOperation extends TonSerialization
           case JettonMinterOperationType.internalTransfer:
             return JettonMinterInternalTransfer.fromJson(json!);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid Minter operation type.',
               details: {'type': type.name},
             );
@@ -624,7 +619,8 @@ abstract class JettonMinterOperation extends TonSerialization
   }
   T cast<T extends JettonMinterOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect JettonMinterOperation casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );

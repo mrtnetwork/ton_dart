@@ -20,7 +20,8 @@ class Base64Utils {
         validateB64Padding: false,
       );
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid base64 string.',
         details: {'value': base64},
       );

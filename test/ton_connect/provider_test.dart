@@ -8,11 +8,14 @@ import 'package:ton_dart/src/ton_connect/bridge/requests.dart';
 import 'package:ton_dart/src/ton_connect/bridge/sse_parser.dart';
 import '../utils.dart';
 
-
 /// Fake wallet transport: captures requests, serves canned responses.
 /// Excercises the real request/response paths (no network).
 class FakeBridgeService
-    implements IServiceProvider<TonConnectRequestDetails, BaseGRPCServiceRequestParams> {
+    implements
+        IServiceProvider<
+          TonConnectRequestDetails,
+          BaseGRPCServiceRequestParams
+        > {
   final List<TonConnectRequestDetails> requests = [];
   BaseServiceResponse Function(TonConnectRequestDetails params)? onRequest;
 
@@ -61,10 +64,11 @@ class FakeBridgeService
     }
     final sub = request as TonConnectEventsRequest;
     final frames = TonSseParser().feed(subscribeChunk);
-    final events = frames
-        .map((f) => sub.toEvent(sub.clientId, f))
-        .whereType<TonBridgeEvent>()
-        .toList();
+    final events =
+        frames
+            .map((f) => sub.toEvent(sub.clientId, f))
+            .whereType<TonBridgeEvent>()
+            .toList();
     return DefaultServiceSubscribtionResponse(
       response: const ServiceSuccessRespose(
         statusCode: 200,
@@ -101,10 +105,12 @@ class FakeBridgeService
 }
 
 void providerTest() {
-
   const aliceHex =
       '69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37c5c7a8e9f8a1b2c3';
-  final payload = StringUtils.decode(List<int>.filled(40, 7), encoding: StringEncoding.base64);
+  final payload = StringUtils.decode(
+    List<int>.filled(40, 7),
+    encoding: StringEncoding.base64,
+  );
 
   TonConnectBridgeProvider<FakeBridgeService> makeProvider(
     FakeBridgeService service,
@@ -140,12 +146,13 @@ void providerTest() {
 
     test('bridge 400 surfaces as RPCError', () async {
       final service = FakeBridgeService();
-      service.onRequest = (_) => ServiceErrorResponse(
-        statusCode: 400,
-        error: 'ttl too high',
-        validate: true,
-        jsonError: const {'error': 'ttl too high'},
-      );
+      service.onRequest =
+          (_) => ServiceErrorResponse(
+            statusCode: 400,
+            error: 'ttl too high',
+            validate: true,
+            jsonError: const {'error': 'ttl too high'},
+          );
       final provider = makeProvider(service);
       await expectLater(
         () => provider.sendMessage(
@@ -176,14 +183,13 @@ void providerTest() {
         nonce: List<int>.filled(24, 9),
       );
       expect(service.requests.length, 1);
-      final body = StringUtils.toJson<dynamic>(service.requests.single.bodyString!);
+      final body = StringUtils.toJson<dynamic>(
+        service.requests.single.bodyString!,
+      );
       final sealed = (body as Map)['message'] as String;
       final raw = StringUtils.encode(sealed, encoding: StringEncoding.base64);
       expect(raw.length, 24 + 16 + message.length);
-      final opened = dapp.decryptFromBase64(
-        wallet.publicKey,
-        sealed,
-      );
+      final opened = dapp.decryptFromBase64(wallet.publicKey, sealed);
       expect(opened, message);
     });
   });
@@ -211,9 +217,10 @@ void providerTest() {
     });
 
     test('retries 429 with same lastEventId then succeeds', () async {
-      final service = FakeBridgeService()
-        ..subscribeFailures = 2
-        ..subscribeChunk = chunk();
+      final service =
+          FakeBridgeService()
+            ..subscribeFailures = 2
+            ..subscribeChunk = chunk();
       final provider = makeProvider(service);
       final sub = await provider.requestSubscribtion(
         TonConnectEventsRequest(clientId: aliceHex, lastEventId: '42'),
@@ -233,9 +240,7 @@ void providerTest() {
         () => provider.requestSubscribtion(
           TonConnectEventsRequest(clientId: aliceHex),
         ),
-        throwsA(
-          isA<RPCError>().having((e) => e.statusCode, 'statusCode', 429),
-        ),
+        throwsA(isA<RPCError>().having((e) => e.statusCode, 'statusCode', 429)),
       );
       expect(service.requests.length, 4);
     });

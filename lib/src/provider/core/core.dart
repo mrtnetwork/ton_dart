@@ -15,14 +15,24 @@ enum TonApiType {
   factory TonApiType.fromId(int? id) {
     return values.firstWhere(
       (element) => element.id == id,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TonApiType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TonApiType found for the given value. null",
+              ),
     );
   }
 
   factory TonApiType.fromName(String? name) {
     return values.firstWhere(
       (element) => element.name == name,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TonApiType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TonApiType found for the given value. null",
+              ),
     );
   }
 }
@@ -52,7 +62,8 @@ abstract class TonApiRequest<RESULT, RESPONSE>
   TonRequestDetails buildRequest(int v) {
     final pathParams = TonApiUtils.extractParams(method);
     if (pathParams.length != pathParameters.length) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Path Parameters.',
         details: {
           'pathParams': pathParameters.join(","),

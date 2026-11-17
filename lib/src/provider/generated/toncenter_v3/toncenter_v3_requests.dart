@@ -311,7 +311,8 @@ class TonCenterV3GetDecode
 }
 
 /// POST /api/v3/decode
-class TonCenterV3PostDecode extends TonCenterV3PostRequestParam<DecodeResponse, Map<String, dynamic>> {
+class TonCenterV3PostDecode
+    extends TonCenterV3PostRequestParam<DecodeResponse, Map<String, dynamic>> {
   final List<String>? bodies;
   final List<String>? opcodes;
 
@@ -415,7 +416,9 @@ class TonCenterV3GetDnsRecords
 }
 
 /// POST /api/v3/estimateFee
-class TonCenterV3PostV2EstimateFee extends TonCenterV3PostRequestParam<V2EstimateFeeResult, Map<String, dynamic>> {
+class TonCenterV3PostV2EstimateFee
+    extends
+        TonCenterV3PostRequestParam<V2EstimateFeeResult, Map<String, dynamic>> {
   final String? address;
   final String? body_;
   final bool? ignoreChksig;
@@ -752,7 +755,9 @@ class TonCenterV3GetMasterchainInfo
 }
 
 /// POST /api/v3/message
-class TonCenterV3PostV2Message extends TonCenterV3PostRequestParam<V2SendMessageResult, Map<String, dynamic>> {
+class TonCenterV3PostV2Message
+    extends
+        TonCenterV3PostRequestParam<V2SendMessageResult, Map<String, dynamic>> {
   final String? boc;
 
   TonCenterV3PostV2Message({this.boc});
@@ -1252,7 +1257,12 @@ class TonCenterV3GetPendingTransactions
 }
 
 /// POST /api/v3/runGetMethod
-class TonCenterV3PostV2Rungetmethod extends TonCenterV3PostRequestParam<Map<String, dynamic>, Map<String, dynamic>> {
+class TonCenterV3PostV2Rungetmethod
+    extends
+        TonCenterV3PostRequestParam<
+          Map<String, dynamic>,
+          Map<String, dynamic>
+        > {
   final String? address;
   final String? method_;
   final List<V2StackEntity>? stack;

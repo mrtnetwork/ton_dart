@@ -48,7 +48,10 @@ void connectTest() {
     });
 
     test('rejects bad version, id and r', () {
-      final good = TonConnectLink.build(dappId: aliceHex, request: sampleRequest());
+      final good = TonConnectLink.build(
+        dappId: aliceHex,
+        request: sampleRequest(),
+      );
       expect(
         () => TonConnectLink.parse(good.replaceFirst('v=2', 'v=1')),
         throwsA(isA<BuError>()),
@@ -74,10 +77,7 @@ void connectTest() {
     test('rejects non-request r payload', () {
       final link =
           'tonconnect://connect?v=2&id=$aliceHex&r=WzFd&ret=back'; // "[1]"
-      expect(
-        () => TonConnectLink.parse(link),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => TonConnectLink.parse(link), throwsA(isA<BuError>()));
     });
 
     test('rejects http manifestUrl inside r', () {
@@ -96,14 +96,8 @@ void connectTest() {
 
   group('TonConnectItem', () {
     test('ton_proof requires payload, unknown names rejected', () {
-      expect(
-        () => TonConnectItem(name: 'ton_proof'),
-        throwsA(isA<BuError>()),
-      );
-      expect(
-        () => TonConnectItem(name: 'nope'),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => TonConnectItem(name: 'ton_proof'), throwsA(isA<BuError>()));
+      expect(() => TonConnectItem(name: 'nope'), throwsA(isA<BuError>()));
       expect(TonConnectItem(name: 'ton_addr').payload, isNull);
     });
   });
@@ -122,9 +116,10 @@ void connectTest() {
         throwsA(isA<BuError>()),
       );
       expect(
-        () => TonConnectManifest.fromJson(
-          {...manifest, 'iconUrl': 'http://example.com/icon.png'},
-        ),
+        () => TonConnectManifest.fromJson({
+          ...manifest,
+          'iconUrl': 'http://example.com/icon.png',
+        }),
         throwsA(isA<BuError>()),
       );
     });
@@ -135,10 +130,7 @@ void connectTest() {
       expect(TonNetworkId('-239').isMainnet, isTrue);
       expect(TonNetworkId('-3').isTestnet, isTrue);
       expect(TonNetworkId('100').value, '100');
-      expect(
-        () => TonNetworkId('mainnet'),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => TonNetworkId('mainnet'), throwsA(isA<BuError>()));
     });
   });
 
@@ -161,10 +153,7 @@ void connectTest() {
       expect(json['event'], 'connect');
       expect((json['payload'] as Map)['device'], device.toJson());
       final error = TonConnectEventError(id: 1, code: 300, message: 'no');
-      expect(
-        TonConnectEventError.fromJson(error.toJson()).code,
-        300,
-      );
+      expect(TonConnectEventError.fromJson(error.toJson()).code, 300);
     });
   });
 

@@ -32,7 +32,8 @@ class CommonMessageInfoRelaxedType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find CommonMessageInfoRelaxedType from provided name',
                 details: {'name': name},
               ),
@@ -53,7 +54,8 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
       return CommonMessageInfoRelaxedInternal.deserialize(slice);
     }
     if (!slice.loadBit()) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid CommonMessageInfoRelaxed Slice',
       );
     }
@@ -71,7 +73,8 @@ abstract class CommonMessageInfoRelaxed extends TonSerialization {
 
   T cast<T extends CommonMessageInfoRelaxed>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect message relaxed casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );

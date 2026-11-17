@@ -57,10 +57,16 @@ class _DictSerializationUtils {
       }
     }
     if (left.isEmpty) {
-      throw BuError(DefaultErrorType.internal, 'Internal inconsistency. Left empty.');
+      throw BuError(
+        DefaultErrorType.internal,
+        'Internal inconsistency. Left empty.',
+      );
     }
     if (right.isEmpty) {
-      throw BuError(DefaultErrorType.internal, 'Internal inconsistency. Right empty.');
+      throw BuError(
+        DefaultErrorType.internal,
+        'Internal inconsistency. Right empty.',
+      );
     }
     return (left, right);
   }

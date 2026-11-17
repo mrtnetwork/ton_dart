@@ -64,7 +64,8 @@ class NFTCollectionEditableContract<E extends WalletContractTransferParams>
   }) async {
     final active = await isActive(client);
     if (!active && state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'The account is inactive and requires state initialization.',
       );
     }

@@ -33,7 +33,12 @@ enum AccStatusChange {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching AccStatusChange found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching AccStatusChange found for the given value. null",
+              ),
     );
   }
 
@@ -54,7 +59,12 @@ enum AccountStatus {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching AccountStatus found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching AccountStatus found for the given value. null",
+              ),
     );
   }
 
@@ -74,7 +84,12 @@ enum BouncePhaseType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching BouncePhaseType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching BouncePhaseType found for the given value. null",
+              ),
     );
   }
 
@@ -95,7 +110,12 @@ enum ComputeSkipReason {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ComputeSkipReason found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching ComputeSkipReason found for the given value. null",
+              ),
     );
   }
 
@@ -116,7 +136,12 @@ enum CurrencyType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching CurrencyType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching CurrencyType found for the given value. null",
+              ),
     );
   }
 
@@ -139,7 +164,12 @@ enum DefiAssetType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching DefiAssetType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching DefiAssetType found for the given value. null",
+              ),
     );
   }
 
@@ -171,7 +201,12 @@ enum ExecGetMethodArgType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ExecGetMethodArgType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching ExecGetMethodArgType found for the given value. null",
+              ),
     );
   }
 
@@ -192,7 +227,12 @@ enum JettonVerificationType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching JettonVerificationType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching JettonVerificationType found for the given value. null",
+              ),
     );
   }
 
@@ -214,7 +254,12 @@ enum PoolImplementationType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching PoolImplementationType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching PoolImplementationType found for the given value. null",
+              ),
     );
   }
 
@@ -238,7 +283,12 @@ enum TransactionType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TransactionType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TransactionType found for the given value. null",
+              ),
     );
   }
 
@@ -259,7 +309,12 @@ enum TrustType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TrustType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TrustType found for the given value. null",
+              ),
     );
   }
 
@@ -278,7 +333,12 @@ enum ActionStatus {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ActionStatus found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching ActionStatus found for the given value. null",
+              ),
     );
   }
 
@@ -328,7 +388,12 @@ enum ActionType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ActionType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching ActionType found for the given value. null",
+              ),
     );
   }
 
@@ -351,7 +416,10 @@ enum AuctionBidActionAuctionType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching AuctionBidActionAuctionType found for the given value. null"),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching AuctionBidActionAuctionType found for the given value. null",
+              ),
     );
   }
 
@@ -374,7 +442,10 @@ enum BlockchainAccountInspectCompiler {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching BlockchainAccountInspectCompiler found for the given value. null"),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching BlockchainAccountInspectCompiler found for the given value. null",
+              ),
     );
   }
 
@@ -394,7 +465,12 @@ enum DefiLockedAssetType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching DefiLockedAssetType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching DefiLockedAssetType found for the given value. null",
+              ),
     );
   }
 
@@ -415,7 +491,11 @@ enum JettonOperationOperation {
     return values.firstWhere(
       (e) => e.value == value,
       orElse:
-          () => throw BuError(DefaultErrorType.notFound, "No matching JettonOperationOperation found for the given value. null"),
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching JettonOperationOperation found for the given value. null",
+              ),
     );
   }
 
@@ -435,7 +515,12 @@ enum MessageMsgType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching MessageMsgType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching MessageMsgType found for the given value. null",
+              ),
     );
   }
 
@@ -461,7 +546,10 @@ enum MigrationPrepareRequestGasPayer {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching MigrationPrepareRequestGasPayer found for the given value. null"),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching MigrationPrepareRequestGasPayer found for the given value. null",
+              ),
     );
   }
 
@@ -480,7 +568,12 @@ enum NftApprovedByItem {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching NftApprovedByItem found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching NftApprovedByItem found for the given value. null",
+              ),
     );
   }
 
@@ -499,7 +592,12 @@ enum PictureDNSType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching PictureDNSType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching PictureDNSType found for the given value. null",
+              ),
     );
   }
 
@@ -519,7 +617,12 @@ enum RefundType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching RefundType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching RefundType found for the given value. null",
+              ),
     );
   }
 
@@ -539,7 +642,12 @@ enum SortBy {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SortBy found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SortBy found for the given value. null",
+              ),
     );
   }
 
@@ -559,7 +667,12 @@ enum SortOrder {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SortOrder found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SortOrder found for the given value. null",
+              ),
     );
   }
 
@@ -580,7 +693,12 @@ enum SubscriptionStatus {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching SubscriptionStatus found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching SubscriptionStatus found for the given value. null",
+              ),
     );
   }
 
@@ -602,7 +720,12 @@ enum TvmStackRecordType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching TvmStackRecordType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching TvmStackRecordType found for the given value. null",
+              ),
     );
   }
 
@@ -626,7 +749,10 @@ enum ValidatorRewardEntryPoolType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching ValidatorRewardEntryPoolType found for the given value. null"),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching ValidatorRewardEntryPoolType found for the given value. null",
+              ),
     );
   }
 

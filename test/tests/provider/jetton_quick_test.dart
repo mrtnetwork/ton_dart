@@ -5,10 +5,8 @@ import 'package:ton_dart/src/provider/generated/tonapi/tonapi_requests.dart';
 import 'package:ton_dart/ton_dart.dart';
 import '../../utils.dart';
 
-
 /// Offline tests for the swap-parity quick calls (fake provider, no network).
 void jettonQuickTest() {
-
   final owner = TonAddress('0:${'11' * 32}');
   final jettonMaster = TonAddress('0:${'22' * 32}');
 
@@ -31,7 +29,9 @@ void jettonQuickTest() {
     return TvmStackRecord(cell: value, type: TvmStackRecordType.cell);
   }
 
-  TonQuickClient quickWith(Map<Type, MethodExecutionResult Function()> handlers) {
+  TonQuickClient quickWith(
+    Map<Type, MethodExecutionResult Function()> handlers,
+  ) {
     return DefaultTonQuickClient(
       provider: _CannedProvider(handlers),
       availableProviders: const [TonApiType.tonApi],
@@ -39,11 +39,10 @@ void jettonQuickTest() {
   }
 
   test('getJettonWalletAddress reads the address cell', () async {
-    final walletCell =
-        beginCell().storeAddress(owner).endCell().toBase64();
+    final walletCell = beginCell().storeAddress(owner).endCell().toBase64();
     final quick = quickWith({
-      TonApiExecGetMethodForBlockchainAccount: () =>
-          execResult(stack: [cellRecord(walletCell)]),
+      TonApiExecGetMethodForBlockchainAccount:
+          () => execResult(stack: [cellRecord(walletCell)]),
     });
     final wallet = await quick.getJettonWalletAddress(
       owner: owner,
@@ -54,8 +53,8 @@ void jettonQuickTest() {
 
   test('getJettonWalletAddress throws on non-zero exit code', () async {
     final quick = quickWith({
-      TonApiExecGetMethodForBlockchainAccount: () =>
-          execResult(stack: const [], exitCode: 1),
+      TonApiExecGetMethodForBlockchainAccount:
+          () => execResult(stack: const [], exitCode: 1),
     });
     await expectLater(
       quick.getJettonWalletAddress(owner: owner, jettonMaster: jettonMaster),
@@ -65,19 +64,16 @@ void jettonQuickTest() {
 
   test('getJettonBalance reads the first stack number', () async {
     final quick = quickWith({
-      TonApiExecGetMethodForBlockchainAccount: () =>
-          execResult(stack: [numRecord('250')]),
+      TonApiExecGetMethodForBlockchainAccount:
+          () => execResult(stack: [numRecord('250')]),
     });
-    expect(
-      await quick.getJettonBalance(jettonWallet: owner),
-      BigInt.from(250),
-    );
+    expect(await quick.getJettonBalance(jettonWallet: owner), BigInt.from(250));
   });
 
   test('getWalletSeqno reads the seqno number', () async {
     final quick = quickWith({
-      TonApiExecGetMethodForBlockchainAccount: () =>
-          execResult(stack: [numRecord('41')]),
+      TonApiExecGetMethodForBlockchainAccount:
+          () => execResult(stack: [numRecord('41')]),
     });
     expect(await quick.getWalletSeqno(owner), 41);
   });
@@ -98,8 +94,8 @@ void jettonQuickTest() {
     expect(seqno, greaterThan(42));
 
     final stuck = quickWith({
-      TonApiExecGetMethodForBlockchainAccount: () =>
-          execResult(stack: [numRecord('41')]),
+      TonApiExecGetMethodForBlockchainAccount:
+          () => execResult(stack: [numRecord('41')]),
     });
     await expectLater(
       stuck.trackWalletSeqno(
@@ -114,7 +110,8 @@ void jettonQuickTest() {
 }
 
 /// Canned provider serving one fixed execution result per request type.
-class _CannedProvider implements IProvider<IServiceProvider, TonRequestDetails> {
+class _CannedProvider
+    implements IProvider<IServiceProvider, TonRequestDetails> {
   final Map<Type, MethodExecutionResult Function()> handlers;
   _CannedProvider(this.handlers);
 

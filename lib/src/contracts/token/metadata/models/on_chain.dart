@@ -20,7 +20,8 @@ class _JettonOnChainMetadataUtils {
         format = OnChainMetadataFormat.chunked;
       }
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid metadat content. metadata must be Snake format(Map<String,String>) or Chunked format Map<String,Map<int,String>>',
       );
     }

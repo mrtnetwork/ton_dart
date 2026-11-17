@@ -64,7 +64,8 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
       ),
     );
     if (walletAddress != address) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Incorrect state address.',
         details: {
           'expected': walletAddress.toRawAddress(),
@@ -88,7 +89,8 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
   }) {
     final Cell actionsCell;
     if (acctions.length > 254) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Max allowed action count is 254. Use packActions instead.',
       );
     }
@@ -231,7 +233,8 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
   }) async {
     final active = await isActive(client);
     if (!active && state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'Cannot Send Batch Transaction with watch only wallet',
       );
     }
@@ -246,7 +249,8 @@ class HighloadWalletV3 extends HighloadWallets<HighloadWalletV3State>
     if (onEstimateFee != null) {
       await onEstimateFee(extMessage);
     }
-    if (action.isBroadcast) return sendMessage(client: client, exMessage: extMessage);
+    if (action.isBroadcast)
+      return sendMessage(client: client, exMessage: extMessage);
     return extMessage.serialize().toBase64();
   }
 

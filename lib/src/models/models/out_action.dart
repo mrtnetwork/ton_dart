@@ -27,7 +27,8 @@ enum OutActionType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find OutActionType from provided name',
                 details: {'name': name},
               ),
@@ -38,7 +39,8 @@ enum OutActionType {
       (element) => element.tag == tag,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find OutActionType from provided tag',
                 details: {'tag': tag?.toString()},
               ),
@@ -62,7 +64,8 @@ class OutActionsV5 extends TonSerialization {
         outListPacked.beginParse(),
       );
       if (sendMsgActions.any((e) => e.type != OutActionType.sendMsg)) {
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           "Can't deserialize actions list: only sendMsg actions are allowed for wallet v5r1",
         );
       }
@@ -216,7 +219,10 @@ abstract class OutAction extends TonSerialization {
       case OutActionType.setCode:
         return OutActionSetCode.fromJson(json);
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 'Invalid or unsupported OutActionType.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid or unsupported OutActionType.',
+        );
     }
   }
 }
@@ -231,7 +237,10 @@ class OutActionSendMsg extends OutActionWalletV5 {
   factory OutActionSendMsg.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.sendMsg.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid OutActionSendMsg tag');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid OutActionSendMsg tag',
+      );
     }
     return OutActionSendMsg(
       mode: slice.loadUint(8),
@@ -280,7 +289,10 @@ class OutActionSetCode extends OutAction {
   factory OutActionSetCode.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.setCode.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid OutActionSetCode tag');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid OutActionSetCode tag',
+      );
     }
     return OutActionSetCode(slice.loadRef());
   }
@@ -316,7 +328,8 @@ abstract class OutActionExtended extends OutActionWalletV5 {
       case OutActionType.setIsPublicKeyEnabled:
         return OutActionSetIsPublicKeyEnabled.deserialize(slice);
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid OutAction extended tag.',
           details: {'tag': tag?.toString()},
         );
@@ -330,7 +343,10 @@ class OutActionAddExtension extends OutActionExtended {
   factory OutActionAddExtension.deserialize(Slice slice) {
     final tag = slice.tryLoadUint8();
     if (tag != OutActionType.addExtension.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid OutActionAddExtension tag');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid OutActionAddExtension tag',
+      );
     }
     return OutActionAddExtension(slice.loadAddress());
   }
@@ -358,7 +374,8 @@ class OutActionRemoveExtension extends OutActionExtended {
   factory OutActionRemoveExtension.deserialize(Slice slice) {
     final tag = slice.tryLoadUint8();
     if (tag != OutActionType.removeExtension.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid OutActionRemoveExtension tag',
       );
     }
@@ -391,7 +408,8 @@ class OutActionSetIsPublicKeyEnabled extends OutActionExtended {
   factory OutActionSetIsPublicKeyEnabled.deserialize(Slice slice) {
     final tag = slice.tryLoadUint8();
     if (tag != OutActionType.setIsPublicKeyEnabled.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid OutActionSetIsPublicKeyEnabled tag',
       );
     }
@@ -425,7 +443,8 @@ class OutActionMultiSigSendMsg extends OutActionMultiSig {
   factory OutActionMultiSigSendMsg.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.multiSigSendMessage.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid OutActionMultiSigSendMsg tag',
       );
     }
@@ -484,7 +503,10 @@ class OutActionUpdateMultiSig extends OutActionMultiSig {
   factory OutActionUpdateMultiSig.deserialize(Slice slice) {
     final tag = slice.tryLoadUint32();
     if (tag != OutActionType.updateMiltiSig.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid OutActionUpdateMultiSig tag');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid OutActionUpdateMultiSig tag',
+      );
     }
     final threshhold = slice.loadUint8();
     final signers = OutActionUtils.signerCellToList(slice.loadMaybeRef());

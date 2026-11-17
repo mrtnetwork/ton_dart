@@ -63,8 +63,7 @@ sealed class TonAddressConfing with CborTagSerializable, Equality {
         TonAddressConfingFriendlyAddress.deserialize(obj: values.tag),
       TonSerializationIdentifiers.tornAddressraw =>
         TonAddressConfingRaw.deserialize(obj: values.tag),
-      _ =>
-        throw CoreErrors.incorrectTagValue(tag: values.tag.tags),
+      _ => throw CoreErrors.incorrectTagValue(tag: values.tag.tags),
     };
   }
   factory TonAddressConfing.friendly(

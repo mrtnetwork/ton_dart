@@ -22,7 +22,8 @@ class AccountStateType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find AccountStateType from provided name',
                 details: {'name': name},
               ),

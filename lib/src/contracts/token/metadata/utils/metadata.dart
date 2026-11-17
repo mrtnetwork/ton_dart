@@ -114,7 +114,8 @@ class TokneMetadataUtils {
         try {
           castMap = Map<int, String>.from(source);
         } catch (e) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid metadata value. value must be string or chunked format(Map<int,String>)',
             details: {'value': source},
           );
@@ -143,7 +144,8 @@ class TokneMetadataUtils {
         );
         return result.asMap.values.map((e) => e.beginParse().loadStringTail());
       }
-      throw BuError(DefaultErrorType.unsupported, 
+      throw BuError(
+        DefaultErrorType.unsupported,
         'Invalid or Unsuported metadata type.',
       );
     },

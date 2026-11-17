@@ -26,7 +26,12 @@ enum ModelsFinalityState {
     if (json is int) {
       return values.firstWhere(
         (e) => e.value == json,
-        orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ModelsFinalityState found for the given value. null"),
+        orElse:
+            () =>
+                throw BuError(
+                  DefaultErrorType.notFound,
+                  "No matching ModelsFinalityState found for the given value. null",
+                ),
       );
     }
     // The live API also emits the string form ("pending"/"confirmed"/
@@ -43,10 +48,18 @@ enum ModelsFinalityState {
     if (asInt != null) {
       return values.firstWhere(
         (e) => e.value == asInt,
-        orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ModelsFinalityState found for the given value. null"),
+        orElse:
+            () =>
+                throw BuError(
+                  DefaultErrorType.notFound,
+                  "No matching ModelsFinalityState found for the given value. null",
+                ),
       );
     }
-    throw BuError(DefaultErrorType.notFound, "No matching ModelsFinalityState found for the given value. null");
+    throw BuError(
+      DefaultErrorType.notFound,
+      "No matching ModelsFinalityState found for the given value. null",
+    );
   }
 
   int toJson({JsonifyConfig config = DefaultJsonifyConfig.defaultConfig}) =>
@@ -68,7 +81,12 @@ enum NominatorPoolEventType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching NominatorPoolEventType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching NominatorPoolEventType found for the given value. null",
+              ),
     );
   }
 
@@ -92,7 +110,10 @@ enum NominatorPoolValidatorEventType {
       (e) => e.value == value,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, "No matching NominatorPoolValidatorEventType found for the given value. null"),
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching NominatorPoolValidatorEventType found for the given value. null",
+              ),
     );
   }
 
@@ -113,7 +134,12 @@ enum ValidatorEventType {
     final value = json is String ? json : json?.toString();
     return values.firstWhere(
       (e) => e.value == value,
-      orElse: () => throw BuError(DefaultErrorType.notFound, "No matching ValidatorEventType found for the given value. null"),
+      orElse:
+          () =>
+              throw BuError(
+                DefaultErrorType.notFound,
+                "No matching ValidatorEventType found for the given value. null",
+              ),
     );
   }
 

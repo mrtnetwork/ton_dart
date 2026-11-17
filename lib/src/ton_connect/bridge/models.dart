@@ -88,9 +88,7 @@ class TonBridgeMessage {
     final message = json['message'];
     final traceId = json['trace_id'] ?? json['traceId'];
     if (from is! String || message is! String) {
-      throw TonConnectErrors.invalidPayload(
-        'Missing "from" or "message".',
-      );
+      throw TonConnectErrors.invalidPayload('Missing "from" or "message".');
     }
     if (traceId != null && traceId is! String) {
       throw TonConnectErrors.invalidPayload('Bad "trace_id".');
@@ -104,8 +102,7 @@ class TonBridgeMessage {
 
   static BuBytes _decodePayload(String payload) {
     try {
-      return StringUtils.encode(payload,
-          encoding: StringEncoding.base64);
+      return StringUtils.encode(payload, encoding: StringEncoding.base64);
     } catch (_) {
       throw TonConnectErrors.invalidPayload('Bad base64.');
     }

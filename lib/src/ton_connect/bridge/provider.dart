@@ -120,7 +120,8 @@ class TonConnectBridgeProvider<SERVICE extends IServiceProvider>
 
   @override
   Future<RESULT> request<RESULT, SERVICERESPONSE>(
-    IServiceRequest<RESULT, SERVICERESPONSE, TonConnectRequestDetails> request, {
+    IServiceRequest<RESULT, SERVICERESPONSE, TonConnectRequestDetails>
+    request, {
     Duration? timeout,
   }) async {
     final mapped = await requestDynamic<RESULT, SERVICERESPONSE>(
@@ -132,7 +133,8 @@ class TonConnectBridgeProvider<SERVICE extends IServiceProvider>
 
   @override
   Future<SERVICERESPONSE> requestDynamic<RESULT, SERVICERESPONSE>(
-    IServiceRequest<RESULT, SERVICERESPONSE, TonConnectRequestDetails> request, {
+    IServiceRequest<RESULT, SERVICERESPONSE, TonConnectRequestDetails>
+    request, {
     Duration? timeout,
   }) async {
     final details = await request.buildRequest(_id++);
@@ -184,8 +186,7 @@ class TonConnectBridgeProvider<SERVICE extends IServiceProvider>
           _throwError(sub.response as BaseServiceErrorResponse, details);
         }
         final identifier =
-            eventsRequest.toIdentifier(sub.response) ??
-            eventsRequest.clientId;
+            eventsRequest.toIdentifier(sub.response) ?? eventsRequest.clientId;
         final stream = sub.stream.where((e) => e is EVENT).cast<EVENT>();
         return DefaultSubscribtionRequestResponse<IDENTIFIER, EVENT>(
           identifier: identifier as IDENTIFIER,

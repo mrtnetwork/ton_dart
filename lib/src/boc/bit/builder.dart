@@ -201,7 +201,8 @@ class Builder {
   /// Stores a reference (cell). Throws [BuError] if more than 4 references are added.
   Builder storeRef(Cell cell) {
     if (_refs.length >= 4) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Too many references.',
         details: {'maximum': 4.toString(), 'refrence': _refs.length.toString()},
       );

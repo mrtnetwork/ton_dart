@@ -9,7 +9,7 @@ enum TonTxStatus {
   failed,
 
   /// No information (e.g. trace without matching actions).
-  unknown;
+  unknown,
 }
 
 /// One emulated message (root or nested) with the fees it consumed.

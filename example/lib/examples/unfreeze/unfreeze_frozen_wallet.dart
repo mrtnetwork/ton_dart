@@ -10,8 +10,7 @@ const _tonCenterKey =
     'd3800f756738ac7b39599914b8a84465960ff869f555c2317664c9a62529baf3';
 
 /// Frozen wallet v1r1 from the wallet examples (testnet).
-const _frozenAddress =
-    'kf9serWJThPWFoZqR5ad3GSjWsGmY8I_8d3IQuKOyIlODJlh';
+const _frozenAddress = 'kf9serWJThPWFoZqR5ad3GSjWsGmY8I_8d3IQuKOyIlODJlh';
 
 class _TestnetService with TonServiceProvider {
   _TestnetService({http.Client? client}) : client = client ?? http.Client();
@@ -27,14 +26,13 @@ class _TestnetService with TonServiceProvider {
   }) async {
     final uri = params.encodeUrl(_tonCenterUrl);
     final headers = {...params.headers, 'X-API-Key': _tonCenterKey};
-    final response =
-        params.requestMethod.isPost
-            ? await client
-                .post(uri, headers: headers, body: params.encodeBody())
-                .timeout(timeout ?? const Duration(seconds: 30))
-            : await client
-                .get(uri, headers: headers)
-                .timeout(timeout ?? const Duration(seconds: 30));
+    final response = params.requestMethod.isPost
+        ? await client
+            .post(uri, headers: headers, body: params.encodeBody())
+            .timeout(timeout ?? const Duration(seconds: 30))
+        : await client
+            .get(uri, headers: headers)
+            .timeout(timeout ?? const Duration(seconds: 30));
     return params.toResponse(
       response.bodyBytes,
       statusCode: response.statusCode,
@@ -43,8 +41,7 @@ class _TestnetService with TonServiceProvider {
 }
 
 /// Quick client with the unfreeze calls mixed in.
-class _DemoClient extends DefaultTonQuickClient
-    with TonUnfreezeQuickClientApi {
+class _DemoClient extends DefaultTonQuickClient with TonUnfreezeQuickClientApi {
   _DemoClient({required super.provider});
 }
 
@@ -69,8 +66,8 @@ Future<void> main() async {
   final found = await client.findUnfreezeBlock(
     address,
     frozen,
-    onProgress:
-        (step, [detail]) => print('freeze-search: $step ${detail ?? ''}'),
+    onProgress: (step, [detail]) =>
+        print('freeze-search: $step ${detail ?? ''}'),
   );
   if (found == null) {
     print('No usable unfreeze block found.');
@@ -89,8 +86,8 @@ Future<void> main() async {
       unfreezeBlock: found.unfreezeBlock,
       stateInitHashToMatch: frozen,
       freezeTx: found.freezeTx,
-      onProgress:
-          (step, [detail]) => print('state-recovery: $step ${detail ?? ''}'),
+      onProgress: (step, [detail]) =>
+          print('state-recovery: $step ${detail ?? ''}'),
     );
     print('stateInitHash: ${state.stateInitHashBase64}');
     print('sizeBytes: ${state.sizeBytes}');

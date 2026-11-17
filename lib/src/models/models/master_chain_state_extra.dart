@@ -47,7 +47,8 @@ class MasterchainStateExtra extends TonSerialization {
   factory MasterchainStateExtra.deserialize(Slice slice) {
     // Check magic
     if (slice.loadUint(16) != _MasterChainStateExtraConst.magic) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid MasterchainStateExtra slice data',
       );
     }
@@ -80,7 +81,8 @@ class MasterchainStateExtra extends TonSerialization {
 
   @override
   void store(Builder builder) {
-    throw BuError(DefaultErrorType.unsupported, 
+    throw BuError(
+      DefaultErrorType.unsupported,
       'MasterchainStateExtra.store is not implemented.',
     );
   }

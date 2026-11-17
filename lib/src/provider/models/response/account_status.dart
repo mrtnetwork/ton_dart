@@ -30,7 +30,8 @@ class AccountStatusResponse {
       (element) => element.value == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'No AccountStatusResponse found with the provided name: $name',
               ),
     );

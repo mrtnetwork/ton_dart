@@ -73,7 +73,8 @@ enum WalletVersion {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find WalletVersion from provided status',
                 details: {'name': name},
               ),

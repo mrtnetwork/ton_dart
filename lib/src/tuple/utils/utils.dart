@@ -83,7 +83,10 @@ class TupleUtils {
 
   static TupleItem _parseStackItemAsList(List<dynamic> stacks) {
     if (stacks.isEmpty) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid stack list item');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid stack list item',
+      );
     }
     final type = stacks[0];
     switch (type) {
@@ -105,7 +108,8 @@ class TupleUtils {
       case 'builder':
         return TupleItemBuilder(Cell.fromBase64((stacks[1] as Map)['bytes']));
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported tuple type.',
           details: {'type': type},
         );

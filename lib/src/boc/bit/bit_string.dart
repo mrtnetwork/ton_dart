@@ -4,7 +4,8 @@ import 'package:ton_dart/src/boc/utils/utils.dart';
 class _BitStringUtils {
   static void validateOffset(int offset, int length, {int? at}) {
     if (offset.isNegative) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Offset is out of bounds',
         details: {
           'offset': offset.toString(),
@@ -15,7 +16,8 @@ class _BitStringUtils {
     }
     final int index = offset + (at ?? 0);
     if (index > length) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Offset is out of bounds',
         details: {
           'offset': index.toString(),
@@ -49,7 +51,8 @@ class BitString {
   /// Throws a [BuError] if the length is out of bounds.
   factory BitString(List<int> data, int offset, int length) {
     if (length < 0) {
-      throw BuError(DefaultErrorType.invalidLength,
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Length is out of bounds',
         details: {'length': length.toString()},
       );
@@ -67,7 +70,8 @@ class BitString {
   /// a large BOC would otherwise copy the whole buffer per cell).
   factory BitString.view(List<int> data, int offset, int length) {
     if (length < 0) {
-      throw BuError(DefaultErrorType.invalidLength,
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Length is out of bounds',
         details: {'length': length.toString()},
       );
@@ -85,7 +89,8 @@ class BitString {
   bool at(int index) {
     _BitStringUtils.validateOffset(index, _length);
     if (index >= _length) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'index is out of bounds',
         details: {'index': index.toString(), 'length': length.toString()},
       );

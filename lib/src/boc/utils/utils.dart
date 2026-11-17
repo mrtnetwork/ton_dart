@@ -48,13 +48,15 @@ class BocUtils {
   static List<int> readBuffer(Slice slice) {
     // Check consistency
     if (slice.remainingBits % 8 != 0) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid string length.',
         details: {'length': slice.remainingBits.toString()},
       );
     }
     if (slice.remainingRefs != 0 && slice.remainingRefs != 1) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid number of refs',
         details: {'length': slice.remainingRefs.toString()},
       );

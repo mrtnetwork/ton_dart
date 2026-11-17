@@ -23,7 +23,8 @@ class _ConfigParserUtils {
       parse: (slice) {
         final header = slice.loadUint(8);
         if (header != _ConfigConst.header18) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid header for config 18.',
             details: {
               'expected': _ConfigConst.header18.toString(),

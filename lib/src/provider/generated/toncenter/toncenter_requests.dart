@@ -5,7 +5,8 @@ import 'package:ton_dart/src/provider/core/core.dart';
 import 'toncenter_models.dart';
 
 /// POST /api/v2/jsonRPC
-class TonCenterJsonRPCPost extends TonApiPostRequest<JsonRpcResponseResult, dynamic> {
+class TonCenterJsonRPCPost
+    extends TonApiPostRequest<JsonRpcResponseResult, dynamic> {
   final String jsonrpc;
   final String id;
   final String method_;
@@ -35,10 +36,9 @@ class TonCenterJsonRPCPost extends TonApiPostRequest<JsonRpcResponseResult, dyna
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -48,7 +48,8 @@ class TonCenterJsonRPCPost extends TonApiPostRequest<JsonRpcResponseResult, dyna
 }
 
 /// POST /api/v2/detectAddress
-class TonCenterDetectAddressPost extends TonApiPostRequest<DetectAddress, Map<String, dynamic>> {
+class TonCenterDetectAddressPost
+    extends TonApiPostRequest<DetectAddress, Map<String, dynamic>> {
   final String address;
 
   TonCenterDetectAddressPost({required this.address});
@@ -65,10 +66,9 @@ class TonCenterDetectAddressPost extends TonApiPostRequest<DetectAddress, Map<St
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -78,7 +78,8 @@ class TonCenterDetectAddressPost extends TonApiPostRequest<DetectAddress, Map<St
 }
 
 /// POST /api/v2/detectHash
-class TonCenterDetectHashPost extends TonApiPostRequest<DetectHash, Map<String, dynamic>> {
+class TonCenterDetectHashPost
+    extends TonApiPostRequest<DetectHash, Map<String, dynamic>> {
   final String hash;
 
   TonCenterDetectHashPost({required this.hash});
@@ -95,10 +96,9 @@ class TonCenterDetectHashPost extends TonApiPostRequest<DetectHash, Map<String, 
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -125,10 +125,9 @@ class TonCenterPackAddressPost extends TonApiPostRequest<String, String> {
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -155,10 +154,9 @@ class TonCenterUnpackAddressPost extends TonApiPostRequest<String, String> {
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -168,7 +166,8 @@ class TonCenterUnpackAddressPost extends TonApiPostRequest<String, String> {
 }
 
 /// POST /api/v2/getAddressInformation
-class TonCenterGetAddressInformationPost extends TonApiPostRequest<AddressInformation, Map<String, dynamic>> {
+class TonCenterGetAddressInformationPost
+    extends TonApiPostRequest<AddressInformation, Map<String, dynamic>> {
   final String address;
   final AddressWithSeqnoRequestSeqno? seqno;
 
@@ -189,10 +188,9 @@ class TonCenterGetAddressInformationPost extends TonApiPostRequest<AddressInform
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -202,7 +200,9 @@ class TonCenterGetAddressInformationPost extends TonApiPostRequest<AddressInform
 }
 
 /// POST /api/v2/getExtendedAddressInformation
-class TonCenterGetExtendedAddressInformationPost extends TonApiPostRequest<ExtendedAddressInformation, Map<String, dynamic>> {
+class TonCenterGetExtendedAddressInformationPost
+    extends
+        TonApiPostRequest<ExtendedAddressInformation, Map<String, dynamic>> {
   final String address;
   final AddressWithSeqnoRequestSeqno? seqno;
 
@@ -226,10 +226,9 @@ class TonCenterGetExtendedAddressInformationPost extends TonApiPostRequest<Exten
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -239,7 +238,8 @@ class TonCenterGetExtendedAddressInformationPost extends TonApiPostRequest<Exten
 }
 
 /// POST /api/v2/getShardAccountCell
-class TonCenterGetShardAccountCellPost extends TonApiPostRequest<TvmCell, Map<String, dynamic>> {
+class TonCenterGetShardAccountCellPost
+    extends TonApiPostRequest<TvmCell, Map<String, dynamic>> {
   final String address;
   final AddressWithSeqnoRequestSeqno? seqno;
 
@@ -260,10 +260,9 @@ class TonCenterGetShardAccountCellPost extends TonApiPostRequest<TvmCell, Map<St
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -273,7 +272,8 @@ class TonCenterGetShardAccountCellPost extends TonApiPostRequest<TvmCell, Map<St
 }
 
 /// POST /api/v2/getWalletInformation
-class TonCenterGetWalletInformationPost extends TonApiPostRequest<WalletInformation, Map<String, dynamic>> {
+class TonCenterGetWalletInformationPost
+    extends TonApiPostRequest<WalletInformation, Map<String, dynamic>> {
   final String address;
   final AddressWithSeqnoRequestSeqno? seqno;
 
@@ -294,10 +294,9 @@ class TonCenterGetWalletInformationPost extends TonApiPostRequest<WalletInformat
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -327,10 +326,9 @@ class TonCenterGetAddressBalancePost extends TonApiPostRequest<BigInt, String> {
       });
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -361,10 +359,9 @@ class TonCenterGetAddressStatePost extends TonApiPostRequest<String, String> {
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -374,7 +371,8 @@ class TonCenterGetAddressStatePost extends TonApiPostRequest<String, String> {
 }
 
 /// POST /api/v2/getTokenData
-class TonCenterGetTokenDataPost extends TonApiPostRequest<TokenData, Map<String, dynamic>> {
+class TonCenterGetTokenDataPost
+    extends TonApiPostRequest<TokenData, Map<String, dynamic>> {
   final String address;
   final AddressWithSeqnoRequestSeqno? seqno;
 
@@ -395,10 +393,9 @@ class TonCenterGetTokenDataPost extends TonApiPostRequest<TokenData, Map<String,
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -408,7 +405,8 @@ class TonCenterGetTokenDataPost extends TonApiPostRequest<TokenData, Map<String,
 }
 
 /// POST /api/v2/dnsResolve
-class TonCenterDnsResolvePost extends TonApiPostRequest<DnsResolved, Map<String, dynamic>> {
+class TonCenterDnsResolvePost
+    extends TonApiPostRequest<DnsResolved, Map<String, dynamic>> {
   final String domain;
   final String? resolverAddress;
   final int? seqno;
@@ -435,10 +433,9 @@ class TonCenterDnsResolvePost extends TonApiPostRequest<DnsResolved, Map<String,
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -448,7 +445,8 @@ class TonCenterDnsResolvePost extends TonApiPostRequest<DnsResolved, Map<String,
 }
 
 /// POST /api/v2/getMasterchainInfo
-class TonCenterGetMasterchainInfoPost extends TonApiPostRequest<MasterchainInfo, Map<String, dynamic>> {
+class TonCenterGetMasterchainInfoPost
+    extends TonApiPostRequest<MasterchainInfo, Map<String, dynamic>> {
   final MasterchainInfoRequest requestBody;
 
   TonCenterGetMasterchainInfoPost({required this.requestBody});
@@ -465,10 +463,9 @@ class TonCenterGetMasterchainInfoPost extends TonApiPostRequest<MasterchainInfo,
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -478,7 +475,8 @@ class TonCenterGetMasterchainInfoPost extends TonApiPostRequest<MasterchainInfo,
 }
 
 /// POST /api/v2/getMasterchainBlockSignatures
-class TonCenterGetMasterchainBlockSignaturesPost extends TonApiPostRequest<TonlibObject, Map<String, dynamic>> {
+class TonCenterGetMasterchainBlockSignaturesPost
+    extends TonApiPostRequest<TonlibObject, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno seqno;
 
   TonCenterGetMasterchainBlockSignaturesPost({required this.seqno});
@@ -497,10 +495,9 @@ class TonCenterGetMasterchainBlockSignaturesPost extends TonApiPostRequest<Tonli
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -510,7 +507,8 @@ class TonCenterGetMasterchainBlockSignaturesPost extends TonApiPostRequest<Tonli
 }
 
 /// POST /api/v2/getShardBlockProof
-class TonCenterGetShardBlockProofPost extends TonApiPostRequest<ShardBlockProof, Map<String, dynamic>> {
+class TonCenterGetShardBlockProofPost
+    extends TonApiPostRequest<ShardBlockProof, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno workchain;
   final BigInt shard;
   final AddressWithSeqnoRequestSeqno seqno;
@@ -540,10 +538,9 @@ class TonCenterGetShardBlockProofPost extends TonApiPostRequest<ShardBlockProof,
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -553,7 +550,8 @@ class TonCenterGetShardBlockProofPost extends TonApiPostRequest<ShardBlockProof,
 }
 
 /// POST /api/v2/getConsensusBlock
-class TonCenterGetConsensusBlockPost extends TonApiPostRequest<ConsensusBlock, Map<String, dynamic>> {
+class TonCenterGetConsensusBlockPost
+    extends TonApiPostRequest<ConsensusBlock, Map<String, dynamic>> {
   final ConsensusBlockRequest requestBody;
 
   TonCenterGetConsensusBlockPost({required this.requestBody});
@@ -570,10 +568,9 @@ class TonCenterGetConsensusBlockPost extends TonApiPostRequest<ConsensusBlock, M
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -583,7 +580,8 @@ class TonCenterGetConsensusBlockPost extends TonApiPostRequest<ConsensusBlock, M
 }
 
 /// POST /api/v2/lookupBlock
-class TonCenterLookupBlockPost extends TonApiPostRequest<TonBlockIdExt, Map<String, dynamic>> {
+class TonCenterLookupBlockPost
+    extends TonApiPostRequest<TonBlockIdExt, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno workchain;
   final BigInt shard;
   final AddressWithSeqnoRequestSeqno? seqno;
@@ -616,10 +614,9 @@ class TonCenterLookupBlockPost extends TonApiPostRequest<TonBlockIdExt, Map<Stri
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -629,7 +626,8 @@ class TonCenterLookupBlockPost extends TonApiPostRequest<TonBlockIdExt, Map<Stri
 }
 
 /// POST /api/v2/getShards
-class TonCenterGetShardsPost extends TonApiPostRequest<Shards, Map<String, dynamic>> {
+class TonCenterGetShardsPost
+    extends TonApiPostRequest<Shards, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno seqno;
 
   TonCenterGetShardsPost({required this.seqno});
@@ -648,10 +646,9 @@ class TonCenterGetShardsPost extends TonApiPostRequest<Shards, Map<String, dynam
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -661,7 +658,8 @@ class TonCenterGetShardsPost extends TonApiPostRequest<Shards, Map<String, dynam
 }
 
 /// POST /api/v2/getBlock
-class TonCenterGetBlockPost extends TonApiPostRequest<BlockData, Map<String, dynamic>> {
+class TonCenterGetBlockPost
+    extends TonApiPostRequest<BlockData, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno workchain;
   final BigInt shard;
   final AddressWithSeqnoRequestSeqno seqno;
@@ -697,10 +695,9 @@ class TonCenterGetBlockPost extends TonApiPostRequest<BlockData, Map<String, dyn
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -710,7 +707,8 @@ class TonCenterGetBlockPost extends TonApiPostRequest<BlockData, Map<String, dyn
 }
 
 /// POST /api/v2/getBlockHeader
-class TonCenterGetBlockHeaderPost extends TonApiPostRequest<BlockHeader, Map<String, dynamic>> {
+class TonCenterGetBlockHeaderPost
+    extends TonApiPostRequest<BlockHeader, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno workchain;
   final BigInt shard;
   final AddressWithSeqnoRequestSeqno seqno;
@@ -743,10 +741,9 @@ class TonCenterGetBlockHeaderPost extends TonApiPostRequest<BlockHeader, Map<Str
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -756,7 +753,8 @@ class TonCenterGetBlockHeaderPost extends TonApiPostRequest<BlockHeader, Map<Str
 }
 
 /// POST /api/v2/getOutMsgQueueSize
-class TonCenterGetOutMsgQueueSizePost extends TonApiPostRequest<OutMsgQueueSizes, Map<String, dynamic>> {
+class TonCenterGetOutMsgQueueSizePost
+    extends TonApiPostRequest<OutMsgQueueSizes, Map<String, dynamic>> {
   final OutMsgQueueSizeRequest requestBody;
 
   TonCenterGetOutMsgQueueSizePost({required this.requestBody});
@@ -773,10 +771,9 @@ class TonCenterGetOutMsgQueueSizePost extends TonApiPostRequest<OutMsgQueueSizes
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -786,7 +783,8 @@ class TonCenterGetOutMsgQueueSizePost extends TonApiPostRequest<OutMsgQueueSizes
 }
 
 /// POST /api/v2/getBlockTransactions
-class TonCenterGetBlockTransactionsPost extends TonApiPostRequest<BlockTransactions, Map<String, dynamic>> {
+class TonCenterGetBlockTransactionsPost
+    extends TonApiPostRequest<BlockTransactions, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno workchain;
   final BigInt shard;
   final AddressWithSeqnoRequestSeqno seqno;
@@ -828,10 +826,9 @@ class TonCenterGetBlockTransactionsPost extends TonApiPostRequest<BlockTransacti
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -841,7 +838,8 @@ class TonCenterGetBlockTransactionsPost extends TonApiPostRequest<BlockTransacti
 }
 
 /// POST /api/v2/getBlockTransactionsExt
-class TonCenterGetBlockTransactionsExtPost extends TonApiPostRequest<BlockTransactionsExt, Map<String, dynamic>> {
+class TonCenterGetBlockTransactionsExtPost
+    extends TonApiPostRequest<BlockTransactionsExt, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno workchain;
   final BigInt shard;
   final AddressWithSeqnoRequestSeqno seqno;
@@ -883,10 +881,9 @@ class TonCenterGetBlockTransactionsExtPost extends TonApiPostRequest<BlockTransa
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -896,7 +893,8 @@ class TonCenterGetBlockTransactionsExtPost extends TonApiPostRequest<BlockTransa
 }
 
 /// POST /api/v2/getTransactions
-class TonCenterGetTransactionsPost extends TonApiPostRequest<List<Transaction>, List<dynamic>> {
+class TonCenterGetTransactionsPost
+    extends TonApiPostRequest<List<Transaction>, List<dynamic>> {
   final String address;
   final BigInt? lt;
   final String? hash;
@@ -932,20 +930,22 @@ class TonCenterGetTransactionsPost extends TonApiPostRequest<List<Transaction>, 
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
   List<Transaction> onResponse(List<dynamic> result) {
-    return result.map((e) => Transaction.fromJson(e as Map<String, dynamic>)).toList();
+    return result
+        .map((e) => Transaction.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 }
 
 /// POST /api/v2/getTransactionsStd
-class TonCenterGetTransactionsStdPost extends TonApiPostRequest<TransactionsStd, Map<String, dynamic>> {
+class TonCenterGetTransactionsStdPost
+    extends TonApiPostRequest<TransactionsStd, Map<String, dynamic>> {
   final String address;
   final BigInt? lt;
   final String? hash;
@@ -981,10 +981,9 @@ class TonCenterGetTransactionsStdPost extends TonApiPostRequest<TransactionsStd,
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -994,7 +993,8 @@ class TonCenterGetTransactionsStdPost extends TonApiPostRequest<TransactionsStd,
 }
 
 /// POST /api/v2/tryLocateTx
-class TonCenterTryLocateTxPost extends TonApiPostRequest<Transaction, Map<String, dynamic>> {
+class TonCenterTryLocateTxPost
+    extends TonApiPostRequest<Transaction, Map<String, dynamic>> {
   final String source;
   final String destination;
   final BigInt createdLt;
@@ -1021,10 +1021,9 @@ class TonCenterTryLocateTxPost extends TonApiPostRequest<Transaction, Map<String
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1034,7 +1033,8 @@ class TonCenterTryLocateTxPost extends TonApiPostRequest<Transaction, Map<String
 }
 
 /// POST /api/v2/tryLocateResultTx
-class TonCenterTryLocateResultTxPost extends TonApiPostRequest<Transaction, Map<String, dynamic>> {
+class TonCenterTryLocateResultTxPost
+    extends TonApiPostRequest<Transaction, Map<String, dynamic>> {
   final String source;
   final String destination;
   final BigInt createdLt;
@@ -1061,10 +1061,9 @@ class TonCenterTryLocateResultTxPost extends TonApiPostRequest<Transaction, Map<
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1074,7 +1073,8 @@ class TonCenterTryLocateResultTxPost extends TonApiPostRequest<Transaction, Map<
 }
 
 /// POST /api/v2/tryLocateSourceTx
-class TonCenterTryLocateSourceTxPost extends TonApiPostRequest<Transaction, Map<String, dynamic>> {
+class TonCenterTryLocateSourceTxPost
+    extends TonApiPostRequest<Transaction, Map<String, dynamic>> {
   final String source;
   final String destination;
   final BigInt createdLt;
@@ -1101,10 +1101,9 @@ class TonCenterTryLocateSourceTxPost extends TonApiPostRequest<Transaction, Map<
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1114,7 +1113,8 @@ class TonCenterTryLocateSourceTxPost extends TonApiPostRequest<Transaction, Map<
 }
 
 /// POST /api/v2/getConfigParam
-class TonCenterGetConfigParamPost extends TonApiPostRequest<ConfigInfo, Map<String, dynamic>> {
+class TonCenterGetConfigParamPost
+    extends TonApiPostRequest<ConfigInfo, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno? configId;
   final AddressWithSeqnoRequestSeqno? param;
   final AddressWithSeqnoRequestSeqno? seqno;
@@ -1137,10 +1137,9 @@ class TonCenterGetConfigParamPost extends TonApiPostRequest<ConfigInfo, Map<Stri
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1150,7 +1149,8 @@ class TonCenterGetConfigParamPost extends TonApiPostRequest<ConfigInfo, Map<Stri
 }
 
 /// POST /api/v2/getConfigAll
-class TonCenterGetConfigAllPost extends TonApiPostRequest<TvmCell, Map<String, dynamic>> {
+class TonCenterGetConfigAllPost
+    extends TonApiPostRequest<TvmCell, Map<String, dynamic>> {
   final AddressWithSeqnoRequestSeqno? seqno;
 
   TonCenterGetConfigAllPost({this.seqno});
@@ -1169,10 +1169,9 @@ class TonCenterGetConfigAllPost extends TonApiPostRequest<TvmCell, Map<String, d
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1182,7 +1181,8 @@ class TonCenterGetConfigAllPost extends TonApiPostRequest<TvmCell, Map<String, d
 }
 
 /// POST /api/v2/getLibraries
-class TonCenterGetLibrariesPost extends TonApiPostRequest<LibraryResult, Map<String, dynamic>> {
+class TonCenterGetLibrariesPost
+    extends TonApiPostRequest<LibraryResult, Map<String, dynamic>> {
   final List<String>? libraries;
 
   TonCenterGetLibrariesPost({this.libraries});
@@ -1199,10 +1199,9 @@ class TonCenterGetLibrariesPost extends TonApiPostRequest<LibraryResult, Map<Str
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1212,7 +1211,8 @@ class TonCenterGetLibrariesPost extends TonApiPostRequest<LibraryResult, Map<Str
 }
 
 /// POST /api/v2/runGetMethod
-class TonCenterRunGetMethodPost extends TonApiPostRequest<RunGetMethodResult, Map<String, dynamic>> {
+class TonCenterRunGetMethodPost
+    extends TonApiPostRequest<RunGetMethodResult, Map<String, dynamic>> {
   final String address;
   final RunGetMethodRequestMethod method_;
   final List<LegacyStackEntry> stack;
@@ -1245,10 +1245,9 @@ class TonCenterRunGetMethodPost extends TonApiPostRequest<RunGetMethodResult, Ma
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1258,7 +1257,8 @@ class TonCenterRunGetMethodPost extends TonApiPostRequest<RunGetMethodResult, Ma
 }
 
 /// POST /api/v2/runGetMethodStd
-class TonCenterRunGetMethodStdPost extends TonApiPostRequest<RunGetMethodStdResult, Map<String, dynamic>> {
+class TonCenterRunGetMethodStdPost
+    extends TonApiPostRequest<RunGetMethodStdResult, Map<String, dynamic>> {
   final String address;
   final RunGetMethodRequestMethod method_;
   final List<RunGetMethodStdResultStackItem> stack;
@@ -1288,10 +1288,9 @@ class TonCenterRunGetMethodStdPost extends TonApiPostRequest<RunGetMethodStdResu
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1301,7 +1300,8 @@ class TonCenterRunGetMethodStdPost extends TonApiPostRequest<RunGetMethodStdResu
 }
 
 /// POST /api/v2/sendBoc
-class TonCenterSendBocPost extends TonApiPostRequest<SendBocResult, Map<String, dynamic>> {
+class TonCenterSendBocPost
+    extends TonApiPostRequest<SendBocResult, Map<String, dynamic>> {
   final String boc;
 
   TonCenterSendBocPost({required this.boc});
@@ -1318,10 +1318,9 @@ class TonCenterSendBocPost extends TonApiPostRequest<SendBocResult, Map<String, 
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1331,7 +1330,8 @@ class TonCenterSendBocPost extends TonApiPostRequest<SendBocResult, Map<String, 
 }
 
 /// POST /api/v2/sendBocReturnHash
-class TonCenterSendBocReturnHashPost extends TonApiPostRequest<SendBocResult, Map<String, dynamic>> {
+class TonCenterSendBocReturnHashPost
+    extends TonApiPostRequest<SendBocResult, Map<String, dynamic>> {
   final String boc;
 
   TonCenterSendBocReturnHashPost({required this.boc});
@@ -1348,10 +1348,9 @@ class TonCenterSendBocReturnHashPost extends TonApiPostRequest<SendBocResult, Ma
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override
@@ -1361,7 +1360,8 @@ class TonCenterSendBocReturnHashPost extends TonApiPostRequest<SendBocResult, Ma
 }
 
 /// POST /api/v2/estimateFee
-class TonCenterEstimateFeePost extends TonApiPostRequest<QueryFees, Map<String, dynamic>> {
+class TonCenterEstimateFeePost
+    extends TonApiPostRequest<QueryFees, Map<String, dynamic>> {
   final String address;
   final String body_;
   final String? initCode;
@@ -1394,10 +1394,9 @@ class TonCenterEstimateFeePost extends TonApiPostRequest<QueryFees, Map<String, 
 
   @override
   TonRequestDetails buildRequest(int v) {
-    return super.buildRequest(v).copyWith(
-          api: TonApiType.tonCenter,
-          isJsonRpc: true,
-        );
+    return super
+        .buildRequest(v)
+        .copyWith(api: TonApiType.tonCenter, isJsonRpc: true);
   }
 
   @override

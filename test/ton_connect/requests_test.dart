@@ -9,7 +9,10 @@ import '../utils.dart';
 void requestsTest() {
   const aliceHex =
       '69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37c5c7a8e9f8a1b2c3';
-  final payload = StringUtils.decode(List<int>.filled(40, 7), encoding: StringEncoding.base64);
+  final payload = StringUtils.decode(
+    List<int>.filled(40, 7),
+    encoding: StringEncoding.base64,
+  );
 
   group('TonConnectRequestDetails', () {
     test('encodeUrl joins bridge base + path', () {
@@ -18,7 +21,10 @@ void requestsTest() {
       );
       final details = request.buildRequest(0);
       final uri = details.encodeUrl('https://bridge.tonapi.io/bridge/');
-      expect(uri.toString().startsWith('https://bridge.tonapi.io/bridge/message'), isTrue);
+      expect(
+        uri.toString().startsWith('https://bridge.tonapi.io/bridge/message'),
+        isTrue,
+      );
       expect(uri.queryParameters['client_id'], aliceHex);
       expect(uri.queryParameters['ttl'], '300');
       expect(details.encodeBody(), isNotNull);
@@ -26,7 +32,11 @@ void requestsTest() {
 
     test('cbor round-trip preserves path + body', () {
       final request = TonConnectPostMessage(
-        TonPostMessageParams(receiver: aliceHex, message: payload, topic: 'sendTransaction'),
+        TonPostMessageParams(
+          receiver: aliceHex,
+          message: payload,
+          topic: 'sendTransaction',
+        ),
       );
       final details = request.buildRequest(7);
       final back = TonConnectRequestDetails.deserialize(
@@ -61,7 +71,10 @@ void requestsTest() {
     });
 
     test('path with cursor includes lastEventId', () {
-      final request = TonConnectEventsRequest(clientId: aliceHex, lastEventId: '42');
+      final request = TonConnectEventsRequest(
+        clientId: aliceHex,
+        lastEventId: '42',
+      );
       final details = request.buildRequest(0);
       expect(details.path, contains('lastEventId=42'));
     });
@@ -103,7 +116,10 @@ void requestsTest() {
     });
 
     test('subscription cbor round-trip', () {
-      final request = TonConnectEventsRequest(clientId: aliceHex, lastEventId: '5');
+      final request = TonConnectEventsRequest(
+        clientId: aliceHex,
+        lastEventId: '5',
+      );
       final back = TonConnectEventsRequest.deserialize(
         bytes: request.toCbor().encode(),
       );

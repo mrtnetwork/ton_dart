@@ -55,9 +55,7 @@ void sseParserTest() {
 
     test('crlf normalized, first id wins, empty data line kept', () {
       final parser = TonSseParser();
-      final events = parser.feed(
-        'id: 9\r\nid: 10\r\ndata:\r\ndata: x\r\n\r\n',
-      );
+      final events = parser.feed('id: 9\r\nid: 10\r\ndata:\r\ndata: x\r\n\r\n');
       expect(events.length, 1);
       expect(events[0].id, '9');
       expect(events[0].data, '\nx');

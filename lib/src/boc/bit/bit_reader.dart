@@ -22,7 +22,8 @@ class BitReader {
   /// Skips the specified number of bits, advancing the offset.
   void skip(int bits) {
     if (bits < 0 || _offset + bits > _bits.length) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Index out of bounds',
         details: {
           'length': bits.toString(),
@@ -233,7 +234,8 @@ class BitReader {
   /// Loads bits, taking into account padding (ensures byte-aligned).
   BitString loadPaddedBits(int bits) {
     if (bits % 8 != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid number of bits',
         details: {'bits': bits.toString()},
       );
@@ -353,7 +355,10 @@ class BitReader {
   ExternalAddress _loadExternalAddress() {
     final int type = preloadUint(2);
     if (type != 1) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid external address.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid external address.',
+      );
     }
 
     final int bits = _preloadUint(9, _offset + 2).toInt();

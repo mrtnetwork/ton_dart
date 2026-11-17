@@ -70,7 +70,8 @@ class SubWalletVersionedWalletState extends VersionedWalletState {
             .storeBit(0)
             .endCell();
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'SubWalletVersionedWalletState only accept version 3 and 4',
         );
     }

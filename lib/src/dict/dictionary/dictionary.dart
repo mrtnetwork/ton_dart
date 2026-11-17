@@ -130,10 +130,16 @@ class Dictionary<K extends Object, V> {
       final resolvedKey = key ?? _key;
       final resolvedValue = value ?? _value;
       if (resolvedKey == null) {
-        throw BuError(DefaultErrorType.invalidState, 'Key serializer is not defined');
+        throw BuError(
+          DefaultErrorType.invalidState,
+          'Key serializer is not defined',
+        );
       }
       if (resolvedValue == null) {
-        throw BuError(DefaultErrorType.invalidState, 'Value serializer is not defined');
+        throw BuError(
+          DefaultErrorType.invalidState,
+          'Value serializer is not defined',
+        );
       }
 
       final prepared = Map<BigInt, V>.fromEntries(
@@ -167,16 +173,25 @@ class Dictionary<K extends Object, V> {
     DictionaryValue<V>? value,
   }) {
     if (_map.isEmpty) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Cannot store empty dictionary directly');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Cannot store empty dictionary directly',
+      );
     }
 
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {
-      throw BuError(DefaultErrorType.invalidState, 'Key serializer is not defined');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'Key serializer is not defined',
+      );
     }
     if (resolvedValue == null) {
-      throw BuError(DefaultErrorType.invalidState, 'Value serializer is not defined');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'Value serializer is not defined',
+      );
     }
     final prepared = Map<BigInt, V>.fromEntries(
       _map.entries.map(
@@ -214,10 +229,16 @@ class Dictionary<K extends Object, V> {
     final resolvedKey = key ?? _key;
     final resolvedValue = value ?? _value;
     if (resolvedKey == null) {
-      throw BuError(DefaultErrorType.invalidState, 'Key serializer is not defined');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'Key serializer is not defined',
+      );
     }
     if (resolvedValue == null) {
-      throw BuError(DefaultErrorType.invalidState, 'Value serializer is not defined');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'Value serializer is not defined',
+      );
     }
     final load = slice.loadDict(resolvedKey, resolvedValue);
     for (final i in load.entries) {

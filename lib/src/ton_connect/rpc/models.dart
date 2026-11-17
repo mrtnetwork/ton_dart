@@ -55,17 +55,13 @@ class TonAppRequest {
     required String id,
   }) {
     if (!TonRpcMethod.values.contains(method)) {
-      throw TonConnectErrors.invalidPayload(
-        'Unknown method "$method".',
-      );
+      throw TonConnectErrors.invalidPayload('Unknown method "$method".');
     }
     if (id.isEmpty) {
       throw TonConnectErrors.invalidPayload('Bad request id.');
     }
     if (method == TonRpcMethod.disconnect && params.isNotEmpty) {
-      throw TonConnectErrors.invalidPayload(
-        'disconnect takes no params.',
-      );
+      throw TonConnectErrors.invalidPayload('disconnect takes no params.');
     }
     if (method != TonRpcMethod.disconnect && params.length != 1) {
       throw TonConnectErrors.invalidPayload(
@@ -88,12 +84,13 @@ class TonAppRequest {
     }
     return TonAppRequest(
       method: method,
-      params: params.map((e) {
-        if (e is! String) {
-          throw TonConnectErrors.invalidPayload('Bad param entry.');
-        }
-        return e;
-      }).toList(),
+      params:
+          params.map((e) {
+            if (e is! String) {
+              throw TonConnectErrors.invalidPayload('Bad param entry.');
+            }
+            return e;
+          }).toList(),
       id: id,
     );
   }
@@ -132,11 +129,7 @@ class TonWalletResponse {
     }
     return TonWalletResponse._(
       id: id,
-      error: {
-        'code': code,
-        'message': message,
-        if (data != null) 'data': data,
-      },
+      error: {'code': code, 'message': message, if (data != null) 'data': data},
     );
   }
 
@@ -186,9 +179,7 @@ class TonWalletEvent {
     required dynamic payload,
   }) {
     if (event != connect && event != connectError && event != disconnect) {
-      throw TonConnectErrors.invalidPayload(
-        'Unknown event "$event".',
-      );
+      throw TonConnectErrors.invalidPayload('Unknown event "$event".');
     }
     return TonWalletEvent._(event: event, id: id, payload: payload);
   }
@@ -239,9 +230,10 @@ class TonTxMessage {
       amount: amount,
       payload: payload?.isEmpty ?? true ? null : payload,
       stateInit: stateInit?.isEmpty ?? true ? null : stateInit,
-      extraCurrency: extraCurrency == null || extraCurrency.isEmpty
-          ? null
-          : Map.unmodifiable(extraCurrency),
+      extraCurrency:
+          extraCurrency == null || extraCurrency.isEmpty
+              ? null
+              : Map.unmodifiable(extraCurrency),
     );
   }
 
@@ -259,9 +251,8 @@ class TonTxMessage {
       amount: amount,
       payload: payload is String ? payload : null,
       stateInit: stateInit is String ? stateInit : null,
-      extraCurrency: extra is Map
-          ? extra.map((k, v) => MapEntry('$k', '$v'))
-          : null,
+      extraCurrency:
+          extra is Map ? extra.map((k, v) => MapEntry('$k', '$v')) : null,
     );
   }
 
@@ -295,16 +286,12 @@ class TonTxItem {
     };
     for (final key in requiredKeys) {
       if (json[key] is! String || (json[key] as String).isEmpty) {
-        throw TonConnectErrors.invalidPayload(
-          'Item "$type" misses "$key".',
-        );
+        throw TonConnectErrors.invalidPayload('Item "$type" misses "$key".');
       }
     }
     return TonTxItem._(
       type: type as String,
-      fields: Map.unmodifiable(
-        Map<String, dynamic>.from(json)..remove('type'),
-      ),
+      fields: Map.unmodifiable(Map<String, dynamic>.from(json)..remove('type')),
     );
   }
 
@@ -364,12 +351,13 @@ class TonTransactionPayload {
     List<TonTxMessage>? messages;
     List<TonTxItem>? items;
     if (json['messages'] is List) {
-      messages = (json['messages'] as List).map((e) {
-        if (e is! Map<String, dynamic>) {
-          throw TonConnectErrors.invalidPayload('Bad message.');
-        }
-        return TonTxMessage.fromJson(e);
-      }).toList();
+      messages =
+          (json['messages'] as List).map((e) {
+            if (e is! Map<String, dynamic>) {
+              throw TonConnectErrors.invalidPayload('Bad message.');
+            }
+            return TonTxMessage.fromJson(e);
+          }).toList();
     }
     if (json['items'] is List) {
       final rawItems = json['items'] as List;
@@ -378,12 +366,13 @@ class TonTransactionPayload {
           'Payload needs exactly one of messages/items.',
         );
       }
-      items = rawItems.map((e) {
-        if (e is! Map<String, dynamic>) {
-          throw TonConnectErrors.invalidPayload('Bad item.');
-        }
-        return TonTxItem(e);
-      }).toList();
+      items =
+          rawItems.map((e) {
+            if (e is! Map<String, dynamic>) {
+              throw TonConnectErrors.invalidPayload('Bad item.');
+            }
+            return TonTxItem(e);
+          }).toList();
     }
     return TonTransactionPayload(
       validUntil: validUntil as int?,
@@ -452,9 +441,7 @@ class TonSignDataPayload {
     switch (type as String) {
       case text:
         if (json['text'] is! String) {
-          throw TonConnectErrors.invalidPayload(
-            'text payload misses "text".',
-          );
+          throw TonConnectErrors.invalidPayload('text payload misses "text".');
         }
       case binary:
         if (json['bytes'] is! String) {

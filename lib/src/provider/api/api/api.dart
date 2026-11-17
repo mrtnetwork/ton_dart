@@ -246,7 +246,8 @@ mixin TonQuickClientApi {
         final prices =
             (isMasterChain ? config.n24 : config.n25)?.msgForwardPrices;
         if (prices == null) {
-          throw BuError(DefaultErrorType.invalidState, 
+          throw BuError(
+            DefaultErrorType.invalidState,
             'Message forward prices missing from chain config.',
           );
         }
@@ -288,7 +289,8 @@ mixin TonQuickClientApi {
         final prices =
             (isMasterChain ? config.n20 : config.n21)?.gasLimitsPrices;
         if (prices == null) {
-          throw BuError(DefaultErrorType.invalidState, 
+          throw BuError(
+            DefaultErrorType.invalidState,
             'Gas limit prices missing from chain config.',
           );
         }
@@ -330,7 +332,8 @@ mixin TonQuickClientApi {
         );
         final prices = config.n18?.storagePrices;
         if (prices == null) {
-          throw BuError(DefaultErrorType.invalidState, 
+          throw BuError(
+            DefaultErrorType.invalidState,
             'Storage prices missing from chain config.',
           );
         }
@@ -514,7 +517,8 @@ mixin TonQuickClientApi {
       args: [TupleItemSlice(beginCell().storeAddress(owner).endCell())],
     );
     if (res.exitCode != 0) {
-      throw BuError(DefaultErrorType.network, 
+      throw BuError(
+        DefaultErrorType.network,
         "TON get-method 'get_wallet_address' failed.",
         details: {'exitCode': res.exitCode.toString()},
       );
@@ -530,7 +534,8 @@ mixin TonQuickClientApi {
       method: 'get_wallet_data',
     );
     if (res.exitCode != 0) {
-      throw BuError(DefaultErrorType.network, 
+      throw BuError(
+        DefaultErrorType.network,
         "TON get-method 'get_wallet_data' failed.",
         details: {'exitCode': res.exitCode.toString()},
       );
@@ -543,7 +548,8 @@ mixin TonQuickClientApi {
   Future<int> getWalletSeqno(TonAddress address) async {
     final res = await runGetMethod(address: address, method: 'seqno');
     if (res.exitCode != 0) {
-      throw BuError(DefaultErrorType.network, 
+      throw BuError(
+        DefaultErrorType.network,
         "TON get-method 'seqno' failed.",
         details: {'exitCode': res.exitCode.toString()},
       );
@@ -572,7 +578,8 @@ mixin TonQuickClientApi {
       });
       await completer.future.timeout(timeout);
     } on TimeoutException {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'Transaction confirmation failed within the allotted timeout.',
       );
     } finally {
@@ -601,8 +608,9 @@ mixin TonQuickClientApi {
         );
         final meta = res.metadata?.values ?? const {};
         return [
-          for (final e in res.jettonWallets ??
-              const <toncenter_v3_models.JettonWallet>[])
+          for (final e
+              in res.jettonWallets ??
+                  const <toncenter_v3_models.JettonWallet>[])
             TonJettonBalance(
               minter: e.jetton ?? '',
               owner: e.owner,
@@ -676,7 +684,8 @@ List<toncenter.LegacyStackEntry> _toTonCenterStack(List<TupleItem> args) {
       type = const toncenter.LegacyStackEntryItemStringValue('tvm.Cell');
       value = toncenter.LegacyStackEntryItemStringValue(e.cell.toBase64());
     } else {
-      throw BuError(DefaultErrorType.unsupported, 
+      throw BuError(
+        DefaultErrorType.unsupported,
         'Unsupported stack argument for tonCenter.',
         details: {'type': e.type.name},
       );
@@ -700,7 +709,8 @@ List<TupleItem> _parseTonCenterStack(List<toncenter.LegacyStackEntry> stack) {
             ) =>
               {'bytes': v.bytes},
             _ =>
-              throw BuError(DefaultErrorType.unsupported, 
+              throw BuError(
+                DefaultErrorType.unsupported,
                 'Unsupported tonCenter stack entry.',
                 details: {'item': item.toJson()},
               ),
@@ -721,7 +731,8 @@ String _tupleToStringArg(TupleItem e) {
       return e.cell.toBase64();
     }
   }
-  throw BuError(DefaultErrorType.unsupported, 
+  throw BuError(
+    DefaultErrorType.unsupported,
     'Unsupported stack argument for tonApi.',
     details: {'type': e.type.name},
   );
@@ -734,7 +745,10 @@ TupleItem _tvmRecordToTuple(tonapi_models.TvmStackRecord rec) {
     case tonapi_models.TvmStackRecordType.cell:
       final cell = rec.cell;
       if (cell == null) {
-        throw BuError(DefaultErrorType.invalidArgument, 'Missing cell in stack record.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Missing cell in stack record.',
+        );
       }
       return TupleItemCell(
         StringUtils.isHexBytes(cell)

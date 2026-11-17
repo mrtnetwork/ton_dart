@@ -33,7 +33,8 @@ class AccountStatusChange extends TonSerialization {
       (element) => element.status == status,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find AccountStatusChange from provided status',
                 details: {'status': status},
               ),

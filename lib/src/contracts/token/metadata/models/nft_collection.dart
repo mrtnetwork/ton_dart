@@ -19,7 +19,8 @@ class NFTCollectionMetadata extends NFTMetadata {
     final collectionCell = slice.loadRef().beginParse();
     final tag = collectionCell.loadUint8();
     if (tag != TonMetadataConstant.ftMetadataOffChainTag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid nft offchain collection metadata',
       );
     }

@@ -22,11 +22,7 @@ class VersionedWalletV5OperaionType extends ContractOperationType {
   factory VersionedWalletV5OperaionType.fromOperation(int? operation) {
     return values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
   }
 }

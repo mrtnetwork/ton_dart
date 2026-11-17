@@ -64,7 +64,10 @@ class TonTransaction extends TonSerialization {
     final raw = slice.asCell();
 
     if (slice.loadUint(4) != 0x07) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid transaction slice data.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid transaction slice data.',
+      );
     }
 
     final BigInt address = slice.loadUintBig(256);

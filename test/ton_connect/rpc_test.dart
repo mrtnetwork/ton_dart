@@ -7,9 +7,7 @@ import 'package:ton_dart/src/ton_connect/rpc/models.dart';
 import 'package:ton_dart/src/ton_connect/rpc/validation.dart';
 import '../utils.dart';
 
-
 void rpcTest() {
-
   // Spec example: bounceable masterchain (-1), zero hash.
   const friendly1 = 'Ef8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADAU';
   // Bounceable basechain (0), zero hash.
@@ -29,10 +27,7 @@ void rpcTest() {
       network: network,
       from: from,
       messages:
-          messages ??
-          [
-            TonTxMessage(address: friendly1, amount: '100000000'),
-          ],
+          messages ?? [TonTxMessage(address: friendly1, amount: '100000000')],
     );
   }
 
@@ -57,10 +52,7 @@ void rpcTest() {
         ),
         throwsA(isA<BuError>()),
       );
-      expect(
-        () => TonTransactionPayload.fromJson({}),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => TonTransactionPayload.fromJson({}), throwsA(isA<BuError>()));
     });
 
     test('raw destination rejected, friendly accepted', () {
@@ -212,16 +204,14 @@ void rpcTest() {
       final domLen = BinaryOps.readUint32LE(message, o);
       expect(domLen, domain.length);
       o += 4;
-      expect(
-        message.sublist(o, o + domain.length),
-        StringUtils.encode(domain),
-      );
+      expect(message.sublist(o, o + domain.length), StringUtils.encode(domain));
       o += domain.length;
       // BigInt compose: `<< 32` on plain int is not web-safe (dart2js).
-      final ts = (BigInt.from(BinaryOps.readUint32LE(message, o)) +
-              BigInt.from(BinaryOps.readUint32LE(message, o + 4)) *
-                  BigInt.from(0x100000000))
-          .toInt();
+      final ts =
+          (BigInt.from(BinaryOps.readUint32LE(message, o)) +
+                  BigInt.from(BinaryOps.readUint32LE(message, o + 4)) *
+                      BigInt.from(0x100000000))
+              .toInt();
       expect(ts, timestamp);
       o += 8;
       expect(message.sublist(o), payload);
@@ -268,7 +258,10 @@ void rpcTest() {
     test('domain dot-rule', () {
       expect(TonConnectUtils.isValidProofDomain('example.com'), isTrue);
       expect(TonConnectUtils.isValidProofDomain('tonkeeper'), isFalse);
-      expect(TonConnectUtils.isValidProofDomain('tonkeeper', allowNative: true), isTrue);
+      expect(
+        TonConnectUtils.isValidProofDomain('tonkeeper', allowNative: true),
+        isTrue,
+      );
       expect(TonConnectUtils.isValidProofDomain(''), isFalse);
     });
   });
@@ -308,7 +301,10 @@ void rpcTest() {
         payload: payload,
       );
       expect(cell.hash().length, 32);
-      expect(TonConnectUtils.dnsWireEncode('example.com'), 'com\x00example\x00');
+      expect(
+        TonConnectUtils.dnsWireEncode('example.com'),
+        'com\x00example\x00',
+      );
     });
   });
 

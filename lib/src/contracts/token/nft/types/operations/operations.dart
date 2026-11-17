@@ -26,11 +26,7 @@ class NFTItemOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
     if (expected != null) {
       if (type != expected) {
@@ -49,8 +45,7 @@ class NFTItemOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.name == name,
-      orElse:
-          () => throw TonContractErrors.invalidOperationId(tag: name),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
@@ -92,7 +87,8 @@ abstract class NFTItemOperation extends TonSerialization
           case NFTItemOperationType.getStaticData:
             return NFTItemGetStaticData.deserialize(slice);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid NFT Item operation type.',
               details: {'type': type.name},
             );
@@ -111,7 +107,8 @@ abstract class NFTItemOperation extends TonSerialization
           case NFTItemOperationType.getStaticData:
             return NFTItemGetStaticData.fromJson(json!);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid NFT Item operation type.',
               details: {'type': type.name},
             );
@@ -123,7 +120,8 @@ abstract class NFTItemOperation extends TonSerialization
 
   T cast<T extends NFTItemOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect NFTItemOperation casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );
@@ -290,11 +288,7 @@ class NFTCollectionOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
     if (expected != null) {
       if (type != expected) {
@@ -313,8 +307,7 @@ class NFTCollectionOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.name == name,
-      orElse:
-          () => throw TonContractErrors.invalidOperationId(tag: name),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
@@ -365,7 +358,8 @@ abstract class NFTCollectionOperation extends TonSerialization
           case NFTCollectionOperationType.mint:
             return NFTCollectionMint.deserialize(slice);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid NFT Collection operation type.',
               details: {'type': type.name},
             );
@@ -388,7 +382,8 @@ abstract class NFTCollectionOperation extends TonSerialization
           case NFTCollectionOperationType.mint:
             return NFTCollectionMint.fromJson(json!);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid NFT Collection operation type.',
               details: {'type': type.name},
             );
@@ -399,7 +394,8 @@ abstract class NFTCollectionOperation extends TonSerialization
   }
   T cast<T extends NFTCollectionOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect NFTCollectionOperation casting.',
         details: {'expected': '$runtimeType', 'got': '$T'},
       );

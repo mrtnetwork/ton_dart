@@ -138,7 +138,8 @@ class VersionedWalletTransactionV5Extension
   factory VersionedWalletTransactionV5Extension.deserialize(Slice slice) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Incorrect Wallet Version V5 Extension body',
       );
     }
@@ -173,7 +174,8 @@ class VersionedWalletTransactionV5Internal
   }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.internal.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Incorrect Wallet Version V5 Internal body',
       );
     }
@@ -216,7 +218,8 @@ class VersionedWalletTransactionV5External
   }) {
     final tag = slice.loadUint32();
     if (tag != WalletV5AuthType.external.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Incorrect Wallet Version V5 External body',
       );
     }

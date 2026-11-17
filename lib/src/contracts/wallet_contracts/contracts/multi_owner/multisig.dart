@@ -137,10 +137,16 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
   }) async {
     final active = await isActive(client);
     if (active) {
-      throw BuError(DefaultErrorType.invalidState, 'Account is already active.');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'Account is already active.',
+      );
     }
     if (state == null) {
-      throw BuError(DefaultErrorType.invalidState, 'cannot deploy with watch only wallet.');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'cannot deploy with watch only wallet.',
+      );
     }
     return _sendTransaction(
       params: params,
@@ -191,7 +197,8 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
       value: DictionaryValue.cellCodec(),
     );
     if (actions.length > 255) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'For action chains above 255, use packLarge method',
       );
     } else {
@@ -256,7 +263,8 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     }
 
     if (tailChunk == null) {
-      throw BuError(DefaultErrorType.internal, 
+      throw BuError(
+        DefaultErrorType.internal,
         'Something went wrong during large order pack',
       );
     }
@@ -298,7 +306,8 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     final active = await isActive(client);
     final state = this.state;
     if (state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'Cannot create new order with watch only wallet',
       );
     }
@@ -309,7 +318,8 @@ class MultiOwnerContract<E extends WalletContractTransferParams>
     } else {
       addrIdx = state.proposers.indexOf(owner.address);
       if (addrIdx < 0) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'the owner is not a signer or proposer.',
         );
       }

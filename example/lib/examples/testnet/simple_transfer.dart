@@ -11,8 +11,10 @@ import 'package:ton_dart/ton_dart.dart';
 /// dart run lib/examples/testnet/simple_transfer.dart
 /// ```
 Future<void> main() async {
-  final sender = TestWallet<WalletV4>(version: WalletVersion.v4, index: 0, log: false);
-  final receiver = TestWallet<WalletV4>(version: WalletVersion.v4, index: 1, log: false);
+  final sender =
+      TestWallet<WalletV4>(version: WalletVersion.v4, index: 0, log: false);
+  final receiver =
+      TestWallet<WalletV4>(version: WalletVersion.v4, index: 1, log: false);
 
   print('TON testnet simple transfer (basechain)');
   print('  sender:   ${sender.address.toRawAddress()}');

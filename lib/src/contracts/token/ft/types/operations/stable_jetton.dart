@@ -77,11 +77,7 @@ class StableJettonMinterOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
     if (expected != null) {
       if (type != expected) {
@@ -100,8 +96,7 @@ class StableJettonMinterOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.name == name,
-      orElse:
-          () => throw TonContractErrors.invalidOperationId(tag: name),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
@@ -165,11 +160,7 @@ class StableJettonWalletOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.operation == operation,
-      orElse:
-          () =>
-              throw TonContractErrors.invalidOperationId(
-                tag: operation,
-              ),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: operation),
     );
     if (expected != null) {
       if (type != expected) {
@@ -188,8 +179,7 @@ class StableJettonWalletOperationType extends ContractOperationType {
   }) {
     final type = values.firstWhere(
       (e) => e.name == name,
-      orElse:
-          () => throw TonContractErrors.invalidOperationId(tag: name),
+      orElse: () => throw TonContractErrors.invalidOperationId(tag: name),
     );
     if (expected != null) {
       if (type != expected) {
@@ -208,7 +198,8 @@ abstract class StableJettonMinterCallToOperations extends TonSerialization {
   Cell toBody() => beginCell().store(this).endCell();
   T cast<T extends StableJettonWalletOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect stable jetton minter casting. expected: $runtimeType got: $T',
       );
     }
@@ -229,7 +220,8 @@ abstract class StableJettonMinterCallToOperations extends TonSerialization {
           case StableJettonWalletOperationType.setStatus:
             return StableJettonWalletSetStatus.deserialize(slice);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid call to operation type.',
               details: {'type': type.name},
             );
@@ -252,7 +244,8 @@ abstract class StableJettonMinterCallToOperations extends TonSerialization {
           case StableJettonWalletOperationType.setStatus:
             return StableJettonWalletSetStatus.fromJson(json);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid call to operation type.',
               details: {'type': type.name},
             );
@@ -303,7 +296,8 @@ abstract class StableJettonMinterOperation extends TonSerialization
           case StableJettonMinterOperationType.callTo:
             return StableJettonMinterCallTo.deserialize(slice);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid Minter operation type.',
               details: {'type': type.name},
             );
@@ -334,7 +328,8 @@ abstract class StableJettonMinterOperation extends TonSerialization
           case StableJettonMinterOperationType.callTo:
             return StableJettonMinterCallTo.fromJson(json!);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid Minter operation type.',
               details: {'type': type.name},
             );
@@ -346,7 +341,8 @@ abstract class StableJettonMinterOperation extends TonSerialization
 
   T cast<T extends StableJettonMinterOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect stable jetton minter casting. expected: $runtimeType got: $T',
       );
     }
@@ -817,7 +813,8 @@ abstract class StableJettonWalletOperation extends TonSerialization
 
   T cast<T extends StableJettonWalletOperation>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect stable jetton wallet casting. expected: $runtimeType got: $T',
       );
     }
@@ -841,7 +838,8 @@ abstract class StableJettonWalletOperation extends TonSerialization
           case StableJettonWalletOperationType.setStatus:
             return StableJettonWalletSetStatus.deserialize(slice);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid Token Wallet operation type.',
               details: {'type': type.name},
             );
@@ -862,7 +860,8 @@ abstract class StableJettonWalletOperation extends TonSerialization
           case StableJettonWalletOperationType.setStatus:
             return StableJettonWalletSetStatus.fromJson(json!);
           default:
-            throw BuError(DefaultErrorType.invalidArgument, 
+            throw BuError(
+              DefaultErrorType.invalidArgument,
               'Invalid Token Wallet operation type.',
               details: {'type': type.name},
             );

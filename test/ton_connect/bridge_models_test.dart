@@ -6,7 +6,10 @@ import '../utils.dart';
 void bridgeModelsTest() {
   const aliceHex =
       '69696ee955b62b73cd62bda875fc73d68219e0036b7a0b37c5c7a8e9f8a1b2c3';
-  final payload = StringUtils.decode(List<int>.filled(40, 7), encoding: StringEncoding.base64);
+  final payload = StringUtils.decode(
+    List<int>.filled(40, 7),
+    encoding: StringEncoding.base64,
+  );
 
   group('TonConnectClientId', () {
     test('accepts 64 hex, normalizes to lowercase', () {
@@ -26,7 +29,11 @@ void bridgeModelsTest() {
 
   group('TonBridgeMessage', () {
     test('round-trips json with trace_id', () {
-      final msg = TonBridgeMessage(from: aliceHex, message: payload, traceId: 't-1');
+      final msg = TonBridgeMessage(
+        from: aliceHex,
+        message: payload,
+        traceId: 't-1',
+      );
       final back = TonBridgeMessage.fromJson(msg.toJson());
       expect(back.from.value, aliceHex);
       expect(back.message, payload);
@@ -34,10 +41,21 @@ void bridgeModelsTest() {
       expect(back.decoded().length, 40);
     });
     test('drops empty trace_id, rejects truncated + bad base64', () {
-      final msg = TonBridgeMessage(from: aliceHex, message: payload, traceId: '');
+      final msg = TonBridgeMessage(
+        from: aliceHex,
+        message: payload,
+        traceId: '',
+      );
       expect(msg.traceId, isNull);
       expect(
-        () => TonBridgeMessage(from: aliceHex, message: StringUtils.decode([1, 2, 3], encoding: StringEncoding.base64)),
+        () => TonBridgeMessage(
+          from: aliceHex,
+          message: StringUtils.decode([
+            1,
+            2,
+            3,
+          ], encoding: StringEncoding.base64),
+        ),
         throwsA(isA<BuError>()),
       );
       expect(
@@ -61,11 +79,16 @@ void bridgeModelsTest() {
     });
     test('rejects ttl out of range', () {
       expect(
-        () => TonPostMessageParams(receiver: aliceHex, message: payload, ttl: 0),
+        () =>
+            TonPostMessageParams(receiver: aliceHex, message: payload, ttl: 0),
         throwsA(isA<BuError>()),
       );
       expect(
-        () => TonPostMessageParams(receiver: aliceHex, message: payload, ttl: 301),
+        () => TonPostMessageParams(
+          receiver: aliceHex,
+          message: payload,
+          ttl: 301,
+        ),
         throwsA(isA<BuError>()),
       );
     });
@@ -73,7 +96,9 @@ void bridgeModelsTest() {
 
   group('TonBridgeConfig', () {
     test('normalizes trailing slash, builds urls', () {
-      final cfg = TonBridgeConfig(bridgeUrl: 'https://bridge.tonapi.io/bridge/');
+      final cfg = TonBridgeConfig(
+        bridgeUrl: 'https://bridge.tonapi.io/bridge/',
+      );
       expect(cfg.bridgeUrl, 'https://bridge.tonapi.io/bridge');
       final p = TonPostMessageParams(receiver: aliceHex, message: payload);
       final msgUri = cfg.messageUri(p);
@@ -84,10 +109,7 @@ void bridgeModelsTest() {
       expect(evUri.queryParameters['lastEventId'], '42');
     });
     test('rejects bad urls', () {
-      expect(
-        () => TonBridgeConfig(bridgeUrl: ''),
-        throwsA(isA<BuError>()),
-      );
+      expect(() => TonBridgeConfig(bridgeUrl: ''), throwsA(isA<BuError>()));
       expect(
         () => TonBridgeConfig(bridgeUrl: 'not-a-url'),
         throwsA(isA<BuError>()),

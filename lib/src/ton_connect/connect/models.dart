@@ -23,9 +23,7 @@ class TonConnectItem {
     String? network,
   }) {
     if (!names.contains(name)) {
-      throw TonConnectErrors.invalidPayload(
-        'Unknown connect item "$name".',
-      );
+      throw TonConnectErrors.invalidPayload('Unknown connect item "$name".');
     }
     if (name == tonProof && (payload == null || payload.isEmpty)) {
       throw TonConnectErrors.invalidPayload(
@@ -41,9 +39,7 @@ class TonConnectItem {
   factory TonConnectItem.fromJson(Map<String, dynamic> json) {
     final name = json['name'];
     if (name is! String) {
-      throw TonConnectErrors.invalidPayload(
-        'Connect item misses "name".',
-      );
+      throw TonConnectErrors.invalidPayload('Connect item misses "name".');
     }
     final payload = json['payload'];
     if (payload != null && payload is! String) {
@@ -102,9 +98,7 @@ class TonConnectRequest {
       );
     }
     if (items is! List || items.isEmpty) {
-      throw TonConnectErrors.invalidPayload(
-        'Connect request misses "items".',
-      );
+      throw TonConnectErrors.invalidPayload('Connect request misses "items".');
     }
     return TonConnectRequest(
       manifestUrl: manifestUrl,
@@ -467,9 +461,7 @@ class TonFeature {
       case 'EmbeddedRequest':
         return TonFeature._(name: name);
       default:
-        throw TonConnectErrors.invalidPayload(
-          'Unknown feature "$name".',
-        );
+        throw TonConnectErrors.invalidPayload('Unknown feature "$name".');
     }
   }
 

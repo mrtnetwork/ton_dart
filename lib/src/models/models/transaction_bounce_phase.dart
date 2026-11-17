@@ -29,7 +29,8 @@ class TransactionBouncePhaseType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find TransactionBouncePhaseType from provided name',
                 details: {'name': name},
               ),

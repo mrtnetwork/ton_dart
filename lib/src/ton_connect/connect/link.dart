@@ -42,9 +42,7 @@ class TonConnectLink {
     final dappId = TonConnectClientId(query['id']);
     final r = query['r'];
     if (r == null || r.isEmpty) {
-      throw TonConnectErrors.invalidPayload(
-        'Connect link misses "r".',
-      );
+      throw TonConnectErrors.invalidPayload('Connect link misses "r".');
     }
     final ret = query['ret'];
     return TonConnectLink._(

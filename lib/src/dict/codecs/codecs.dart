@@ -69,7 +69,10 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (!src.isFinite) {
-          throw BuError(DefaultErrorType.invalidArgument, 'Key is not a safe integer.');
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            'Key is not a safe integer.',
+          );
         }
         return beginCell()
             .storeInt(src, bits)
@@ -97,7 +100,8 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (src.isNegative) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Key is negative.',
             details: {'key': src.toString()},
           );
@@ -128,10 +132,14 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (!src.isFinite) {
-          throw BuError(DefaultErrorType.invalidArgument, 'Key is not a safe integer.');
+          throw BuError(
+            DefaultErrorType.invalidArgument,
+            'Key is not a safe integer.',
+          );
         }
         if (src.isNegative) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Key is negative.',
             details: {'key': src.toString()},
           );
@@ -162,7 +170,8 @@ class DictionaryCodecs {
       bits: bytes * 8,
       serialize: (src) {
         if (src.length != bytes) {
-          throw BuError(DefaultErrorType.invalidLength, 
+          throw BuError(
+            DefaultErrorType.invalidLength,
             'Invalid buffer key length.',
             details: {'expected': '$bytes', 'actual': '${src.length}'},
           );
@@ -193,7 +202,8 @@ class DictionaryCodecs {
       bits: bits,
       serialize: (src) {
         if (src.length != bits) {
-          throw BuError(DefaultErrorType.invalidLength, 
+          throw BuError(
+            DefaultErrorType.invalidLength,
             'Invalid bitstring key length.',
             details: {'expected': '$bits', 'actual': '${src.length}'},
           );
@@ -391,7 +401,8 @@ class DictionaryCodecs {
     return DictionaryValue<List<int>>(
       serialize: (src, builder) {
         if (src.length != size) {
-          throw BuError(DefaultErrorType.invalidLength, 
+          throw BuError(
+            DefaultErrorType.invalidLength,
             'Invalid buffer size.',
             details: {
               'size': size.toString(),
@@ -415,7 +426,8 @@ class DictionaryCodecs {
     return DictionaryValue<BitString>(
       serialize: (src, builder) {
         if (src.length != bits) {
-          throw BuError(DefaultErrorType.invalidLength, 
+          throw BuError(
+            DefaultErrorType.invalidLength,
             'Invalid BitString size.',
             details: {
               'size': bits.toString(),

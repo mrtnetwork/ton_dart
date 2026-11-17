@@ -14,6 +14,10 @@ Dart by default, optional Rust backend (FFI on native, WASM on web). When set
 through Rust. Rust core:
 [mrtnetwork/blockchain-utils](https://github.com/mrtnetwork/blockchain-utils).
 
+## Breaking changes
+
+- **All legacy exception classes removed — every error is `BuError`.** Failures throw `BuError` with a `TonErrorType` taxonomy value (`domain: 'ton'`: plugin, BOC, dict, keys, contracts, metadata, tuples, TonConnect bridge/payload/TTL, …). Message text and `details` preserved via same-signature helpers — update `catch` clauses and `on` filters to `BuError`.
+
 ## Supported networks
 
 | Network | Support |

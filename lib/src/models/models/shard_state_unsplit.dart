@@ -51,7 +51,8 @@ class ShardStateUnsplit extends TonSerialization {
   });
   factory ShardStateUnsplit.deserialize(Slice slice) {
     if (slice.loadUint(32) != _ShardStateUnsplitConst.magic) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid ShardStateUnsplit slice data.',
       );
     }
@@ -123,7 +124,8 @@ class ShardStateUnsplit extends TonSerialization {
 
   @override
   void store(Builder builder) {
-    throw BuError(DefaultErrorType.unsupported, 
+    throw BuError(
+      DefaultErrorType.unsupported,
       'ShardStateUnsplit.store is not implemented.',
     );
   }

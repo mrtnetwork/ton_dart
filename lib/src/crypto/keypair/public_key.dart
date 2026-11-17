@@ -14,7 +14,8 @@ class TonPublicKey {
     try {
       return TonPublicKey(ED25519PublicKey.fromBytes(keyBytes));
     } catch (e) {
-      throw BuError(DefaultErrorType.badPublicKey, 
+      throw BuError(
+        DefaultErrorType.badPublicKey,
         'Invalid Ton Public key. Public key must be a valid Ed25519 key.',
         details: {
           'key': BytesUtils.toHexString(keyBytes),

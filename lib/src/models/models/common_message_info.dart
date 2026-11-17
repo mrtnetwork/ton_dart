@@ -32,7 +32,8 @@ class CommonMessageInfoType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find CommonMessageInfoType from provided name',
                 details: {'name': name},
               ),

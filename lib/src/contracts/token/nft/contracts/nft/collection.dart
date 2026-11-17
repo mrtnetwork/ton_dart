@@ -68,7 +68,8 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
   }) async {
     final active = await isActive(client);
     if (!active && state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'The account is inactive and requires state initialization.',
       );
     }
@@ -126,7 +127,8 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
     Cell? body,
   }) async {
     if (operation.type == NFTCollectionOperationType.changeContent) {
-      throw BuError(DefaultErrorType.unsupported, 
+      throw BuError(
+        DefaultErrorType.unsupported,
         'The ChangeContent operation is not available in the NFTCollectionContract.',
       );
     }
@@ -143,7 +145,10 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
   }
 
   Future<NFTCollectionData> getCollectionData(TonQuickClient client) async {
-    final data = await getStateStack(client: client, method: 'get_collection_data');
+    final data = await getStateStack(
+      client: client,
+      method: 'get_collection_data',
+    );
     final reader = data.reader();
     final nexItemIndex = reader.readBigNumber();
     final content = reader.readCell();
@@ -191,7 +196,10 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
     required TonQuickClient client,
     required WalletContract<ContractState, T> owner,
   }) async {
-    final itemAddress = await getNftAddressByIndex(index: index, client: client);
+    final itemAddress = await getNftAddressByIndex(
+      index: index,
+      client: client,
+    );
     final stateData = await ContractProvider.getActiveState(
       client: client,
       address: itemAddress,
@@ -221,15 +229,15 @@ class NFTCollectionContract<E extends WalletContractTransferParams>
     required NFTItemData nftData,
   }) async {
     if (!nftData.init) {
-      throw BuError(DefaultErrorType.invalidState, 'The NFT has not been initialized.');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'The NFT has not been initialized.',
+      );
     }
     final data = await getStateStack(
       client: client,
       method: 'get_nft_content',
-      stack: [
-        TupleItemInt(nftData.index),
-        TupleItemCell(nftData.content!),
-      ],
+      stack: [TupleItemInt(nftData.index), TupleItemCell(nftData.content!)],
     );
     final reader = data.reader();
     final slice = reader.readCell().beginParse();

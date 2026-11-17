@@ -15,7 +15,8 @@ class TonPrivateKey with SecretState {
     try {
       return TonPrivateKey(ED25519PrivateKey.fromBytes(keyBytes));
     } catch (e) {
-      throw BuError(DefaultErrorType.badPrivateKey, 
+      throw BuError(
+        DefaultErrorType.badPrivateKey,
         'Invalid Ton Private key. Key must be a valid Ed25519 private key.',
         details: {
           'key': BytesUtils.toHexString(keyBytes),

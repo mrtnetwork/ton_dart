@@ -52,7 +52,8 @@ class StableTokenMinterState extends ContractState {
     BigInt? totalSupply,
   }) {
     if (metadata != null && contect != null) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Use only content or metadata for jetton content',
       );
     }

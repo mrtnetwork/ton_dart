@@ -21,7 +21,8 @@ class TransactionComputePhaseType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find TransactionComputePhaseType from provided name',
                 details: {'name': name},
               ),

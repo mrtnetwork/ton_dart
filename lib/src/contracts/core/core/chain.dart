@@ -12,7 +12,12 @@ enum TonChainId {
   bool get isTestnet => this == testnet;
   factory TonChainId.fromId(int? id) => values.firstWhere(
     (e) => e.id == id,
-    orElse: () => throw BuError(DefaultErrorType.notFound, "No matching item found for the given value. $id"),
+    orElse:
+        () =>
+            throw BuError(
+              DefaultErrorType.notFound,
+              "No matching item found for the given value. $id",
+            ),
   );
 }
 

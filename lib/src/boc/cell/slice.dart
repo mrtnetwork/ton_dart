@@ -403,7 +403,10 @@ class Slice {
   /// Throws a [BuError] if there are no more references available.
   Cell loadRef() {
     if (_refsOffset >= _refs.length) {
-      throw BuError(DefaultErrorType.invalidArgument, 'No more references (loadRef).');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'No more references (loadRef).',
+      );
     }
     return _refs[_refsOffset++];
   }
@@ -413,7 +416,10 @@ class Slice {
   /// Throws a [BuError] if there are no more references available.
   Cell preloadRef() {
     if (_refsOffset >= _refs.length) {
-      throw BuError(DefaultErrorType.invalidArgument, 'No more references (preloadRef).');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'No more references (preloadRef).',
+      );
     }
     return _refs[_refsOffset];
   }

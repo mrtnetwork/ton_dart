@@ -43,7 +43,8 @@ class TransactionDescriptionType {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find TransactionDescriptionType from provided name',
                 details: {'name': name},
               ),
@@ -98,7 +99,8 @@ abstract class TransactionDescription extends TonSerialization {
       case 0x05:
         return TransactionDescriptionSplitInstall.deserialize(slice);
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported transaction description.',
           details: {'type': '$type'},
         );
@@ -118,7 +120,8 @@ abstract class TransactionDescription extends TonSerialization {
       case TransactionDescriptionType.splitInstall:
         return TransactionDescriptionSplitInstall.fromJson(json);
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported transaction description.',
           details: {'type': type.name},
         );

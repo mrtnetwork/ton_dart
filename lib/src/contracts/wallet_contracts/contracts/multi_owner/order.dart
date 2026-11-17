@@ -127,13 +127,15 @@ class OrderContract<E extends WalletContractTransferParams>
   }) async {
     final active = await isActive(client);
     if (!active) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'canoot send approve before deploying contarct. please first use deply method for deploying.',
       );
     }
     if (signerIdx == null) {
       if (state == null) {
-        throw BuError(DefaultErrorType.invalidState, 
+        throw BuError(
+          DefaultErrorType.invalidState,
           'cannot send approve without known signer index. please first use deply method for deploying.',
         );
       }

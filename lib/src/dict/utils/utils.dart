@@ -31,7 +31,10 @@ class DictionaryUtils {
   static String serializeInternalKey(dynamic value) {
     if (value is int) {
       if (!value.isFinite) {
-        throw BuError(DefaultErrorType.invalidArgument, 'Invalid key type. not a safe integer.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid key type. not a safe integer.',
+        );
       }
       return 'n:${value.toString()}';
     } else if (value is BigInt) {
@@ -43,7 +46,8 @@ class DictionaryUtils {
     } else if (value is BitString) {
       return 'B:${value.toString()}';
     } else {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid key type.',
         details: {'key': value, 'type': value.runtimeType.toString()},
       );
@@ -53,7 +57,8 @@ class DictionaryUtils {
   static T deserializeInternalKey<T>(String value) {
     final decode = _deserializeInternalKey(value);
     if (decode is! T) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid key type.',
         details: {
           'value': decode,
@@ -98,7 +103,8 @@ class DictionaryUtils {
           return BitString(BytesUtils.fromHexString(v), 0, v.length << 2);
         }
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid key type.',
           details: {'key': k, 'type': k.runtimeType.toString()},
         );

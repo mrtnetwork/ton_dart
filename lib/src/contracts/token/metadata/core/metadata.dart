@@ -11,7 +11,8 @@ abstract class TokenMetadata with JsonSerialization {
   Cell toContent();
   T cast<T extends TokenMetadata>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Invalid token metadata casting. expected: $runtimeType got: $T',
       );
     }
@@ -35,7 +36,8 @@ abstract class NFTMetadata extends TonSerialization {
   }
   T cast<T extends NFTMetadata>() {
     if (this is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Invalid metadata casting. expected: $runtimeType got: $T',
       );
     }

@@ -59,7 +59,8 @@ class SendMode {
       (element) => element.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find SendMode from provided name',
                 details: {'name': name},
               ),
@@ -70,7 +71,8 @@ class SendMode {
       (element) => element.mode == mode,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find SendMode from provided mode',
                 details: {'mode': mode?.toString()},
               ),

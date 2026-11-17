@@ -53,7 +53,10 @@ class Cell {
   factory Cell.fromBytes(List<int> src) {
     final parsed = Cell.fromBoc(src);
     if (parsed.length != 1) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Deserialized more than one cell.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Deserialized more than one cell.',
+      );
     }
     return parsed[0];
   }
@@ -117,10 +120,14 @@ class Cell {
     } else {
       // Check correctness
       if (refs.length > 4) {
-        throw BuError(DefaultErrorType.invalidArgument, 'Invalid number of references');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid number of references',
+        );
       }
       if (bits.length > 1023) {
-        throw BuError(DefaultErrorType.invalidLength, 
+        throw BuError(
+          DefaultErrorType.invalidLength,
           'Bits overflow',
           details: {
             'maximum_length': 1023.toString(),
@@ -152,7 +159,10 @@ class Cell {
   /// Returns a `Slice` object to read the cell's bit data and references.
   Slice beginParse({bool allowExotic = false}) {
     if (isExotic && !allowExotic) {
-      throw BuError(DefaultErrorType.unsupported, 'Exotic cells cannot be parsed');
+      throw BuError(
+        DefaultErrorType.unsupported,
+        'Exotic cells cannot be parsed',
+      );
     }
     return Slice(BitReader(bits), refs);
   }

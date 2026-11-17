@@ -48,7 +48,8 @@ class GasLimitPricesResponse with JsonSerialization {
   factory GasLimitPricesResponse.deserialize(Slice slice) {
     final tag = slice.loadUint8();
     if (tag != _GasLimitPricesResponseConst.tag) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid gas limit price tag.',
         details: {
           'expected': _GasLimitPricesResponseConst.tag.toString(),
@@ -60,7 +61,8 @@ class GasLimitPricesResponse with JsonSerialization {
     final BigInt flatGasPrice = slice.loadUint64();
     final internalTag = slice.loadUint8();
     if (!_GasLimitPricesResponseConst.internalTags.contains(internalTag)) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid gas limit price interal tag.',
         details: {
           'expected': _GasLimitPricesResponseConst.internalTags.join(","),

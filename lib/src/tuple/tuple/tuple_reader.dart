@@ -22,7 +22,10 @@ class TupleReader {
   /// Throws a [BuError] if there are no more items.
   TupleItem peek() {
     if (_items.isEmpty) {
-      throw BuError(DefaultErrorType.invalidArgument, 'TupleReader.peek: no more items (EOF).');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'TupleReader.peek: no more items (EOF).',
+      );
     }
     return _items[0];
   }
@@ -31,7 +34,10 @@ class TupleReader {
   /// Throws a [BuError] if there are no more items.
   TupleItem pop() {
     if (_items.isEmpty) {
-      throw BuError(DefaultErrorType.invalidArgument, 'TupleReader.pop: no more items (EOF).');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'TupleReader.pop: no more items (EOF).',
+      );
     }
     final TupleItem res = _items[0];
     _items.removeAt(0);
@@ -52,7 +58,8 @@ class TupleReader {
   BigInt readBigNumber() {
     final TupleItem popped = pop();
     if (popped is! TupleItemInt) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid integer tuple item.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -77,7 +84,8 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemInt) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid integer tuple item.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -133,7 +141,8 @@ class TupleReader {
   Cell readCell() {
     final TupleItem popped = pop();
     if (popped is TupleItemCell) return popped.cell;
-    throw BuError(DefaultErrorType.invalidArgument, 
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid tuple cell.',
       details: {'value': popped.runtimeType.toString()},
     );
@@ -147,7 +156,8 @@ class TupleReader {
       return null;
     }
     if (popped is TupleItemCell) return popped.cell;
-    throw BuError(DefaultErrorType.invalidArgument, 
+    throw BuError(
+      DefaultErrorType.invalidArgument,
       'Invalid tuple cell.',
       details: {'value': popped.runtimeType.toString()},
     );
@@ -158,7 +168,8 @@ class TupleReader {
   TupleReader readTuple() {
     final TupleItem popped = pop();
     if (popped is! TupleItemTuple) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid tuple type.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -174,7 +185,8 @@ class TupleReader {
       return null;
     }
     if (popped is! TupleItemTuple) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid tuple type.',
         details: {'value': popped.runtimeType.toString()},
       );
@@ -192,7 +204,8 @@ class TupleReader {
       if (tail._items.isEmpty ||
           (tail._items[0] is! TupleItemTuple &&
               tail._items[0] is! TupleItemNull)) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Lisp list consists only from (any, tuple) elements and ends with null',
         );
       }
@@ -222,10 +235,16 @@ class TupleReader {
   List<int> readBuffer() {
     final Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer: unexpected cell references.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid buffer: unexpected cell references.',
+      );
     }
     if (s.remainingBits % 8 != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer length: bits not byte-aligned.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid buffer length: bits not byte-aligned.',
+      );
     }
     return s.loadBuffer(s.remainingBits ~/ 8);
   }
@@ -239,10 +258,16 @@ class TupleReader {
     }
     final Slice s = readCell().beginParse();
     if (s.remainingRefs != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer: unexpected cell references.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid buffer: unexpected cell references.',
+      );
     }
     if (s.remainingBits % 8 != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid buffer length: bits not byte-aligned.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid buffer length: bits not byte-aligned.',
+      );
     }
     return s.loadBuffer(s.remainingBits ~/ 8);
   }

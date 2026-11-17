@@ -47,7 +47,8 @@ class TonHelper {
   static Cell toCell(String? data) {
     final toCell = tryToCell(data);
     if (toCell == null) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid cell data.',
         details: {'data': data},
       );

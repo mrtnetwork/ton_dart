@@ -5,7 +5,8 @@ import 'dart:js_interop_unsafe';
 
 import 'package:ton_dart/src/boc/serialization/serialization/serialization.dart';
 import '../test/tests/cell/account_state_test_vector.dart'
-    as vectors show accountStateVector;
+    as vectors
+    show accountStateVector;
 
 void mark(String s) {
   final document = globalContext.getProperty('document'.toJS) as JSObject;

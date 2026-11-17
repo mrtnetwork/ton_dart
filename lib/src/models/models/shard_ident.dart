@@ -17,7 +17,10 @@ class ShardIdent extends TonSerialization {
   factory ShardIdent.deserialize(Slice slice) {
     final shardIdent = slice.loadUint(2);
     if (shardIdent != 0) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid ShardIdent slice.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid ShardIdent slice.',
+      );
     }
     return ShardIdent(
       shardPrefixBits: slice.loadUint(6),

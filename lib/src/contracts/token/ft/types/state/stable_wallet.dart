@@ -38,7 +38,8 @@ class StableTokenWalletStatus {
       (e) => e.id == tag,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.invalidState, 
+              throw BuError(
+                DefaultErrorType.invalidState,
                 'Invalid stable token wallet status.',
                 details: {
                   'tag': tag.toString(),
@@ -53,7 +54,8 @@ class StableTokenWalletStatus {
       (e) => e.name == name,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.invalidState, 
+              throw BuError(
+                DefaultErrorType.invalidState,
                 'Invalid stable token wallet status.',
                 details: {
                   'name': name,

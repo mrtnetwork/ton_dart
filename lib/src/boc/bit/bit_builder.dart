@@ -10,7 +10,8 @@ import 'bit_string.dart';
 class _BitBuilderUtils {
   static void validateBits(int bits) {
     if (bits < 0) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid bit length.',
         details: {'length': bits.toString()},
       );
@@ -19,7 +20,8 @@ class _BitBuilderUtils {
 
   static BigInt parseBigint(dynamic value, {bool sign = false}) {
     if (value is! int && value is! BigInt) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid integer type. value must be int or BigInt.',
         details: {'value': value, 'type': value.runtimeType.toString()},
       );
@@ -31,7 +33,8 @@ class _BitBuilderUtils {
       val = value;
     }
     if (!sign && val.isNegative) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid unsigned integer.',
         details: {'value': val.toString()},
       );
@@ -56,7 +59,8 @@ class BitBuilder {
   /// Writes a single bit to the buffer.
   void writeBit(bool value) {
     if (_length >= _bytes.length * 8) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Overflow bytes',
         details: {
           'offset': _length.toString(),
@@ -90,7 +94,8 @@ class BitBuilder {
     // BytesUtils.validateBytes(src);
     if (_length % 8 == 0) {
       if (_length + src.length * 8 > _bytes.length * 8) {
-        throw BuError(DefaultErrorType.invalidLength, 
+        throw BuError(
+          DefaultErrorType.invalidLength,
           'Overflow bytes',
           details: {
             'offset': (_length + src.length * 8).toString(),
@@ -114,7 +119,8 @@ class BitBuilder {
 
     if (bits == 0) {
       if (v != BigInt.zero) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'value is not zero for $bits bits.',
           details: {'value': v.toString()},
         );
@@ -124,7 +130,8 @@ class BitBuilder {
     }
 
     if (v.bitLength > bits) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'BitLength is too small for a value.',
         details: {
           'value': v.toString(),
@@ -172,7 +179,8 @@ class BitBuilder {
 
     if (bits == 0) {
       if (v != BigInt.zero) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'value is not zero for $bits bits.',
           details: {'value': v.toString()},
         );
@@ -183,7 +191,8 @@ class BitBuilder {
 
     if (bits == 1) {
       if (v != -BigInt.one && v != BigInt.zero) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'value is not zero or -1 for $bits bits.',
           details: {'value': v.toString()},
         );
@@ -195,7 +204,8 @@ class BitBuilder {
 
     final BigInt vBits = BigInt.one << (bits - 1);
     if (v < -vBits || v >= vBits) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Out of range.',
         details: {'value': v.toString(), 'length': bits.toString()},
       );
@@ -274,7 +284,10 @@ class BitBuilder {
   /// Returns the current buffer if it's byte-aligned.
   List<int> buffer() {
     if (_length % 8 != 0) {
-      throw BuError(DefaultErrorType.invalidLength, 'Buffer is not byte aligned');
+      throw BuError(
+        DefaultErrorType.invalidLength,
+        'Buffer is not byte aligned',
+      );
     }
     return List<int>.unmodifiable(_bytes.sublist(0, _length ~/ 8));
   }

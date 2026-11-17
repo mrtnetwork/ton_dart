@@ -18,7 +18,8 @@ class HashUpdate extends TonSerialization {
   factory HashUpdate.deserialize(Slice slice) {
     final prefix = slice.loadUint(8);
     if (prefix != _HashUpdateConst.prefix) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid HashUpdate prefix.',
         details: {
           'expected': _HashUpdateConst.prefix.toString(),

@@ -98,7 +98,12 @@ class TonBridgeEvent extends BaseSubscribtionEvent<String> {
 /// the plaintext is never visible here (see `SessionCrypto.encryptToBase64`
 /// in `blockchain_utils`, wired in Phase 4).
 class TonConnectPostMessage
-    extends BaseServiceRequest<void, Map<String, dynamic>, TonConnectRequestDetails> {
+    extends
+        BaseServiceRequest<
+          void,
+          Map<String, dynamic>,
+          TonConnectRequestDetails
+        > {
   final TonPostMessageParams params;
 
   TonConnectPostMessage(this.params);
@@ -207,10 +212,11 @@ class TonConnectEventsRequest
   ) {
     return TonConnectRequestDetails(
       requestID: requestID,
-      path: Uri(
-        path: '/events',
-        queryParameters: {'client_id': identifier},
-      ).toString(),
+      path:
+          Uri(
+            path: '/events',
+            queryParameters: {'client_id': identifier},
+          ).toString(),
       headers: const {},
       requestMethod: requestMethod,
       responseEncoding: ServiceReponseEncoding.string,

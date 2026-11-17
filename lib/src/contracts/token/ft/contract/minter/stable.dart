@@ -108,10 +108,14 @@ class StableJettonMinter<E extends WalletContractTransferParams>
   }) async {
     final active = await isActive(client);
     if (active) {
-      throw BuError(DefaultErrorType.invalidState, 'Account is already active.');
+      throw BuError(
+        DefaultErrorType.invalidState,
+        'Account is already active.',
+      );
     }
     if (state == null) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'For deploy minter please use create constructor to build state',
       );
     }
@@ -181,9 +185,7 @@ class StableJettonMinter<E extends WalletContractTransferParams>
     final data = await getStateStack(
       client: client,
       method: 'get_wallet_address',
-      stack: [
-        TupleItemSlice(beginCell().storeAddress(owner).endCell()),
-      ],
+      stack: [TupleItemSlice(beginCell().storeAddress(owner).endCell())],
     );
     return data.reader().readAddress();
   }

@@ -7,7 +7,10 @@ import 'package:ton_dart/src/tuple/tuple.dart';
 mixin HighloadWalletV3ProviderImpl<T extends ContractState>
     on HighloadWallets<T> {
   Future<String> getPublicKey(TonQuickClient client) async {
-    final result = await getStateStack(client: client, method: 'get_public_key');
+    final result = await getStateStack(
+      client: client,
+      method: 'get_public_key',
+    );
     final reader = result.reader();
     return reader.readBigNumberAsHex();
   }
@@ -29,7 +32,10 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
   }
 
   Future<int> getSubwalletId({required TonQuickClient client}) async {
-    final result = await getStateStack(client: client, method: 'get_subwallet_id');
+    final result = await getStateStack(
+      client: client,
+      method: 'get_subwallet_id',
+    );
     final reader = result.reader();
     return reader.readNumber();
   }
@@ -41,7 +47,10 @@ mixin HighloadWalletV3ProviderImpl<T extends ContractState>
   }
 
   Future<int> getLastCleaned({required TonQuickClient client}) async {
-    final result = await getStateStack(client: client, method: 'get_last_clean_time');
+    final result = await getStateStack(
+      client: client,
+      method: 'get_last_clean_time',
+    );
     final reader = result.reader();
     return reader.readNumber();
   }

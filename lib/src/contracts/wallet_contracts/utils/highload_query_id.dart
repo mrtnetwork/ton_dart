@@ -22,14 +22,16 @@ class HighloadQueryId {
   ) {
     if (shift < BigInt.zero ||
         shift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid shift',
         details: {'shift': shift.toString()},
       );
     }
     if (bitNumber < BigInt.zero ||
         bitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber)) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid bitNumber',
         details: {'bitNumber': bitNumber.toString()},
       );
@@ -55,7 +57,8 @@ class HighloadQueryId {
 
     if (newShift == BigInt.from(_HighloadQueryIdConst.maxShift) &&
         newBitNumber > BigInt.from(_HighloadQueryIdConst.maxBitNumber - 1)) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'HighloadQueryId overflow: no next id.',
         details: {
           'shift': '$newShift',
@@ -70,7 +73,8 @@ class HighloadQueryId {
       newBitNumber = BigInt.zero;
       newShift += BigInt.one;
       if (newShift > BigInt.from(_HighloadQueryIdConst.maxShift)) {
-        throw BuError(DefaultErrorType.invalidState, 
+        throw BuError(
+          DefaultErrorType.invalidState,
           'HighloadQueryId overflow: no next id.',
           details: {
             'shift': '$newShift',

@@ -41,7 +41,8 @@ class ComputeSkipReason extends TonSerialization {
       (element) => element.reason == status,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find ComputeSkipReason from provided status',
                 details: {'status': status},
               ),
@@ -52,7 +53,8 @@ class ComputeSkipReason extends TonSerialization {
       (element) => element.code == tag,
       orElse:
           () =>
-              throw BuError(DefaultErrorType.notFound, 
+              throw BuError(
+                DefaultErrorType.notFound,
                 'Cannot find ComputeSkipReason from provided tag',
                 details: {'tag': tag?.toString()},
               ),

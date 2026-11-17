@@ -90,7 +90,10 @@ class VersionedWalletUtils {
         version: type,
       );
     } catch (e) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Invalid ${type.name} state account data.');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Invalid ${type.name} state account data.',
+      );
     }
   }
 
@@ -107,11 +110,15 @@ class VersionedWalletUtils {
       final wc = slice.loadInt(8);
       final walletVersionRaw = slice.loadUint(8);
       if (walletVersionRaw != 0) {
-        throw BuError(DefaultErrorType.invalidArgument, 'Invalid wallet contract v5 version.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Invalid wallet contract v5 version.',
+        );
       }
       final subwalletNumber = slice.loadUint(15);
       if (workchain != null && workchain.id != wc) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Incorrect workchain.',
           details: {'expected': workchain.id.toString(), 'got': wc.toString()},
         );
@@ -149,7 +156,8 @@ class VersionedWalletUtils {
       config: TonAddressConfing.friendly(address.workchain),
     );
     if (currentAddress != address) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid wallet address. state gives a different address',
         details: {
           'expected': currentAddress.toRawAddress(),
@@ -158,7 +166,8 @@ class VersionedWalletUtils {
       );
     }
     if (state is! T) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incurrect state casting.',
         details: {'expected': state.toString(), 'got': '$T'},
       );

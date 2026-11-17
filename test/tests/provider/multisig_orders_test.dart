@@ -4,7 +4,6 @@ import 'package:ton_dart/src/provider/generated/toncenter_v3/toncenter_v3_reques
 import 'package:ton_dart/ton_dart.dart';
 import '../../utils.dart';
 
-
 /// Canned provider serving one fixed JSON response per request type.
 class _CannedProvider
     implements IProvider<IServiceProvider, TonRequestDetails> {
@@ -20,9 +19,8 @@ class _CannedProvider
     IServiceRequest<RESULT, SERVICERESPONSE, TonRequestDetails> request, {
     Duration? timeout,
   }) async {
-    final String path = request is TonCenterV3GetMultisigOrders
-        ? 'v3'
-        : 'tonapi';
+    final String path =
+        request is TonCenterV3GetMultisigOrders ? 'v3' : 'tonapi';
     final canned = path == 'v3' ? v3Orders : tonApiMultisig;
     return request.onResponse(canned as SERVICERESPONSE);
   }
@@ -58,15 +56,16 @@ void multisigOrdersTest() {
           'signers': [
             '0:FAE322D99B412625925975D3654B884AD6ED65462823C74C24FEA05AA9982387',
             '0:5185FA3A64DC2346B792026C4B9209ED397110E7EFFBA234770E71198B950465',
-            '0:CC676B7C31B6778885708EAD98B2B3A618628B48FCF5DDB6218AC91916BCB426'
+            '0:CC676B7C31B6778885708EAD98B2B3A618628B48FCF5DDB6218AC91916BCB426',
           ],
           'last_transaction_lt': '107289469000003',
-        }
+        },
       ],
       'address_book': {},
     };
-    final multisig =
-        TonAddress('0QApDSAvCqK9ko-6xU7iYV3AuIQ1bbXifvqLpPvp816NRS70');
+    final multisig = TonAddress(
+      '0QApDSAvCqK9ko-6xU7iYV3AuIQ1bbXifvqLpPvp816NRS70',
+    );
 
     test('tonCenter v3 response maps to order info', () async {
       final quick = DefaultTonQuickClient(
@@ -77,8 +76,9 @@ void multisigOrdersTest() {
       expect(orders, hasLength(1));
       final info = orders[0];
       expect(
-          info.address.address,
-          '0:0AD27C3D43AF70BDFEF8A99B5AB35C4EA7CEAD7ABFC4B16F68B7D8F5BACB3583');
+        info.address.address,
+        '0:0AD27C3D43AF70BDFEF8A99B5AB35C4EA7CEAD7ABFC4B16F68B7D8F5BACB3583',
+      );
       expect(info.state.orderSeqno, BigInt.zero);
       expect(info.state.threshold, 2);
       expect(info.state.executed, isTrue);
@@ -86,12 +86,13 @@ void multisigOrdersTest() {
       expect(info.state.approvalsNum, 2);
       expect(info.state.expirationDate, BigInt.from(1793786388));
       expect(
-          info.state.signers.map((e) => e.address).toList(),
-          orderedEquals([
-            '0:FAE322D99B412625925975D3654B884AD6ED65462823C74C24FEA05AA9982387',
-            '0:5185FA3A64DC2346B792026C4B9209ED397110E7EFFBA234770E71198B950465',
-            '0:CC676B7C31B6778885708EAD98B2B3A618628B48FCF5DDB6218AC91916BCB426',
-          ]));
+        info.state.signers.map((e) => e.address).toList(),
+        orderedEquals([
+          '0:FAE322D99B412625925975D3654B884AD6ED65462823C74C24FEA05AA9982387',
+          '0:5185FA3A64DC2346B792026C4B9209ED397110E7EFFBA234770E71198B950465',
+          '0:CC676B7C31B6778885708EAD98B2B3A618628B48FCF5DDB6218AC91916BCB426',
+        ]),
+      );
     });
 
     test('tonApi response maps signedBy to approvals mask', () async {
@@ -124,7 +125,7 @@ void multisigOrdersTest() {
             'signed_by': [signerB],
             'signers': [signerA, signerB],
             'threshold': 2,
-          }
+          },
         ],
       };
       final quick = DefaultTonQuickClient(
@@ -141,14 +142,15 @@ void multisigOrdersTest() {
       expect(info.state.approvals, BigInt.two);
       expect(info.state.approvalsNum, 1);
       expect(info.state.expirationDate, BigInt.from(1793786388));
-      expect(info.state.signers.map((e) => e.address).toList(),
-          hasLength(2));
+      expect(info.state.signers.map((e) => e.address).toList(), hasLength(2));
     });
 
     test('empty indexer response yields no orders', () async {
       final quick = DefaultTonQuickClient(
         provider: _CannedProvider(
-            v3Orders: const {'orders': []}, tonApiMultisig: const {}),
+          v3Orders: const {'orders': []},
+          tonApiMultisig: const {},
+        ),
         availableProviders: const [TonApiType.tonCenter],
       );
       expect(await quick.getMultisigOrders(multisig: multisig), isEmpty);

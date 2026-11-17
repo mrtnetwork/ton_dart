@@ -146,7 +146,8 @@ class CellUtils {
     const int size = 8 + 256;
 
     if (bits.length != size) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid Library cell bits length',
         details: {'expected': '8 + 256', 'length': bits.length.toString()},
       );
@@ -154,7 +155,8 @@ class CellUtils {
 
     final type = reader.loadUint(8);
     if (type != 2) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Library cell type.',
         details: {'expected': CellType.library.name},
       );
@@ -168,7 +170,8 @@ class CellUtils {
     const int size = 8 + 256 + 16;
 
     if (bits.length != size) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid Merkle Proof cell bits length.',
         details: {
           'expected': size.toString(),
@@ -178,7 +181,8 @@ class CellUtils {
     }
 
     if (refs.length != 1) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid Merkle Proof cell reference length.',
         details: {'expected': "1", 'length': refs.length.toString()},
       );
@@ -186,7 +190,8 @@ class CellUtils {
 
     final int type = reader.loadUint(8);
     if (type != 3) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Merkle Proof cell type.',
         details: {'expected': CellType.merkleProof.name},
       );
@@ -212,7 +217,8 @@ class CellUtils {
     const int bitLengthSize = 8 + (2 * (256 + 16));
 
     if (bits.length != bitLengthSize) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid Merkle Update cell bits length.',
         details: {
           'expected': bitLengthSize.toString(),
@@ -222,7 +228,8 @@ class CellUtils {
     }
 
     if (refs.length != 2) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(
+        DefaultErrorType.invalidLength,
         'Invalid Merkle Update cell refs length.',
         details: {'expected': "2", 'length': refs.length.toString()},
       );
@@ -230,7 +237,8 @@ class CellUtils {
 
     final int type = reader.loadUint(8);
     if (type != 4) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Merkle Update cell type.',
         details: {'expected': CellType.merkleUpdate.name, 'type': '$type'},
       );
@@ -242,17 +250,29 @@ class CellUtils {
     final int proofDepth2 = reader.loadUint(16);
 
     if (proofDepth1 != refs[0].depth(level: 0)) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Mismatch in reference 1');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Mismatch in reference 1',
+      );
     }
     if (!BytesUtils.bytesEqual(proofHash1, refs[0].hash(level: 0))) {
-      throw BuError(DefaultErrorType.cryptoVerifyFailed, 'Invalid Merkle Update cell reference hash.');
+      throw BuError(
+        DefaultErrorType.cryptoVerifyFailed,
+        'Invalid Merkle Update cell reference hash.',
+      );
     }
 
     if (proofDepth2 != refs[1].depth(level: 0)) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Mismatch in reference 2');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Mismatch in reference 2',
+      );
     }
     if (!BytesUtils.bytesEqual(proofHash2, refs[1].hash(level: 0))) {
-      throw BuError(DefaultErrorType.cryptoVerifyFailed, 'Invalid Merkle Update cell reference 2 hash.');
+      throw BuError(
+        DefaultErrorType.cryptoVerifyFailed,
+        'Invalid Merkle Update cell reference 2 hash.',
+      );
     }
     return ExoticMerkleUpdate(
       depth1: proofDepth1,
@@ -267,14 +287,18 @@ class CellUtils {
 
     final int type = reader.loadUint(8);
     if (type != 1) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Invalid Pruned branch cell type.',
         details: {'expected': CellType.prunedBranch.name, 'type': '$type'},
       );
     }
 
     if (refs.isNotEmpty) {
-      throw BuError(DefaultErrorType.invalidArgument, 'Pruned Branch cell have refs');
+      throw BuError(
+        DefaultErrorType.invalidArgument,
+        'Pruned Branch cell have refs',
+      );
     }
 
     LevelMask mask;
@@ -285,7 +309,8 @@ class CellUtils {
       mask = LevelMask(mask: read8);
 
       if (mask.level < 1 || mask.level > 3) {
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid Pruned Branch cell level',
           details: {
             'level': mask.level.toString(),
@@ -297,7 +322,8 @@ class CellUtils {
       final int size =
           8 + 8 + (mask.apply(mask.level - 1).hashCount * (256 + 16));
       if (bits.length != size) {
-        throw BuError(DefaultErrorType.invalidLength, 
+        throw BuError(
+          DefaultErrorType.invalidLength,
           'Invalid Pruned branch cell bits length.',
           details: {
             'expected': size.toString(),
@@ -350,7 +376,8 @@ class CellUtils {
         depths = pruned.pruned.map((e) => e.depth).toList();
         break;
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 
+        throw BuError(
+          DefaultErrorType.invalidArgument,
           'Invalid exotic cell type.',
           details: {'type': type?.name ?? '$typeTag'},
         );
@@ -401,7 +428,8 @@ class CellUtils {
         levelMask = LevelMask();
         break;
       default:
-        throw BuError(DefaultErrorType.unsupported, 
+        throw BuError(
+          DefaultErrorType.unsupported,
           'Unsupported exotic type',
           details: {'type': type.name},
         );
@@ -429,7 +457,8 @@ class CellUtils {
       BitString currentBits;
       if (hashI == hashIOffset) {
         if (!(levelI == 0 || type == CellType.prunedBranch)) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid Level.',
             details: {'level': levelI.toString(), 'type': type.name},
           );
@@ -437,7 +466,8 @@ class CellUtils {
         currentBits = bits;
       } else {
         if (!(levelI != 0 && type != CellType.prunedBranch)) {
-          throw BuError(DefaultErrorType.invalidArgument, 
+          throw BuError(
+            DefaultErrorType.invalidArgument,
             'Invalid Level.',
             details: {'level': levelI.toString(), 'type': type.name},
           );

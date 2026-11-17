@@ -47,7 +47,8 @@ mixin VerionedProviderImpl<
     );
 
     if (stateData is! C) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect state data.',
         details: {'expected': '$C', 'got': '${stateData.runtimeType}'},
       );
@@ -65,7 +66,8 @@ mixin VerionedProviderImpl<
       chainId: chainId,
     );
     if (stateData is! C) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Incorrect state data.',
         details: {'expected': '$C', 'got': '${stateData.runtimeType}'},
       );
@@ -84,7 +86,8 @@ mixin VerionedProviderImpl<
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     if (params is! VersionedTransferParams) {
-      throw BuError(DefaultErrorType.castFailed, 
+      throw BuError(
+        DefaultErrorType.castFailed,
         'Invalid transaction params',
         details: {
           'expected': 'VersionedTransferParams',
@@ -94,7 +97,8 @@ mixin VerionedProviderImpl<
     }
     final VersionedWalletState? state = await getContractState(client);
     if (this.state == null && state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'cannot send transaction with watch only wallet',
       );
     }

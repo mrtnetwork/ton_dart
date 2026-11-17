@@ -25,7 +25,8 @@ class TonSerializationUtils {
     int? timeout,
   }) {
     if (type == WalletV5AuthType.extension) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Please use `createExtensionMessage` for create extension message body.',
       );
     }
@@ -69,7 +70,7 @@ class TonSerializationUtils {
   // }) {
   //   if (type != WalletV5AuthType.extension) {
   //     if (accountSeqno == null || context == null) {
-  //       throw BuError(TonErrorType.contract, 
+  //       throw BuError(TonErrorType.contract,
   //         'accountSeqno and context required for build wallet message v5.',
   //       );
   //     }
@@ -179,7 +180,8 @@ class TonSerializationUtils {
     int? timeout,
   }) {
     if (actions.length > state.version.maxMessageLength) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'Only ${state.version.maxMessageLength} message can transfer with wallet contract version ${state.version.name}',
       );
     }
@@ -210,7 +212,10 @@ class TonSerializationUtils {
           timeout: timeout,
         );
       default:
-        throw BuError(DefaultErrorType.invalidArgument, 'Use serializeV1 for v1 messages.');
+        throw BuError(
+          DefaultErrorType.invalidArgument,
+          'Use serializeV1 for v1 messages.',
+        );
     }
   }
 }

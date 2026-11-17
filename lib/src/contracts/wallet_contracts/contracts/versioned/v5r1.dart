@@ -38,7 +38,8 @@ class WalletV5R1
     }
     chainId ??= context.chainId;
     if (chainId != context.chainId) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         "Missmatch chain id between context and wallet.",
       );
     }
@@ -112,7 +113,8 @@ class WalletV5R1
       return createExtensionMessage(actions: actions, queryId: queryId);
     }
     if (accountSeqno == null || state?.context == null) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'accountSeqno and wallet context required for build wallet message v5R1 in $type type.',
       );
     }
@@ -147,7 +149,8 @@ class WalletV5R1
   }) async {
     final VersionedWalletState? state = await getContractState(client);
     if (state == null && this.state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'cannot send transaction with watch only wallet',
       );
     }
@@ -159,7 +162,8 @@ class WalletV5R1
       (e) => e.outMessage.info.dest == address && e.outMessage.init != null,
     );
     if (state != null && hasDeploy) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'Account is already active. should not add init state to message with with destination address $address',
       );
     }
@@ -188,7 +192,8 @@ class WalletV5R1
   }) async {
     final VersionedWalletState? state = await getContractState(client);
     if (state == null && this.state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'cannot send transaction with watch only wallet',
       );
     }
@@ -201,7 +206,8 @@ class WalletV5R1
       (e) => e.outMessage.info.dest == address && e.outMessage.init != null,
     );
     if (state != null && hasDeploy) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'Account is already active. should not add init state to message with with destination address $address',
       );
     }
@@ -260,12 +266,14 @@ class WalletV5R1
     TonTransactionAction action = TonTransactionAction.broadcast,
   }) async {
     if (params.type == WalletV5AuthType.extension) {
-      throw BuError(DefaultErrorType.invalidArgument, 
+      throw BuError(
+        DefaultErrorType.invalidArgument,
         'use create request instead sendActionRequest for build message body.',
       );
     }
     if (state == null) {
-      throw BuError(DefaultErrorType.invalidState, 
+      throw BuError(
+        DefaultErrorType.invalidState,
         'cannot create request with watch only wallet.',
       );
     }

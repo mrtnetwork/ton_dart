@@ -12,8 +12,9 @@ void barrelTest() {
     expect(TonSseParser().lastId, isNull);
     // Phase 3: requests.
     expect(
-      TonConnectEventsRequest(clientId: TonConnectClientId('00' * 32).value)
-          .clientId,
+      TonConnectEventsRequest(
+        clientId: TonConnectClientId('00' * 32).value,
+      ).clientId,
       '00' * 32,
     );
     // Phase 4: provider types.
