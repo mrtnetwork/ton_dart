@@ -44,10 +44,12 @@ class BitString {
   const BitString._(this._data, this._offset, this._length);
 
   /// Constructs a `BitString` from raw data, with an offset and length.
+  /// Copies [data] (masking each byte), so later mutations of [data]
+  /// do not affect the created instance.
   /// Throws a [BuError] if the length is out of bounds.
   factory BitString(List<int> data, int offset, int length) {
     if (length < 0) {
-      throw BuError(DefaultErrorType.invalidLength, 
+      throw BuError(DefaultErrorType.invalidLength,
         'Length is out of bounds',
         details: {'length': length.toString()},
       );
@@ -57,6 +59,20 @@ class BitString {
       offset,
       length,
     );
+  }
+
+  /// Wraps [data] without copying. The caller must guarantee [data] is
+  /// never mutated afterwards (e.g. an unmodifiable buffer).
+  /// Used internally to avoid O(n) copies on every slice (deserializing
+  /// a large BOC would otherwise copy the whole buffer per cell).
+  factory BitString.view(List<int> data, int offset, int length) {
+    if (length < 0) {
+      throw BuError(DefaultErrorType.invalidLength,
+        'Length is out of bounds',
+        details: {'length': length.toString()},
+      );
+    }
+    return BitString._(data, offset, length);
   }
 
   /// Returns a copy (clone) of this `BitString`.
@@ -92,12 +108,14 @@ class BitString {
 
   /// Returns a substring of the bitstring starting at the given offset and of the specified length.
   /// If the length is 0, returns the empty `BitString`.
+  /// Shares the backing buffer (no copy); the buffer is never mutated
+  /// through a `BitString`, so this is safe.
   BitString substring(int offset, int length) {
     _BitStringUtils.validateOffset(offset, _length, at: length);
     if (length == 0) {
       return BitString.empty;
     }
-    return BitString(_data, _offset + offset, length);
+    return BitString.view(_data, _offset + offset, length);
   }
 
   /// Returns a sub-buffer of the bitstring at the specified offset and length.

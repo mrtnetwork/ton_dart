@@ -73,6 +73,12 @@ class BitBuilder {
 
   /// Writes a sequence of bits from a [BitString].
   void writeBits(BitString src) {
+    // Fast path: byte-aligned bulk copy instead of bit-by-bit.
+    final List<int>? buf = src.subbuffer(0, src.length);
+    if (buf != null) {
+      writeBuffer(buf);
+      return;
+    }
     for (int i = 0; i < src.length; i++) {
       writeBit(src.at(i));
     }

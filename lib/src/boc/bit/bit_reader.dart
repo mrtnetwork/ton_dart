@@ -263,6 +263,21 @@ class BitReader {
     if (bits == 0) {
       return BigInt.zero;
     }
+    // Fast path for byte-aligned reads: fold bytes instead of
+    // per-bit BigInt shifts (much faster, esp. on dart2wasm).
+    if (bits % 8 == 0) {
+      final List<int>? buf = _bits.subbuffer(offset, bits);
+      if (buf != null) {
+        BigInt res = BigInt.zero;
+        for (int i = 0; i < buf.length; i++) {
+          res = (res << 8) | BigInt.from(buf[i]);
+        }
+        if ((buf[0] & 0x80) != 0) {
+          res -= BigInt.one << bits;
+        }
+        return res;
+      }
+    }
     final bool sign = _bits.at(offset);
     BigInt res = BigInt.zero;
     for (int i = 0; i < bits - 1; i++) {
@@ -279,6 +294,18 @@ class BitReader {
   BigInt _preloadUint(int bits, int offset) {
     if (bits == 0) {
       return BigInt.zero;
+    }
+    // Fast path for byte-aligned reads: fold bytes instead of
+    // per-bit BigInt shifts (much faster, esp. on dart2wasm).
+    if (bits % 8 == 0) {
+      final List<int>? buf = _bits.subbuffer(offset, bits);
+      if (buf != null) {
+        BigInt res = BigInt.zero;
+        for (int i = 0; i < buf.length; i++) {
+          res = (res << 8) | BigInt.from(buf[i]);
+        }
+        return res;
+      }
     }
     BigInt res = BigInt.zero;
     for (int i = 0; i < bits; i++) {
