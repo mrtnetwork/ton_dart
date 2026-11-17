@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:blockchain_utils/blockchain_utils.dart';
 import 'package:ton_dart/src/address/address.dart';
@@ -654,14 +653,16 @@ mixin TonQuickClientApi {
 /// be decoded.
 String _normHash(String hash) {
   try {
-    if (hash.length == 64 && RegExp(r'^[0-9a-fA-F]+$').hasMatch(hash)) {
-      return hash.toLowerCase();
+    if (StringUtils.isHexBytes(hash, lengthInBytes: 64)) {
+      return StringUtils.normalizeHex(hash);
     }
-    var norm = hash.replaceAll('-', '+').replaceAll('_', '/');
-    while (norm.length % 4 != 0) {
-      norm += '=';
-    }
-    return BytesUtils.toHexString(base64Decode(norm)).toLowerCase();
+    return BytesUtils.toHexString(
+      StringUtils.encode(
+        hash,
+        encoding: StringEncoding.base64,
+        validateB64Padding: false,
+      ),
+    );
   } catch (_) {
     return hash;
   }
